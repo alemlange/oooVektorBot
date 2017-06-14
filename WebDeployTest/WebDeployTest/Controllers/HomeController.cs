@@ -13,7 +13,7 @@ namespace WebDeployTest.Controllers
         // GET: api/Home/5
         public string Get()
         {
-            return "Пошли в траекторию";
+            return "Привет почаны";
         }
 
         // POST: api/Home

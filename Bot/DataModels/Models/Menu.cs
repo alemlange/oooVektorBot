@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Brains.Models;
 
-namespace Brains.DbService.Interfaces
+namespace DataModels
 {
-    interface IDb
+    public class Menu
     {
-        Menu GetMenu();
+        public Guid Id { get; set; }
+        public List<Dish> DishList { get;  set; }
     }
 }

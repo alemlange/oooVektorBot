@@ -48,13 +48,21 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="DbTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bot\Bot.csproj">
       <Project>{64A11B18-2077-41C2-9AA7-75BDF7A62EEA}</Project>
       <Name>Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModels\DataModels.csproj">
+      <Project>{41b649f7-1207-4e00-92b2-8c051ce91424}</Project>
+      <Name>DataModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LiteDbService\LiteDbService.csproj">
+      <Project>{0c315705-4323-4b12-baa3-12973cf853a6}</Project>
+      <Name>LiteDbService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataModels;
 
-namespace Brains.Models
+namespace LiteDbService.Interfaces
 {
-    public class Menu
+    interface ICustomerDb:IDb
     {
-        public List<Dish> DishList { get;  set; }
+        void OrderDish();
     }
 }

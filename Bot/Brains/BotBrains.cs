@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Brains.Interfaces;
-using Brains.DbService;
+using LiteDbService;
 
 namespace Brains
 {
@@ -22,7 +22,8 @@ namespace Brains
 
         public string ShowMenu()
         {
-            return new DbServiceSql().GetMenu().ToString();
+            return "";
+            //return new LiteService().GetMenu().ToString();
         }
     }
 }

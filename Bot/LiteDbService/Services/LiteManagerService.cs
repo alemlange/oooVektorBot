@@ -13,7 +13,7 @@ namespace LiteDbService
     {
         public Menu AddDishToMenu(Menu menu, Dish dishToAdd)
         {
-            using (var db = new LiteDatabase(@"MyData.db"))
+            using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Menu>("Menus");
                 var curMenu = col.Find(o => o.Id == menu.Id).FirstOrDefault();
@@ -27,7 +27,7 @@ namespace LiteDbService
 
         public Guid CreateNewMenu(Menu menu)
         {
-            using (var db = new LiteDatabase(@"MyData.db"))
+            using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Menu>("Menus");
                 if (menu.Id == Guid.Empty)
@@ -36,6 +36,14 @@ namespace LiteDbService
                 col.EnsureIndex(o => o.Id);
 
                 return menu.Id;
+            }
+        }
+        public List<Table> GetAllTables()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                return col.FindAll().ToList();
             }
         }
     }

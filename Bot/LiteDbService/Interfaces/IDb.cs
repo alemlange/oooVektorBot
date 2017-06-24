@@ -10,5 +10,8 @@ namespace LiteDbService
     interface IDb
     {
         Menu GetMenu(Guid menuId);
+        List<Menu> GetAllMenus();
+        Guid CreateTable();
+        Table GetTable(Guid tableId);
     }
 }

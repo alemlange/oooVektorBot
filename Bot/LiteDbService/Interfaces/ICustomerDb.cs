@@ -9,6 +9,6 @@ namespace LiteDbService.Interfaces
 {
     interface ICustomerDb:IDb
     {
-        void OrderDish();
+        void OrderDish(Guid tableId, OrderedDish dish);
     }
 }

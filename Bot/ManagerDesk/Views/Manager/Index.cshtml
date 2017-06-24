@@ -12,7 +12,7 @@
     <ul class="menu">
         <li>
             <div class="profile-item">
-                <img alt="image" class="img-circle" src="@Url.Content("~/Imgs/profile_small")">
+                <img alt="image" class="img-circle" src="@Url.Content("~/Assets/Imgs/profile_small.jpg")">
             </div>
         </li>
         <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
@@ -34,34 +34,7 @@
 <section class="info-main">
     <div class="container-fluid">
         <div class="row flex">
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-        </div>
-        <div class="row flex">
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-        </div>
-        <div class="row flex">
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-        </div>
-        <div class="row flex">
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-        </div>
-        <div class="row flex">
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
-            @Html.Partial("TableCard")
+            @Html.Action("AllTables", "Manager")
         </div>
     </div>
 </section>
@@ -71,5 +44,5 @@
 
 @section scripts
 {
-    <script src="@Url.Content("~/Scripts/main.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Assets/Scripts/main.js")" type="text/javascript"></script>
 }

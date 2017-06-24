@@ -68,6 +68,7 @@ build/
 *.ilk
 *.meta
 *.obj
+*.suo
 *.pch
 *.pdb
 *.pgc

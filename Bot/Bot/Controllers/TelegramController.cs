@@ -29,15 +29,14 @@ namespace Bot.Controllers
 
             Bot.Api.SetWebhook().Wait();
             //Bot.Api.SetWebhook("https://YourHostname:8443/WebHook").Wait();
-            Bot.Api.SetWebhook("https://0c63f8af.ngrok.io/api/Telegram/Post").Wait();
+            Bot.Api.SetWebhook("https://6bf6f0f0.ngrok.io/Telegram/WebHook").Wait();
 
             return new string[] { "Ok" };
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> WebHook()
+        public async Task<IHttpActionResult> WebHook(Update update)
         {
-            var update = new Update();
             var message = update.Message;
 
             if (message.Type == MessageType.TextMessage)

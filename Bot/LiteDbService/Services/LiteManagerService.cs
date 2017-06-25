@@ -25,6 +25,21 @@ namespace LiteDbService
             }
         }
 
+        public void CloseTable(Guid tableId)
+        {
+            //using (var db = new LiteDatabase(CurrentDb))
+            //{
+            //    var col = db.GetCollection<Table>("Tables");
+
+            //    col.Delete(o => o.Id == tableId);
+
+            //    col.Insert(menu);
+            //    col.EnsureIndex(o => o.Id);
+
+            //    return menu.Id;
+            //}
+        }
+
         public Guid CreateNewMenu(Menu menu)
         {
             using (var db = new LiteDatabase(CurrentDb))
@@ -38,6 +53,7 @@ namespace LiteDbService
                 return menu.Id;
             }
         }
+
         public List<Table> GetAllTables()
         {
             using (var db = new LiteDatabase(CurrentDb))

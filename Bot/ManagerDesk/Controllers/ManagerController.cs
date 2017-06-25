@@ -25,6 +25,8 @@ namespace ManagerDesk.Controllers
             var tables = service.GetAllTables();
 
             var model = Mapper.Map<List<TableCardViewModel>>(tables);
+
+            model = model.Select((o, i) => { o.TableNumber = i + 1; return o; }).ToList();
             return View("TableCardList", model);
         }
     }

@@ -29,10 +29,18 @@ namespace Bot.Tests
         public void OrderDish()
         {
             var service = new TestLiteCustomerService();
-            var dishToOrder = service.GetAllMenus().First().DishList.First();
-            var orderedDish = new OrderedDish() { Remarks = "Побольше перца", DishFromMenu = dishToOrder };
+            var serviceManager = new TestLiteManagerService();
+            var rand = new Random();
+            
+            var dishList = service.GetAllMenus().First().DishList;
+            var randomDish = dishList[rand.Next(dishList.Count)];
 
-            service.OrderDish(Guid.Parse("c7e12b4a-289b-4cd5-b71f-0379d4755a42"), orderedDish);
+            var orderedDish = new OrderedDish() { Remarks = "Побольше перца", DishFromMenu = randomDish };
+
+            var tableList = serviceManager.GetAllTables();
+            var randomTable = tableList[rand.Next(tableList.Count)];
+
+            service.OrderDish(randomTable.Id, orderedDish);
         }
         [TestMethod]
         public void GetAllTables()

@@ -12,5 +12,6 @@ namespace LiteDbService.Interfaces
         Menu AddDishToMenu(Menu menu, Dish dishToAdd);
         Guid CreateNewMenu(Menu menu);
         List<Table> GetAllTables();
+        void CloseTable(Guid tableId);
     }
 }

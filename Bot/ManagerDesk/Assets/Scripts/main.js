@@ -1,12 +1,17 @@
 $(document).ready(function () {
-    $(".navbar-left-btn").on("click", function () {
-        $(".navbar-left").slideUp();
-        $(".info-main, .footer-bottom, .copyright").css("margin-left", "0");
+
+    $(".info-item").fadeIn(1000);
+
+    $(".navbar-left-btn").on("click", function (slideNavbar) {
+        $(".navbar-left").toggle("left");
+        $(".page-wrapper").css("padding-left", "0");
         $(".navbar-left-btn").on("click", function () {
             $(".navbar-left").slideDown();
-            $(".info-main, .footer-bottom").css("margin-left", "220px");
+            $(".page-wrapper").css("padding-left", "220px");
         });
     });
 
-    $(".info-item").fadeIn(1000);
+    $(".navbar-left").on("click", function (activeItem) {
+        $("a").addClass("active-item");
+    });
 });

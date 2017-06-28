@@ -2,45 +2,47 @@
     Layout = "~/Templates/MainPageLayout.cshtml";
 }
 
-<header class="header-top">
-    <nav class="navbar-top">
-        <div class="navbar-left-btn"><i class="fa fa-bars"></i></div>
-    </nav>
-</header>
+<div class="page-wrapper">
+    <header class="header-top">
+        <nav class="navbar-top">
+            <div class="navbar-left-btn"><i class="fa fa-bars"></i></div>
+        </nav>
+    </header>
 
-<nav class="navbar-left">
-    <ul class="menu">
-        <li>
-            <div class="profile-item">
-                <img alt="image" class="img-circle" src="@Url.Content("~/Assets/Imgs/profile_small.jpg")">
+    <nav class="navbar-left">
+        <ul class="menu">
+            <li>
+                <div class="profile-item">
+                    <img alt="image" class="img-circle" src="@Url.Content("~/Assets/Imgs/profile_small.jpg")">
+                </div>
+            </li>
+            <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
+            <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
+            <li>
+                <a href="#"><i class="fa fa-envelope"></i>Menu item<span class="label label-warning pull-right">16/24</span></a>
+            </li>
+            <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
+            <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
+            <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
+            <li>
+                <a href="#"><i class="fa fa-envelope"></i>Menu item<span class="label label-info pull-right">NEW</span></a>
+            </li>
+            <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
+            <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
+        </ul>
+    </nav>
+    <div class="clearfix"></div>
+    <section class="info-main">
+        <div class="container-fluid">
+            <div class="row flex">
+                @Html.Action("AllTables", "Manager")
             </div>
-        </li>
-        <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
-        <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
-        <li>
-            <a href="#"><i class="fa fa-envelope"></i>Menu item<span class="label label-warning pull-right">16/24</span></a>
-        </li>
-        <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
-        <li><a class="active-item" href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
-        <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
-        <li>
-            <a href="#"><i class="fa fa-envelope"></i>Menu item<span class="label label-info pull-right">NEW</span></a>
-        </li>
-        <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
-        <li><a href="#"><i class="fa fa-envelope"></i>Menu item</a></li>
-    </ul>
-</nav>
-<div class="clearfix"></div>
-<section class="info-main">
-    <div class="container-fluid">
-        <div class="row flex">
-            @Html.Action("AllTables", "Manager")
         </div>
-    </div>
-</section>
-<footer class="footer-bottom">
-    <div class="copyright">Designed by VektorBot &copy; 2017</div>
-</footer>
+    </section>
+    <footer class="footer-bottom">
+        <div class="copyright">Designed by VektorBot &copy; 2017</div>
+    </footer>
+</div> 
 
 @section scripts
 {

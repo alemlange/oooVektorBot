@@ -89,11 +89,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="CommandParser\CmdTypes.cs" />
     <Compile Include="Controllers\TelegramController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CommandParser\TelegramCmdParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -107,6 +109,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Brains\Brains.csproj">
+      <Project>{84095f49-26db-4e92-a26f-3394609efb08}</Project>
+      <Name>Brains</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

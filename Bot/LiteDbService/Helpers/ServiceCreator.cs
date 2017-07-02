@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using LiteDbService;
 using System.Configuration;
-using ManagerDesk.Enums;
+using LiteDbService.Enums;
 
-namespace ManagerDesk.Helpers
+namespace LiteDbService.Helpers
 {
     public static class ServiceCreator
     {

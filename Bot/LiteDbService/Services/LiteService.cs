@@ -41,11 +41,12 @@ namespace LiteDbService
                 return col.FindAll().ToList();
             }
         }
-        public Guid CreateTable()
+
+        public Guid CreateTable(long chatId, int tableNumber)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var table = new Table { Id = Guid.NewGuid(), CreatedOn = DateTime.Now, Orders = new List<OrderedDish>() };
+                var table = new Table { Id = Guid.NewGuid(), ChatId = chatId, TableNumber = tableNumber, CreatedOn = DateTime.Now, Orders = new List<OrderedDish>() };
 
                 var col = db.GetCollection<Table>("Tables");
                 col.Insert(table);
@@ -53,6 +54,7 @@ namespace LiteDbService
                 return table.Id;
             }
         }
+
         public Table GetTable(Guid tableId)
         {
             using (var db = new LiteDatabase(CurrentDb))

@@ -28,5 +28,29 @@ namespace LiteDbService
                 }
             }
         }
+
+        public Table FindTable(long chatId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                return col.Find(o => o.ChatId == chatId).FirstOrDefault();
+            }
+        }
+
+        public Dish FindDish(string dishName)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Menu>("Menus");
+                var dishList = col.FindAll().First().DishList.Where(o => o.Name.ToLower() == dishName.ToLower());
+                if (dishList.Any())
+                {
+                    return dishList.First();
+                }
+                else
+                    throw new Exception("Блюдо не найдено");
+            }
+        }
     }
 }

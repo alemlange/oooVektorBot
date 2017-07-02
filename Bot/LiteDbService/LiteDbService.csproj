@@ -34,6 +34,7 @@
       <HintPath>..\packages\LiteDB.3.1.1\lib\net35\LiteDB.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\DbTypes.cs" />
+    <Compile Include="Helpers\ServiceCreator.cs" />
     <Compile Include="Interfaces\ICustomerDb.cs" />
     <Compile Include="Interfaces\IDb.cs" />
     <Compile Include="Interfaces\IManagerDb.cs" />

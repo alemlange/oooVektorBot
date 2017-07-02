@@ -8,6 +8,5 @@ namespace ManagerDesk.ViewModels
 {
     public class TableCardViewModel: Table
     {
-        public int TableNumber { get; set; }
     }
 }

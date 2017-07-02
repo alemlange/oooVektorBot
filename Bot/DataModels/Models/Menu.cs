@@ -9,6 +9,7 @@ namespace DataModels
     public class Menu
     {
         public Guid Id { get; set; }
+        public string MenuName { get; set; }
         public List<Dish> DishList { get;  set; }
     }
 }

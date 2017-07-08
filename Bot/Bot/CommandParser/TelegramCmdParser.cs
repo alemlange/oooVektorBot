@@ -23,6 +23,16 @@ namespace Bot.CommandParser
                 return CmdTypes.Menu;
             else if (msgText.ToLower() == "счет")
                 return CmdTypes.Check;
+            else if (msgText.ToLower() == "кнопки")
+                return CmdTypes.InlineKeyboard;
+            else if (msgText.ToLower() == "клавиатура")
+                return CmdTypes.CustomKeyboard;
+            else if (msgText.ToLower() == "страницы")
+                return CmdTypes.MenuPages;
+            else if (msgText.ToLower() == "картинка")
+                return CmdTypes.Picture;
+            else if (msgText.ToLower() == "ссылка")
+                return CmdTypes.PictureLink;
             else
                 return CmdTypes.Unknown;
         }

@@ -11,6 +11,11 @@ namespace Bot.CommandParser
         Greetings,
         Menu,
         TableNumber,
-        Check
+        Check,
+        InlineKeyboard,
+        CustomKeyboard,
+        MenuPages,
+        Picture,
+        PictureLink
     }
 }

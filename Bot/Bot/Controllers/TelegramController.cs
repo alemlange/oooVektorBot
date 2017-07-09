@@ -38,17 +38,17 @@ namespace Bot.Controllers
 
             Bot.Api.SetWebhook().Wait();
             //Bot.Api.SetWebhook("https://YourHostname:8443/WebHook").Wait();
-            Bot.Api.SetWebhook("https://9fecb480.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhook("https://f8a9955b.ngrok.io/Telegram/WebHook").Wait();
 
 
             //Bot.Api.StopReceiving();
 
-            Bot.Api.OnCallbackQuery += BotOnCallbackQueryReceived;
+            //Bot.Api.OnCallbackQuery += BotOnCallbackQueryReceived;
             //Bot.Api.OnMessage += BotOnMessageReceived;
             //Bot.Api.OnMessageEdited += BotOnMessageReceived;
-            Bot.Api.OnInlineQuery += BotOnInlineQueryReceived;
-            Bot.Api.OnInlineResultChosen += BotOnChosenInlineResultReceived;
-            Bot.Api.OnReceiveError += BotOnReceiveError;
+            //Bot.Api.OnInlineQuery += BotOnInlineQueryReceived;
+            //Bot.Api.OnInlineResultChosen += BotOnChosenInlineResultReceived;
+            //Bot.Api.OnReceiveError += BotOnReceiveError;
 
             //Bot.Api.StartReceiving();
 
@@ -58,78 +58,195 @@ namespace Bot.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> WebHook(Update update)
         {
-            var message = update.Message;
-            var chatId = message.Chat.Id;
-
-            if (message.Type == MessageType.TextMessage)
+            if (update.Type == UpdateType.MessageUpdate)
             {
-                var cmd = TelegramCmdParser.ParseUpdate(update);
-                if (cmd == CmdTypes.Greetings)
-                    await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.Greetings(chatId).ResponceText);
-                else if (cmd == CmdTypes.TableNumber)
-                {
-                    var tableNumber = Convert.ToInt32(message.Text);
-                    await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.Number(chatId, tableNumber).ResponceText);
-                }
-                else if (cmd == CmdTypes.Menu)
-                {
-                    await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.ShowMenu(chatId).ResponceText);
-                }
-                else if (cmd == CmdTypes.Check)
-                {
-                    await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.ShowCart(chatId).ResponceText);
-                }
-                else if (cmd == CmdTypes.InlineKeyboard)
-                {
-                    await Bot.Api.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
+                var message = update.Message;
+                var chatId = message.Chat.Id;
 
-                    var keyboard = new InlineKeyboardMarkup(new[]
+                if (message.Type == MessageType.TextMessage)
+                {
+                    var cmd = TelegramCmdParser.ParseUpdate(update);
+
+                    if (cmd == CmdTypes.Greetings)
                     {
-                        new[] // first row
+                        await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.Greetings(chatId).ResponceText);
+                    }
+                    else if (cmd == CmdTypes.TableNumber)
+                    {
+                        var tableNumber = Convert.ToInt32(message.Text);
+                        await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.Number(chatId, tableNumber).ResponceText);
+                    }
+                    else if (cmd == CmdTypes.Menu)
+                    {
+                        await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.ShowMenu(chatId).ResponceText);
+                    }
+                    else if (cmd == CmdTypes.Check)
+                    {
+                        await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.ShowCart(chatId).ResponceText);
+                    }
+                    else if (cmd == CmdTypes.InlineKeyboard)
+                    {
+                        await Bot.Api.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
+
+                        var keyboard = new InlineKeyboardMarkup(new[]
                         {
-                            new InlineKeyboardButton("Prev"),
-                            new InlineKeyboardButton("Next"),
-                        },
-                        new[] // second row                        
+                            new[] // first row
+                            {
+                                new InlineKeyboardButton("Prev"),
+                                new InlineKeyboardButton("Next"),
+                            },
+                            new[] // second row                        
+                            {
+                                new InlineKeyboardButton("Add to Favorites"),
+                                new InlineKeyboardButton("Cancel"),
+                            }
+                        });
+
+                        await Task.Delay(500); // simulate longer running task
+                        await Bot.Api.SendTextMessageAsync(message.Chat.Id, "111\n222\n333\n444\n555", replyMarkup: keyboard);
+                    }
+                    else if (cmd == CmdTypes.CustomKeyboard)
+                    {
+                        ReplyKeyboardMarkup myKeyboard = new ReplyKeyboardMarkup()
                         {
-                            new InlineKeyboardButton("Add to Favorites"),
-                            new InlineKeyboardButton("Cancel"),
+                            Keyboard = new KeyboardButton[][]
+                            {
+                                new KeyboardButton[] { "Меню", "Заказ готов!", "Счет" },
+                                new KeyboardButton[] { "Позвать менеджера", "Оставить отзыв" }
+                            }
+                        };
+
+                        await Bot.Api.SendTextMessageAsync(message.Chat.Id, "Выберите команду!", replyMarkup: myKeyboard);
+                    }
+                    else if (cmd == CmdTypes.Picture)
+                    {
+                        await Bot.Api.SendChatActionAsync(message.Chat.Id, ChatAction.UploadPhoto);
+
+                        string file = @"D:\Shared Projects\RestoBot\Bot\Bot\App_Data\Pictures\lazania.jpg";
+
+                        var fileName = file.Split('\\').Last();
+
+                        using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                        {
+                            var fts = new FileToSend(fileName, fileStream);
+
+                            await Bot.Api.SendPhotoAsync(message.Chat.Id, fts, "Лазанья");
+                        }
+                    }
+                    else if (cmd == CmdTypes.PictureLink)
+                    {
+                        await Bot.Api.SendTextMessage(message.Chat.Id, "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari");
+                    }
+                    else if (cmd == CmdTypes.MenuCategories)
+                    {
+                        //await Bot.Api.SendChatActionAsync(message.Chat.Id, ChatAction.UploadPhoto);
+
+                        var keyboard = new InlineKeyboardMarkup(new[]
+                        {
+                            new[]
+                            {
+                                new InlineKeyboardButton("Напитки"),
+                                new InlineKeyboardButton("Основные блюда"),
+                                new InlineKeyboardButton("Десерты"),
+                            }
+                        });
+
+                        string file = @"D:\Shared Projects\RestoBot\Bot\Bot\App_Data\Pictures\tea.jpg";
+
+                        var fileName = file.Split('\\').Last();
+
+                        using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                        {
+                            var fts = new FileToSend(fileName, fileStream);
+
+                            await Bot.Api.SendPhotoAsync(message.Chat.Id, fts, "", replyMarkup: keyboard);
+                        }
+
+                    }
+                    else if (cmd == CmdTypes.Unknown)
+                    {
+                        if (BotBrains.Instance.Value.DishNames.Contains(message.Text.ToLower()))
+                            await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.OrderMeal(chatId, message.Text).ResponceText);
+                        else
+                            await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
+                    }
+                }
+                /*
+                else if (message.Type == MessageType.PhotoMessage)
+                {
+                    // Download Photo
+                    var file = await Bot.Api.GetFile(message.Photo.LastOrDefault()?.FileId);
+
+                    var filename = file.FileId + "." + file.FilePath.Split('.').Last();
+
+                    using (var saveImageStream = File.Open(filename, FileMode.Create))
+                    {
+                        await file.FileStream.CopyToAsync(saveImageStream);
+                    }
+
+                    await Bot.Api.SendTextMessage(message.Chat.Id, "Thx for the Pics");
+                }
+                */
+            }
+            else if (update.Type == UpdateType.CallbackQueryUpdate)
+            {
+                var keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[] // first row
+                    {
+                        new InlineKeyboardButton("Prev"),
+                        new InlineKeyboardButton("Next"),
+                    },
+                    new[] // second row
+                    {
+                        new InlineKeyboardButton("Add to Favorites"),
+                        new InlineKeyboardButton("Cancel"),
+                    }
+                });
+
+                if (update.CallbackQuery.Data.ToLower() == "prev")
+                {
+                    Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "111\n222\n333\n444\n555", replyMarkup: keyboard);
+                }
+                else if (update.CallbackQuery.Data.ToLower() == "next")
+                {
+                    Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "666\n777\n888\n999\n000", replyMarkup: keyboard);
+                }
+                else if (update.CallbackQuery.Data.ToLower() == "напитки")
+                {
+                    keyboard = new InlineKeyboardMarkup(new[]
+                    {
+                        new[]
+                        {
+                            new InlineKeyboardButton("Напитки"),
+                            new InlineKeyboardButton("Основные блюда"),
+                            new InlineKeyboardButton("Десерты"),
                         }
                     });
 
-                    await Task.Delay(500); // simulate longer running task
-                    await Bot.Api.SendTextMessageAsync(message.Chat.Id, "Choose", replyMarkup: keyboard);
-                    }
-                
+                    string file = @"D:\Shared Projects\RestoBot\Bot\Bot\App_Data\Pictures\tea.jpg";
 
+                    var fileName = file.Split('\\').Last();
 
-                else if (cmd == CmdTypes.CustomKeyboard)
-                {
-                    ReplyKeyboardMarkup myKeyboard = new ReplyKeyboardMarkup()
+                    using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
-                        Keyboard = new KeyboardButton[][]
+                        var fts = new FileToSend(fileName, fileStream);
+
+                        Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "");
+                        Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
+                    }
+                }
+                else if (update.CallbackQuery.Data.ToLower() == "основные блюда")
+                {
+                    keyboard = new InlineKeyboardMarkup(new[]
+                    {
+                        new[]
                         {
-                            new KeyboardButton[] { "Меню", "Заказ готов!", "Счет" },
-                            new KeyboardButton[] { "Позвать менеджера", "Оставить отзыв" }
+                            new InlineKeyboardButton("Напитки"),
+                            new InlineKeyboardButton("Основные блюда"),
+                            new InlineKeyboardButton("Десерты"),
                         }
-                    };
-
-                    await Bot.Api.SendTextMessageAsync(message.Chat.Id, "Выберите команду!", replyMarkup: myKeyboard);
-                }
-                
-
-
-                else if (cmd == CmdTypes.MenuPages)
-                {
-                    //await Bot.Api.EditInlineMessageTextAsync() SendTextMessageAsync(chatId, "");
-
-                }
-
-
-
-                else if (cmd == CmdTypes.Picture)
-                {
-                    await Bot.Api.SendChatActionAsync(message.Chat.Id, ChatAction.UploadPhoto);
+                    });
 
                     string file = @"D:\Shared Projects\RestoBot\Bot\Bot\App_Data\Pictures\lazania.jpg";
 
@@ -139,38 +256,39 @@ namespace Bot.Controllers
                     {
                         var fts = new FileToSend(fileName, fileStream);
 
-                        await Bot.Api.SendPhotoAsync(message.Chat.Id, fts, "Лазанья");
+                        Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "");
+                        Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
                     }
                 }
-                else if (cmd == CmdTypes.PictureLink)
+                else if (update.CallbackQuery.Data.ToLower() == "десерты")
                 {
-                    await Bot.Api.SendTextMessage(message.Chat.Id, "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari");
-                }
-                else if (cmd == CmdTypes.Unknown)
-                {
-                    if (BotBrains.Instance.Value.DishNames.Contains(message.Text.ToLower()))
-                        await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.OrderMeal(chatId, message.Text).ResponceText);
-                    else
-                        await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
+                    /*
+                    keyboard = new InlineKeyboardMarkup(new[]
+                    {
+                        new[]
+                        {
+                            new InlineKeyboardButton("Напитки"),
+                            new InlineKeyboardButton("Основные блюда"),
+                            new InlineKeyboardButton("Десерты"),
+                        }
+                    });
+
+                    string file = @"D:\Shared Projects\RestoBot\Bot\Bot\App_Data\Pictures\cake.jpg";
+
+                    var fileName = file.Split('\\').Last();
+
+                    using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        var fts = new FileToSend(fileName, fileStream);
+
+                        Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
+                    }
+                    */
+
+                    Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "QQ");
                 }
             }
 
-            /*
-            else if (message.Type == MessageType.PhotoMessage)
-            {
-                // Download Photo
-                var file = await Bot.Api.GetFile(message.Photo.LastOrDefault()?.FileId);
-
-                var filename = file.FileId + "." + file.FilePath.Split('.').Last();
-
-                using (var saveImageStream = File.Open(filename, FileMode.Create))
-                {
-                    await file.FileStream.CopyToAsync(saveImageStream);
-                }
-
-                await Bot.Api.SendTextMessage(message.Chat.Id, "Thx for the Pics");
-            }
-            */
             return Ok();
         }
 

@@ -14,8 +14,8 @@ namespace Bot.CommandParser
         Check,
         InlineKeyboard,
         CustomKeyboard,
-        MenuPages,
         Picture,
-        PictureLink
+        PictureLink,
+        MenuCategories
     }
 }

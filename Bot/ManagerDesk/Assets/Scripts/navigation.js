@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         var target = $(this).data("target");
         $.get(target).done(function (data) {
-            $("js - table - body").html(data);
+            $(".js-table-body").html(data);
         });
     });
 

@@ -90,6 +90,10 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CommandParser\CmdTypes.cs" />
+    <Compile Include="CommandParser\IParser.cs" />
+    <Compile Include="CommandParser\ParserChoser.cs" />
+    <Compile Include="CommandParser\UnknownSessionParser.cs" />
+    <Compile Include="CommandParser\SittedSessionParser.cs" />
     <Compile Include="Controllers\TelegramController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -114,6 +118,10 @@
     <ProjectReference Include="..\Brains\Brains.csproj">
       <Project>{84095f49-26db-4e92-a26f-3394609efb08}</Project>
       <Name>Brains</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModels\DataModels.csproj">
+      <Project>{41b649f7-1207-4e00-92b2-8c051ce91424}</Project>
+      <Name>DataModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

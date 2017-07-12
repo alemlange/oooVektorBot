@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\SessionState.cs" />
     <Compile Include="Exceptions\TableNotFoundException.cs" />
     <Compile Include="Models\Dish.cs" />
     <Compile Include="Models\Menu.cs" />

@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-    $(".info-item").fadeIn(1000);
-
     $(".navbar-left-btn").on("click", function (slideNavbar) {
         $(".navbar-left").toggle("left");
         $(".page-wrapper").css("padding-left", "0");

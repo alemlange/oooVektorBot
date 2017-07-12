@@ -20,7 +20,6 @@ namespace Bot.Controllers
 {
     public class TelegramController : ApiController
     {
-        //private BotBrains Brains = new BotBrains();
 
         static class Bot
         {
@@ -30,27 +29,14 @@ namespace Bot.Controllers
         [HttpGet]
         public IEnumerable<string> Start() //http://localhost:8443/api/Telegram/Start
         {
-            var telegramService = "https://api.telegram.org/bot";
-            var botToken = "392797621:AAECgGELrjENABjPvPnorEaE0BjnlHN-qY0";
-            var method = "/getupdates";
+            //var telegramService = "https://api.telegram.org/bot";
+            //var botToken = "392797621:AAECgGELrjENABjPvPnorEaE0BjnlHN-qY0";
+            //var method = "/getupdates";
 
-            //var botClient = new TelegramBotClient(botToken);
-
-            Bot.Api.SetWebhook().Wait();
+            Bot.Api.SetWebhookAsync().Wait();
             //Bot.Api.SetWebhook("https://YourHostname:8443/WebHook").Wait();
-            Bot.Api.SetWebhook("https://f8a9955b.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://f8a9955b.ngrok.io/Telegram/WebHook").Wait();
 
-
-            //Bot.Api.StopReceiving();
-
-            //Bot.Api.OnCallbackQuery += BotOnCallbackQueryReceived;
-            //Bot.Api.OnMessage += BotOnMessageReceived;
-            //Bot.Api.OnMessageEdited += BotOnMessageReceived;
-            //Bot.Api.OnInlineQuery += BotOnInlineQueryReceived;
-            //Bot.Api.OnInlineResultChosen += BotOnChosenInlineResultReceived;
-            //Bot.Api.OnReceiveError += BotOnReceiveError;
-
-            //Bot.Api.StartReceiving();
 
             return new string[] { "Ok" };
         }
@@ -171,22 +157,6 @@ namespace Bot.Controllers
                             await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
                     }
                 }
-                /*
-                else if (message.Type == MessageType.PhotoMessage)
-                {
-                    // Download Photo
-                    var file = await Bot.Api.GetFile(message.Photo.LastOrDefault()?.FileId);
-
-                    var filename = file.FileId + "." + file.FilePath.Split('.').Last();
-
-                    using (var saveImageStream = File.Open(filename, FileMode.Create))
-                    {
-                        await file.FileStream.CopyToAsync(saveImageStream);
-                    }
-
-                    await Bot.Api.SendTextMessage(message.Chat.Id, "Thx for the Pics");
-                }
-                */
             }
             else if (update.Type == UpdateType.CallbackQueryUpdate)
             {

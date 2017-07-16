@@ -1,10 +1,10 @@
 ﻿@model ManagerDesk.ViewModels.MenuViewModel
 <div class="col-md-6 col-lg-3">
     <div class="info-item">
-        <h2>@Model.MenuName</h2>
+        <h3 class="info-item-heading">@Model.MenuName</h3>
         @foreach (var dish in Model.DishList)
         {
-            <p>@dish.Name @dish.Price</p>
+            <div class="dish-name">@dish.Name <span class="dish-price">@dish.Price р.</span></div>
         }
     </div>
 </div>

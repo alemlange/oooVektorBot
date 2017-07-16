@@ -80,22 +80,36 @@
 }
 
 .info-main {
-  padding: 30px 20px 40px;
-  flex: 1 0 auto;
+    padding: 30px 20px 40px;
+    flex: 1 0 auto;
 
-  .info-item {
-    min-height: 150px;
-    margin-bottom: 25px;
-    box-shadow: @box-shadow;
-    background-color: @color-background-item;
-    padding: 15px 20px 20px 20px;
-    display: block;
-    cursor: pointer;
+    .info-item {
+        min-height: 150px;
+        margin-bottom: 25px;
+        box-shadow: @box-shadow;
+        background-color: @color-background-item;
+        padding: 15px 20px 20px 20px;
+        display: block;
+        cursor: pointer;
 
-    h2 {
-      margin-top: 0;
+        .info-item-heading {
+            margin-top: 0;
+        }
+
+        .table-number {
+            
+        }
+
+        .dish-name {
+            border-bottom: 1px solid @color-border;
+            padding: 5px 0;
+        }
+
+        .dish-price {
+            float: right;
+            color: @color-main;
+        }
     }
-  }
 }
 
 /* Footer

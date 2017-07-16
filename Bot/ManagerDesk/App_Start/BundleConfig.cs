@@ -27,8 +27,8 @@ namespace ManagerDesk
                       "~/Assets/Content/bootstrap.css",
                       "~/Assets/Content/font-awesome-4.7.0/css/font-awesome.min.css",
                       "~/Assets/Content/config.css",
-                      "~/Assets/Content/media.css",
-                      "~/Assets/Content/main.css"));
+                      "~/Assets/Content/main.css",
+                      "~/Assets/Content/media.css"));
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Bot.CommandParser
         CustomKeyboard,
         Picture,
         PictureLink,
-        MenuCategories
+        MenuCategories,
+        Slash
     }
 }

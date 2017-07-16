@@ -33,6 +33,8 @@ namespace Bot.CommandParser
                 return CmdTypes.PictureLink;
             else if (msgText.ToLower() == "разделы")
                 return CmdTypes.MenuCategories;
+            else if (msgText.Contains("/"))
+                return CmdTypes.Slash;
             else
                 return CmdTypes.Unknown;
         }

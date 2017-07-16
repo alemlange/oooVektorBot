@@ -35,7 +35,7 @@ namespace Bot.Controllers
 
             Bot.Api.SetWebhookAsync().Wait();
             //Bot.Api.SetWebhook("https://YourHostname:8443/WebHook").Wait();
-            Bot.Api.SetWebhookAsync("https://f8a9955b.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://dafe3849.ngrok.io/Telegram/WebHook").Wait();
 
 
             return new string[] { "Ok" };
@@ -78,8 +78,8 @@ namespace Bot.Controllers
                         {
                             new[] // first row
                             {
-                                new InlineKeyboardButton("Prev"),
-                                new InlineKeyboardButton("Next"),
+                                new InlineKeyboardButton("Prev 😂"),
+                                new InlineKeyboardButton("Next 😉"),
                             },
                             new[] // second row                        
                             {
@@ -89,7 +89,12 @@ namespace Bot.Controllers
                         });
 
                         await Task.Delay(500); // simulate longer running task
-                        await Bot.Api.SendTextMessageAsync(message.Chat.Id, "111\n222\n333\n444\n555", replyMarkup: keyboard);
+                        await Bot.Api.SendTextMessageAsync(message.Chat.Id,
+                            "1. /Капучино\n" +
+                            "2. Латте /latte\n" +
+                            "3. Мясная лазанья /meatlazania\n" +
+                            "4. Паста «Карбонара» /carbonara\n" +
+                            "5. Салат по-итальянски /italiansalad", replyMarkup: keyboard);
                     }
                     else if (cmd == CmdTypes.CustomKeyboard)
                     {
@@ -149,6 +154,32 @@ namespace Bot.Controllers
                         }
 
                     }
+                    else if (cmd == CmdTypes.Slash)
+                    {
+                        await Bot.Api.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
+
+                        string food = update.Message.Text;
+
+                        var keyboard = new InlineKeyboardMarkup(new[]
+                        {
+                            new[]
+                            {
+                                new InlineKeyboardButton("Описание")
+                            },
+                            new[]
+                            {
+                                new InlineKeyboardButton("Заказать"),
+                            },
+                            new[]
+                            {
+                                new InlineKeyboardButton("Вернуться к меню"),
+                            }
+                        });
+
+                        await Task.Delay(500); // simulate longer running task
+                        await Bot.Api.SendTextMessageAsync(message.Chat.Id,
+                            food, replyMarkup: keyboard);
+                    }
                     else if (cmd == CmdTypes.Unknown)
                     {
                         if (BotBrains.Instance.Value.DishNames.Contains(message.Text.ToLower()))
@@ -164,8 +195,8 @@ namespace Bot.Controllers
                 {
                     new[] // first row
                     {
-                        new InlineKeyboardButton("Prev"),
-                        new InlineKeyboardButton("Next"),
+                        new InlineKeyboardButton("Prev 😂"),
+                        new InlineKeyboardButton("Next 😉"),
                     },
                     new[] // second row
                     {
@@ -174,13 +205,23 @@ namespace Bot.Controllers
                     }
                 });
 
-                if (update.CallbackQuery.Data.ToLower() == "prev")
+                if (update.CallbackQuery.Data.ToLower().Contains("prev"))
                 {
-                    Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "111\n222\n333\n444\n555", replyMarkup: keyboard);
+                    await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId,
+                        "/Капучино\n" +
+                        "/Латте\n" +
+                        "/Мясная лазанья\n" +
+                        "/Паста «Карбонара»\n" +
+                        "/Салат по-итальянски", replyMarkup: keyboard);
                 }
-                else if (update.CallbackQuery.Data.ToLower() == "next")
+                else if (update.CallbackQuery.Data.ToLower().Contains("next"))
                 {
-                    Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "666\n777\n888\n999\n000", replyMarkup: keyboard);
+                    await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId,
+                        "/Блинчики домашние\n" +
+                        "/Блинчики с творогом\n" +
+                        "/«Наполеон» с клубникой\n" +
+                        "/Торт «Медовик»\n" +
+                        "/Торт «Прага»", replyMarkup: keyboard);
                 }
                 else if (update.CallbackQuery.Data.ToLower() == "напитки")
                 {

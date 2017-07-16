@@ -50,7 +50,45 @@ namespace LiteDbService
                 col.Insert(menu);
                 col.EnsureIndex(o => o.Id);
 
+                if (menu.DishList.Any())
+                {
+                    var dishesCollestion = db.GetCollection<Dish>("Dishes");
+                    var allDishesIds = dishesCollestion.FindAll().Select(o => o.Id);
+                    foreach(var dish in menu.DishList)
+                    {
+                        if (!allDishesIds.Contains(dish.Id))
+                        {
+                            dishesCollestion.Insert(dish);
+                            dishesCollestion.EnsureIndex(o => o.Id);
+                        }
+                    }
+
+                }
+
                 return menu.Id;
+            }
+        }
+
+        public Guid CreateNewDish(Dish dish)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Dish>("Dishes");
+                if (dish.Id == Guid.Empty)
+                    dish.Id = Guid.NewGuid();
+                col.Insert(dish);
+                col.EnsureIndex(o => o.Id);
+
+                return dish.Id;
+            }
+        }
+
+        public List<Dish> GetAllDishes()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Dish>("Dishes");
+                return col.FindAll().ToList();
             }
         }
 

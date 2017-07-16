@@ -37,8 +37,18 @@ namespace ManagerDesk.Controllers
             var menus = service.GetAllMenus();
 
             var model = Mapper.Map<List<MenuViewModel>>(menus);
-            var m = new MenuViewModel();
             return View("MenuCardList", model);
+        }
+
+        public ActionResult AllDishes()
+        {
+            Mapper.Initialize(cfg => cfg.CreateMap<Dish, DishViewModel>());
+
+            var service = ServiceCreator.GetManagerService();
+            var dishes = service.GetAllDishes();
+
+            var model = Mapper.Map<List<DishViewModel>>(dishes);
+            return View("DishCardList", model);
         }
     }
 }

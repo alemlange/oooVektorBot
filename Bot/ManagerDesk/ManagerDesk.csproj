@@ -149,6 +149,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\DishViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\TableCardViewModel.cs" />
   </ItemGroup>
@@ -235,6 +236,8 @@
     <Content Include="Views\Manager\MenuCard.cshtml" />
     <Content Include="Views\Manager\MenuCardList.cshtml" />
     <Content Include="Views\Manager\Navigation.cshtml" />
+    <Content Include="Views\Manager\DishCardList.cshtml" />
+    <Content Include="Views\Manager\DishCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -41,7 +41,7 @@ namespace LiteDbService
                 return col.FindAll().ToList();
             }
         }
-
+        
         public Guid CreateTable(long chatId, int tableNumber)
         {
             using (var db = new LiteDatabase(CurrentDb))

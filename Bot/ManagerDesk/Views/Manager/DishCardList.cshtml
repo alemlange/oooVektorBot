@@ -1,0 +1,5 @@
+﻿@model List<ManagerDesk.ViewModels.DishViewModel>
+@foreach (var dish in Model)
+{
+    @Html.Partial("DishCard", dish)
+}

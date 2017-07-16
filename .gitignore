@@ -88,3 +88,5 @@ build/
 *.log
 *.scc
 *.suo
+*.cache
+.suo

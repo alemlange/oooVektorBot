@@ -7,6 +7,7 @@ using Brains.Interfaces;
 using LiteDbService;
 using LiteDbService.Helpers;
 using Brains.Responces;
+using DataModels.Enums;
 
 namespace Brains
 {
@@ -24,14 +25,24 @@ namespace Brains
 
         public BotBrains()
         {
-            var menu = _service.GetAllMenus().First();
+            var allDishes = _service.GetAllDishes();
 
             DishNames = new List<string>();
 
-            foreach(var dish in menu.DishList)
+            foreach(var dish in allDishes)
             {
                 DishNames.Add(dish.Name.ToLower());
             }
+        }
+
+        public SessionState GetState(long chatId)
+        {
+            var table = _service.GetActiveTable(chatId);
+
+            if (table != null)
+                return table.State;
+            else
+                return SessionState.Unknown;
         }
 
         public Responce OrderMeal(long chatId, string dishName)
@@ -115,7 +126,7 @@ namespace Brains
             {
                 if (_newCustomerQueue.Contains(chatId) && !_sittedCustomers.Contains(chatId))
                 {
-                    if (_service.CreateTable(chatId, tableNumber) != Guid.Empty)
+                    if (_service.CreateTable(chatId) != Guid.Empty)
                     {
                         _sittedCustomers.Add(chatId);
                         _newCustomerQueue.Remove(chatId);
@@ -142,21 +153,17 @@ namespace Brains
         {
             try
             {
-                if (!_newCustomerQueue.Contains(chatId) && !_sittedCustomers.Contains(chatId))
-                {
-                    _newCustomerQueue.Add(chatId);
+                if (_service.CreateTable(chatId) != Guid.Empty)
+                { 
                     return new Responce { ChatId = chatId, ResponceText = "Привет! За каким столиком вы сидите?" };
                 }
                 else
-                {
-                    return new Responce { ChatId = chatId, ResponceText = "Привет, вы уже в очереди!" };
-                }
+                    throw new Exception("Не получилось создать столик.");
             }
             catch (Exception)
             {
                 return Responce.UnknownResponce(chatId);
-            }
-               
+            }  
         }
     }
 }

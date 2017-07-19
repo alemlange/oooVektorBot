@@ -12,8 +12,12 @@ namespace Bot.CommandParser
         {
             switch (state)
             {
+                case SessionState.Queue:
+                    return new InQueueSessionParser();
                 case SessionState.Sitted:
                     return new SittedSessionParser();
+                case SessionState.Unknown:
+                    return new UnknownSessionParser();
                 default:
                     return new UnknownSessionParser();
             }

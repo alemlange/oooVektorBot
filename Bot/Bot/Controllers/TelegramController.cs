@@ -23,22 +23,16 @@ namespace Bot.Controllers
 
         static class Bot
         {
-            public static readonly Api Api = new Api("392797621:AAECgGELrjENABjPvPnorEaE0BjnlHN-qY0");
+            public static readonly TelegramBotClient Api = new TelegramBotClient("392797621:AAECgGELrjENABjPvPnorEaE0BjnlHN-qY0");
         }
 
         [HttpGet]
-        public IEnumerable<string> Start() //http://localhost:8443/api/Telegram/Start
+        public string Start() //http://localhost:8443/api/Telegram/Start
         {
-            //var telegramService = "https://api.telegram.org/bot";
-            //var botToken = "392797621:AAECgGELrjENABjPvPnorEaE0BjnlHN-qY0";
-            //var method = "/getupdates";
-
             Bot.Api.SetWebhookAsync().Wait();
-            //Bot.Api.SetWebhook("https://YourHostname:8443/WebHook").Wait();
             Bot.Api.SetWebhookAsync("https://dafe3849.ngrok.io/Telegram/WebHook").Wait();
 
-
-            return new string[] { "Ok" };
+            return "Ok" ;
         }
 
         [HttpPost]
@@ -47,28 +41,85 @@ namespace Bot.Controllers
             if (update.Type == UpdateType.MessageUpdate)
             {
                 var message = update.Message;
-                var chatId = message.Chat.Id;
 
                 if (message.Type == MessageType.TextMessage)
                 {
-                    var cmd = TelegramCmdParser.ParseUpdate(update);
+                    var chatId = message.Chat.Id;
+                    var bot = BotBrains.Instance.Value;
+
+                    var parser = ParserChoser.GetParser(bot.GetState(chatId));
+
+                    var cmd = parser.ParseForCommand(update);
+
+                    switch (cmd)
+                    {
+                        case CmdTypes.Greetings:
+                            {
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.Greetings(chatId).ResponceText);
+                                break;
+                            }
+                        case CmdTypes.TableNumber:
+                            {
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.Number(chatId, Convert.ToInt32(message.Text)).ResponceText);
+                                break;
+                            }
+                        case CmdTypes.Menu:
+                            {
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.ShowMenu(chatId).ResponceText);
+                                break;
+                            }
+                        case CmdTypes.Check:
+                            {
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.ShowCart(chatId).ResponceText);
+                                break;
+                            }
+                        case CmdTypes.Unknown:
+                            {
+                                if (bot.DishNames.Contains(message.Text.ToLower()))
+                                    await Bot.Api.SendTextMessageAsync(chatId, bot.OrderMeal(chatId, message.Text).ResponceText);
+                                else
+                                    await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
+                                break;
+                            }
+                    }
+                }
+            }
+
+            return Ok();
+        }
+
+        public async Task<IHttpActionResult> Old_WebHook(Update update)
+        {
+            if (update.Type == UpdateType.MessageUpdate)
+            {
+                var message = update.Message;
+
+                if (message.Type == MessageType.TextMessage)
+                {
+                    var chatId = message.Chat.Id;
+                    var bot = BotBrains.Instance.Value;
+
+                    var parser = ParserChoser.GetParser(bot.GetState(chatId));
+
+                    var cmd = parser.ParseForCommand(update);
+                    //var cmd = TelegramCmdParser.ParseUpdate(update);
 
                     if (cmd == CmdTypes.Greetings)
                     {
-                        await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.Greetings(chatId).ResponceText);
+                        await Bot.Api.SendTextMessageAsync(chatId, bot.Greetings(chatId).ResponceText);
                     }
                     else if (cmd == CmdTypes.TableNumber)
                     {
                         var tableNumber = Convert.ToInt32(message.Text);
-                        await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.Number(chatId, tableNumber).ResponceText);
+                        await Bot.Api.SendTextMessageAsync(chatId, bot.Number(chatId, tableNumber).ResponceText);
                     }
                     else if (cmd == CmdTypes.Menu)
                     {
-                        await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.ShowMenu(chatId).ResponceText);
+                        await Bot.Api.SendTextMessageAsync(chatId, bot.ShowMenu(chatId).ResponceText);
                     }
                     else if (cmd == CmdTypes.Check)
                     {
-                        await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.ShowCart(chatId).ResponceText);
+                        await Bot.Api.SendTextMessageAsync(chatId, bot.ShowCart(chatId).ResponceText);
                     }
                     else if (cmd == CmdTypes.InlineKeyboard)
                     {
@@ -126,7 +177,7 @@ namespace Bot.Controllers
                     }
                     else if (cmd == CmdTypes.PictureLink)
                     {
-                        await Bot.Api.SendTextMessage(message.Chat.Id, "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari");
+                        await Bot.Api.SendTextMessageAsync(message.Chat.Id, "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari");
                     }
                     else if (cmd == CmdTypes.MenuCategories)
                     {
@@ -177,13 +228,12 @@ namespace Bot.Controllers
                         });
 
                         await Task.Delay(500); // simulate longer running task
-                        await Bot.Api.SendTextMessageAsync(message.Chat.Id,
-                            food, replyMarkup: keyboard);
+                        await Bot.Api.SendTextMessageAsync(message.Chat.Id, food, replyMarkup: keyboard);
                     }
                     else if (cmd == CmdTypes.Unknown)
                     {
                         if (BotBrains.Instance.Value.DishNames.Contains(message.Text.ToLower()))
-                            await Bot.Api.SendTextMessageAsync(chatId, BotBrains.Instance.Value.OrderMeal(chatId, message.Text).ResponceText);
+                            await Bot.Api.SendTextMessageAsync(chatId, bot.OrderMeal(chatId, message.Text).ResponceText);
                         else
                             await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
                     }
@@ -243,8 +293,8 @@ namespace Bot.Controllers
                     {
                         var fts = new FileToSend(fileName, fileStream);
 
-                        Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "");
-                        Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
+                        await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "");
+                        await Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
                     }
                 }
                 else if (update.CallbackQuery.Data.ToLower() == "основные блюда")
@@ -267,8 +317,8 @@ namespace Bot.Controllers
                     {
                         var fts = new FileToSend(fileName, fileStream);
 
-                        Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "");
-                        Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
+                        await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "");
+                        await Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
                     }
                 }
                 else if (update.CallbackQuery.Data.ToLower() == "десерты")
@@ -296,70 +346,11 @@ namespace Bot.Controllers
                     }
                     */
 
-                    Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "QQ");
+                    await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "QQ");
                 }
             }
 
             return Ok();
-        }
-
-        public static InlineKeyboardMarkup InlineKeyboardMarkupMaker(Dictionary<int, string> items)
-        {
-            InlineKeyboardButton[][] ik = items.Select(item => new[]
-            {
-                new InlineKeyboardButton(item.Key.ToString(), item.Value)
-            }).ToArray();
-
-            return new InlineKeyboardMarkup(ik);
-        }
-
-        private static void BotOnReceiveError(object sender, ReceiveErrorEventArgs receiveErrorEventArgs)
-        {
-
-        }
-
-        private static void BotOnChosenInlineResultReceived(object sender, ChosenInlineResultEventArgs chosenInlineResultEventArgs)
-        {
-            //Console.WriteLine($"Received choosen inline result: {chosenInlineResultEventArgs.ChosenInlineResult.ResultId}");
-        }
-
-        private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
-        {
-            await Bot.Api.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id, //"QQ");
-                $"Received {callbackQueryEventArgs.CallbackQuery.Data}");
-        }
-
-        private static async void BotOnInlineQueryReceived(object sender, InlineQueryEventArgs inlineQueryEventArgs)
-        {
-            InlineQueryResult[] results = {
-                new InlineQueryResultLocation
-                {
-                    Id = "1",
-                    Latitude = 40.7058316f, // displayed result
-                    Longitude = -74.2581888f,
-                    Title = "New York",
-                    InputMessageContent = new InputLocationMessageContent // message if result is selected
-                    {
-                        Latitude = 40.7058316f,
-                        Longitude = -74.2581888f,
-                    }
-                },
-
-                new InlineQueryResultLocation
-                {
-                    Id = "2",
-                    Longitude = 52.507629f, // displayed result
-                    Latitude = 13.1449577f,
-                    Title = "Berlin",
-                    InputMessageContent = new InputLocationMessageContent // message if result is selected
-                    {
-                        Longitude = 52.507629f,
-                        Latitude = 13.1449577f
-                    }
-                }
-            };
-
-            await Bot.Api.AnswerInlineQueryAsync(inlineQueryEventArgs.InlineQuery.Id, results, isPersonal: true, cacheTime: 0);
         }
     }
 }

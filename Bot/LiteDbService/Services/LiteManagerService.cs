@@ -83,15 +83,6 @@ namespace LiteDbService
             }
         }
 
-        public List<Dish> GetAllDishes()
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var col = db.GetCollection<Dish>("Dishes");
-                return col.FindAll().ToList();
-            }
-        }
-
         public List<Table> GetAllTables()
         {
             using (var db = new LiteDatabase(CurrentDb))

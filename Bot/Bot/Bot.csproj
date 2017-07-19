@@ -89,9 +89,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="CommandParser\CmdTypes.cs" />
-    <Compile Include="CommandParser\IParser.cs" />
+    <Compile Include="CommandParser\Enums\CmdTypes.cs" />
+    <Compile Include="CommandParser\Interfaces\IParser.cs" />
     <Compile Include="CommandParser\ParserChoser.cs" />
+    <Compile Include="CommandParser\InQueueSessionParser.cs" />
     <Compile Include="CommandParser\UnknownSessionParser.cs" />
     <Compile Include="CommandParser\SittedSessionParser.cs" />
     <Compile Include="Controllers\TelegramController.cs" />
@@ -99,7 +100,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommandParser\TelegramCmdParser.cs" />
+    <Compile Include="CommandParser\OldParser\TelegramCmdParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

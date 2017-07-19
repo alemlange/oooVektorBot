@@ -14,7 +14,7 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                                {
-                                new KeyboardButton[] { "Меню", "Привет" },
+                                new KeyboardButton[] { "Меню", "Привет"},
                                }
                 };
             }
@@ -22,15 +22,23 @@ namespace Bot.CommandParser
 
         public CmdTypes ParseForCommand(Update update)
         {
-            var msgText = update.Message.Text;
-            int result;
+            var msgText = update.Message.Text.ToLower();
 
-            if (Int32.TryParse(msgText, out result))
-                return CmdTypes.TableNumber;
-            else if (msgText.ToLower() == "меню")
-                return CmdTypes.Menu;
-            else
-                return CmdTypes.Unknown;
+            switch (msgText)
+            {
+                case "меню":
+                    {
+                        return CmdTypes.Menu;
+                    }
+                case "привет":
+                    {
+                        return CmdTypes.Greetings;
+                    }
+                default:
+                    {
+                        return CmdTypes.Unknown;
+                    }
+            }
         }
     }
 }

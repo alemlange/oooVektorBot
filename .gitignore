@@ -93,3 +93,4 @@ build/
 *.config
 Bot/.vs/Bot/v15/.suo
 *.cache
+*.suo

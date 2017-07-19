@@ -83,7 +83,7 @@ namespace Bot.Tests
         public void CreateTable()
         {
             var service = new TestLiteCustomerService();
-            var tableId = service.CreateTable(101,101);
+            var tableId = service.CreateTable(101);
             Assert.AreNotEqual(Guid.Empty, tableId);
         }
     }

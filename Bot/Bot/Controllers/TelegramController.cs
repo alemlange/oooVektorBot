@@ -55,7 +55,7 @@ namespace Bot.Controllers
                     {
                         case CmdTypes.Greetings:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.Greetings(chatId).ResponceText);
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.Greetings(chatId).ResponceText, replyMarkup: parser.Keyboard);
                                 break;
                             }
                         case CmdTypes.TableNumber:

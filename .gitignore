@@ -92,12 +92,12 @@ bld/
 *.pidb
 *.log
 *.scc
-*.suo
 *.cache
-.suo
 *.config
 Bot/.vs/Bot/v15/.suo
-*.cache
-*.suo
-Bot/.vs/Bot/v15/.suo
-*.cache
+
+# Visual Studio cache files
+# files ending in .cache can be ignored
+*.[Cc]ache
+# but keep track of directories ending in .cache
+!*.[Cc]ache/

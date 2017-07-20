@@ -73,7 +73,6 @@ bld/
 *.ilk
 *.meta
 *.obj
-*.suo
 *.pch
 *.pdb
 *.pgc
@@ -92,9 +91,7 @@ bld/
 *.pidb
 *.log
 *.scc
-*.cache
 *.config
-Bot/.vs/Bot/v15/.suo
 
 # Visual Studio cache files
 # files ending in .cache can be ignored

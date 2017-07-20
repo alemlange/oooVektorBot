@@ -49,13 +49,18 @@ Temporary Items
 # User-specific files
 *.suo
 *.user
+*.userosscache
 *.sln.docstates
 
 # Build results
-Debug/
+[Dd]ebug/
+[Dd]ebugPublic/
 [Rr]elease/
-x64/
-build/
+[Rr]eleases/
+[Xx]64/
+[Xx]86/
+[Bb]uild/
+bld/
 [Bb]in/
 [Oo]bj/
 

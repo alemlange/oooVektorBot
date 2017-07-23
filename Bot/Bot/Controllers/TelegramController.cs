@@ -30,7 +30,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://9982bb11.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://7c2c2fef.ngrok.io/Telegram/WebHook").Wait();
 
             return "Ok" ;
         }
@@ -55,21 +55,11 @@ namespace Bot.Controllers
                     {
                         case CmdTypes.Greetings:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.Greetings(chatId).ResponceText);
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.Greetings(chatId).ResponceText, replyMarkup: parser.Keyboard);
                                 break;
                             }
                         case CmdTypes.TableNumber:
                             {
-                                parser.Keyboard = new ReplyKeyboardMarkup()
-                                {
-                                    Keyboard = new KeyboardButton[][]
-                                    {
-                                        new KeyboardButton[] { "Меню" },
-                                        new KeyboardButton[] { "Назад" },
-                                        new KeyboardButton[] { "Позвать официанта" }
-                                    }
-                                };
-
                                 await Bot.Api.SendTextMessageAsync(chatId, bot.Number(chatId, Convert.ToInt32(message.Text)).ResponceText, replyMarkup: parser.Keyboard);
                                 break;
                             }

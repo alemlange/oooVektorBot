@@ -27,10 +27,10 @@ namespace Bot.Controllers
         }
 
         [HttpGet]
-        public string Start() //http://localhost:8443/api/Telegram/Start
+        public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://dafe3849.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://9982bb11.ngrok.io/Telegram/WebHook").Wait();
 
             return "Ok" ;
         }
@@ -55,34 +55,48 @@ namespace Bot.Controllers
                     {
                         case CmdTypes.Greetings:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.Greetings(chatId).ResponceText, replyMarkup: parser.Keyboard);
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.Greetings(chatId).ResponceText);
                                 break;
                             }
                         case CmdTypes.TableNumber:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.Number(chatId, Convert.ToInt32(message.Text)).ResponceText);
+                                parser.Keyboard = new ReplyKeyboardMarkup()
+                                {
+                                    Keyboard = new KeyboardButton[][]
+                                    {
+                                        new KeyboardButton[] { "Меню" },
+                                        new KeyboardButton[] { "Назад" },
+                                        new KeyboardButton[] { "Позвать официанта" }
+                                    }
+                                };
+
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.Number(chatId, Convert.ToInt32(message.Text)).ResponceText, replyMarkup: parser.Keyboard);
                                 break;
                             }
                         case CmdTypes.Menu:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.ShowMenu(chatId).ResponceText);
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.ShowMenu(chatId).ResponceText, replyMarkup: parser.Keyboard);
                                 break;
                             }
                         case CmdTypes.Check:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.ShowCart(chatId).ResponceText);
+                                await Bot.Api.SendTextMessageAsync(chatId, bot.ShowCart(chatId).ResponceText, replyMarkup: parser.Keyboard);
                                 break;
                             }
                         case CmdTypes.Unknown:
                             {
                                 if (bot.DishNames.Contains(message.Text.ToLower()))
-                                    await Bot.Api.SendTextMessageAsync(chatId, bot.OrderMeal(chatId, message.Text).ResponceText);
+                                    await Bot.Api.SendTextMessageAsync(chatId, bot.OrderMeal(chatId, message.Text).ResponceText, replyMarkup: parser.Keyboard);
                                 else
                                     await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
                                 break;
                             }
                     }
                 }
+            }
+            else if (update.Type == UpdateType.CallbackQueryUpdate)
+            {
+
             }
 
             return Ok();

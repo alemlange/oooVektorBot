@@ -16,10 +16,10 @@ namespace Bot.CommandParser
                 return new ReplyKeyboardMarkup
                 {
                     Keyboard = new KeyboardButton[][]
-                               {
-                                new KeyboardButton[] { "Меню", "Счет" },
-                                new KeyboardButton[] { "Позвать официанта" }
-                               }
+                    {
+                        new KeyboardButton[] { "Меню", "Счет" },
+                        new KeyboardButton[] { "Позвать официанта" }
+                    }
                 };
             }
         }

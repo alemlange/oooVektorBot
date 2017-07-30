@@ -2,6 +2,17 @@
 <div class="col-md-12 col-lg-6">
     <div class="info-item">
         <h3 class="info-item-heading">@Model.MenuName</h3>
+        <div class="dropdown">
+            <span class="more-menu-btn dropdown-toggle" type="button" id="dropdownMoreMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">+</span>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMoreMenu">
+                <li><a href="#">Кувшин Сплэш Мятный Апельсин </a></li>
+                <li><a href="#">Кувшин Домашнего Лимонада FRIDAYS </a></li>
+                <li><a href="#">Кувшин Домашнего Лимонада FRIDAYS </a></li>
+                <li><a href="#">Кувшин Сплэш Мятный <span class="dish-price">625 р.</span></a></li>
+                <li><a href="#">Кувшин Сплэш Мятный <span class="dish-price">625 р.</span></a></li>
+                <li><a href="#">Кувшин Сплэш Мятный <span class="dish-price">625 р.</span></a></li>
+            </ul>
+        </div>
         @foreach (var dish in Model.DishList)
         {
             <div class="dish-name">@dish.Name <span class="dish-price">@dish.Price р.</span></div>

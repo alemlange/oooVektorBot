@@ -1,21 +1,19 @@
 ﻿<nav class="navbar-left">
+    <div class="profile-item">
+        <img alt="image" class="img-circle" src="@Url.Content("~/Assets/Imgs/profile_small.jpg")">
+        <div><strong>Ашот Саркисян</strong></div>
+        <div class="dropdown">
+            <span class="dropdown-toggle" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Генеральный директор <span class="caret"></span></span>
+            <ul class="dropdown-menu text-center" aria-labelledby="dropdownProfile">
+                <li><a href="#">Профиль</a></li>
+                <li><a href="#">Контакты</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Выйти</a></li>
+            </ul>
+        </div>
+    </div>
     <ul class="menu">
-        <li>
-            <div class="profile-item">
-                <img alt="image" class="img-circle" src="@Url.Content("~/Assets/Imgs/profile_small.jpg")">
-                <div><strong>Ашот Саркисян</strong></div>
-                <div class="dropdown"><span class="dropdown-toggle" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Генеральный директор <span class="caret"></span></span>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownProfile">
-                        <li><a href="#">Профиль</a></li>
-                        <li><a href="#">Контакты</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Выйти</a></li>
-                    </ul>
-                </div>
-            </div>
-        </li>
-
-        <li><a href="#" class="js-table-section active-item" data-target="@Url.Action("AllTables","Manager")"><i class="fa fa-id-card-o"></i>Столики</a></li>
+        <li class="active-item"><a href="#" class="js-table-section" data-target="@Url.Action("AllTables","Manager")"><i class="fa fa-id-card-o"></i>Столики</a></li>
         <li><a href="#" class="js-menu-section" data-target="@Url.Action("AllMenus","Manager")"><i class="fa fa-file-text"></i>Меню</a></li>
         <li><a href="#" class="js-dish-section" data-target="@Url.Action("AllDishes","Manager")"><i class="fa fa-cutlery"></i>Блюда</a></li>
     </ul>

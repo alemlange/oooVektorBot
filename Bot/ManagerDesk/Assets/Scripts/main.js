@@ -9,8 +9,9 @@ $(document).ready(function () {
         //});
     });
 
-    $(".navbar-left").on("click", function (activeItem) {
-        $("a").addClass("active-item");
+    $(".menu li").on("click", function (activeItem) {
+        $(".active-item").removeClass("active-item")
+        $(this).addClass("active-item");
     });
 
     $(".js-table-body").on("click", ".more-menu-btn", function (e) {

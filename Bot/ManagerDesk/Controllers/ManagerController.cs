@@ -17,6 +17,7 @@ namespace ManagerDesk.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult AllTables()
         {
             Mapper.Initialize(cfg => cfg.CreateMap<Table, TableCardViewModel>());
@@ -29,6 +30,7 @@ namespace ManagerDesk.Controllers
             return View("TableCardList", model);
         }
 
+        [HttpGet]
         public ActionResult AllMenus()
         {
             Mapper.Initialize(cfg => cfg.CreateMap<Menu, MenuViewModel>());
@@ -40,6 +42,7 @@ namespace ManagerDesk.Controllers
             return View("MenuCardList", model);
         }
 
+        [HttpGet]
         public ActionResult AllDishes()
         {
             Mapper.Initialize(cfg => cfg.CreateMap<Dish, DishViewModel>());
@@ -49,6 +52,25 @@ namespace ManagerDesk.Controllers
 
             var model = Mapper.Map<List<DishViewModel>>(dishes);
             return View("DishCardList", model);
+        }
+
+        [HttpGet]
+        public ActionResult MenuMoreDishes(string menuid)
+        {
+            Mapper.Initialize(cfg => cfg.CreateMap<Dish, SelectedDishViewModel>());
+            var service = ServiceCreator.GetManagerService();
+
+            var allDishes = service.GetAllDishes();
+            var selectedDishes = Mapper.Map<List<SelectedDishViewModel>>(allDishes);
+
+            var currentMenuDishes = service.GetMenu(Guid.Parse(menuid)).DishList.Select(o => o.Id);
+            foreach (var dish in selectedDishes)
+            {
+                if (currentMenuDishes.Contains(dish.Id))
+                    dish.Selected = true;
+            }
+
+            return View(selectedDishes);
         }
     }
 }

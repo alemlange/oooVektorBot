@@ -12,4 +12,14 @@ $(document).ready(function () {
     $(".navbar-left").on("click", function (activeItem) {
         $("a").addClass("active-item");
     });
+
+    $(".js-table-body").on("click", ".more-menu-btn", function (e) {
+
+        var menuHeader = $(this).parents(".menu-header");
+        var menuid = menuHeader.data("menuid");
+        var target = menuHeader.data("moretarget");
+        $.get(target, { menuid: menuid }).done(function (data) {
+            menuHeader.find(".dropdown-menu").html(data);
+        });
+    });
 });

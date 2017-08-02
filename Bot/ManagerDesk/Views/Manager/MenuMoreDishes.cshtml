@@ -1,0 +1,6 @@
+﻿@model List<ManagerDesk.ViewModels.SelectedDishViewModel>
+
+@foreach (var dish in Model)
+{
+    <li><a href="#" class="@dish.SelectedStyle">@dish.Name <span class="dish-price">@dish.Price р.</span></a></li>
+}

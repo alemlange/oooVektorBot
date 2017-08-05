@@ -72,5 +72,29 @@ namespace ManagerDesk.Controllers
 
             return View(selectedDishes);
         }
+
+        [HttpPost]
+        public JsonResult RenewMenu(Guid menuId, List<Guid> allActiveDishes)
+        {
+            var service = ServiceCreator.GetManagerService();
+            var curMenu = service.GetMenu(menuId);
+            var allDishes = service.GetAllDishes();
+            if (curMenu != null && allDishes != null)
+            {
+                if (allActiveDishes != null)
+                {
+                    var dishesForCurmenu = allDishes.Where(o => allActiveDishes.Contains(o.Id)).ToList();
+                    curMenu.DishList = dishesForCurmenu;
+                }
+                else
+                    curMenu.DishList = new List<Dish>();
+                
+                service.UpdateMenu(curMenu);
+            }
+            else
+                return Json(new { isAuthorized = true, isSuccess = false });
+            
+            return Json(new { isAuthorized = true, isSuccess = true });
+        }
     }
 }

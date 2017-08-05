@@ -23,4 +23,32 @@ $(document).ready(function () {
             menuHeader.find(".dropdown-menu").html(data);
         });
     });
+
+    $(".js-table-body").on("click", ".js-dish-drop", function (e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+        var curDish = $(this);
+        var active = $(this).hasClass("menu-selected");
+        if (active)
+            curDish.removeClass("menu-selected");
+        else
+            curDish.addClass("menu-selected");
+    });
+
+    $(".js-table-body").on("click", ".js-renew-menu", function (e) {
+
+        e.preventDefault();
+        var menuHeader = $(this).parents(".menu-header");
+        var menuId = menuHeader.data("menuid");
+        var allActiveDishes = [];
+        menuHeader.find(".js-dish-drop.menu-selected").each(function (i, e) {
+            allActiveDishes.push($(e).data("id"));
+        });
+
+        var target = $(this).data("target");
+        $.post(target, { menuId: menuId, allActiveDishes: allActiveDishes }).done(function (data) {
+            window.location.reload();
+        });
+    });
 });

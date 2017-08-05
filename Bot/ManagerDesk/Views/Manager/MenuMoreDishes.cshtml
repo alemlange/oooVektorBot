@@ -2,5 +2,6 @@
 
 @foreach (var dish in Model)
 {
-    <li><a href="#" class="@dish.SelectedStyle">@dish.Name <span class="dish-price">@dish.Price р.</span></a></li>
+    <li><a href="#" class="@dish.SelectedStyle js-dish-drop" data-id="@dish.Id">@dish.Name <span class="dish-price">@dish.Price р.</span></a></li>
 }
+<li><a href="#" class="btn btn-default js-renew-menu" data-target="@Url.Action("RenewMenu","Manager")">Сохранить</a></li>

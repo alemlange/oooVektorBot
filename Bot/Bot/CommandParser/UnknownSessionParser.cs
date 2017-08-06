@@ -14,7 +14,8 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "Меню", "Привет"},
+                        new KeyboardButton[] { "Меню" },
+                        new KeyboardButton[] { "Привет"},
                     }
                 };
             }
@@ -24,7 +25,7 @@ namespace Bot.CommandParser
         {
             var msgText = update.Message.Text.ToLower();
 
-            switch (msgText)
+            switch (msgText.ToLower())
             {
                 case "меню":
                     {

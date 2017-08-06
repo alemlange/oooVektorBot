@@ -30,7 +30,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://7c2c2fef.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://0e299f03.ngrok.io/Telegram/WebHook").Wait();
 
             return "Ok" ;
         }
@@ -84,14 +84,15 @@ namespace Bot.Controllers
                     }
                 }
             }
-            else if (update.Type == UpdateType.CallbackQueryUpdate)
-            {
+            //else if (update.Type == UpdateType.CallbackQueryUpdate)
+            //{
 
-            }
+            //}
 
             return Ok();
         }
 
+        /*
         public async Task<IHttpActionResult> Old_WebHook(Update update)
         {
             if (update.Type == UpdateType.MessageUpdate)
@@ -348,7 +349,7 @@ namespace Bot.Controllers
 
                         Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
                     }
-                    */
+                    *-/
 
                     await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "QQ");
                 }
@@ -356,5 +357,6 @@ namespace Bot.Controllers
 
             return Ok();
         }
+        */
     }
 }

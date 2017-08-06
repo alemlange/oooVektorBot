@@ -17,9 +17,9 @@ namespace Brains
 
         private LiteCustomerService _service = ServiceCreator.GetCustomerService();
 
-        private List<long> _newCustomerQueue = new List<long>();
+        //private List<long> _newCustomerQueue = new List<long>();
 
-        private List<long> _sittedCustomers = new List<long>();
+        //private List<long> _sittedCustomers = new List<long>();
 
         public List<string> DishNames { get; set; }
 
@@ -49,7 +49,7 @@ namespace Brains
         {
             try
             {
-                if (_sittedCustomers.Contains(chatId))
+                if (1==1)//_sittedCustomers.Contains(chatId))
                 {
                     var table = _service.FindTable(chatId);
                     var dish = _service.FindDish(dishName);
@@ -71,7 +71,7 @@ namespace Brains
 
         public Responce ShowCart(long chatId)
         {
-            if (_sittedCustomers.Contains(chatId))
+            if (1==1)//_sittedCustomers.Contains(chatId))
             {
                 var table = _service.FindTable(chatId);
                 var respText = "";
@@ -124,12 +124,12 @@ namespace Brains
         {
             try
             {
-                if (_newCustomerQueue.Contains(chatId) && !_sittedCustomers.Contains(chatId))
-                {
+                //if (_newCustomerQueue.Contains(chatId) && !_sittedCustomers.Contains(chatId))
+                //{
                     if (_service.CreateTable(chatId) != Guid.Empty)
                     {
-                        _sittedCustomers.Add(chatId);
-                        _newCustomerQueue.Remove(chatId);
+                        //_sittedCustomers.Add(chatId);
+                        //_newCustomerQueue.Remove(chatId);
 
                         return new Responce { ChatId = chatId, ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам." };
                     }
@@ -137,11 +137,11 @@ namespace Brains
                         throw new Exception("Не получилось создать столик.");
                     
                     
-                }
-                else
-                {
-                    return Responce.UnknownResponce(chatId);
-                }
+                //}
+                //else
+                //{
+                //    return Responce.UnknownResponce(chatId);
+                //}
             }
             catch (Exception)
             {

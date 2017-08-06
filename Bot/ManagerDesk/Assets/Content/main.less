@@ -9,16 +9,31 @@
   left: 0;
   width: 100%;
   min-height: 60px;
-  z-index: 100;
+  z-index: 1100;
   background-color: @color-main;
   box-shadow: @box-shadow;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   .navbar-left-btn {
     display: inline-block;
     color: @color-white;
     cursor: pointer;
-    margin: 14px 5px 5px 37px;
+    /*margin: 14px 5px 5px 37px;*/
+    margin-left: 25px;
     font-size: 21px;
+  }
+
+  a {
+      color: @color-white;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 14px;
+  }
+
+  .logout {
+      margin-right: 25px;
   }
 }
 
@@ -134,7 +149,7 @@
 
         .more-menu-btn {
             position: absolute;
-            right: 5px;
+            left: 5px;
             top: 5px;
             background-color: lighten(@color-main, 5%);
             width: 30px;
@@ -155,7 +170,14 @@
         .dropdown {
             position: absolute;
             top: 5px;
-            right: 5px;
+            left: 5px;
+
+            .btn-save-dishes {
+                width: 50%;
+                margin: 10px auto;
+                background-color: @color-main;
+                color: @color-white;
+            }
         }
     }
 }

@@ -84,10 +84,10 @@ namespace Bot.Controllers
                     }
                 }
             }
-            //else if (update.Type == UpdateType.CallbackQueryUpdate)
-            //{
+            else if (update.Type == UpdateType.CallbackQueryUpdate)
+            {
 
-            //}
+            }
 
             return Ok();
         }

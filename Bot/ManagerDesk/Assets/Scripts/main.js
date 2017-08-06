@@ -48,7 +48,7 @@ $(document).ready(function () {
 
         var target = $(this).data("target");
         $.post(target, { menuId: menuId, allActiveDishes: allActiveDishes }).done(function (data) {
-            window.location.reload();
+            $(".js-menu-section").trigger("click");
         });
     });
 });

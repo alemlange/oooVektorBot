@@ -76,25 +76,32 @@ namespace ManagerDesk.Controllers
         [HttpPost]
         public JsonResult RenewMenu(Guid menuId, List<Guid> allActiveDishes)
         {
-            var service = ServiceCreator.GetManagerService();
-            var curMenu = service.GetMenu(menuId);
-            var allDishes = service.GetAllDishes();
-            if (curMenu != null && allDishes != null)
+            try
             {
-                if (allActiveDishes != null)
+                var service = ServiceCreator.GetManagerService();
+                var curMenu = service.GetMenu(menuId);
+                var allDishes = service.GetAllDishes();
+                if (curMenu != null && allDishes != null)
                 {
-                    var dishesForCurmenu = allDishes.Where(o => allActiveDishes.Contains(o.Id)).ToList();
-                    curMenu.DishList = dishesForCurmenu;
+                    if (allActiveDishes != null)
+                    {
+                        var dishesForCurmenu = allDishes.Where(o => allActiveDishes.Contains(o.Id)).ToList();
+                        curMenu.DishList = dishesForCurmenu;
+                    }
+                    else
+                        curMenu.DishList = new List<Dish>();
+
+                    service.UpdateMenu(curMenu);
                 }
                 else
-                    curMenu.DishList = new List<Dish>();
-                
-                service.UpdateMenu(curMenu);
+                    throw new ArgumentNullException("Menu or list of dishes not found!");
+
+                return Json(new { isAuthorized = true, isSuccess = true });
             }
-            else
-                return Json(new { isAuthorized = true, isSuccess = false });
-            
-            return Json(new { isAuthorized = true, isSuccess = true });
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
         }
     }
 }

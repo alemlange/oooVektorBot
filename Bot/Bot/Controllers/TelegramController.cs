@@ -15,6 +15,8 @@ using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Args;
 using Bot.CommandParser;
 using Brains;
+using LiteDbService;
+using DataModels.Enums;
 
 namespace Bot.Controllers
 {
@@ -30,7 +32,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://0e299f03.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://d9723f85.ngrok.io/Telegram/WebHook").Wait();
 
             return "Ok" ;
         }
@@ -38,45 +40,86 @@ namespace Bot.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> WebHook(Update update)
         {
+            // state reset
+            //var service = new TestLiteManagerService();
+            //service.UpdateTableState(chatId, SessionState.Unknown);
+            // state reset
+
             if (update.Type == UpdateType.MessageUpdate)
             {
                 var message = update.Message;
+                var chatId = message.Chat.Id;
+                var bot = BotBrains.Instance.Value;
+                var parser = ParserChoser.GetParser(bot.GetState(chatId));
+                var cmd = parser.ParseForCommand(update);
 
                 if (message.Type == MessageType.TextMessage)
                 {
-                    var chatId = message.Chat.Id;
-                    var bot = BotBrains.Instance.Value;
-
-                    var parser = ParserChoser.GetParser(bot.GetState(chatId));
-
-                    var cmd = parser.ParseForCommand(update);
-
                     switch (cmd)
                     {
                         case CmdTypes.Greetings:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.Greetings(chatId).ResponceText, replyMarkup: parser.Keyboard);
+                                await Bot.Api.SendTextMessageAsync(
+                                    chatId,
+                                    bot.Greetings(chatId).ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 break;
                             }
                         case CmdTypes.TableNumber:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.Number(chatId, Convert.ToInt32(message.Text)).ResponceText, replyMarkup: parser.Keyboard);
+                                await Bot.Api.SendTextMessageAsync(
+                                    chatId,
+                                    bot.Number(chatId, Convert.ToInt32(message.Text)).ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 break;
                             }
                         case CmdTypes.Menu:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.ShowMenu(chatId).ResponceText, replyMarkup: parser.Keyboard);
+                                await Bot.Api.SendTextMessageAsync(
+                                    chatId,
+                                    bot.ShowMenu(chatId).ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                break;
+                            }
+                        case CmdTypes.Slash:
+                            {
+                                var keyboard = new InlineKeyboardMarkup(new[]
+                                {
+                                    new[] { new InlineKeyboardButton("Описание") },
+                                    new[] { new InlineKeyboardButton("Заказать") },
+                                    new[] { new InlineKeyboardButton("Вернуться к меню") }
+                                });
+
+                                await Bot.Api.SendTextMessageAsync(
+                                    chatId,
+                                    bot.GetMenuItem(chatId, update.Message.Text).ResponceText,
+                                    replyMarkup: keyboard);
                                 break;
                             }
                         case CmdTypes.Check:
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, bot.ShowCart(chatId).ResponceText, replyMarkup: parser.Keyboard);
+                                await Bot.Api.SendTextMessageAsync(
+                                    chatId,
+                                    bot.ShowCart(chatId).ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                break;
+                            }
+                        case CmdTypes.Waiter:
+                            {
+                                //await Bot.Api.SendTextMessageAsync(
+                                //    chatId,
+                                //    bot.,
+                                //    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                await Bot.Api.SendTextMessageAsync(chatId, "Официант уже идет");
                                 break;
                             }
                         case CmdTypes.Unknown:
                             {
                                 if (bot.DishNames.Contains(message.Text.ToLower()))
-                                    await Bot.Api.SendTextMessageAsync(chatId, bot.OrderMeal(chatId, message.Text).ResponceText, replyMarkup: parser.Keyboard);
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        bot.OrderMeal(chatId, message.Text).ResponceText,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 else
                                     await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
                                 break;
@@ -86,7 +129,41 @@ namespace Bot.Controllers
             }
             else if (update.Type == UpdateType.CallbackQueryUpdate)
             {
+                // todo
+                var message = update.Message;
+                var chatId = message.Chat.Id;
+                var bot = BotBrains.Instance.Value;
+                var parser = ParserChoser.GetParser(bot.GetState(chatId));
+                var cmd = parser.ParseForCommand(update);
+                // todo
 
+                var keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[] // first row
+                    {
+                        new InlineKeyboardButton("Prev 😂"),
+                        new InlineKeyboardButton("Next 😉"),
+                    }
+                });
+
+                if (update.CallbackQuery.Data.ToLower().Contains("<<"))
+                {
+                    await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId,
+                        "/Капучино\n" +
+                        "/Латте\n" +
+                        "/Мясная лазанья\n" +
+                        "/Паста «Карбонара»\n" +
+                        "/Салат по-итальянски", replyMarkup: keyboard);
+                }
+                else if (update.CallbackQuery.Data.ToLower().Contains(">>"))
+                {
+                    await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId,
+                        "/Блинчики домашние\n" +
+                        "/Блинчики с творогом\n" +
+                        "/«Наполеон» с клубникой\n" +
+                        "/Торт «Медовик»\n" +
+                        "/Торт «Прага»", replyMarkup: keyboard);
+                }
             }
 
             return Ok();
@@ -277,81 +354,6 @@ namespace Bot.Controllers
                         "/«Наполеон» с клубникой\n" +
                         "/Торт «Медовик»\n" +
                         "/Торт «Прага»", replyMarkup: keyboard);
-                }
-                else if (update.CallbackQuery.Data.ToLower() == "напитки")
-                {
-                    keyboard = new InlineKeyboardMarkup(new[]
-                    {
-                        new[]
-                        {
-                            new InlineKeyboardButton("Напитки"),
-                            new InlineKeyboardButton("Основные блюда"),
-                            new InlineKeyboardButton("Десерты"),
-                        }
-                    });
-
-                    string file = @"D:\Shared Projects\RestoBot\Bot\Bot\App_Data\Pictures\tea.jpg";
-
-                    var fileName = file.Split('\\').Last();
-
-                    using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        var fts = new FileToSend(fileName, fileStream);
-
-                        await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "");
-                        await Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
-                    }
-                }
-                else if (update.CallbackQuery.Data.ToLower() == "основные блюда")
-                {
-                    keyboard = new InlineKeyboardMarkup(new[]
-                    {
-                        new[]
-                        {
-                            new InlineKeyboardButton("Напитки"),
-                            new InlineKeyboardButton("Основные блюда"),
-                            new InlineKeyboardButton("Десерты"),
-                        }
-                    });
-
-                    string file = @"D:\Shared Projects\RestoBot\Bot\Bot\App_Data\Pictures\lazania.jpg";
-
-                    var fileName = file.Split('\\').Last();
-
-                    using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        var fts = new FileToSend(fileName, fileStream);
-
-                        await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "");
-                        await Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
-                    }
-                }
-                else if (update.CallbackQuery.Data.ToLower() == "десерты")
-                {
-                    /*
-                    keyboard = new InlineKeyboardMarkup(new[]
-                    {
-                        new[]
-                        {
-                            new InlineKeyboardButton("Напитки"),
-                            new InlineKeyboardButton("Основные блюда"),
-                            new InlineKeyboardButton("Десерты"),
-                        }
-                    });
-
-                    string file = @"D:\Shared Projects\RestoBot\Bot\Bot\App_Data\Pictures\cake.jpg";
-
-                    var fileName = file.Split('\\').Last();
-
-                    using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        var fts = new FileToSend(fileName, fileStream);
-
-                        Bot.Api.SendPhotoAsync(update.CallbackQuery.Message.Chat.Id, fts, "", replyMarkup: keyboard);
-                    }
-                    *-/
-
-                    await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, "QQ");
                 }
             }
 

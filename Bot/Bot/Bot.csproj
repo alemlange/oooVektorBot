@@ -124,6 +124,10 @@
       <Project>{41b649f7-1207-4e00-92b2-8c051ce91424}</Project>
       <Name>DataModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LiteDbService\LiteDbService.csproj">
+      <Project>{0C315705-4323-4B12-BAA3-12973CF853A6}</Project>
+      <Name>LiteDbService</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

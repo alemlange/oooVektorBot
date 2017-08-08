@@ -25,7 +25,7 @@ namespace Bot.CommandParser
         {
             var msgText = update.Message.Text.ToLower();
 
-            switch (msgText.ToLower())
+            switch (msgText)
             {
                 case "меню":
                     {

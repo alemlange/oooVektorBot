@@ -17,10 +17,6 @@ namespace Brains
 
         private LiteCustomerService _service = ServiceCreator.GetCustomerService();
 
-        //private List<long> _newCustomerQueue = new List<long>();
-
-        //private List<long> _sittedCustomers = new List<long>();
-
         public List<string> DishNames { get; set; }
 
         public BotBrains()
@@ -49,7 +45,7 @@ namespace Brains
         {
             try
             {
-                if (1==1)//_sittedCustomers.Contains(chatId))
+                if (GetState(chatId) == SessionState.Sitted)
                 {
                     var table = _service.FindTable(chatId);
                     var dish = _service.FindDish(dishName);
@@ -71,7 +67,7 @@ namespace Brains
 
         public Responce ShowCart(long chatId)
         {
-            if (1==1)//_sittedCustomers.Contains(chatId))
+            if (GetState(chatId) == SessionState.Sitted)
             {
                 var table = _service.FindTable(chatId);
                 var respText = "";
@@ -124,24 +120,16 @@ namespace Brains
         {
             try
             {
-                //if (_newCustomerQueue.Contains(chatId) && !_sittedCustomers.Contains(chatId))
-                //{
-                    if (_service.CreateTable(chatId) != Guid.Empty)
-                    {
-                        //_sittedCustomers.Add(chatId);
-                        //_newCustomerQueue.Remove(chatId);
+                if (_service.GetTable(chatId) != Guid.Empty)
+                {
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
 
-                        return new Responce { ChatId = chatId, ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам." };
-                    }
-                    else
-                        throw new Exception("Не получилось создать столик.");
-                    
-                    
-                //}
-                //else
-                //{
-                //    return Responce.UnknownResponce(chatId);
-                //}
+                    return new Responce { ChatId = chatId, ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам." };
+                }
+                else
+                {
+                    throw new Exception("Не получилось создать столик.");
+                }
             }
             catch (Exception)
             {
@@ -153,7 +141,7 @@ namespace Brains
         {
             try
             {
-                if (_service.CreateTable(chatId) != Guid.Empty)
+                if (_service.GetTable(chatId) != Guid.Empty)
                 { 
                     return new Responce { ChatId = chatId, ResponceText = "Привет! За каким столиком вы сидите?" };
                 }
@@ -164,6 +152,23 @@ namespace Brains
             {
                 return Responce.UnknownResponce(chatId);
             }  
+        }
+
+        public Responce GetMenuItem(long chatId, string dishId)
+        {
+            try
+            {
+                //if (_service.GetTable(chatId) != Guid.Empty)
+                {
+                    return new Responce { ChatId = chatId, ResponceText = "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari" };
+                }
+                //else
+                //    throw new Exception("Не получилось создать столик.");
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
         }
     }
 }

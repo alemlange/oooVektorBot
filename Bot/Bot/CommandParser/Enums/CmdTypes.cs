@@ -17,6 +17,7 @@ namespace Bot.CommandParser
         Picture,
         PictureLink,
         MenuCategories,
-        Slash
+        Slash,
+        Waiter
     }
 }

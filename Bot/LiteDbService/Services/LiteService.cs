@@ -46,16 +46,37 @@ namespace LiteDbService
             }
         }
 
-        public Guid CreateTable(long chatId)
+        public Guid GetTable(long chatId)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var table = new Table { Id = Guid.NewGuid(), ChatId = chatId, State = SessionState.Queue, CreatedOn = DateTime.Now, Orders = new List<OrderedDish>() };
-
                 var col = db.GetCollection<Table>("Tables");
-                col.Insert(table);
-                col.EnsureIndex(o => o.Id);
-                return table.Id;
+
+                if (col.Find(o => o.ChatId == chatId).Count() == 0)
+                {
+                    var table = new Table { Id = Guid.NewGuid(), ChatId = chatId, State = SessionState.Queue, CreatedOn = DateTime.Now, Orders = new List<OrderedDish>() };
+
+                    col.Insert(table);
+                    col.EnsureIndex(o => o.Id);
+                    return table.Id;
+                }
+                else
+                {
+                    UpdateTableState(chatId, SessionState.Queue);
+                    return col.Find(o => o.ChatId == chatId).FirstOrDefault().Id;
+                }
+            }
+        }
+
+        public void UpdateTableState(long chatId, SessionState state)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
+
+                table.State = state;
+                col.Update(table);
             }
         }
 

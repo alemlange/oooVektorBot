@@ -14,7 +14,7 @@ namespace DataModels
         public int TableNumber { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime OrderPlaced { get; set; }
-        public Dish DishBuffer { get; set; }
+        //public Dish DishBuffer { get; set; }
         public List<OrderedDish> Orders { get;  set; }
         public SessionState State { get; set; }
         public List<StateVarible> StateVaribles { get; set; } 

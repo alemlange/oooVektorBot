@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataModels.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ namespace Brains.Responces
         public long ChatId { get; set; }
 
         public string ResponceText { get; set; }
+
+        public SessionState State { get; set; }
 
         public static Responce UnknownResponce(long chatId)
         {

@@ -40,6 +40,12 @@ namespace Bot.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> WebHook(Update update)
         {
+            var message = update.Message;
+            var chatId = message.Chat.Id;
+            var bot = BotBrains.Instance.Value;
+            var parser = ParserChoser.GetParser(bot.GetState(chatId));
+            var cmd = parser.ParseForCommand(update);
+
             // state reset
             //var service = new TestLiteManagerService();
             //service.UpdateTableState(chatId, SessionState.Unknown);
@@ -47,45 +53,44 @@ namespace Bot.Controllers
 
             if (update.Type == UpdateType.MessageUpdate)
             {
-                var message = update.Message;
-                var chatId = message.Chat.Id;
-                var bot = BotBrains.Instance.Value;
-                var parser = ParserChoser.GetParser(bot.GetState(chatId));
-                var cmd = parser.ParseForCommand(update);
-
                 if (message.Type == MessageType.TextMessage)
                 {
                     switch (cmd)
                     {
                         case CmdTypes.Greetings:
                             {
+                                var responce = bot.Greetings(chatId);
+
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
-                                    bot.Greetings(chatId).ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    responce.ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(responce.State).Keyboard);
                                 break;
                             }
                         case CmdTypes.TableNumber:
                             {
+                                var response = bot.Number(chatId, Convert.ToInt32(message.Text));
+
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
-                                    bot.Number(chatId, Convert.ToInt32(message.Text)).ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    response.ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
                                 break;
                             }
                         case CmdTypes.Menu:
                             {
+                                var response = bot.ShowMenu(chatId);
+
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
-                                    bot.ShowMenu(chatId).ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    response.ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
                                 break;
                             }
                         case CmdTypes.Slash:
                             {
                                 var keyboard = new InlineKeyboardMarkup(new[]
                                 {
-                                    new[] { new InlineKeyboardButton("Описание") },
                                     new[] { new InlineKeyboardButton("Заказать") },
                                     new[] { new InlineKeyboardButton("Вернуться к меню") }
                                 });
@@ -93,15 +98,17 @@ namespace Bot.Controllers
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
                                     bot.GetMenuItem(chatId, update.Message.Text).ResponceText,
-                                    replyMarkup: keyboard);
+                                    replyMarkup: keyboard); // todo
                                 break;
                             }
                         case CmdTypes.Check:
                             {
+                                var responce = bot.ShowCart(chatId);
+
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
-                                    bot.ShowCart(chatId).ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    responce.ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(responce.State).Keyboard);
                                 break;
                             }
                         case CmdTypes.Waiter:
@@ -116,10 +123,14 @@ namespace Bot.Controllers
                         case CmdTypes.Unknown:
                             {
                                 if (bot.DishNames.Contains(message.Text.ToLower()))
+                                {
+                                    var responce = bot.OrderMeal(chatId, message.Text);
+
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
-                                        bot.OrderMeal(chatId, message.Text).ResponceText,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        responce.ResponceText,
+                                        replyMarkup: ParserChoser.GetParser(responce.State).Keyboard);
+                                }
                                 else
                                     await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
                                 break;
@@ -129,14 +140,6 @@ namespace Bot.Controllers
             }
             else if (update.Type == UpdateType.CallbackQueryUpdate)
             {
-                // todo
-                var message = update.Message;
-                var chatId = message.Chat.Id;
-                var bot = BotBrains.Instance.Value;
-                var parser = ParserChoser.GetParser(bot.GetState(chatId));
-                var cmd = parser.ParseForCommand(update);
-                // todo
-
                 var keyboard = new InlineKeyboardMarkup(new[]
                 {
                     new[] // first row

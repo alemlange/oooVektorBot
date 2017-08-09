@@ -7,7 +7,7 @@ using Telegram.Bot.Types;
 
 namespace Bot.CommandParser
 {
-    public class SittedSessionParser :IParser
+    public class SittedSessionParser : IParser
     {
         public IReplyMarkup Keyboard
         {
@@ -21,6 +21,19 @@ namespace Bot.CommandParser
                         new KeyboardButton[] { "Позвать официанта" }
                     }
                 };
+            }
+        }
+
+        public IReplyMarkup ChatButtons
+        {
+            get
+            {
+                return new InlineKeyboardMarkup(
+                    new[]
+                    {
+                        new[] { new InlineKeyboardButton("Заказать") },
+                        new[] { new InlineKeyboardButton("Вернуться к меню") }
+                    });
             }
         }
 

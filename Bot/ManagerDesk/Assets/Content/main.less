@@ -16,6 +16,18 @@
   justify-content: space-between;
   align-items: center;
 
+  .toolbar-top {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      flex-basis: 65%;
+
+      li {
+          margin-right: 25px;
+      }
+  }
+
   .navbar-left-btn {
     display: inline-block;
     color: @color-white;
@@ -171,13 +183,18 @@
             position: absolute;
             top: 5px;
             left: 5px;
+        }
 
-            .btn-save-dishes {
-                width: 50%;
-                margin: 10px auto;
-                background-color: @color-main;
-                color: @color-white;
-            }
+        .btn-save-dishes {
+            display: block;
+            width: 50%;
+            margin: 10px auto;
+            background-color: @color-main;
+            color: @color-white;
+        }
+
+        input {
+            border-radius: 0;
         }
     }
 }

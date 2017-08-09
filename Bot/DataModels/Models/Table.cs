@@ -17,6 +17,7 @@ namespace DataModels
         public Dish DishBuffer { get; set; }
         public List<OrderedDish> Orders { get;  set; }
         public SessionState State { get; set; }
+        public List<StateVarible> StateVaribles { get; set; } 
         public bool HelpNeeded { get; set; }
     }
 }

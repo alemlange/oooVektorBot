@@ -103,5 +103,36 @@ namespace ManagerDesk.Controllers
                 return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
             }
         }
+
+        [HttpGet]
+        public ActionResult Add(string activeSection)
+        {
+            try
+            {
+                //var service = ServiceCreator.GetManagerService();
+                //var curMenu = service.GetMenu(menuId);
+                //var allDishes = service.GetAllDishes();
+                //if (curMenu != null && allDishes != null)
+                //{
+                //    if (allActiveDishes != null)
+                //    {
+                //        var dishesForCurmenu = allDishes.Where(o => allActiveDishes.Contains(o.Id)).ToList();
+                //        curMenu.DishList = dishesForCurmenu;
+                //    }
+                //    else
+                //        curMenu.DishList = new List<Dish>();
+
+                //    service.UpdateMenu(curMenu);
+                //}
+                //else
+                //    throw new ArgumentNullException("Menu or list of dishes not found!");
+
+                return View("DishCardEdditable");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
     }
 }

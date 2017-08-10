@@ -52,19 +52,29 @@ namespace LiteDbService
             {
                 var col = db.GetCollection<Table>("Tables");
 
-                if (col.Find(o => o.ChatId == chatId).Count() == 0)
-                {
+                //if (col.Find(o => o.ChatId == chatId).Count() == 0)
+                //{
                     var table = new Table { Id = Guid.NewGuid(), ChatId = chatId, State = SessionState.Queue, CreatedOn = DateTime.Now, Orders = new List<OrderedDish>() };
 
                     col.Insert(table);
                     col.EnsureIndex(o => o.Id);
                     return table.Id;
-                }
-                else
-                {
-                    UpdateTableState(chatId, SessionState.Queue);
-                    return col.Find(o => o.ChatId == chatId).FirstOrDefault().Id;
-                }
+                //}
+                //else
+                //{
+                //    UpdateTableState(chatId, SessionState.Queue);
+                //    return col.Find(o => o.ChatId == chatId).FirstOrDefault().Id;
+                //}
+            }
+        }
+
+        public Dish GetDish(string dishName)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Dish>("Dishes");
+
+                return col.Find(o => o.SlashName == dishName).FirstOrDefault();
             }
         }
 
@@ -76,6 +86,18 @@ namespace LiteDbService
                 var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
 
                 table.State = state;
+                col.Update(table);
+            }
+        }
+
+        public void SetHelpNeeded(long chatId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
+
+                table.HelpNeeded = true;
                 col.Update(table);
             }
         }

@@ -89,16 +89,12 @@ namespace Bot.Controllers
                             }
                         case CmdTypes.Slash:
                             {
-                                var keyboard = new InlineKeyboardMarkup(new[]
-                                {
-                                    new[] { new InlineKeyboardButton("Заказать") },
-                                    new[] { new InlineKeyboardButton("Вернуться к меню") }
-                                });
+                                var response = bot.GetMenuItem(chatId, update.Message.Text);
 
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
-                                    bot.GetMenuItem(chatId, update.Message.Text).ResponceText,
-                                    replyMarkup: keyboard); // todo
+                                    response.ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
                                 break;
                             }
                         case CmdTypes.Check:
@@ -113,11 +109,12 @@ namespace Bot.Controllers
                             }
                         case CmdTypes.Waiter:
                             {
-                                //await Bot.Api.SendTextMessageAsync(
-                                //    chatId,
-                                //    bot.,
-                                //    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
-                                await Bot.Api.SendTextMessageAsync(chatId, "Официант уже идет");
+                                var response = bot.CallWaiter(chatId);
+
+                                await Bot.Api.SendTextMessageAsync(
+                                    chatId,
+                                    response.ResponceText,
+                                    replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
                                 break;
                             }
                         case CmdTypes.Unknown:

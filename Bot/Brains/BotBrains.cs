@@ -154,16 +154,33 @@ namespace Brains
             }  
         }
 
-        public Responce GetMenuItem(long chatId, string dishId)
+        public Responce CallWaiter(long chatId)
         {
             try
             {
-                //if (_service.GetTable(chatId) != Guid.Empty)
+                _service.SetHelpNeeded(chatId);
+
+                return new Responce { ChatId = chatId, ResponceText = "Официант уже идет" };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce GetMenuItem(long chatId, string dishName)
+        {
+            try
+            {
+                var dish = _service.GetDish(dishName);
+
+                return new Responce
                 {
-                    return new Responce { ChatId = chatId, ResponceText = "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari" };
-                }
-                //else
-                //    throw new Exception("Не получилось создать столик.");
+                    ChatId = chatId,
+                    ResponceText = "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari" + Environment.NewLine +
+                    dish.Name + Environment.NewLine +
+                    dish.Description
+                };
             }
             catch (Exception)
             {

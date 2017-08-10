@@ -7,20 +7,18 @@ using Telegram.Bot.Types;
 
 namespace Bot.CommandParser
 {
-    public class SittedSessionParser : IParser
+    public class DishChoosingSessionParser : IParser
     {
         public IReplyMarkup Keyboard
         {
             get
             {
-                return new ReplyKeyboardMarkup
-                {
-                    Keyboard = new KeyboardButton[][]
+                return new InlineKeyboardMarkup(
+                    new[]
                     {
-                        new KeyboardButton[] { "Меню", "Счет" },
-                        new KeyboardButton[] { "Позвать официанта" }
-                    }
-                };
+                        new[] { new InlineKeyboardButton("Заказать") },
+                        new[] { new InlineKeyboardButton("Вернуться к меню") }
+                    });
             }
         }
 

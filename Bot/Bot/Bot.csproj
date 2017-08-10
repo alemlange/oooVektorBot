@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="CommandParser\DishChoosingSessionParser.cs" />
     <Compile Include="CommandParser\Enums\CmdTypes.cs" />
     <Compile Include="CommandParser\Interfaces\IParser.cs" />
     <Compile Include="CommandParser\ParserChoser.cs" />

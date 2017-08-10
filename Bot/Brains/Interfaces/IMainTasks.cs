@@ -11,6 +11,6 @@ namespace Brains.Interfaces
     {
         Responce ShowMenu(long chatId);
         Responce ShowCart(long chatId);
-        Responce OrderMeal(long chatId, string dishName);
+        Responce OrderMeal(long chatId, string dishName = "");
     }
 }

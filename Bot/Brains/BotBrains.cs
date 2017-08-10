@@ -41,13 +41,20 @@ namespace Brains
                 return SessionState.Unknown;
         }
 
-        public Responce OrderMeal(long chatId, string dishName)
+        public Responce OrderMeal(long chatId, string dishName = "")
         {
             try
             {
                 if (GetState(chatId) == SessionState.Sitted)
                 {
                     var table = _service.FindTable(chatId);
+
+                    if (string.IsNullOrWhiteSpace(dishName))
+                    {
+                        var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
+                        dishName = lastDishName.Value.ToString();
+                    }
+
                     var dish = _service.FindDish(dishName);
        
                     _service.OrderDish(table.Id,new DataModels.OrderedDish { DishFromMenu = dish});
@@ -96,6 +103,27 @@ namespace Brains
         }
 
         public Responce ShowMenu(long chatId)
+        {
+            try
+            {
+                var menu = _service.GetAllMenus().First();
+
+                var respText = menu.MenuName + Environment.NewLine;
+                foreach (var dish in menu.DishList)
+                {
+                    respText += dish.Name + " " + dish.Price + Environment.NewLine;
+                }
+                respText += "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
+
+                return new Responce { ResponceText = respText };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce ShowMenuOnPage(long chatId) // todo
         {
             try
             {

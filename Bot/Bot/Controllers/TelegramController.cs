@@ -164,6 +164,24 @@ namespace Bot.Controllers
                         "/Торт «Медовик»\n" +
                         "/Торт «Прага»", replyMarkup: keyboard);
                 }
+                else if (update.CallbackQuery.Data.ToLower().Contains("Добавить в заказ"))
+                {
+                    var response = bot.OrderMeal(chatId);
+
+                    await Bot.Api.SendTextMessageAsync(
+                        chatId,
+                        response.ResponceText,
+                        replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
+                }
+                else if (update.CallbackQuery.Data.ToLower().Contains("Назад"))
+                {
+                    var response = bot.ShowMenuOnPage(chatId);
+
+                    await Bot.Api.SendTextMessageAsync(
+                        chatId,
+                        response.ResponceText,
+                        replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
+                }
             }
 
             return Ok();

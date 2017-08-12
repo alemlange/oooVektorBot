@@ -25,20 +25,17 @@ namespace Bot.CommandParser
         {
             var msgText = update.Message.Text.ToLower();
 
-            switch (msgText)
+            if (msgText == "меню")
             {
-                case "меню":
-                    {
-                        return CmdTypes.Menu;
-                    }
-                case "привет":
-                    {
-                        return CmdTypes.Greetings;
-                    }
-                default:
-                    {
-                        return CmdTypes.Unknown;
-                    }
+                return CmdTypes.Menu;
+            }
+            else if (msgText == "привет")
+            {
+                return CmdTypes.Greetings;
+            }
+            else
+            {
+                return CmdTypes.Unknown;
             }
         }
     }

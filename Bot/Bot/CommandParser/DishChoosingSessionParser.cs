@@ -31,7 +31,7 @@ namespace Bot.CommandParser
                     {
                         return CmdTypes.Menu;
                     }
-                case "официант":
+                case "позвать официанта":
                     {
                         return CmdTypes.Waiter;
                     }

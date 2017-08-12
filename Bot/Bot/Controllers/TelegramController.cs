@@ -32,7 +32,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://d9723f85.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://a4156fa0.ngrok.io/Telegram/WebHook").Wait();
 
             return "Ok" ;
         }

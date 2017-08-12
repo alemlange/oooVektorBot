@@ -94,7 +94,12 @@ namespace Brains
                     respText = "Вы пока еще ничего не заказали :(";
                 }
                 
-                return new Responce { ChatId = chatId, ResponceText = respText };
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = respText,
+                    State = SessionState.Sitted
+                };
             }
             else
             {
@@ -166,7 +171,12 @@ namespace Brains
                 {
                     _service.UpdateTableState(chatId, SessionState.Sitted);
 
-                    return new Responce { ChatId = chatId, ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам." };
+                    return new Responce
+                    {
+                        ChatId = chatId,
+                        ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
+                        State = SessionState.Sitted
+                    };
                 }
                 else
                 {
@@ -184,8 +194,15 @@ namespace Brains
             try
             {
                 if (_service.GetTable(chatId) != Guid.Empty)
-                { 
-                    return new Responce { ChatId = chatId, ResponceText = "Привет! За каким столиком вы сидите?" };
+                {
+                    _service.UpdateTableState(chatId, SessionState.Queue);
+
+                    return new Responce
+                    {
+                        ChatId = chatId,
+                        ResponceText = "Привет! За каким столиком вы сидите?",
+                        State = SessionState.Queue
+                    };
                 }
                 else
                     throw new Exception("Не получилось создать столик.");
@@ -202,7 +219,12 @@ namespace Brains
             {
                 _service.SetHelpNeeded(chatId);
 
-                return new Responce { ChatId = chatId, ResponceText = "Официант уже идет" };
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Официант уже идет",
+                    State = SessionState.Sitted
+                };
             }
             catch (Exception)
             {

@@ -78,6 +78,27 @@ namespace LiteDbService
             }
         }
 
+        public void AddLastDishToTable(long chatId, string dishName)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var dishCol = db.GetCollection<Dish>("Dishes");
+                var dish = dishCol.Find(o => o.SlashName == dishName).FirstOrDefault();
+
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId).FirstOrDefault();
+
+                var stateVarible = new StateVarible();
+                stateVarible.Key = "LastDish";
+                stateVarible.Value = dish.SlashName;
+
+                table.StateVaribles.RemoveAll(s => s.Key == "LastDish");
+                table.StateVaribles.Add(stateVarible);
+
+                tableCol.Update(table);
+            }
+        }
+
         public void UpdateTableState(long chatId, SessionState state)
         {
             using (var db = new LiteDatabase(CurrentDb))

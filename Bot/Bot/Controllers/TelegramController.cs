@@ -139,14 +139,14 @@ namespace Bot.Controllers
             {
                 var keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    new[] // first row
+                    new[]
                     {
-                        new InlineKeyboardButton("Prev 😂"),
-                        new InlineKeyboardButton("Next 😉"),
+                        new InlineKeyboardButton(" << "),
+                        new InlineKeyboardButton(" >> "),
                     }
                 });
 
-                if (update.CallbackQuery.Data.ToLower().Contains("<<"))
+                if (update.CallbackQuery.Data.ToLower().Contains(" << "))
                 {
                     await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId,
                         "/Капучино\n" +
@@ -155,7 +155,7 @@ namespace Bot.Controllers
                         "/Паста «Карбонара»\n" +
                         "/Салат по-итальянски", replyMarkup: keyboard);
                 }
-                else if (update.CallbackQuery.Data.ToLower().Contains(">>"))
+                else if (update.CallbackQuery.Data.ToLower().Contains(" >> "))
                 {
                     await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId,
                         "/Блинчики домашние\n" +
@@ -173,7 +173,7 @@ namespace Bot.Controllers
                         response.ResponceText,
                         replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
                 }
-                else if (update.CallbackQuery.Data.ToLower().Contains("Назад"))
+                else if (update.CallbackQuery.Data.ToLower().Contains("Вернуться к меню"))
                 {
                     var response = bot.ShowMenuOnPage(chatId);
 

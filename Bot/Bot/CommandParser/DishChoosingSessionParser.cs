@@ -16,7 +16,7 @@ namespace Bot.CommandParser
                 return new InlineKeyboardMarkup(
                     new[]
                     {
-                        new[] { new InlineKeyboardButton("Заказать") },
+                        new[] { new InlineKeyboardButton("Добавить в заказ") },
                         new[] { new InlineKeyboardButton("Вернуться к меню") }
                     });
             }

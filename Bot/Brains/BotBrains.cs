@@ -130,6 +130,20 @@ namespace Brains
                 var menu = _service.GetAllMenus().First();
 
                 var respText = menu.MenuName + Environment.NewLine;
+
+                int page = 0;
+
+                var table = _service.FindTable(chatId);
+
+                var lastPage = table.StateVaribles.Where(t => t.Key == "LastPage").FirstOrDefault();
+
+                if ((int)lastPage.Value > 0)
+                {
+                    page = (int)lastPage.Value;
+                }
+
+                var dishes = menu.DishList.Skip((page-1)*8); //8 items per page
+
                 foreach (var dish in menu.DishList)
                 {
                     respText += dish.Name + " " + dish.Price + Environment.NewLine;
@@ -200,7 +214,8 @@ namespace Brains
         {
             try
             {
-                var dish = _service.GetDish(dishName);
+                var dish = _service.GetDish(dishName); // to do get dish from memory
+                _service.AddLastDishToTable(chatId, dishName);
 
                 return new Responce
                 {

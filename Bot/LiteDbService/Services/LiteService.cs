@@ -54,7 +54,15 @@ namespace LiteDbService
 
                 //if (col.Find(o => o.ChatId == chatId).Count() == 0)
                 //{
-                    var table = new Table { Id = Guid.NewGuid(), ChatId = chatId, State = SessionState.Queue, CreatedOn = DateTime.Now, Orders = new List<OrderedDish>() };
+                    var table = new Table
+                    {
+                        Id = Guid.NewGuid(),
+                        ChatId = chatId,
+                        State = SessionState.Queue,
+                        CreatedOn = DateTime.Now,
+                        Orders = new List<OrderedDish>(),
+                        StateVaribles = new List<StateVarible>()
+                    };
 
                     col.Insert(table);
                     col.EnsureIndex(o => o.Id);
@@ -102,7 +110,10 @@ namespace LiteDbService
                 stateVarible.Key = "LastDish";
                 stateVarible.Value = dish.SlashName;
 
-                table.StateVaribles.RemoveAll(s => s.Key == "LastDish");
+                if (table.StateVaribles != null)
+                {
+                    table.StateVaribles.RemoveAll(s => s.Key == "LastDish");
+                }
                 table.StateVaribles.Add(stateVarible);
 
                 tableCol.Update(table);
@@ -116,8 +127,19 @@ namespace LiteDbService
                 var col = db.GetCollection<Table>("Tables");
                 var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
 
-                table.State = state;
-                col.Update(table);
+                if (table != null)
+                {
+                    table.State = state;
+                    col.Update(table);
+                }
+            }
+        }
+
+        public void RemoveAllTables()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                db.DropCollection("Tables");
             }
         }
 

@@ -11,6 +11,7 @@ namespace DataModels.Enums
         Unknown,
         Queue,
         Sitted,
+        DishChoosing,
         OrderingDish,
         Closed,
         Deactivated

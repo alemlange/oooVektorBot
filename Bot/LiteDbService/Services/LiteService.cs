@@ -117,8 +117,11 @@ namespace LiteDbService
                 var col = db.GetCollection<Table>("Tables");
                 var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
 
-                table.State = state;
-                col.Update(table);
+                if (table != null)
+                {
+                    table.State = state;
+                    col.Update(table);
+                }
             }
         }
 

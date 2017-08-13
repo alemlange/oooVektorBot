@@ -45,7 +45,7 @@ namespace Brains
         {
             try
             {
-                if (GetState(chatId) == SessionState.Sitted)
+                if (GetState(chatId) == SessionState.DishChoosing)
                 {
                     var table = _service.FindTable(chatId);
 
@@ -74,10 +74,12 @@ namespace Brains
 
         public Responce ShowCart(long chatId)
         {
-            if (GetState(chatId) == SessionState.Sitted)
-            {
+            //if (GetState(chatId) == SessionState.Sitted)
+            //{
+                _service.UpdateTableState(chatId, SessionState.Sitted);
                 var table = _service.FindTable(chatId);
                 var respText = "";
+
                 if (table.Orders.Any())
                 {
                     var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
@@ -100,17 +102,18 @@ namespace Brains
                     ResponceText = respText,
                     State = SessionState.Sitted
                 };
-            }
-            else
-            {
-                return Responce.UnknownResponce(chatId);
-            }
+            //}
+            //else
+            //{
+            //    return Responce.UnknownResponce(chatId);
+            //}
         }
 
         public Responce ShowMenu(long chatId)
         {
             try
             {
+                _service.UpdateTableState(chatId, SessionState.Sitted);
                 var menu = _service.GetAllMenus().First();
 
                 var respText = menu.MenuName + Environment.NewLine;
@@ -132,6 +135,7 @@ namespace Brains
         {
             try
             {
+                _service.UpdateTableState(chatId, SessionState.Sitted);
                 var menu = _service.GetAllMenus().First();
 
                 var respText = menu.MenuName + Environment.NewLine;
@@ -142,7 +146,7 @@ namespace Brains
 
                 var lastPage = table.StateVaribles.Where(t => t.Key == "LastPage").FirstOrDefault();
 
-                if ((int)lastPage.Value > 0)
+                if (lastPage != null && (int)lastPage.Value > 0)
                 {
                     page = (int)lastPage.Value;
                 }
@@ -151,7 +155,7 @@ namespace Brains
 
                 foreach (var dish in menu.DishList)
                 {
-                    respText += dish.Name + " " + dish.Price + Environment.NewLine;
+                    respText += dish.Name + " " + dish.Price + " " + dish.SlashName + Environment.NewLine;
                 }
                 respText += "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
 
@@ -243,7 +247,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = dish.Name + Environment.NewLine + dish.Description + Environment.NewLine
+                    ResponceText = dish.Name + Environment.NewLine + dish.Description + Environment.NewLine +
                     "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari"
                 };
             }

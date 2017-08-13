@@ -44,19 +44,14 @@ namespace Bot.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> WebHook(Update update)
         {
-            var message = update.Message;
-            var chatId = message.Chat.Id;
-            var bot = BotBrains.Instance.Value;
-            var parser = ParserChoser.GetParser(bot.GetState(chatId));
-            var cmd = parser.ParseForCommand(update);
-
-            // state reset
-            //var service = new TestLiteManagerService();
-            //service.UpdateTableState(chatId, SessionState.Unknown);
-            // state reset
-
             if (update.Type == UpdateType.MessageUpdate)
             {
+                var message = update.Message;
+                var chatId = message.Chat.Id;
+                var bot = BotBrains.Instance.Value;
+                var parser = ParserChoser.GetParser(bot.GetState(chatId));
+                var cmd = parser.ParseForCommand(update);
+
                 if (message.Type == MessageType.TextMessage)
                 {
                     switch (cmd)
@@ -130,7 +125,7 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard); // to do what keyboard return?
                                 }
                                 else
                                     await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
@@ -141,6 +136,12 @@ namespace Bot.Controllers
             }
             else if (update.Type == UpdateType.CallbackQueryUpdate)
             {
+                //var message = update.Message;
+                var chatId = update.CallbackQuery.From.Id;
+                var bot = BotBrains.Instance.Value;
+                var parser = ParserChoser.GetParser(bot.GetState(chatId));
+                //var cmd = parser.ParseForCommand(update);
+
                 var keyboard = new InlineKeyboardMarkup(new[]
                 {
                     new[]
@@ -168,7 +169,7 @@ namespace Bot.Controllers
                         "/Торт «Медовик»\n" +
                         "/Торт «Прага»", replyMarkup: keyboard);
                 }
-                else if (update.CallbackQuery.Data.ToLower().Contains("Добавить в заказ"))
+                else if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
                 {
                     var response = bot.OrderMeal(chatId);
 
@@ -177,7 +178,7 @@ namespace Bot.Controllers
                         response.ResponceText,
                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                 }
-                else if (update.CallbackQuery.Data.ToLower().Contains("Вернуться к меню"))
+                else if (update.CallbackQuery.Data.ToLower().Contains("вернуться к меню"))
                 {
                     var response = bot.ShowMenuOnPage(chatId);
 

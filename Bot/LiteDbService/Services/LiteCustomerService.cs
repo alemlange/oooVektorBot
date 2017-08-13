@@ -43,7 +43,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Menu>("Menus");
-                var dishList = col.FindAll().First().DishList.Where(o => o.Name.ToLower() == dishName.ToLower());
+                var dishList = col.FindAll().First().DishList.Where(o => o.SlashName.ToLower() == dishName.ToLower());
                 if (dishList.Any())
                 {
                     return dishList.First();

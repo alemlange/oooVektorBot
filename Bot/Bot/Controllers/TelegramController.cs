@@ -32,7 +32,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://a4156fa0.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://2f323672.ngrok.io/Telegram/WebHook").Wait();
 
             return "Ok" ;
         }
@@ -64,7 +64,7 @@ namespace Bot.Controllers
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
                                     responce.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(responce.State).Keyboard);
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 break;
                             }
                         case CmdTypes.TableNumber:
@@ -74,7 +74,7 @@ namespace Bot.Controllers
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
                                     response.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 break;
                             }
                         case CmdTypes.Menu:
@@ -84,7 +84,7 @@ namespace Bot.Controllers
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
                                     response.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 break;
                             }
                         case CmdTypes.Slash:
@@ -94,7 +94,7 @@ namespace Bot.Controllers
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
                                     response.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 break;
                             }
                         case CmdTypes.Check:
@@ -104,7 +104,7 @@ namespace Bot.Controllers
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
                                     responce.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(responce.State).Keyboard);
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 break;
                             }
                         case CmdTypes.Waiter:
@@ -114,7 +114,7 @@ namespace Bot.Controllers
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
                                     response.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
+                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 break;
                             }
                         case CmdTypes.Unknown:
@@ -126,7 +126,7 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
-                                        replyMarkup: ParserChoser.GetParser(responce.State).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 }
                                 else
                                     await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
@@ -171,7 +171,7 @@ namespace Bot.Controllers
                     await Bot.Api.SendTextMessageAsync(
                         chatId,
                         response.ResponceText,
-                        replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
+                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                 }
                 else if (update.CallbackQuery.Data.ToLower().Contains("Вернуться к меню"))
                 {
@@ -180,7 +180,7 @@ namespace Bot.Controllers
                     await Bot.Api.SendTextMessageAsync(
                         chatId,
                         response.ResponceText,
-                        replyMarkup: ParserChoser.GetParser(response.State).Keyboard);
+                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                 }
             }
 

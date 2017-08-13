@@ -74,7 +74,7 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public JsonResult RenewMenu(Guid menuId, List<Guid> allActiveDishes)
+        public JsonResult SaveMenu(Guid menuId, List<Guid> allActiveDishes)
         {
             try
             {
@@ -128,6 +128,23 @@ namespace ManagerDesk.Controllers
                 //    throw new ArgumentNullException("Menu or list of dishes not found!");
 
                 return View("DishCardEdditable");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult NewDish(string name, string slashName, string price, string description)
+        {
+            try
+            {
+                var dish = new Dish { Name = name, SlashName = slashName, Description = description, Price = Convert.ToDecimal(price) };
+                var service = ServiceCreator.GetManagerService();
+                service.CreateNewDish(dish);
+
+                return Json(new { isAuthorized = true, isSuccess = true });
             }
             catch (Exception ex)
             {

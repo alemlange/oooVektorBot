@@ -165,6 +165,7 @@
     <Content Include="Assets\Content\main.css" />
     <Content Include="Assets\Content\media.css" />
     <Content Include="Assets\Scripts\libs\equalheights.js" />
+    <Content Include="Assets\Scripts\dishform.js" />
     <Content Include="Assets\Scripts\toolbar.js" />
     <Content Include="Assets\Scripts\navigation.js" />
     <Content Include="favicon.ico" />

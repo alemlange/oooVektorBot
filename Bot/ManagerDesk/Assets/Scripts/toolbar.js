@@ -9,5 +9,4 @@ $(document).ready(function () {
             $(".js-table-body").html(data);
         });
     });
-
 });

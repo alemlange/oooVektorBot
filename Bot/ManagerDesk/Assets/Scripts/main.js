@@ -51,4 +51,16 @@ $(document).ready(function () {
             $(".js-menu-section").trigger("click");
         });
     });
+
+    $(".js-table-body").on("dblclick", ".js-dish-card", function (e) {
+
+        e.preventDefault();
+        var container = $(this);
+        var edittarget = container.data("target");
+        var dishId = container.data("itemid");
+
+        $.get(edittarget, { dishId: dishId }).done(function (data) {
+            container.parent().replaceWith(data);
+        });
+    });
 });

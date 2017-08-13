@@ -127,7 +127,7 @@ namespace ManagerDesk.Controllers
                 //else
                 //    throw new ArgumentNullException("Menu or list of dishes not found!");
 
-                return View("DishCardEdditable");
+                return View("DishCardEdditable", new DishViewModel());
             }
             catch (Exception ex)
             {
@@ -136,13 +136,20 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewDish(string name, string slashName, string price, string description)
+        public ActionResult EditDish(Guid dishId, string name, string slashName, string price, string description)
         {
             try
             {
-                var dish = new Dish { Name = name, SlashName = slashName, Description = description, Price = Convert.ToDecimal(price) };
                 var service = ServiceCreator.GetManagerService();
-                service.CreateNewDish(dish);
+                if (dishId == Guid.Empty)
+                {
+                    var dish = new Dish { Name = name, SlashName = slashName, Description = description, Price = Convert.ToDecimal(price) };
+                    service.CreateNewDish(dish);
+                }
+                else
+                {
+                    service.UpdateDish(new Dish { Id = dishId, Name = name, SlashName = slashName, Description = description, Price = Convert.ToDecimal(price) });
+                }
 
                 return Json(new { isAuthorized = true, isSuccess = true });
             }
@@ -151,5 +158,31 @@ namespace ManagerDesk.Controllers
                 return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
             }
         }
+
+        [HttpGet]
+        public ActionResult EditDish(Guid dishId)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService();
+                
+                var dish = service.GetDish(dishId);
+                if (dish != null)
+                {
+                    Mapper.Initialize(cfg => cfg.CreateMap<Dish, DishViewModel>());
+                    var model = Mapper.Map<DishViewModel>(dish);
+
+                    return View("DishCardEdditable", model);
+                }
+                else
+                    throw new Exception("Dish not found!");
+                
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+        
     }
 }

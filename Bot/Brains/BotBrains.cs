@@ -116,7 +116,7 @@ namespace Brains
                 var respText = menu.MenuName + Environment.NewLine;
                 foreach (var dish in menu.DishList)
                 {
-                    respText += dish.Name + " " + dish.Price + Environment.NewLine;
+                    respText += dish.Name + " " + dish.Price + " " + dish.SlashName + Environment.NewLine;
                 }
                 respText += "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
 
@@ -238,13 +238,13 @@ namespace Brains
             {
                 var dish = _service.GetDish(dishName); // to do get dish from memory
                 _service.AddLastDishToTable(chatId, dishName);
+                _service.UpdateTableState(chatId, SessionState.DishChoosing);
 
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari" + Environment.NewLine +
-                    dish.Name + Environment.NewLine +
-                    dish.Description
+                    ResponceText = dish.Name + Environment.NewLine + dish.Description + Environment.NewLine
+                    "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari"
                 };
             }
             catch (Exception)

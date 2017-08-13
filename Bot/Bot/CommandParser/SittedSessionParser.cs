@@ -43,7 +43,14 @@ namespace Bot.CommandParser
                     }
                 default:
                     {
-                        return CmdTypes.Unknown;
+                        if (msgText.StartsWith("/"))
+                        {
+                            return CmdTypes.Slash;
+                        }
+                        else
+                        {
+                            return CmdTypes.Unknown;
+                        }
                     }
             }
         }

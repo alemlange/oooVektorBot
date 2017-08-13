@@ -1,6 +1,6 @@
 ﻿@model ManagerDesk.ViewModels.DishViewModel
 <div class="col-md-6 col-lg-3">
-    <div class="info-item">
+    <div class="info-item js-dish-card" data-target="@Url.Action("EditDish","Manager")" data-itemid="@Model.Id">
         <h3 class="info-item-heading">@Model.Name</h3>
         <h4 class="price-heading">@Model.Price р.</h4>
         <div class="dish-description">@Model.Description</div>

@@ -97,8 +97,27 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Menu>("Menus");
-                var curMenu = col.Find(o => o.Id == menu.Id).FirstOrDefault();
+                //var curMenu = col.Find(o => o.Id == menu.Id).FirstOrDefault();
                 col.Update(menu);
+            }
+        }
+
+        public void UpdateDish(Dish dish)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var colDish = db.GetCollection<Dish>("Dishes");
+                colDish.Update(dish);
+
+                var colMenu = db.GetCollection<Menu>("Menus");
+                var menus = colMenu.FindAll();
+                menus = menus.Where(o => o.DishList.Select(d => d.Id).Contains(dish.Id));
+                foreach (var menu in menus)
+                {
+                    menu.DishList.RemoveAll(o => o.Id == dish.Id);
+                    menu.DishList.Add(dish);
+                    colMenu.Update(menu);
+                }
             }
         }
     }

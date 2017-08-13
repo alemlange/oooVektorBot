@@ -45,8 +45,8 @@ namespace Brains
         {
             try
             {
-                if (GetState(chatId) == SessionState.DishChoosing)
-                {
+                //if (GetState(chatId) == SessionState.DishChoosing)
+                //{
                     var table = _service.FindTable(chatId);
 
                     if (string.IsNullOrWhiteSpace(dishName))
@@ -58,13 +58,14 @@ namespace Brains
                     var dish = _service.FindDish(dishName);
        
                     _service.OrderDish(table.Id,new DataModels.OrderedDish { DishFromMenu = dish});
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
 
                     return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
-                }
-                else
-                {
-                    return Responce.UnknownResponce(chatId);
-                }
+                //}
+                //else
+                //{
+                //    return Responce.UnknownResponce(chatId);
+                //}
             }
             catch (Exception)
             {
@@ -114,7 +115,7 @@ namespace Brains
             try
             {
                 _service.UpdateTableState(chatId, SessionState.Sitted);
-                var menu = _service.GetAllMenus().First();
+                var menu = _service.GetAllMenus().First(); // to do
 
                 var respText = menu.MenuName + Environment.NewLine;
                 foreach (var dish in menu.DishList)
@@ -242,7 +243,7 @@ namespace Brains
             {
                 var dish = _service.GetDish(dishName); // to do get dish from memory
                 _service.AddLastDishToTable(chatId, dishName);
-                _service.UpdateTableState(chatId, SessionState.DishChoosing);
+                //_service.UpdateTableState(chatId, SessionState.DishChoosing);
 
                 return new Responce
                 {

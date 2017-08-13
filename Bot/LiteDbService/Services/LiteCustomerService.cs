@@ -38,12 +38,13 @@ namespace LiteDbService
             }
         }
 
-        public Dish FindDish(string dishName)
+        public Dish FindDish(string dishSlashName)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Menu>("Menus");
-                var dishList = col.FindAll().First().DishList.Where(o => o.SlashName.ToLower() == dishName.ToLower());
+                var dishList = col.FindAll().First().DishList.Where(o => o.SlashName == dishSlashName);
+
                 if (dishList.Any())
                 {
                     return dishList.First();

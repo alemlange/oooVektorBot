@@ -13,6 +13,17 @@ namespace Bot.CommandParser
         {
             get
             {
+                return new ReplyKeyboardMarkup
+                {
+                    Keyboard = new KeyboardButton[][]
+                    {
+                        new KeyboardButton[] { "Меню", "Счет" },
+                        new KeyboardButton[] { "Позвать официанта" }
+                    }
+                };
+            }
+            /*
+            {
                 return new InlineKeyboardMarkup(
                     new[]
                     {
@@ -20,6 +31,7 @@ namespace Bot.CommandParser
                         new[] { new InlineKeyboardButton("Вернуться к меню") }
                     });
             }
+            */
         }
 
         public CmdTypes ParseForCommand(Update update)

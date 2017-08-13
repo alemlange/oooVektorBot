@@ -88,12 +88,19 @@ namespace Bot.Controllers
                             }
                         case CmdTypes.Slash:
                             {
+                                var keyboard = new InlineKeyboardMarkup(
+                                    new[]
+                                    {
+                                        new[] { new InlineKeyboardButton("Добавить в заказ") },
+                                        new[] { new InlineKeyboardButton("Вернуться к меню") }
+                                    });
+
                                 var response = bot.GetMenuItem(chatId, update.Message.Text);
 
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
                                     response.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    replyMarkup: keyboard);
                                 break;
                             }
                         case CmdTypes.Check:
@@ -118,17 +125,7 @@ namespace Bot.Controllers
                             }
                         case CmdTypes.Unknown:
                             {
-                                if (bot.DishNames.Contains(message.Text.ToLower()))
-                                {
-                                    var responce = bot.OrderMeal(chatId, message.Text);
-
-                                    await Bot.Api.SendTextMessageAsync(
-                                        chatId,
-                                        responce.ResponceText,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard); // to do what keyboard return?
-                                }
-                                else
-                                    await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
+                                await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
                                 break;
                             }
                     }

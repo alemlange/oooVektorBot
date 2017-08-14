@@ -32,7 +32,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://882ae9b1.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://419087ed.ngrok.io/Telegram/WebHook").Wait();
 
             // remove all tables
             var service = new TestLiteManagerService();
@@ -78,11 +78,24 @@ namespace Bot.Controllers
                             }
                         case CmdTypes.Menu:
                             {
-                                var response = bot.ShowMenu(chatId);
+                                var keyboard = new InlineKeyboardMarkup(
+                                    new[]
+                                    {
+                                        new InlineKeyboardButton(" << "),
+                                        new InlineKeyboardButton(" >> ")
+                                    });
+
+                                //var response = bot.ShowMenu(chatId);
+                                var response = bot.ShowMenuOnPage(chatId);
+
+                                Message x = await Bot.Api.SendTextMessageAsync(
+                                    chatId,
+                                    response.ResponceText,
+                                    replyMarkup: keyboard);
 
                                 await Bot.Api.SendTextMessageAsync(
                                     chatId,
-                                    response.ResponceText,
+                                    "Хотите чтонибудь из меню? Просто кликните по нему!",
                                     replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                 break;
                             }
@@ -133,11 +146,10 @@ namespace Bot.Controllers
             }
             else if (update.Type == UpdateType.CallbackQueryUpdate)
             {
-                //var message = update.Message;
                 var chatId = update.CallbackQuery.From.Id;
+                var messageId = update.CallbackQuery.Message.MessageId;
                 var bot = BotBrains.Instance.Value;
                 var parser = ParserChoser.GetParser(bot.GetState(chatId));
-                //var cmd = parser.ParseForCommand(update);
 
                 var keyboard = new InlineKeyboardMarkup(new[]
                 {
@@ -150,21 +162,23 @@ namespace Bot.Controllers
 
                 if (update.CallbackQuery.Data.ToLower().Contains(" << "))
                 {
-                    await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId,
-                        "/Капучино\n" +
-                        "/Латте\n" +
-                        "/Мясная лазанья\n" +
-                        "/Паста «Карбонара»\n" +
-                        "/Салат по-итальянски", replyMarkup: keyboard);
+                    var response = bot.ShowMenuOnPage(chatId);
+
+                    await Bot.Api.EditMessageTextAsync(
+                        chatId,
+                        messageId,
+                        response.ResponceText,
+                        replyMarkup: keyboard);
                 }
                 else if (update.CallbackQuery.Data.ToLower().Contains(" >> "))
                 {
-                    await Bot.Api.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId,
-                        "/Блинчики домашние\n" +
-                        "/Блинчики с творогом\n" +
-                        "/«Наполеон» с клубникой\n" +
-                        "/Торт «Медовик»\n" +
-                        "/Торт «Прага»", replyMarkup: keyboard);
+                    var response = bot.ShowMenuOnPage(chatId);
+
+                    await Bot.Api.EditMessageTextAsync(
+                        chatId,
+                        messageId,
+                        response.ResponceText,
+                        replyMarkup: keyboard);
                 }
                 else if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
                 {

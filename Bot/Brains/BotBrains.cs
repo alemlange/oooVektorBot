@@ -116,11 +116,13 @@ namespace Brains
             {
                 _service.UpdateTableState(chatId, SessionState.Sitted);
                 var menu = _service.GetAllMenus().First(); // to do
+                int dishNum = 0;
 
                 var respText = menu.MenuName + Environment.NewLine;
+
                 foreach (var dish in menu.DishList)
                 {
-                    respText += dish.Name + " " + dish.Price + " " + dish.SlashName + Environment.NewLine;
+                    respText += (dishNum+=1) + ". " + dish.Name + " " + dish.Price + "р. " + dish.SlashName + Environment.NewLine;
                 }
                 respText += "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
 
@@ -136,29 +138,33 @@ namespace Brains
         {
             try
             {
-                _service.UpdateTableState(chatId, SessionState.Sitted);
+                //_service.UpdateTableState(chatId, SessionState.Sitted);
                 var menu = _service.GetAllMenus().First();
 
-                var respText = menu.MenuName + Environment.NewLine;
+                var respText = menu.MenuName + Environment.NewLine + Environment.NewLine;
 
+                int dishNum = 0;
                 int page = 0;
 
                 var table = _service.FindTable(chatId);
 
-                var lastPage = table.StateVaribles.Where(t => t.Key == "LastPage").FirstOrDefault();
-
-                if (lastPage != null && (int)lastPage.Value > 0)
+                if (table != null)
                 {
-                    page = (int)lastPage.Value;
+                    var lastPage = table.StateVaribles.Where(t => t.Key == "LastPage").FirstOrDefault();
+
+                    if (lastPage != null && (int)lastPage.Value > 0)
+                    {
+                        page = (int)lastPage.Value;
+                    }
                 }
 
-                var dishes = menu.DishList.Skip((page-1)*8); //8 items per page
+                var dishes = menu.DishList.Skip(page*8).Take(8); //8 items per page
 
-                foreach (var dish in menu.DishList)
+                foreach (var dish in dishes)
                 {
-                    respText += dish.Name + " " + dish.Price + " " + dish.SlashName + Environment.NewLine;
+                    respText += (dishNum += 1) + ". " + dish.Name + " " + dish.Price + "р. " + dish.SlashName + Environment.NewLine;
                 }
-                respText += "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
+                //respText += Environment.NewLine + "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
 
                 return new Responce { ResponceText = respText };
             }

@@ -32,7 +32,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://419087ed.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://f354cfbf.ngrok.io/Telegram/WebHook").Wait();
 
             // remove all tables
             var service = new TestLiteManagerService();
@@ -78,15 +78,33 @@ namespace Bot.Controllers
                             }
                         case CmdTypes.Menu:
                             {
-                                var keyboard = new InlineKeyboardMarkup(
-                                    new[]
-                                    {
-                                        new InlineKeyboardButton(" << "),
-                                        new InlineKeyboardButton(" >> ")
-                                    });
+                                var keyboard = new InlineKeyboardMarkup();
 
                                 //var response = bot.ShowMenu(chatId);
                                 var response = bot.ShowMenuOnPage(chatId);
+
+                                if (response.PageCount > 1)
+                                {
+                                    InlineKeyboardButton prev = new InlineKeyboardButton(" << ");
+                                    InlineKeyboardButton next = new InlineKeyboardButton(" >> ");
+
+                                    if (response.Page > 1)
+                                    {
+                                        prev = new InlineKeyboardButton((response.Page - 1) + " << ");
+                                    }
+
+                                    if (response.Page < response.PageCount)
+                                    {
+                                        next = new InlineKeyboardButton(" >> " + (response.Page + 1));
+                                    }
+
+                                    keyboard = new InlineKeyboardMarkup(
+                                    new[]
+                                    {
+                                        prev,
+                                        next
+                                    });
+                                }
 
                                 Message x = await Bot.Api.SendTextMessageAsync(
                                     chatId,

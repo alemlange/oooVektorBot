@@ -144,7 +144,8 @@ namespace Brains
                 var respText = menu.MenuName + Environment.NewLine + Environment.NewLine;
 
                 int dishNum = 0;
-                int page = 0;
+                int page = 1;
+                int pageCount = 0;
 
                 var table = _service.FindTable(chatId);
 
@@ -158,7 +159,9 @@ namespace Brains
                     }
                 }
 
-                var dishes = menu.DishList.Skip(page*8).Take(8); //8 items per page
+                decimal d = Math.Ceiling((decimal)menu.DishList.Count / 8);
+                pageCount = (int)d;
+                var dishes = menu.DishList.Skip((page-1)*8).Take(8); //8 items per page
 
                 foreach (var dish in dishes)
                 {
@@ -166,7 +169,7 @@ namespace Brains
                 }
                 //respText += Environment.NewLine + "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
 
-                return new Responce { ResponceText = respText };
+                return new Responce { ResponceText = respText, Page = page, PageCount = pageCount };
             }
             catch (Exception)
             {

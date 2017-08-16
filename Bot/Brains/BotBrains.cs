@@ -122,7 +122,7 @@ namespace Brains
 
                 foreach (var dish in menu.DishList)
                 {
-                    respText += (dishNum+=1) + ". " + dish.Name + " " + dish.Price + "р. " + dish.SlashName + Environment.NewLine;
+                    respText += (dishNum += 1) + ". " + dish.Name + " " + dish.Price + "р. " + dish.SlashName + Environment.NewLine;
                 }
                 respText += "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
 
@@ -134,7 +134,7 @@ namespace Brains
             }
         }
 
-        public Responce ShowMenuOnPage(long chatId) // todo
+        public Responce ShowMenuOnPage(long chatId, int showPage = 1) // todo
         {
             try
             {
@@ -143,21 +143,30 @@ namespace Brains
 
                 var respText = menu.MenuName + Environment.NewLine + Environment.NewLine;
 
-                int dishNum = 0;
                 int page = 1;
                 int pageCount = 0;
 
-                var table = _service.FindTable(chatId);
-
-                if (table != null)
+                if (showPage != 1)
                 {
-                    var lastPage = table.StateVaribles.Where(t => t.Key == "LastPage").FirstOrDefault();
+                    page = showPage;
+                    //_service.UpdateLastPage(chatId, showPage);
+                }
+                else
+                {
+                    var table = _service.FindTable(chatId);
 
-                    if (lastPage != null && (int)lastPage.Value > 0)
+                    if (table != null)
                     {
-                        page = (int)lastPage.Value;
+                        var lastPage = table.StateVaribles.Where(t => t.Key == "LastPage").FirstOrDefault();
+
+                        if (lastPage != null && (int)lastPage.Value > 0)
+                        {
+                            page = (int)lastPage.Value;
+                        }
                     }
                 }
+
+                int dishNum = (page-1)*8;
 
                 decimal d = Math.Ceiling((decimal)menu.DishList.Count / 8);
                 pageCount = (int)d;

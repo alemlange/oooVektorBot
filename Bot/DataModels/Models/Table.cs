@@ -19,5 +19,6 @@ namespace DataModels
         public SessionState State { get; set; }
         public List<StateVarible> StateVaribles { get; set; } 
         public bool HelpNeeded { get; set; }
+        public bool CheckNeeded { get; set; }
     }
 }

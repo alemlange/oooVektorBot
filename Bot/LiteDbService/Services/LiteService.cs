@@ -143,6 +143,27 @@ namespace LiteDbService
             }
         }
 
+        public void UpdateLastPage(long chatId, int lastPage)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId).FirstOrDefault();
+
+                var stateVarible = new StateVarible();
+                stateVarible.Key = "LastPage";
+                stateVarible.Value = lastPage;
+
+                if (table != null)
+                {
+                    table.StateVaribles.RemoveAll(s => s.Key == "LastPage");
+                }
+                table.StateVaribles.Add(stateVarible);
+
+                tableCol.Update(table);
+            }
+        }
+
         public void SetHelpNeeded(long chatId)
         {
             using (var db = new LiteDatabase(CurrentDb))
@@ -151,6 +172,18 @@ namespace LiteDbService
                 var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
 
                 table.HelpNeeded = true;
+                col.Update(table);
+            }
+        }
+
+        public void SetCheckNeeded(long chatId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
+
+                table.CheckNeeded = true;
                 col.Update(table);
             }
         }

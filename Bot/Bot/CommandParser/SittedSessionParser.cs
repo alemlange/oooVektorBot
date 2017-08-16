@@ -17,7 +17,7 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "Меню", "Счет" },
+                        new KeyboardButton[] { "Меню", "Мой заказ" },
                         new KeyboardButton[] { "Позвать официанта" }
                     }
                 };
@@ -37,7 +37,7 @@ namespace Bot.CommandParser
                     {
                         return CmdTypes.Waiter;
                     }
-                case "счет":
+                case "мой заказ":
                     {
                         return CmdTypes.Check;
                     }

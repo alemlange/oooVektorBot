@@ -85,17 +85,17 @@ namespace Bot.Controllers
 
                                 if (response.PageCount > 1)
                                 {
-                                    InlineKeyboardButton prev = new InlineKeyboardButton(" << ");
-                                    InlineKeyboardButton next = new InlineKeyboardButton(" >> ");
+                                    InlineKeyboardButton prev = new InlineKeyboardButton(" ");
+                                    InlineKeyboardButton next = new InlineKeyboardButton(" ");
 
                                     if (response.Page > 1)
                                     {
-                                        prev = new InlineKeyboardButton((response.Page - 1) + " << ");
+                                        prev = new InlineKeyboardButton((response.Page - 1) + "  << ");
                                     }
 
                                     if (response.Page < response.PageCount)
                                     {
-                                        next = new InlineKeyboardButton(" >> " + (response.Page + 1));
+                                        next = new InlineKeyboardButton(" >>  " + (response.Page + 1));
                                     }
 
                                     keyboard = new InlineKeyboardMarkup(
@@ -173,12 +173,12 @@ namespace Bot.Controllers
                 {
                     new[]
                     {
-                        new InlineKeyboardButton(" << "),
-                        new InlineKeyboardButton(" >> "),
+                        new InlineKeyboardButton("  << "),
+                        new InlineKeyboardButton(" >>  "),
                     }
                 });
 
-                if (update.CallbackQuery.Data.ToLower().Contains(" << "))
+                if (update.CallbackQuery.Data.ToLower().Contains("  << "))
                 {
                     var response = bot.ShowMenuOnPage(chatId);
 
@@ -188,9 +188,9 @@ namespace Bot.Controllers
                         response.ResponceText,
                         replyMarkup: keyboard);
                 }
-                else if (update.CallbackQuery.Data.ToLower().Contains(" >> "))
+                else if (update.CallbackQuery.Data.ToLower().Contains(" >>  "))
                 {
-                    var response = bot.ShowMenuOnPage(chatId);
+                    var response = bot.ShowMenuOnPage(chatId, 3);
 
                     await Bot.Api.EditMessageTextAsync(
                         chatId,

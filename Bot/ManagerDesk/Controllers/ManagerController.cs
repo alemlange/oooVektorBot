@@ -27,6 +27,8 @@ namespace ManagerDesk.Controllers
 
             var model = Mapper.Map<List<TableCardViewModel>>(tables);
 
+            model.Add(new TableCardViewModel { TableNumber=13, ChatId=121123, Id = Guid.NewGuid(), State =DataModels.Enums.SessionState.Sitted,Orders =new List<OrderedDish> { new OrderedDish { DishFromMenu=new Dish { Name="Борщец",Price=123} } } });
+
             return View("TableCardList", model);
         }
 
@@ -136,19 +138,19 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditDish(Guid dishId, string name, string slashName, string price, string description)
+        public ActionResult EditDish(Guid dishId, string name, string slashName, string pictureUrl, string price, string description)
         {
             try
             {
                 var service = ServiceCreator.GetManagerService();
                 if (dishId == Guid.Empty)
                 {
-                    var dish = new Dish { Name = name, SlashName = slashName, Description = description, Price = Convert.ToDecimal(price) };
+                    var dish = new Dish { Name = name, SlashName = slashName, PictureUrl = pictureUrl, Description = description, Price = Convert.ToDecimal(price) };
                     service.CreateNewDish(dish);
                 }
                 else
                 {
-                    service.UpdateDish(new Dish { Id = dishId, Name = name, SlashName = slashName, Description = description, Price = Convert.ToDecimal(price) });
+                    service.UpdateDish(new Dish { Id = dishId, Name = name, SlashName = slashName, PictureUrl = pictureUrl, Description = description, Price = Convert.ToDecimal(price) });
                 }
 
                 return Json(new { isAuthorized = true, isSuccess = true });

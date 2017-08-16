@@ -1,6 +1,6 @@
 ﻿@model ManagerDesk.ViewModels.TableCardViewModel
 <div class="col-md-6 col-lg-3">
-    <div class="info-item">
+    <div class="info-item" data-itemid="@Model.Id">
         <div class="table-wrap">
             <h3 class="info-item-heading">Стол <span class="table-number">@Model.TableNumber</span></h3>
             <div class="dropdown">
@@ -14,12 +14,9 @@
                 </ul>
             </div>
             <span class="label label-danger">Не оплачен</span>
-            <div class="dish-name">Кувшин Сплэш Мятный <span class="dish-price">625 р.</span></div>
-            <div class="dish-name">Кувшин Сплэш Мятный <span class="dish-price">625 р.</span></div>
-            <div class="dish-name">Кувшин Сплэш Мятный <span class="dish-price">625 р.</span></div>
             @foreach (var dish in Model.Orders)
             {
-                <p>@dish.DishFromMenu.Name</p>
+                <div class="dish-name">@dish.DishFromMenu.Name<span class="dish-price">@dish.DishFromMenu.Price р.</span></div>
             }
         </div>
     </div>

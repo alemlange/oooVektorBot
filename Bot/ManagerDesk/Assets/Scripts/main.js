@@ -14,13 +14,40 @@ $(document).ready(function () {
         $(this).addClass("active-item");
     });
 
+    $(".js-table-body").on("click", ".info-item", function (e) {
+
+        if ($(this).hasClass("chosen-card"))
+            $(this).removeClass("chosen-card");
+        else {
+            $(".info-item").removeClass("chosen-card");
+            $(this).addClass("chosen-card");
+        }
+    });
+
     $(".js-table-body").on("click", ".more-menu-btn", function (e) {
 
-        var menuHeader = $(this).parents(".menu-header");
-        var menuid = menuHeader.data("menuid");
+        var menuHeader = $(this).parents(".js-menu-card");
+        var menuid = menuHeader.data("itemid");
         var target = menuHeader.data("moretarget");
         $.get(target, { menuid: menuid }).done(function (data) {
             menuHeader.find(".dropdown-menu").html(data);
+        });
+    });
+
+
+    $(".js-table-body").on("click", ".js-renew-menu", function (e) {
+
+        e.preventDefault();
+        var menuHeader = $(this).parents(".js-menu-card");
+        var menuId = menuHeader.data("itemid");
+        var allActiveDishes = [];
+        menuHeader.find(".js-dish-drop.menu-selected").each(function (i, e) {
+            allActiveDishes.push($(e).data("id"));
+        });
+
+        var target = $(this).data("target");
+        $.post(target, { menuId: menuId, allActiveDishes: allActiveDishes }).done(function (data) {
+            $(".js-menu-section").trigger("click");
         });
     });
 
@@ -34,22 +61,6 @@ $(document).ready(function () {
             curDish.removeClass("menu-selected");
         else
             curDish.addClass("menu-selected");
-    });
-
-    $(".js-table-body").on("click", ".js-renew-menu", function (e) {
-
-        e.preventDefault();
-        var menuHeader = $(this).parents(".menu-header");
-        var menuId = menuHeader.data("menuid");
-        var allActiveDishes = [];
-        menuHeader.find(".js-dish-drop.menu-selected").each(function (i, e) {
-            allActiveDishes.push($(e).data("id"));
-        });
-
-        var target = $(this).data("target");
-        $.post(target, { menuId: menuId, allActiveDishes: allActiveDishes }).done(function (data) {
-            $(".js-menu-section").trigger("click");
-        });
     });
 
     $(".js-table-body").on("dblclick", ".js-dish-card", function (e) {

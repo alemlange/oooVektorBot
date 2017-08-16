@@ -1,6 +1,6 @@
 ﻿@model ManagerDesk.ViewModels.MenuViewModel
 <div class="col-md-12 col-lg-6">
-    <div class="info-item menu-header" data-menuid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Manager")">
+    <div class="info-item js-menu-card" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Manager")">
         <h3 class="info-item-heading">@Model.MenuName</h3>
         <div class="dropdown">
             <span class="more-menu-btn dropdown-toggle" type="button" id="dropdownMoreMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">+</span>

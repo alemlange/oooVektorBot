@@ -149,7 +149,7 @@ namespace Brains
                 if (showPage != 1)
                 {
                     page = showPage;
-                    //_service.UpdateLastPage(chatId, showPage);
+                    _service.UpdateLastPage(chatId, showPage);
                 }
                 else
                 {
@@ -157,6 +157,7 @@ namespace Brains
 
                     if (table != null)
                     {
+                        // todo move to LiteService
                         var lastPage = table.StateVaribles.Where(t => t.Key == "LastPage").FirstOrDefault();
 
                         if (lastPage != null && (int)lastPage.Value > 0)

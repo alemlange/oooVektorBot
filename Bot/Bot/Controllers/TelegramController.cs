@@ -44,178 +44,250 @@ namespace Bot.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> WebHook(Update update)
         {
-            if (update.Type == UpdateType.MessageUpdate)
+            try
             {
-                var message = update.Message;
-                var chatId = message.Chat.Id;
-                var bot = BotBrains.Instance.Value;
-                var parser = ParserChoser.GetParser(bot.GetState(chatId));
-                var cmd = parser.ParseForCommand(update);
-
-                if (message.Type == MessageType.TextMessage)
+                if (update.Type == UpdateType.MessageUpdate)
                 {
-                    switch (cmd)
+                    var message = update.Message;
+                    var chatId = message.Chat.Id;
+                    var bot = BotBrains.Instance.Value;
+                    var parser = ParserChoser.GetParser(bot.GetState(chatId));
+                    var cmd = parser.ParseForCommand(update);
+
+                    if (message.Type == MessageType.TextMessage)
                     {
-                        case CmdTypes.Greetings:
-                            {
-                                var responce = bot.Greetings(chatId);
-
-                                await Bot.Api.SendTextMessageAsync(
-                                    chatId,
-                                    responce.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
-                                break;
-                            }
-                        case CmdTypes.TableNumber:
-                            {
-                                var response = bot.Number(chatId, Convert.ToInt32(message.Text));
-
-                                await Bot.Api.SendTextMessageAsync(
-                                    chatId,
-                                    response.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
-                                break;
-                            }
-                        case CmdTypes.Menu:
-                            {
-                                var keyboard = new InlineKeyboardMarkup();
-
-                                //var response = bot.ShowMenu(chatId);
-                                var response = bot.ShowMenuOnPage(chatId);
-
-                                if (response.PageCount > 1)
+                        switch (cmd)
+                        {
+                            case CmdTypes.Greetings:
                                 {
-                                    InlineKeyboardButton prev = new InlineKeyboardButton(" ");
-                                    InlineKeyboardButton next = new InlineKeyboardButton(" ");
+                                    var responce = bot.Greetings(chatId);
 
-                                    if (response.Page > 1)
-                                    {
-                                        prev = new InlineKeyboardButton((response.Page - 1) + "  << ");
-                                    }
-
-                                    if (response.Page < response.PageCount)
-                                    {
-                                        next = new InlineKeyboardButton(" >>  " + (response.Page + 1));
-                                    }
-
-                                    keyboard = new InlineKeyboardMarkup(
-                                    new[]
-                                    {
-                                        prev,
-                                        next
-                                    });
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
                                 }
+                            case CmdTypes.TableNumber:
+                                {
+                                    var response = bot.Number(chatId, Convert.ToInt32(message.Text));
 
-                                Message x = await Bot.Api.SendTextMessageAsync(
-                                    chatId,
-                                    response.ResponceText,
-                                    replyMarkup: keyboard);
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.Menu: // todo keyboard
+                                {
+                                    var keyboard = new InlineKeyboardMarkup();
 
-                                await Bot.Api.SendTextMessageAsync(
-                                    chatId,
-                                    "Хотите чтонибудь из меню? Просто кликните по нему!",
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
-                                break;
-                            }
-                        case CmdTypes.Slash:
-                            {
-                                var keyboard = new InlineKeyboardMarkup(
-                                    new[]
+                                    //var response = bot.ShowMenu(chatId);
+                                    var response = bot.ShowMenuOnPage(chatId);
+
+                                    if (response.PageCount > 1)
                                     {
-                                        new[] { new InlineKeyboardButton("Добавить в заказ") },
-                                        new[] { new InlineKeyboardButton("Вернуться к меню") }
-                                    });
+                                        InlineKeyboardButton prev = new InlineKeyboardButton("");
+                                        InlineKeyboardButton next = new InlineKeyboardButton("");
 
-                                var response = bot.GetMenuItem(chatId, update.Message.Text);
+                                        if (response.Page > 1)
+                                        {
+                                            prev = new InlineKeyboardButton((response.Page - 1) + "  << ");
+                                        }
 
-                                await Bot.Api.SendTextMessageAsync(
-                                    chatId,
-                                    response.ResponceText,
-                                    replyMarkup: keyboard);
-                                break;
-                            }
-                        case CmdTypes.Check:
+                                        if (response.Page < response.PageCount)
+                                        {
+                                            next = new InlineKeyboardButton(" >>  " + (response.Page + 1));
+                                        }
+
+                                        if (prev.Text != "" && next.Text != "")
+                                        {
+                                            keyboard = new InlineKeyboardMarkup(new[] { prev, next });
+                                        }
+                                        else if (prev.Text == "" && next.Text != "")
+                                        {
+                                            keyboard = new InlineKeyboardMarkup(new[] { next });
+                                        }
+                                        else if (prev.Text != "" && next.Text == "")
+                                        {
+                                            keyboard = new InlineKeyboardMarkup(new[] { prev });
+                                        }
+                                    }
+
+                                    Message x = await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        replyMarkup: keyboard);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        "Хотите чтонибудь из меню? Просто кликните по нему!",
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.Slash:
+                                {
+                                    var keyboard = new InlineKeyboardMarkup(
+                                        new[]
+                                        {
+                                            new[] { new InlineKeyboardButton("Добавить в заказ") },
+                                            new[] { new InlineKeyboardButton("Вернуться к меню") }
+                                        });
+
+                                    var response = bot.GetMenuItem(chatId, update.Message.Text);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        replyMarkup: keyboard);
+                                    break;
+                                }
+                            case CmdTypes.Check:
+                                {
+                                    var responce = bot.ShowCart(chatId);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.Waiter:
+                                {
+                                    var response = bot.CallWaiter(chatId);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.Unknown:
+                                {
+                                    await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
+                                    break;
+                                }
+                        }
+                    }
+                }
+                else if (update.Type == UpdateType.CallbackQueryUpdate)
+                {
+                    var chatId = update.CallbackQuery.From.Id;
+                    var messageId = update.CallbackQuery.Message.MessageId;
+                    var bot = BotBrains.Instance.Value;
+                    var parser = ParserChoser.GetParser(bot.GetState(chatId));
+
+                    var keyboard = new InlineKeyboardMarkup();
+
+                    if (update.CallbackQuery.Data.ToLower().Contains("  << ")) // todo keyboard
+                    {
+                        var page = int.Parse(update.CallbackQuery.Data.Trim('<', ' '));
+                        var response = bot.ShowMenuOnPage(chatId, page);
+
+                        if (response.PageCount > 1)
+                        {
+                            InlineKeyboardButton prev = new InlineKeyboardButton("");
+                            InlineKeyboardButton next = new InlineKeyboardButton("");
+
+                            if (response.Page > 1)
                             {
-                                var responce = bot.ShowCart(chatId);
+                                prev = new InlineKeyboardButton((response.Page - 1) + "  << ");
+                            }
 
-                                await Bot.Api.SendTextMessageAsync(
-                                    chatId,
-                                    responce.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
-                                break;
-                            }
-                        case CmdTypes.Waiter:
+                            if (response.Page < response.PageCount)
                             {
-                                var response = bot.CallWaiter(chatId);
+                                next = new InlineKeyboardButton(" >>  " + (response.Page + 1));
+                            }
 
-                                await Bot.Api.SendTextMessageAsync(
-                                    chatId,
-                                    response.ResponceText,
-                                    replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
-                                break;
-                            }
-                        case CmdTypes.Unknown:
+                            if (response.Page < response.PageCount)
                             {
-                                await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
-                                break;
+                                next = new InlineKeyboardButton(" >>  " + (response.Page + 1));
                             }
+
+                            if (prev.Text != "" && next.Text != "")
+                            {
+                                keyboard = new InlineKeyboardMarkup(new[] { prev, next });
+                            }
+                            else if (prev.Text == "" && next.Text != "")
+                            {
+                                keyboard = new InlineKeyboardMarkup(new[] { next });
+                            }
+                            else if (prev.Text != "" && next.Text == "")
+                            {
+                                keyboard = new InlineKeyboardMarkup(new[] { prev });
+                            }
+                        }
+
+                        await Bot.Api.EditMessageTextAsync(
+                            chatId,
+                            messageId,
+                            response.ResponceText,
+                            replyMarkup: keyboard);
+                    }
+                    else if (update.CallbackQuery.Data.ToLower().Contains(" >>  ")) // todo keyboard
+                    {
+                        var page = int.Parse(update.CallbackQuery.Data.Trim('>', ' '));
+
+                        var response = bot.ShowMenuOnPage(chatId, page);
+
+                        if (response.PageCount > 1)
+                        {
+                            InlineKeyboardButton prev = new InlineKeyboardButton("");
+                            InlineKeyboardButton next = new InlineKeyboardButton("");
+
+                            if (response.Page > 1)
+                            {
+                                prev = new InlineKeyboardButton((response.Page - 1) + "  << ");
+                            }
+
+                            if (response.Page < response.PageCount)
+                            {
+                                next = new InlineKeyboardButton(" >>  " + (response.Page + 1));
+                            }
+
+                            if (prev.Text != "" && next.Text != "")
+                            {
+                                keyboard = new InlineKeyboardMarkup(new[] { prev, next });
+                            }
+                            else if (prev.Text == "" && next.Text != "")
+                            {
+                                keyboard = new InlineKeyboardMarkup(new[] { next });
+                            }
+                            else if (prev.Text != "" && next.Text == "")
+                            {
+                                keyboard = new InlineKeyboardMarkup(new[] { prev });
+                            }
+                        }
+
+                        await Bot.Api.EditMessageTextAsync(
+                            chatId,
+                            messageId,
+                            response.ResponceText,
+                            replyMarkup: keyboard);
+                    }
+                    else if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
+                    {
+                        var response = bot.OrderMeal(chatId);
+
+                        await Bot.Api.SendTextMessageAsync(
+                            chatId,
+                            response.ResponceText,
+                            replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                    }
+                    else if (update.CallbackQuery.Data.ToLower().Contains("вернуться к меню"))
+                    {
+                        var response = bot.ShowMenuOnPage(chatId);
+
+                        await Bot.Api.SendTextMessageAsync(
+                            chatId,
+                            response.ResponceText,
+                            replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                     }
                 }
             }
-            else if (update.Type == UpdateType.CallbackQueryUpdate)
+            catch (Exception ex)
             {
-                var chatId = update.CallbackQuery.From.Id;
-                var messageId = update.CallbackQuery.Message.MessageId;
-                var bot = BotBrains.Instance.Value;
-                var parser = ParserChoser.GetParser(bot.GetState(chatId));
-
-                var keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    new[]
-                    {
-                        new InlineKeyboardButton("  << "),
-                        new InlineKeyboardButton(" >>  "),
-                    }
-                });
-
-                if (update.CallbackQuery.Data.ToLower().Contains("  << "))
-                {
-                    var response = bot.ShowMenuOnPage(chatId);
-
-                    await Bot.Api.EditMessageTextAsync(
-                        chatId,
-                        messageId,
-                        response.ResponceText,
-                        replyMarkup: keyboard);
-                }
-                else if (update.CallbackQuery.Data.ToLower().Contains(" >>  "))
-                {
-                    var response = bot.ShowMenuOnPage(chatId, 3);
-
-                    await Bot.Api.EditMessageTextAsync(
-                        chatId,
-                        messageId,
-                        response.ResponceText,
-                        replyMarkup: keyboard);
-                }
-                else if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
-                {
-                    var response = bot.OrderMeal(chatId);
-
-                    await Bot.Api.SendTextMessageAsync(
-                        chatId,
-                        response.ResponceText,
-                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
-                }
-                else if (update.CallbackQuery.Data.ToLower().Contains("вернуться к меню"))
-                {
-                    var response = bot.ShowMenuOnPage(chatId);
-
-                    await Bot.Api.SendTextMessageAsync(
-                        chatId,
-                        response.ResponceText,
-                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
-                }
+                var mes = ex.Message;
             }
 
             return Ok();

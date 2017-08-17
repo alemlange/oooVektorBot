@@ -150,17 +150,17 @@ namespace LiteDbService
                 var tableCol = db.GetCollection<Table>("Tables");
                 var table = tableCol.Find(o => o.ChatId == chatId).FirstOrDefault();
 
-                var stateVarible = new StateVarible();
-                stateVarible.Key = "LastPage";
-                stateVarible.Value = lastPage;
-
                 if (table != null)
                 {
-                    table.StateVaribles.RemoveAll(s => s.Key == "LastPage");
-                }
-                table.StateVaribles.Add(stateVarible);
+                    var stateVarible = new StateVarible();
+                    stateVarible.Key = "LastPage";
+                    stateVarible.Value = lastPage;
 
-                tableCol.Update(table);
+                    table.StateVaribles.RemoveAll(s => s.Key == "LastPage");
+                    table.StateVaribles.Add(stateVarible);
+
+                    tableCol.Update(table);
+                }
             }
         }
 
@@ -207,7 +207,6 @@ namespace LiteDbService
             {
                 var col = db.GetCollection<Table>("Tables");
                 return col.Find(o => o.Id == tableId).FirstOrDefault();
-
             }
         }
 

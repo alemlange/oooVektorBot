@@ -121,6 +121,7 @@
         display: block;
         cursor: pointer;
         position: relative;
+        transition: 0.3s;
 
         .table-wrap {
             display: flex;
@@ -199,12 +200,17 @@
     }
 }
 
-.menu-selected{
-    color: aquamarine !important;
+.chosen-card {
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3) !important;
 }
 
-.chosen-card{
-    opacity: 0.5;
+.menu-selected {
+    cursor:  default;
+
+    &:hover {
+        background-color: @color-white !important;
+        color: @color-black !important;
+    }
 }
 
 /* Footer

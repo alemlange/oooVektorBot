@@ -213,6 +213,10 @@
     <Content Include="Assets\Content\font-awesome-4.7.0\scss\_screen-reader.scss" />
     <Content Include="Assets\Content\font-awesome-4.7.0\scss\_stacked.scss" />
     <Content Include="Assets\Content\font-awesome-4.7.0\scss\_variables.scss" />
+    <Content Include="Assets\fonts\RobotoBold\RobotoBold.woff" />
+    <Content Include="Assets\fonts\RobotoLight\RobotoLight.woff" />
+    <Content Include="Assets\fonts\RobotoMedium\RobotoMedium.woff" />
+    <Content Include="Assets\fonts\RobotoRegular\RobotoRegular.woff" />
     <None Include="Assets\Scripts\libs\jquery-1.10.2.intellisense.js" />
     <Content Include="Assets\Scripts\libs\jquery-1.10.2.js" />
     <Content Include="Assets\Scripts\libs\jquery-1.10.2.min.js" />

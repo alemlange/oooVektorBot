@@ -134,7 +134,7 @@ namespace Brains
             }
         }
 
-        public Responce ShowMenuOnPage(long chatId, int showPage = 1) // todo
+        public Responce ShowMenuOnPage(long chatId, int? showPage = null) // todo
         {
             try
             {
@@ -146,10 +146,10 @@ namespace Brains
                 int page = 1;
                 int pageCount = 0;
 
-                if (showPage != 1)
+                if (showPage != null)
                 {
-                    page = showPage;
-                    _service.UpdateLastPage(chatId, showPage);
+                    page = (int)showPage;
+                    _service.UpdateLastPage(chatId, (int)showPage);
                 }
                 else
                 {

@@ -77,7 +77,7 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveMenu(Guid menuId, List<Guid> allActiveDishes)
+        public JsonResult EditMenuDishes(Guid menuId, List<Guid> allActiveDishes)
         {
             try
             {
@@ -118,9 +118,37 @@ namespace ManagerDesk.Controllers
                         {
                             return View("DishCardEdditable", new DishViewModel());
                         }
+                    case CardTypes.Menu:
+                        {
+                            return View("MenuCardEdditable", new MenuViewModel());
+                        }
                     default:
                         throw new Exception("No active section");
                 }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditMenu(Guid menuId, string name)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService();
+                if (menuId == Guid.Empty)
+                {
+                    var menu = new Menu { MenuName = name, DishList = new List<Dish>() };
+                    service.CreateNewMenu(menu);
+                }
+                else
+                {
+                    service.UpdateMenuInfo(new Menu { Id = menuId, MenuName = name });
+                }
+
+                return Json(new { isAuthorized = true, isSuccess = true });
             }
             catch (Exception ex)
             {

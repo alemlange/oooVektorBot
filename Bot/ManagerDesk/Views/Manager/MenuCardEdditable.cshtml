@@ -1,0 +1,7 @@
+﻿@model ManagerDesk.ViewModels.MenuViewModel
+<div class="col-md-6 col-lg-3">
+    <div class="info-item js-menu-form" data-itemid="@Model.Id">
+        <h3 class="info-item-heading"><input class="form-control js-name" type="text" placeholder="Название меню" value="@Model.MenuName"/></h3>
+        <a href="#" class="btn btn-save-dishes js-save" data-target="@Url.Action("EditMenu","Manager")">Сохранить</a>
+    </div>
+</div>

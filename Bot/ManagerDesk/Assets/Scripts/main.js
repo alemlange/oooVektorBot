@@ -20,7 +20,7 @@ $(document).ready(function () {
     });
 
     $(".js-table-body").on("click", ".info-item", function (e) {
-        e.stopPropagation();
+        //e.stopPropagation();
         if ($(this).hasClass("chosen-card"))
             $(this).removeClass("chosen-card");
         else {

@@ -165,6 +165,7 @@
     <Content Include="Assets\Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Assets\Content\main.css" />
     <Content Include="Assets\Content\media.css" />
+    <Content Include="Assets\Scripts\menuform.js" />
     <Content Include="Assets\Scripts\libs\equalheights.js" />
     <Content Include="Assets\Scripts\dishform.js" />
     <Content Include="Assets\Scripts\toolbar.js" />
@@ -250,6 +251,7 @@
     <Content Include="Views\Manager\MenuMoreDishes.cshtml" />
     <Content Include="Views\Manager\Toolbar.cshtml" />
     <Content Include="Views\Manager\DishCardEdditable.cshtml" />
+    <Content Include="Views\Manager\MenuCardEdditable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

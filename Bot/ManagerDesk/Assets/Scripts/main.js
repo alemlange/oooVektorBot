@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $(".navbar-left-btn").on("click", function (slideNavbar) {
+    $(".navbar-left-btn").on("click", function () {
         if ($(this).hasClass("js-opened")) {
             $(this).removeClass("js-opened");
             $(".navbar-left").toggle("left");
@@ -20,7 +20,7 @@ $(document).ready(function () {
     });
 
     $(".js-table-body").on("click", ".info-item", function (e) {
-
+        e.stopPropagation();
         if ($(this).hasClass("chosen-card"))
             $(this).removeClass("chosen-card");
         else {

@@ -134,7 +134,7 @@ namespace Brains
             }
         }
 
-        public Responce ShowMenuOnPage(long chatId, int? showPage = null) // todo
+        public MenuResponce ShowMenuOnPage(long chatId, int? showPage = null) // todo
         {
             try
             {
@@ -177,13 +177,12 @@ namespace Brains
                 {
                     respText += (dishNum += 1) + ". " + dish.Name + " " + dish.Price + "р. " + dish.SlashName + Environment.NewLine;
                 }
-                //respText += Environment.NewLine + "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
 
-                return new Responce { ResponceText = respText, Page = page, PageCount = pageCount };
+                return new MenuResponce { ResponceText = respText, Page = page, PageCount = pageCount };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Responce.UnknownResponce(chatId);
+                throw ex; // разобраться с эксепшенами и что возвращать
             }
         }
 
@@ -268,7 +267,7 @@ namespace Brains
                 {
                     ChatId = chatId,
                     ResponceText = dish.Name + Environment.NewLine + dish.Description + Environment.NewLine +
-                    "https://www.instagram.com/p/BWE-azWgr4K/?taken-by=ferrari"
+                    dish.PictureUrl
                 };
             }
             catch (Exception)

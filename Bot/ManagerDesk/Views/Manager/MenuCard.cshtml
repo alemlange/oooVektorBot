@@ -7,9 +7,16 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMoreMenu">
             </ul>
         </div>
-        @foreach (var dish in Model.DishList)
+        @if (Model.DishList.Any())
         {
-            <div class="dish-name">@dish.Name <span class="dish-price">@dish.Price р.</span></div>
+            foreach (var dish in Model.DishList)
+            {
+                <div class="dish-name">@dish.Name <span class="dish-price">@dish.Price р.</span></div>
+            }
+        }
+        else
+        {
+            <p>Нажмите + чтобы добавить блюда в меню.</p>
         }
     </div>
 </div>

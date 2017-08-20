@@ -85,17 +85,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="OldShit\OldWebHook.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="CommandParser\DishChoosingSessionParser.cs" />
+    <Compile Include="CommandParser\KeyBoards\InlineKeyBoardManager.cs" />
+    <Compile Include="CommandParser\Parsers\DishChoosingSessionParser.cs" />
     <Compile Include="CommandParser\Enums\CmdTypes.cs" />
     <Compile Include="CommandParser\Interfaces\IParser.cs" />
     <Compile Include="CommandParser\ParserChoser.cs" />
-    <Compile Include="CommandParser\InQueueSessionParser.cs" />
-    <Compile Include="CommandParser\UnknownSessionParser.cs" />
-    <Compile Include="CommandParser\SittedSessionParser.cs" />
+    <Compile Include="CommandParser\Parsers\InQueueSessionParser.cs" />
+    <Compile Include="CommandParser\Parsers\UnknownSessionParser.cs" />
+    <Compile Include="CommandParser\Parsers\SittedSessionParser.cs" />
     <Compile Include="Controllers\TelegramController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

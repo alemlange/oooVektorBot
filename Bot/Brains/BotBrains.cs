@@ -255,6 +255,25 @@ namespace Brains
             }
         }
 
+        public Responce GiveACheck(long chatId)
+        {
+            try
+            {
+                _service.SetCheckNeeded(chatId);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Счет сейчас принесут",
+                    State = SessionState.Sitted
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
         public Responce GetMenuItem(long chatId, string dishName)
         {
             try

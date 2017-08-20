@@ -33,7 +33,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://6bf55c0c.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://e8e0c7e9.ngrok.io/Telegram/WebHook").Wait();
 
             // remove all tables
             var service = new TestLiteManagerService();
@@ -109,13 +109,23 @@ namespace Bot.Controllers
                                         replyMarkup: keyboard);
                                     break;
                                 }
-                            case CmdTypes.Check:
+                            case CmdTypes.MyOrder:
                                 {
                                     var responce = bot.ShowCart(chatId);
 
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.Check:
+                                {
+                                    var response = bot.GiveACheck(chatId);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
@@ -182,9 +192,16 @@ namespace Bot.Controllers
                     {
                         var response = bot.ShowMenuOnPage(chatId);
 
+                        var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
+
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
                             response.ResponceText,
+                            replyMarkup: keyboard);
+
+                        await Bot.Api.SendTextMessageAsync(
+                            chatId,
+                            "Хотите чтонибудь из меню? Просто кликните по нему!",
                             replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                     }
                 }

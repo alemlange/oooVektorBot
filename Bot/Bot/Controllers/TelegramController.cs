@@ -33,7 +33,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://f354cfbf.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://6bf55c0c.ngrok.io/Telegram/WebHook").Wait();
 
             // remove all tables
             var service = new TestLiteManagerService();
@@ -47,14 +47,13 @@ namespace Bot.Controllers
         {
             try
             {
-                var message = update.Message;
-                var chatId = message.Chat.Id;
                 var bot = BotBrains.Instance.Value;
-                var parser = ParserChoser.GetParser(bot.GetState(chatId));
 
                 if (update.Type == UpdateType.MessageUpdate)
                 {
-                    
+                    var message = update.Message;
+                    var chatId = message.Chat.Id;
+                    var parser = ParserChoser.GetParser(bot.GetState(chatId));
                     var cmd = parser.ParseForCommand(update);
 
                     if (message.Type == MessageType.TextMessage)
@@ -140,7 +139,7 @@ namespace Bot.Controllers
                 }
                 else if (update.Type == UpdateType.CallbackQueryUpdate)
                 {
-                    chatId = update.CallbackQuery.From.Id;
+                    var chatId = update.CallbackQuery.From.Id;
                     var messageId = update.CallbackQuery.Message.MessageId;
 
                     if (update.CallbackQuery.Data.ToLower().Contains("  << ")) // todo keyboard

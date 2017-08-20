@@ -14,6 +14,7 @@
                 </ul>
             </div>
             <span class="label label-danger">Не оплачен</span>
+            <span class="label label-success">Оплачен</span>
             @foreach (var dish in Model.Orders)
             {
                 <div class="dish-name">@dish.DishFromMenu.Name<span class="dish-price">@dish.DishFromMenu.Price р.</span></div>

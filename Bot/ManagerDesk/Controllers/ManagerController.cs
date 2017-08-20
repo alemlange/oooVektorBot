@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using LiteDbService.Helpers;
 using ManagerDesk.ViewModels;
+using ManagerDesk.ViewModels.Enums;
 using AutoMapper;
 using DataModels;
 
@@ -107,29 +108,19 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpGet]
-        public ActionResult Add(string activeSection)
+        public ActionResult Add(CardTypes activeSection)
         {
             try
             {
-                //var service = ServiceCreator.GetManagerService();
-                //var curMenu = service.GetMenu(menuId);
-                //var allDishes = service.GetAllDishes();
-                //if (curMenu != null && allDishes != null)
-                //{
-                //    if (allActiveDishes != null)
-                //    {
-                //        var dishesForCurmenu = allDishes.Where(o => allActiveDishes.Contains(o.Id)).ToList();
-                //        curMenu.DishList = dishesForCurmenu;
-                //    }
-                //    else
-                //        curMenu.DishList = new List<Dish>();
-
-                //    service.UpdateMenu(curMenu);
-                //}
-                //else
-                //    throw new ArgumentNullException("Menu or list of dishes not found!");
-
-                return View("DishCardEdditable", new DishViewModel());
+                switch (activeSection)
+                {
+                    case CardTypes.Dish:
+                        {
+                            return View("DishCardEdditable", new DishViewModel());
+                        }
+                    default:
+                        throw new Exception("No active section");
+                }
             }
             catch (Exception ex)
             {
@@ -167,7 +158,7 @@ namespace ManagerDesk.Controllers
             try
             {
                 var service = ServiceCreator.GetManagerService();
-                
+
                 var dish = service.GetDish(dishId);
                 if (dish != null)
                 {
@@ -178,13 +169,54 @@ namespace ManagerDesk.Controllers
                 }
                 else
                     throw new Exception("Dish not found!");
-                
             }
             catch (Exception ex)
             {
                 return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
             }
         }
-        
+
+        [HttpPost]
+        public ActionResult DeleteItem(Guid itemId, CardTypes itemType)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService();
+
+                if (itemId != Guid.Empty)
+                {
+                    switch (itemType)
+                    {
+                        case CardTypes.Dish:
+                            {
+                                service.DeleteDish(itemId);
+                                break;
+                            }
+                        case CardTypes.Menu:
+                            {
+                                service.DeleteMenu(itemId);
+                                break;
+                            }
+                        case CardTypes.Table:
+                            {
+                                service.DeleteTable(itemId);
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                    
+                }
+                else
+                    throw new Exception("Dish id not specified!");
+                return Json(new { isAuthorized = true, isSuccess = true });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
     }
 }

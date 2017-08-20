@@ -1,10 +1,10 @@
 ﻿<header class="header-top">
     <nav class="navbar-top">
-        <div class="navbar-left-btn"><i class="fa fa-bars"></i></div>
+        <div class="navbar-left-btn js-opened"><i class="fa fa-bars"></i></div>
         <ul class="toolbar-top">
             <li><a href="#" class="toolbar-add" data-target="@Url.Action("Add","Manager")">Добавить</a></li>
             <li><a href="#">Редактировать</a></li>
-            <li><a href="#">Удалить</a></li>
+            <li><a href="#" class="toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")">Удалить</a></li>
         </ul>
         <a class="logout"><i class="fa fa-sign-out"></i> Выйти</a>
     </nav>

@@ -120,5 +120,43 @@ namespace LiteDbService
                 }
             }
         }
+
+        public void DeleteDish(Guid dishId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var colDish = db.GetCollection<Dish>("Dishes");
+                colDish.Delete(dishId);
+
+                var colMenu = db.GetCollection<Menu>("Menus");
+                var menus = colMenu.FindAll();
+                menus = menus.Where(o => o.DishList.Select(d => d.Id).Contains(dishId));
+                foreach (var menu in menus)
+                {
+                    menu.DishList.RemoveAll(o => o.Id == dishId);
+                    colMenu.Update(menu);
+                }
+            }
+        }
+
+        public void DeleteMenu(Guid menuId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var colDish = db.GetCollection<Menu>("Menus");
+                colDish.Delete(menuId);
+
+            }
+        }
+
+        public void DeleteTable(Guid tableId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var colDish = db.GetCollection<Table>("Tables");
+                colDish.Delete(tableId);
+
+            }
+        }
     }
 }

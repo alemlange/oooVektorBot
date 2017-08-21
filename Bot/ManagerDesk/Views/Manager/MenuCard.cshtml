@@ -6,7 +6,7 @@
     <div class="info-item js-menu-card" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Manager")">
         <h3 class="info-item-heading">@Model.MenuName</h3>
         <div class="dropdown">
-            <span class="more-menu-btn dropdown-toggle" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">+</span>
+            <span class="more-menu-btn dropdown-toggle" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-pencil" aria-hidden="true"></i></span>
             <ul class="dropdown-menu" aria-labelledby="@dropdownId">
             </ul>
         </div>
@@ -19,7 +19,7 @@
         }
         else
         {
-            <p>Нажмите + чтобы добавить блюда в меню.</p>
+            <p class="text-center error">Нажмите на карандаш, чтобы добавить блюда в меню.</p>
         }
     </div>
 </div>

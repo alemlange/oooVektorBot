@@ -171,7 +171,6 @@
     <Content Include="Assets\Scripts\toolbar.js" />
     <Content Include="Assets\Scripts\navigation.js" />
     <Content Include="favicon.ico" />
-    <Content Include="Assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Assets\Imgs\profile_small.jpg" />
     <Content Include="Assets\Scripts\libs\bootstrap.js" />
@@ -252,20 +251,12 @@
     <Content Include="Views\Manager\Toolbar.cshtml" />
     <Content Include="Views\Manager\DishCardEdditable.cshtml" />
     <Content Include="Views\Manager\MenuCardEdditable.cshtml" />
+    <None Include="Properties\PublishProfiles\restoBot - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Helpers\" />
     <Folder Include="Views\Shared\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

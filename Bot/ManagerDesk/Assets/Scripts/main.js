@@ -62,10 +62,15 @@ $(document).ready(function () {
         e.stopPropagation();
         var curDish = $(this);
         var active = $(this).hasClass("menu-selected");
-        if (active)
+        if (active) {
+            curDish.find(".fa-check").hide();
             curDish.removeClass("menu-selected");
-        else
+        }
+        else {
+            curDish.find(".fa-check").show();
             curDish.addClass("menu-selected");
+        }
+            
     });
 
     $(".js-table-body").on("dblclick", ".js-dish-card", function (e) {

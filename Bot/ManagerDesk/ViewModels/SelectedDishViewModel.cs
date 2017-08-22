@@ -20,5 +20,16 @@ namespace ManagerDesk.ViewModels
                     return "";
             }
         }
+
+        public string SelectedIcoStyle
+        {
+            get
+            {
+                if (Selected)
+                    return "style=display:inline;";
+                else
+                    return "style=display:none;";
+            }
+        }
     }
 }

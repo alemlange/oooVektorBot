@@ -84,4 +84,10 @@ $(document).ready(function () {
             container.parent().replaceWith(data);
         });
     });
+
+    $(".js-table-body").on("click", ".js-eddit-card", function (e) {
+
+        e.preventDefault();
+        $(this).parent().trigger("dblclick");
+    });
 });

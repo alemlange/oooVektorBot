@@ -251,6 +251,7 @@
     <Content Include="Views\Manager\Toolbar.cshtml" />
     <Content Include="Views\Manager\DishCardEdditable.cshtml" />
     <Content Include="Views\Manager\MenuCardEdditable.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\restoBot - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>

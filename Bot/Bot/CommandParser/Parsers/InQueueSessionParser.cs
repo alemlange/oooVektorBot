@@ -14,7 +14,7 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "Меню" },
+                        new KeyboardButton[] { "Меню 📓" },
                         new KeyboardButton[] { "1", "2", "3" },
                         new KeyboardButton[] { "4", "5", "6" },
                         new KeyboardButton[] { "7", "8", "9" },
@@ -30,7 +30,7 @@ namespace Bot.CommandParser
 
             if (Int32.TryParse(msgText, out result))
                 return CmdTypes.TableNumber;
-            else if (msgText.ToLower() == "меню")
+            else if (msgText.ToLower() == "меню 📓")
                 return CmdTypes.Menu;
             else
                 return CmdTypes.Unknown;

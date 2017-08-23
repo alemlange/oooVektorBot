@@ -17,9 +17,9 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "Меню", "Мой заказ" },
-                        new KeyboardButton[] { "Попросить счет" },
-                        new KeyboardButton[] { "Позвать официанта" }
+                        new KeyboardButton[] { "Меню 📓", "Мой заказ 🍴" },
+                        new KeyboardButton[] { "Попросить счет 💳" },
+                        new KeyboardButton[] { "Позвать официанта 🔔" }
                     }
                 };
             }
@@ -30,19 +30,19 @@ namespace Bot.CommandParser
             var msgText = update.Message.Text.ToLower();
             switch (msgText)
             {
-                case "меню":
+                case "меню 📓":
                     {
                         return CmdTypes.Menu;
                     }
-                case "попросить счет":
+                case "попросить счет 💳":
                     {
                         return CmdTypes.Check;
                     }
-                case "позвать официанта":
+                case "позвать официанта 🔔":
                     {
                         return CmdTypes.Waiter;
                     }
-                case "мой заказ":
+                case "мой заказ 🍴":
                     {
                         return CmdTypes.MyOrder;
                     }

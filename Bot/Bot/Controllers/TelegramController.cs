@@ -33,7 +33,7 @@ namespace Bot.Controllers
         public string Start() //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://e8e0c7e9.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://13ced9ca.ngrok.io/Telegram/WebHook").Wait();
 
             // remove all tables
             var service = new TestLiteManagerService();

@@ -30,10 +30,10 @@ namespace Bot.Controllers
         }
 
         [HttpGet]
-        public string Start() //http://localhost:8443/Telegram/Start
+        public string Start(string key) //http://localhost:8443/Telegram/Start
         {
             Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://13ced9ca.ngrok.io/Telegram/WebHook").Wait();
+            Bot.Api.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
 
             // remove all tables
             var service = new TestLiteManagerService();

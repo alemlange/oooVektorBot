@@ -6,8 +6,7 @@
         <input class="form-control js-slash-name" type="text" placeholder="Слэш название" value="@Model.SlashName" />
         <input class="form-control js-picture-url" type="text" placeholder="Ссылка на картинку" value="@Model.PictureUrl" />
         <input class="form-control js-price" type="text" placeholder="Цена" value="@Model.Price" />
-        <input class="form-control js-description" type="text" placeholder="Описание" value="@Model.Description" />
-        <textarea class="form-control js-description" type="text" placeholder="Описание" value="@Model.Description"></textarea>
+        <textarea class="form-control js-description" type="text" placeholder="Описание">@Model.Description</textarea>
         <a href="#" class="btn btn-save-dishes js-save" data-target="@Url.Action("EditDish","Manager")">Сохранить</a>
     </div>
 </div>

@@ -22,7 +22,7 @@
             }
             @foreach (var dish in Model.Orders)
             {
-                <div class="dish-name">@dish.DishFromMenu.Name<span class="dish-price">@dish.DishFromMenu.Price р.</span></div>
+                <div class="dish-name-item"><span class="dish-name">@dish.DishFromMenu.Name</span><span class="dish-price">@dish.DishFromMenu.Price р.</span></div>
             }
         </div>
     </div>

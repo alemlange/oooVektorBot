@@ -145,16 +145,22 @@
             text-align: center;
         }
 
-        .table-number {
+        .dish-name-item {
+            border-bottom: 1px solid @color-border;
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            white-space: nowrap;
         }
 
         .dish-name {
-            border-bottom: 1px solid @color-border;
-            padding: 5px 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .dish-price {
-            float: right;
+            margin-left: 5px;
             color: @color-main;
         }
 

@@ -28,7 +28,7 @@ namespace ManagerDesk.Controllers
 
             var model = Mapper.Map<List<TableCardViewModel>>(tables);
 
-            model.Add(new TableCardViewModel { TableNumber=13, ChatId=121123, Id = Guid.NewGuid(), State =DataModels.Enums.SessionState.Sitted,Orders =new List<OrderedDish> { new OrderedDish { DishFromMenu=new Dish { Name="Борщец",Price=123} } } });
+            //model.Add(new TableCardViewModel { TableNumber=13, ChatId=121123, Id = Guid.NewGuid(), State =DataModels.Enums.SessionState.Sitted,Orders =new List<OrderedDish> { new OrderedDish { DishFromMenu=new Dish { Name="Борщец",Price=123} } } });
 
             return View("TableCardList", model);
         }

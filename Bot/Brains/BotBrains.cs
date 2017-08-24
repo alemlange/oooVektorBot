@@ -45,27 +45,21 @@ namespace Brains
         {
             try
             {
-                //if (GetState(chatId) == SessionState.DishChoosing)
-                //{
-                    var table = _service.FindTable(chatId);
+                var table = _service.FindTable(chatId);
 
-                    if (string.IsNullOrWhiteSpace(dishName))
-                    {
-                        var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
-                        dishName = lastDishName.Value.ToString();
-                    }
+                if (string.IsNullOrWhiteSpace(dishName))
+                {
+                    var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
+                    dishName = lastDishName.Value.ToString();
+                }
 
-                    var dish = _service.FindDish(dishName);
+                var dish = _service.FindDish(dishName);
        
-                    _service.OrderDish(table.Id,new DataModels.OrderedDish { DishFromMenu = dish});
-                    _service.UpdateTableState(chatId, SessionState.Sitted);
+                _service.OrderDish(table.Id,new DataModels.OrderedDish { DishFromMenu = dish});
+                _service.UpdateTableState(chatId, SessionState.Sitted);
 
-                    return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
-                //}
-                //else
-                //{
-                //    return Responce.UnknownResponce(chatId);
-                //}
+                return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
+
             }
             catch (Exception)
             {
@@ -75,39 +69,33 @@ namespace Brains
 
         public Responce ShowCart(long chatId)
         {
-            //if (GetState(chatId) == SessionState.Sitted)
-            //{
-                _service.UpdateTableState(chatId, SessionState.Sitted);
-                var table = _service.FindTable(chatId);
-                var respText = "";
 
-                if (table.Orders.Any())
-                {
-                    var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
+            _service.UpdateTableState(chatId, SessionState.Sitted);
+            var table = _service.FindTable(chatId);
+            var respText = "";
 
-                    respText = "Вы заказали:" + Environment.NewLine;
-                    foreach (var dish in table.Orders)
-                    {
-                        respText += dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + Environment.NewLine;
-                    }
-                    respText += "Итого: " + tableSumm.ToString() + Environment.NewLine;
-                }
-                else
+            if (table.Orders.Any())
+            {
+                var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
+
+                respText = "Вы заказали:" + Environment.NewLine;
+                foreach (var dish in table.Orders)
                 {
-                    respText = "Вы пока еще ничего не заказали :(";
+                    respText += dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + Environment.NewLine;
                 }
+                respText += "Итого: " + tableSumm.ToString() + Environment.NewLine;
+            }
+            else
+            {
+                respText = "Вы пока еще ничего не заказали :(";
+            }
                 
-                return new Responce
-                {
-                    ChatId = chatId,
-                    ResponceText = respText,
-                    State = SessionState.Sitted
-                };
-            //}
-            //else
-            //{
-            //    return Responce.UnknownResponce(chatId);
-            //}
+            return new Responce
+            {
+                ChatId = chatId,
+                ResponceText = respText,
+                State = SessionState.Sitted
+            };
         }
 
         public Responce ShowMenu(long chatId)
@@ -190,21 +178,16 @@ namespace Brains
         {
             try
             {
-                if (_service.GetTable(chatId) != Guid.Empty)
-                {
-                    _service.UpdateTableState(chatId, SessionState.Sitted);
 
-                    return new Responce
-                    {
-                        ChatId = chatId,
-                        ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
-                        State = SessionState.Sitted
-                    };
-                }
-                else
+                _service.AssignNumber(chatId, tableNumber);
+
+                return new Responce
                 {
-                    throw new Exception("Не получилось создать столик.");
-                }
+                    ChatId = chatId,
+                    ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
+                    State = SessionState.Sitted
+                };
+
             }
             catch (Exception)
             {
@@ -216,9 +199,8 @@ namespace Brains
         {
             try
             {
-                if (_service.GetTable(chatId) != Guid.Empty)
+                if (_service.CreateTable(chatId) != Guid.Empty)
                 {
-                    _service.UpdateTableState(chatId, SessionState.Queue);
 
                     return new Responce
                     {

@@ -11,7 +11,7 @@ namespace LiteDbService
     {
         Menu GetMenu(Guid menuId);
         List<Menu> GetAllMenus();
-        Guid GetTable(long chatId);
+        Guid CreateTable(long chatId);
         Table GetTable(Guid tableId);
     }
 }

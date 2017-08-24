@@ -84,13 +84,15 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.ShowMenuOnPage(chatId);
 
-                                    var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
+                                    if (response.PageCount > 1)
+                                    {
+                                        var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
 
-                                    await Bot.Api.SendTextMessageAsync(
-                                        chatId,
-                                        response.ResponceText,
-                                        replyMarkup: keyboard);
-
+                                        await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, replyMarkup: keyboard);
+                                    }
+                                    else
+                                        await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText);
+                                    
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         "Хотите чтонибудь из меню? Просто кликните по нему!",
@@ -209,7 +211,7 @@ namespace Bot.Controllers
             catch (Exception ex)
             {
                 var mes = ex.Message;
-                StreamWriter file = new System.IO.StreamWriter("c:\\db\\test.txt",true);
+                StreamWriter file = new System.IO.StreamWriter("c:\\db\\test.txt", true);
                 file.WriteLine(mes);
 
                 file.Close();

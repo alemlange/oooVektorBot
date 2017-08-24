@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LiteDbService.Interfaces;
 using DataModels;
+using DataModels.Enums;
 using LiteDB;
 using DataModels.Exceptions;
 
@@ -26,6 +27,23 @@ namespace LiteDbService
                     table.OrderPlaced = DateTime.Now;
                     col.Update(table);
                 }
+            }
+        }
+
+        public void AssignNumber(long chatId, int tableNumber)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
+
+                if (table != null)
+                {
+                    table.TableNumber = tableNumber;
+                    table.State = SessionState.Sitted;
+                    col.Update(table);
+                }
+
             }
         }
 

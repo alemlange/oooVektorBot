@@ -46,33 +46,26 @@ namespace LiteDbService
             }
         }
 
-        public Guid GetTable(long chatId)
+        public Guid CreateTable(long chatId)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
 
-                //if (col.Find(o => o.ChatId == chatId).Count() == 0)
-                //{
-                    var table = new Table
-                    {
-                        Id = Guid.NewGuid(),
-                        ChatId = chatId,
-                        State = SessionState.Queue,
-                        CreatedOn = DateTime.Now,
-                        Orders = new List<OrderedDish>(),
-                        StateVaribles = new List<StateVarible>()
-                    };
+                var table = new Table
+                {
+                    Id = Guid.NewGuid(),
+                    ChatId = chatId,
+                    State = SessionState.Queue,
+                    CreatedOn = DateTime.Now,
+                    Orders = new List<OrderedDish>(),
+                    StateVaribles = new List<StateVarible>()
+                };
 
-                    col.Insert(table);
-                    col.EnsureIndex(o => o.Id);
-                    return table.Id;
-                //}
-                //else
-                //{
-                //    UpdateTableState(chatId, SessionState.Queue);
-                //    return col.Find(o => o.ChatId == chatId).FirstOrDefault().Id;
-                //}
+                col.Insert(table);
+                col.EnsureIndex(o => o.Id);
+                return table.Id;
+
             }
         }
 
@@ -187,19 +180,6 @@ namespace LiteDbService
                 col.Update(table);
             }
         }
-
-        //public Guid CreateTable(long chatId, int tableNumber)
-        //{
-        //    using (var db = new LiteDatabase(CurrentDb))
-        //    {
-        //        var table = new Table { Id = Guid.NewGuid(), ChatId = chatId, TableNumber = tableNumber, CreatedOn = DateTime.Now, Orders = new List<OrderedDish>() };
-
-        //        var col = db.GetCollection<Table>("Tables");
-        //        col.Insert(table);
-        //        col.EnsureIndex(o => o.Id);
-        //        return table.Id;
-        //    }
-        //}
 
         public Table GetTable(Guid tableId)
         {

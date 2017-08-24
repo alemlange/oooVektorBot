@@ -13,7 +13,7 @@ namespace Brains
 {
     public class BotBrains : IMainTasks
     {
-        public static readonly Lazy<BotBrains> Instance = new Lazy<BotBrains>(() => new BotBrains());
+        //public static readonly Lazy<BotBrains> Instance = new Lazy<BotBrains>(() => new BotBrains());
 
         private LiteCustomerService _service = ServiceCreator.GetCustomerService();
 

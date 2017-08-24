@@ -30,7 +30,7 @@ namespace Bot.Controllers
         }
 
         [HttpGet]
-        public string Start(string key) //http://localhost:8443/Telegram/Start
+        public string Start(string key) //http://localhost:8443/Telegram/Start?key=
         {
             Bot.Api.SetWebhookAsync().Wait();
             Bot.Api.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
@@ -47,7 +47,7 @@ namespace Bot.Controllers
         {
             try
             {
-                var bot = BotBrains.Instance.Value;
+                var bot = new BotBrains(); //.Instance.Value;
 
                 if (update.Type == UpdateType.MessageUpdate)
                 {
@@ -209,6 +209,10 @@ namespace Bot.Controllers
             catch (Exception ex)
             {
                 var mes = ex.Message;
+                StreamWriter file = new System.IO.StreamWriter("c:\\db\\test.txt",true);
+                file.WriteLine(mes);
+
+                file.Close();
             }
 
             return Ok();

@@ -47,19 +47,25 @@ namespace Brains
             {
                 var table = _service.FindTable(chatId);
 
-                if (string.IsNullOrWhiteSpace(dishName))
+                if (table != null)
                 {
-                    var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
-                    dishName = lastDishName.Value.ToString();
+                    if (string.IsNullOrWhiteSpace(dishName))
+                    {
+                        var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
+                        dishName = lastDishName.Value.ToString();
+                    }
+
+                    var dish = _service.FindDish(dishName);
+
+                    _service.OrderDish(table.Id, new DataModels.OrderedDish { DishFromMenu = dish });
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
+
+                    return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
                 }
-
-                var dish = _service.FindDish(dishName);
-       
-                _service.OrderDish(table.Id,new DataModels.OrderedDish { DishFromMenu = dish});
-                _service.UpdateTableState(chatId, SessionState.Sitted);
-
-                return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
-
+                else
+                {
+                    return new Responce { ChatId = chatId, ResponceText = "Вы не выбрали стол! Нажмите 'Начать' в главном меню, чтобы сделать заказ!" };
+                }
             }
             catch (Exception)
             {

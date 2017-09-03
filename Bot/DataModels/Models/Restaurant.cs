@@ -13,5 +13,6 @@ namespace DataModels.Models
         public string Description { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public List<Table> Tables { get; set; }
     }
 }

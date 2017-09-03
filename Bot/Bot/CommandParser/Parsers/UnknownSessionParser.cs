@@ -33,6 +33,10 @@ namespace Bot.CommandParser
             {
                 return CmdTypes.Greetings;
             }
+            if (msgText.StartsWith("/"))
+            {
+                return CmdTypes.Slash;
+            }
             else
             {
                 return CmdTypes.Unknown;

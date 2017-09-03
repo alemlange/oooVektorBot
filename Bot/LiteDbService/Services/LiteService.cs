@@ -99,17 +99,20 @@ namespace LiteDbService
                 var tableCol = db.GetCollection<Table>("Tables");
                 var table = tableCol.Find(o => o.ChatId == chatId).FirstOrDefault();
 
-                var stateVarible = new StateVarible();
-                stateVarible.Key = "LastDish";
-                stateVarible.Value = dish.SlashName;
-
-                if (table.StateVaribles != null)
+                if (table != null)
                 {
-                    table.StateVaribles.RemoveAll(s => s.Key == "LastDish");
-                }
-                table.StateVaribles.Add(stateVarible);
+                    var stateVarible = new StateVarible();
+                    stateVarible.Key = "LastDish";
+                    stateVarible.Value = dish.SlashName;
 
-                tableCol.Update(table);
+                    if (table.StateVaribles != null)
+                    {
+                        table.StateVaribles.RemoveAll(s => s.Key == "LastDish");
+                    }
+                    table.StateVaribles.Add(stateVarible);
+
+                    tableCol.Update(table);
+                }
             }
         }
 

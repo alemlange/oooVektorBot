@@ -46,6 +46,7 @@
     <Compile Include="Enums\SessionState.cs" />
     <Compile Include="Exceptions\TableNotFoundException.cs" />
     <Compile Include="Models\Dish.cs" />
+    <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\StateVarible.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Table.cs" />

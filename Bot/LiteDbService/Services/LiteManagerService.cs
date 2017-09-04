@@ -77,9 +77,21 @@ namespace LiteDbService
                 if (dish.Id == Guid.Empty)
                     dish.Id = Guid.NewGuid();
                 col.Insert(dish);
-                col.EnsureIndex(o => o.Id);
 
                 return dish.Id;
+            }
+        }
+
+        public Guid CreateRestaurant(Restaurant rest)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Restaurant>("Restaurants");
+                if (rest.Id == Guid.Empty)
+                    rest.Id = Guid.NewGuid();
+                col.Insert(rest);
+
+                return rest.Id;
             }
         }
 

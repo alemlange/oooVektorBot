@@ -202,6 +202,15 @@ namespace LiteDbService
             }
         }
 
+        public List<Restaurant> GetAllRestaurants()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Restaurant>("Restaurants");
+                return col.FindAll().ToList();
+            }
+        }
+
         public Table GetActiveTable(long chatId)
         {
             using (var db = new LiteDatabase(CurrentDb))

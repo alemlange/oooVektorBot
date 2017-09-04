@@ -21,8 +21,6 @@ namespace ManagerDesk.Controllers
         [HttpGet]
         public ActionResult AllTables()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Table, TableCardViewModel>());
-
             var service = ServiceCreator.GetManagerService();
             var tables = service.GetAllTables();
 
@@ -36,8 +34,6 @@ namespace ManagerDesk.Controllers
         [HttpGet]
         public ActionResult AllMenus()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Menu, MenuViewModel>());
-
             var service = ServiceCreator.GetManagerService();
             var menus = service.GetAllMenus();
 
@@ -46,21 +42,30 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpGet]
+        public ActionResult AllRestaurants()
+        {
+            var service = ServiceCreator.GetManagerService();
+            var rests = service.GetAllRestaurants();
+
+            var model = Mapper.Map<List<RestaurantViewModel>>(rests);
+
+            model.Add(new RestaurantViewModel { Name="Фрайдис на курской", Address="Курская дом 18", Description ="Главный фрайдис в москве", Id = Guid.NewGuid()});
+            return View("RestaurantCardList", model);
+        }
+
+        [HttpGet]
         public ActionResult AllDishes()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Dish, DishViewModel>());
-
             var service = ServiceCreator.GetManagerService();
             var dishes = service.GetAllDishes();
 
-            var model = Mapper.Map<List<DishViewModel>>(dishes);
+            var model = dishes.GroupBy(o => o.Category).Select(o => new DishListViewModel { Category = o.Key, Dishes = Mapper.Map<List<DishViewModel>>(o.ToList()) }).ToList();
             return View("DishCardList", model);
         }
 
         [HttpGet]
         public ActionResult MenuMoreDishes(string menuid)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Dish, SelectedDishViewModel>());
             var service = ServiceCreator.GetManagerService();
 
             var allDishes = service.GetAllDishes();
@@ -157,21 +162,16 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditDish(Guid dishId, string name, string slashName, string pictureUrl, string price, string description)
+        public ActionResult EditDish(Dish dish)
         {
             try
             {
                 var service = ServiceCreator.GetManagerService();
-                if (dishId == Guid.Empty)
-                {
-                    var dish = new Dish { Name = name, SlashName = slashName, PictureUrl = pictureUrl, Description = description, Price = Convert.ToDecimal(price) };
+                if (dish.Id == Guid.Empty)
                     service.CreateNewDish(dish);
-                }
                 else
-                {
-                    service.UpdateDish(new Dish { Id = dishId, Name = name, SlashName = slashName, PictureUrl = pictureUrl, Description = description, Price = Convert.ToDecimal(price) });
-                }
-
+                    service.UpdateDish(dish);
+                
                 return Json(new { isAuthorized = true, isSuccess = true });
             }
             catch (Exception ex)
@@ -190,7 +190,6 @@ namespace ManagerDesk.Controllers
                 var dish = service.GetDish(dishId);
                 if (dish != null)
                 {
-                    Mapper.Initialize(cfg => cfg.CreateMap<Dish, DishViewModel>());
                     var model = Mapper.Map<DishViewModel>(dish);
 
                     return View("DishCardEdditable", model);

@@ -9,6 +9,7 @@ namespace ManagerDesk.ViewModels.Enums
     {
         Dish,
         Table,
-        Menu
+        Menu,
+        Restaurant
     }
 }

@@ -3,14 +3,14 @@ $(document).ready(function () {
     $(".navbar-left-btn").on("click", function () {
         if ($(this).hasClass("js-opened")) {
             $(this).removeClass("js-opened");
-            $(".navbar-left").toggle("left");
-            $(".page-wrapper").css("padding-left", "0px");
+
+            $(".navbar-left").slideToggle("slow", function () { $(".page-wrapper").css("padding-left", "0px"); });
+            
         }
         else {
             $(this).addClass("js-opened");
-            $(".navbar-left").slideDown();
-            
             $(".page-wrapper").css("padding-left", "220px");
+            $(".navbar-left").slideToggle("slow");
         }
     });
 

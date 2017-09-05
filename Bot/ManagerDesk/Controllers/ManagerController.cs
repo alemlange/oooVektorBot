@@ -78,7 +78,9 @@ namespace ManagerDesk.Controllers
                     dish.Selected = true;
             }
 
-            return View(selectedDishes);
+            var model = selectedDishes.GroupBy(o => o.Category).Select(o => new SelectedDishListViewModel { Category = o.Key, Dishes = o.ToList() }).ToList();
+
+            return View(model);
         }
 
         [HttpPost]

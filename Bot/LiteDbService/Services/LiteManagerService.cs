@@ -146,6 +146,15 @@ namespace LiteDbService
             }
         }
 
+        public void UpdateRestaurant(Restaurant rest)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var colDish = db.GetCollection<Restaurant>("Restaurants");
+                colDish.Update(rest);
+            }
+        }
+
         public void DeleteDish(Guid dishId)
         {
             using (var db = new LiteDatabase(CurrentDb))

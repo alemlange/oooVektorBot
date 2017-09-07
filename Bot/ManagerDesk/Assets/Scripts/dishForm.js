@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $(".js-table-body").on("click", ".js-save", function (e) {
+    $(".js-table-body").on("click", ".js-save-dish", function (e) {
         e.preventDefault();
 
         var container = $(this).parents(".js-dish-form");

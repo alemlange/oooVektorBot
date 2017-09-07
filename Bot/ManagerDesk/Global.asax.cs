@@ -26,6 +26,7 @@ namespace ManagerDesk
                     cfg.CreateMap<Table, TableCardViewModel>();
                     cfg.CreateMap<Menu, MenuViewModel>();
                     cfg.CreateMap<Restaurant, RestaurantViewModel>();
+                    cfg.CreateMap<Restaurant, RestaurantDropDown>();
                     cfg.CreateMap<Dish, SelectedDishViewModel>();
                 });
         }

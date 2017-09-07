@@ -26,8 +26,6 @@ namespace ManagerDesk.Controllers
 
             var model = Mapper.Map<List<TableCardViewModel>>(tables);
 
-            //model.Add(new TableCardViewModel { TableNumber=13, ChatId=121123, Id = Guid.NewGuid(), State =DataModels.Enums.SessionState.Sitted,Orders =new List<OrderedDish> { new OrderedDish { DishFromMenu=new Dish { Name="Борщец",Price=123} } } });
-
             return View("TableCardList", model);
         }
 
@@ -38,6 +36,16 @@ namespace ManagerDesk.Controllers
             var menus = service.GetAllMenus();
 
             var model = Mapper.Map<List<MenuViewModel>>(menus);
+            model.ForEach(o => 
+                {
+                    if(o.Restaurant != Guid.Empty)
+                    {
+                        var rest = service.GetRestaurant(o.Restaurant);
+                        if (rest != null)
+                            o.AttachedRestaurantName = rest.Name;
+                    }
+                    
+                });
             return View("MenuCardList", model);
         }
 
@@ -49,7 +57,6 @@ namespace ManagerDesk.Controllers
 
             var model = Mapper.Map<List<RestaurantViewModel>>(rests);
 
-            model.Add(new RestaurantViewModel { Name="Фрайдис на курской", Address="Курская дом 18", Description ="Главный фрайдис в москве", Id = Guid.NewGuid()});
             return View("RestaurantCardList", model);
         }
 
@@ -127,7 +134,20 @@ namespace ManagerDesk.Controllers
                         }
                     case CardTypes.Menu:
                         {
-                            return View("MenuCardEdditable", new MenuViewModel());
+                            var model = new MenuViewModel();
+
+                            var service = ServiceCreator.GetManagerService();
+                            var rests = service.GetAllRestaurants();
+                            if(rests != null && rests.Any())
+                            {
+                                model.AvailableRests = Mapper.Map<List<RestaurantDropDown>>(rests);
+                            }
+
+                            return View("MenuCardEdditable", model);
+                        }
+                    case CardTypes.Restaurant:
+                        {
+                            return View("RestaurantCardEdditable", new RestaurantViewModel());
                         }
                     default:
                         throw new Exception("No active section");
@@ -140,19 +160,19 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditMenu(Guid menuId, string name)
+        public ActionResult EditMenu(Guid menuId, string name, Guid rest)
         {
             try
             {
                 var service = ServiceCreator.GetManagerService();
                 if (menuId == Guid.Empty)
                 {
-                    var menu = new Menu { MenuName = name, DishList = new List<Dish>() };
+                    var menu = new Menu { MenuName = name, DishList = new List<Dish>(), Restaurant = rest };
                     service.CreateNewMenu(menu);
                 }
                 else
                 {
-                    service.UpdateMenuInfo(new Menu { Id = menuId, MenuName = name });
+                    service.UpdateMenuInfo(new Menu { Id = menuId, MenuName = name, Restaurant = rest });
                 }
 
                 return Json(new { isAuthorized = true, isSuccess = true });
@@ -198,6 +218,25 @@ namespace ManagerDesk.Controllers
                 }
                 else
                     throw new Exception("Dish not found!");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditRest(Restaurant Rest)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService();
+                if (Rest.Id == Guid.Empty)
+                    service.CreateRestaurant(Rest);
+                else
+                    service.UpdateRestaurant(Rest);
+
+                return Json(new { isAuthorized = true, isSuccess = true });
             }
             catch (Exception ex)
             {

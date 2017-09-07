@@ -202,6 +202,15 @@ namespace LiteDbService
             }
         }
 
+        public Restaurant GetRestaurant(Guid restId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Restaurant>("Restaurants");
+                return col.Find(o => o.Id == restId).FirstOrDefault();
+            }
+        }
+
         public List<Restaurant> GetAllRestaurants()
         {
             using (var db = new LiteDatabase(CurrentDb))

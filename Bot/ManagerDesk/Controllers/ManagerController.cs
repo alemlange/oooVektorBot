@@ -126,17 +126,24 @@ namespace ManagerDesk.Controllers
         {
             try
             {
+                var service = ServiceCreator.GetManagerService();
                 switch (activeSection)
                 {
                     case CardTypes.Dish:
                         {
-                            return View("DishCardEdditable", new DishViewModel());
+                            var model = new DishViewModel();
+
+                            var allDishes = service.GetAllDishes();
+                            if (allDishes != null && allDishes.Any())
+                            {
+                                model.AvailableCategories = allDishes.Where(o => !string.IsNullOrEmpty(o.Category)).Select(o => o.Category).Distinct().ToList();
+                            }
+                            return View("DishCardEdditable", model);
                         }
                     case CardTypes.Menu:
                         {
                             var model = new MenuViewModel();
 
-                            var service = ServiceCreator.GetManagerService();
                             var rests = service.GetAllRestaurants();
                             if(rests != null && rests.Any())
                             {
@@ -213,6 +220,12 @@ namespace ManagerDesk.Controllers
                 if (dish != null)
                 {
                     var model = Mapper.Map<DishViewModel>(dish);
+
+                    var allDishes = service.GetAllDishes();
+                    if(allDishes!= null && allDishes.Any())
+                    {
+                        model.AvailableCategories = allDishes.Where(o => !string.IsNullOrEmpty(o.Category)).Select(o => o.Category).Distinct().ToList();
+                    }
 
                     return View("DishCardEdditable", model);
                 }

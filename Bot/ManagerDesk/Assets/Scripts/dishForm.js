@@ -10,6 +10,8 @@ $(document).ready(function () {
         var slashName = container.find(".js-slash-name").val();
         var pictureUrl = container.find(".js-picture-url").val();
         var price = container.find(".js-price").val();
+        if (price === "" || price === null)
+            price = 0;
         var description = container.find(".js-description").val();
 
         var dish = { Category: category, Id: dishId, Name: name, Description: description, PictureUrl: pictureUrl, Price: price, SlashName: slashName };
@@ -18,6 +20,16 @@ $(document).ready(function () {
         $.post(target, { Dish: dish }).done(function (data) {
             $(".js-dish-section").trigger("click");
         });
+    });
+
+    $(".js-table-body").on("click", ".js-cat-choose", function (e) {
+        e.preventDefault();
+
+        var curCat = $(this);
+        var catName = curCat.data("value");
+
+        var catInput = curCat.parents(".js-dish-form").find(".js-category");
+        catInput.val(catName);
     });
 
 });

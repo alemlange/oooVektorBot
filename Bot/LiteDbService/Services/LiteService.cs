@@ -56,7 +56,7 @@ namespace LiteDbService
                 {
                     Id = Guid.NewGuid(),
                     ChatId = chatId,
-                    State = SessionState.Queue,
+                    State = SessionState.Restaurant,
                     CreatedOn = DateTime.Now,
                     Orders = new List<OrderedDish>(),
                     StateVaribles = new List<StateVarible>()

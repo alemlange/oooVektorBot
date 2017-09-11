@@ -70,6 +70,16 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
+                            case CmdTypes.Restrunt:
+                                {
+                                    var responce = bot.Restrunt(chatId, message.Text);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
+                                }
                             case CmdTypes.TableNumber:
                                 {
                                     var response = bot.Number(chatId, Convert.ToInt32(message.Text));
@@ -80,7 +90,7 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
-                            case CmdTypes.Menu: 
+                            case CmdTypes.Menu:
                                 {
                                     var response = bot.ShowMenuOnPage(chatId);
 

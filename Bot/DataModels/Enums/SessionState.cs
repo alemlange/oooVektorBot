@@ -9,6 +9,7 @@ namespace DataModels.Enums
     public enum SessionState
     {
         Unknown,
+        Restaurant,
         Queue,
         Sitted,
         //DishChoosing,

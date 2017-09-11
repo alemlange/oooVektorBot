@@ -19,6 +19,8 @@ namespace Brains
 
         public List<string> DishNames { get; set; }
 
+        public List<string> RestaurantNames { get; set; }
+
         public BotBrains()
         {
             var allDishes = _service.GetAllDishes();
@@ -28,6 +30,15 @@ namespace Brains
             foreach(var dish in allDishes)
             {
                 DishNames.Add(dish.Name.ToLower());
+            }
+
+            var allRestaurants = _service.GetAllRestaurants();
+
+            RestaurantNames = new List<string>();
+
+            foreach (var restrunt in allRestaurants)
+            {
+                RestaurantNames.Add(restrunt.Name);
             }
         }
 
@@ -180,11 +191,30 @@ namespace Brains
             }
         }
 
+        public Responce Restrunt(long chatId, string restruntName)
+        {
+            try
+            {
+                _service.AssignMenu(chatId, restruntName);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Отлично! Выберите столик!",
+                    State = SessionState.Queue
+                };
+
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }  
+        }
+
         public Responce Number(long chatId, int tableNumber)
         {
             try
             {
-
                 _service.AssignNumber(chatId, tableNumber);
 
                 return new Responce
@@ -198,10 +228,33 @@ namespace Brains
             catch (Exception)
             {
                 return Responce.UnknownResponce(chatId);
-            }  
+            }
         }
 
         public Responce Greetings(long chatId)
+        {
+            try
+            {
+                if (_service.CreateTable(chatId) != Guid.Empty)
+                {
+
+                    return new Responce
+                    {
+                        ChatId = chatId,
+                        ResponceText = "Привет! В каком вы ресторане?",
+                        State = SessionState.Restaurant
+                    };
+                }
+                else
+                    throw new Exception("Не получилось определить ресторан!");
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }  
+        }
+
+        public Responce TableChoose(long chatId)
         {
             try
             {
@@ -216,12 +269,12 @@ namespace Brains
                     };
                 }
                 else
-                    throw new Exception("Не получилось создать столик.");
+                    throw new Exception("Не получилось создать столик!");
             }
             catch (Exception)
             {
                 return Responce.UnknownResponce(chatId);
-            }  
+            }
         }
 
         public Responce CallWaiter(long chatId)

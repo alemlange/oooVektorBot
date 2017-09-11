@@ -12,6 +12,8 @@ namespace Bot.CommandParser
         {
             switch (state)
             {
+                case SessionState.Restaurant:
+                    return new RestruntSessionParser();
                 case SessionState.Queue:
                     return new InQueueSessionParser();
                 case SessionState.Sitted:

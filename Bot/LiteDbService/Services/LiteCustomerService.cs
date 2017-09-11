@@ -30,6 +30,28 @@ namespace LiteDbService
             }
         }
 
+        public void AssignMenu(long chatId, string restruntName)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var restCol = db.GetCollection<Restaurant>("Restaurants");
+                var restaurant = restCol.Find(o => o.Name == restruntName).FirstOrDefault();
+
+                var menuCol = db.GetCollection<Menu>("Menus");
+                var menu = menuCol.Find(o => o.Restaurant == restaurant.Id).FirstOrDefault();
+
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId).FirstOrDefault();
+
+                if (table != null)
+                {
+                    table.Menu = menu.Id; // todo check isnull
+                    table.State = SessionState.Queue;
+                    tableCol.Update(table);
+                }
+            }
+        }
+
         public void AssignNumber(long chatId, int tableNumber)
         {
             using (var db = new LiteDatabase(CurrentDb))
@@ -43,7 +65,6 @@ namespace LiteDbService
                     table.State = SessionState.Sitted;
                     col.Update(table);
                 }
-
             }
         }
 

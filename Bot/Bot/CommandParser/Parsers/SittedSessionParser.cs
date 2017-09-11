@@ -18,6 +18,7 @@ namespace Bot.CommandParser
                     Keyboard = new KeyboardButton[][]
                     {
                         new KeyboardButton[] { "Меню 📓", "Мой заказ 🍴" },
+                        new KeyboardButton[] { "Убрать из заказа ❌" },
                         new KeyboardButton[] { "Попросить счет 💳" },
                         new KeyboardButton[] { "Позвать официанта 🔔" }
                     }

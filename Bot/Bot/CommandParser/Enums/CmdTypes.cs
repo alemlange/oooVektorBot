@@ -9,6 +9,7 @@ namespace Bot.CommandParser
     {
         Unknown,
         Greetings,
+        Restrunt,
         Menu,
         TableNumber,
         Check,

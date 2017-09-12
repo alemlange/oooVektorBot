@@ -32,10 +32,10 @@ namespace Bot.CommandParser.KeyBoards
                 InlineKeyboardButton next = new InlineKeyboardButton("");
 
                 if (curPage > 1)
-                    prev = new InlineKeyboardButton((curPage - 1) + "  << ");
+                    prev = new InlineKeyboardButton((curPage - 1) + "  ⬅ ");
 
                 if (curPage < pageCount)
-                    next = new InlineKeyboardButton(" >>  " + (curPage + 1));
+                    next = new InlineKeyboardButton(" ➡  " + (curPage + 1));
 
                 if (prev.Text != "" && next.Text != "")
                     keyboard = new InlineKeyboardMarkup(new[] { prev, next });

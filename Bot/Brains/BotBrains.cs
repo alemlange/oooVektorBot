@@ -95,12 +95,15 @@ namespace Brains
             {
                 var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
 
-                respText = "Вы заказали:" + Environment.NewLine;
+                respText = "Вы заказали:" + Environment.NewLine + Environment.NewLine;
+
+                int num = 0;
                 foreach (var dish in table.Orders)
                 {
-                    respText += dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + Environment.NewLine;
+                    num += 1;
+                    respText += num + ". " +dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р." + Environment.NewLine;
                 }
-                respText += "Итого: " + tableSumm.ToString() + Environment.NewLine;
+                respText += Environment.NewLine + "Итого: " + tableSumm.ToString() + "р." + Environment.NewLine;
             }
             else
             {

@@ -164,9 +164,9 @@ namespace Bot.Controllers
                     var chatId = update.CallbackQuery.From.Id;
                     var messageId = update.CallbackQuery.Message.MessageId;
 
-                    if (update.CallbackQuery.Data.ToLower().Contains("  << ")) // todo keyboard
+                    if (update.CallbackQuery.Data.ToLower().Contains("  ⬅ ")) // todo keyboard
                     {
-                        var page = int.Parse(update.CallbackQuery.Data.Trim('<', ' '));
+                        var page = int.Parse(update.CallbackQuery.Data.Trim('⬅', ' '));
                         var response = bot.ShowMenuOnPage(chatId, page);
 
                         var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
@@ -177,9 +177,9 @@ namespace Bot.Controllers
                             response.ResponceText,
                             replyMarkup: keyboard);
                     }
-                    else if (update.CallbackQuery.Data.ToLower().Contains(" >>  ")) // todo keyboard
+                    else if (update.CallbackQuery.Data.ToLower().Contains(" ➡  ")) // todo keyboard
                     {
-                        var page = int.Parse(update.CallbackQuery.Data.Trim('>', ' '));
+                        var page = int.Parse(update.CallbackQuery.Data.Trim('➡', ' '));
 
                         var response = bot.ShowMenuOnPage(chatId, page);
 

@@ -36,7 +36,7 @@ a, a:hover, a:focus {
 
 h2 {
 	margin-top: 10px;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 	color: #fff;
     font-size: 52px;
     font-weight: 400;
@@ -45,7 +45,7 @@ h2 {
 
 h3 {
 	margin-top: 10px;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 	color: #fff;
     font-size: 32px;
     font-weight: 400;
@@ -72,7 +72,7 @@ ul {
   border-radius: 0px;
   margin-bottom: 20px;
     font-weight: 600;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .btn-lg {
@@ -245,7 +245,7 @@ color: #888;
     margin: 0;
     padding: 0;
     vertical-align: middle;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 18px;
     font-weight: 600;
     line-height: 52px;
@@ -303,7 +303,7 @@ color: #888;
 /***** Top menu *****/
 
 .navbar-default {
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     border:none;
     border-radius: 0;
     margin-bottom: 0;
@@ -390,7 +390,7 @@ color: #888;
     margin: 0 auto;
     text-align: center;
     color: #fff;
-    background: url("../img/backgrounds/1.jpg");
+    background: url("../img/bg_header.jpg");
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -410,7 +410,7 @@ color: #888;
 
 
 .top-content h2 {
-	font-family: 'Dosis', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     color: #f3f3f3;
     font-size: 48px;
     line-height: 54px;
@@ -460,7 +460,7 @@ color: #888;
 
 .features-container {
     margin: 0 auto;
-    padding-bottom: 20px;
+    padding-bottom: 60px;
     color: #888;
     text-align: center;
 }
@@ -686,7 +686,7 @@ line-height: 24px;}
 }
 
 .fact-box h4 {
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 	padding: 10px 0;
 	font-size: 60px;
     font-weight: 300;
@@ -760,7 +760,7 @@ line-height: 24px;}
 	margin-bottom: 0;
 	padding:30px 0;
 	font-weight: 400;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .price-column h3 {
@@ -771,7 +771,7 @@ line-height: 24px;}
 	margin-bottom: 0;
 	margin-top: 0;
 	padding: 40px 0;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
 	font-size: 30px;
 }
@@ -847,7 +847,7 @@ line-height: 24px;}
   border: none;
     color: #323A45;
   cursor: pointer;
-  font: 600 16px/38px "Dosis", sans-serif;
+  font: 600 16px/38px "Open Sans", sans-serif;
   margin: 10px 5px 0 0;
   overflow: visible;
   padding: 0 16px;
@@ -878,7 +878,7 @@ line-height: 24px;}
   border-radius: 0;
   display: inline-block;
   text-transform: capitalize;
-  font-family:"Dosis", sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 600;
   font-size:16px;
   line-height:18px;
@@ -1057,7 +1057,7 @@ line-height: 24px;}
 
 .contact-container {
 	margin: 0 auto;
-    background: url("../img/2.jpg");
+    background: url("../img/bg_contacts.jpg");
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -1189,7 +1189,7 @@ text-align:center;
 #footer2 {
 	position:relative;
 	text-align:center;
-	padding:39px 0 36px; 
+	padding: 15px;
 	background: #222;
 	color:#999;
 	margin:0 0; 

@@ -11,6 +11,26 @@ namespace LiteDbService
 {
     public class LiteManagerService : LiteService, IManagerDb
     {
+
+        private string _userDb { get; set; }
+
+        public override string CurrentDb
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_currentDb))
+                {
+                    _currentDb = @"C:\db\" + _userDb +".db";
+                }
+                return _currentDb;
+            }
+        }
+
+        public LiteManagerService(string userDbName)
+        {
+            _userDb = userDbName;
+        }
+
         public Menu AddDishToMenu(Menu menu, Dish dishToAdd)
         {
             using (var db = new LiteDatabase(CurrentDb))

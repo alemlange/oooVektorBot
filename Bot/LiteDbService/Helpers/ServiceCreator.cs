@@ -18,13 +18,19 @@ namespace LiteDbService.Helpers
             else
                 return new LiteCustomerService();
         }
-        public static LiteManagerService GetManagerService()
+
+        public static LiteManagerService GetManagerService(string userName)
         {
             var dbType = ConfigurationManager.AppSettings.Get("DbType");
             if (dbType == DbTypes.TestDb.ToString())
                 return new TestLiteManagerService();
             else
-                return new LiteManagerService();
+                return new LiteManagerService(userName);
+        }
+
+        public static LiteRegistrationService GetRegistrationService()
+        {
+            return new LiteRegistrationService();
         }
     }
 }

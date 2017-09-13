@@ -51,6 +51,7 @@
     <Compile Include="Interfaces\IManagerDb.cs" />
     <Compile Include="Services\LiteCustomerService.cs" />
     <Compile Include="Services\LiteManagerService.cs" />
+    <Compile Include="Services\LiteRegistrationService.cs" />
     <Compile Include="Services\LiteService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TestServices\TestLiteCustomerService.cs" />

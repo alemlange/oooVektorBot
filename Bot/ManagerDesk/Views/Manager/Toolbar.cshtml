@@ -6,7 +6,7 @@
             @*<li><a href="#"><i class="fa fa-pencil" aria-hidden="true"></i> Редактировать</a></li>*@
             <li><a href="#" class="toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")"><i class="fa fa-trash-o" aria-hidden="true"></i> Удалить</a></li>
         </ul>
-        <a class="logout"><i class="fa fa-sign-out"></i> Выйти</a>
+        <a class="logout" href="@Url.Action("Logoff","Account")"><i class="fa fa-sign-out"></i> Выйти</a>
     </nav>
 </header>
 <script src="@Url.Content("~/Assets/Scripts/toolbar.js")" type="text/javascript"></script>

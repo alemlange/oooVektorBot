@@ -11,6 +11,7 @@ using DataModels;
 
 namespace ManagerDesk.Controllers
 {
+    [Authorize]
     public class ManagerController : Controller
     {
         public ActionResult Index()
@@ -21,7 +22,7 @@ namespace ManagerDesk.Controllers
         [HttpGet]
         public ActionResult AllTables()
         {
-            var service = ServiceCreator.GetManagerService();
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
             var tables = service.GetAllTables();
 
             var model = Mapper.Map<List<TableCardViewModel>>(tables);
@@ -32,7 +33,7 @@ namespace ManagerDesk.Controllers
         [HttpGet]
         public ActionResult AllMenus()
         {
-            var service = ServiceCreator.GetManagerService();
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
             var menus = service.GetAllMenus();
 
             var model = Mapper.Map<List<MenuViewModel>>(menus);
@@ -52,7 +53,7 @@ namespace ManagerDesk.Controllers
         [HttpGet]
         public ActionResult AllRestaurants()
         {
-            var service = ServiceCreator.GetManagerService();
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
             var rests = service.GetAllRestaurants();
 
             var model = Mapper.Map<List<RestaurantViewModel>>(rests);
@@ -63,7 +64,7 @@ namespace ManagerDesk.Controllers
         [HttpGet]
         public ActionResult AllDishes()
         {
-            var service = ServiceCreator.GetManagerService();
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
             var dishes = service.GetAllDishes();
 
             var model = dishes.GroupBy(o => o.Category).Select(o => new DishListViewModel { Category = o.Key, Dishes = Mapper.Map<List<DishViewModel>>(o.ToList()) }).ToList();
@@ -73,7 +74,7 @@ namespace ManagerDesk.Controllers
         [HttpGet]
         public ActionResult MenuMoreDishes(string menuid)
         {
-            var service = ServiceCreator.GetManagerService();
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
 
             var allDishes = service.GetAllDishes();
             var selectedDishes = Mapper.Map<List<SelectedDishViewModel>>(allDishes);
@@ -95,7 +96,7 @@ namespace ManagerDesk.Controllers
         {
             try
             {
-                var service = ServiceCreator.GetManagerService();
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
                 var curMenu = service.GetMenu(menuId);
                 var allDishes = service.GetAllDishes();
                 if (curMenu != null && allDishes != null)
@@ -126,7 +127,7 @@ namespace ManagerDesk.Controllers
         {
             try
             {
-                var service = ServiceCreator.GetManagerService();
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
                 switch (activeSection)
                 {
                     case CardTypes.Dish:
@@ -171,7 +172,7 @@ namespace ManagerDesk.Controllers
         {
             try
             {
-                var service = ServiceCreator.GetManagerService();
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
                 if (menuId == Guid.Empty)
                 {
                     var menu = new Menu { MenuName = name, DishList = new List<Dish>(), Restaurant = rest };
@@ -195,7 +196,7 @@ namespace ManagerDesk.Controllers
         {
             try
             {
-                var service = ServiceCreator.GetManagerService();
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
                 if (dish.Id == Guid.Empty)
                     service.CreateNewDish(dish);
                 else
@@ -214,7 +215,7 @@ namespace ManagerDesk.Controllers
         {
             try
             {
-                var service = ServiceCreator.GetManagerService();
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
 
                 var dish = service.GetDish(dishId);
                 if (dish != null)
@@ -243,7 +244,7 @@ namespace ManagerDesk.Controllers
         {
             try
             {
-                var service = ServiceCreator.GetManagerService();
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
                 if (Rest.Id == Guid.Empty)
                     service.CreateRestaurant(Rest);
                 else
@@ -262,7 +263,7 @@ namespace ManagerDesk.Controllers
         {
             try
             {
-                var service = ServiceCreator.GetManagerService();
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
 
                 if (itemId != Guid.Empty)
                 {

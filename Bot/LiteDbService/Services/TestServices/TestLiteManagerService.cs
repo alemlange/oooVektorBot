@@ -11,6 +11,10 @@ namespace LiteDbService
 {
     public class TestLiteManagerService : LiteManagerService
     {
+        public TestLiteManagerService() : base("")
+        {
+        }
+
         public override string CurrentDb
         {
             get

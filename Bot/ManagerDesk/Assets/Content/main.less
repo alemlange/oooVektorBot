@@ -194,6 +194,21 @@
             left: 5px;
         }
 
+        .dish-dropdown {
+            height: 75vh;
+            overflow: auto;
+
+            .btn-save-dishes {
+                margin-bottom: 10px;
+            }
+
+            a:hover,
+            a:focus {
+                background-color: @color-border;
+                color: #000;
+            }
+        }
+
         .btn-save-dishes {
             display: block;
             width: 121px;
@@ -221,9 +236,7 @@
 }
 
 .menu-selected {
-    /*background-color: lighten(@color-error, 15%);*/
-    /*background-color: lighten(@color-main, 5%);*/
-    /*border-bottom: 1px solid @color-border;*/
+
     .fa {
         margin-right: 10px;
         color: @color-main;
@@ -243,5 +256,46 @@
     padding: 10px 20px;
     border-top: 1px solid #e7eaec;
   }
+}
+
+/* BEM
+====================================*/
+.toolbar-mini {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.toolbar-mini__btn {
+    background-color: lighten(@color-main, 5%);
+    width: 30px;
+    height: 30px;
+    font-size: 19px;
+    text-align: center;
+    line-height: 27px;
+    color: @color-white;
+    box-shadow: @box-shadow;
+    border-radius: 3px;
+    transition: 0.3s;
+
+    &:hover {
+        background-color: @color-main;
+    }
+}
+
+.toolbar-mini__btn_theme_danger {
+    background-color: lighten(@color-error, 5%);
+
+    &:hover {
+        background-color: @color-error;
+    }
+}
+
+.toolbar-mini__btn_theme_default {
+    background-color: @color-border;
+
+    &:hover {
+        background-color: darken(@color-border, 5%);
+    }
 }
 

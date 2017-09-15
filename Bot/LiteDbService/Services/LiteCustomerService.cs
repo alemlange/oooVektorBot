@@ -13,6 +13,25 @@ namespace LiteDbService
 {
     public class LiteCustomerService : LiteService, ICustomerDb
     {
+        private string _userDb { get; set; }
+
+        public override string CurrentDb
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_currentDb))
+                {
+                    _currentDb = @"C:\db\" + _userDb + ".db";
+                }
+                return _currentDb;
+            }
+        }
+
+        public LiteCustomerService(string userDbName)
+        {
+            _userDb = userDbName;
+        }
+
         public void OrderDish(Guid tableId, OrderedDish dish)
         {
             using (var db = new LiteDatabase(CurrentDb))

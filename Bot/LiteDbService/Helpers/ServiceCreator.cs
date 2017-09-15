@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LiteDbService;
-using System.Configuration;
 using LiteDbService.Enums;
+using DataModels.Configuration;
 
 namespace LiteDbService.Helpers
 {
     public static class ServiceCreator
     {
-        public static LiteCustomerService GetCustomerService()
+        public static LiteCustomerService GetCustomerService(string userName)
         {
-            var dbType =  ConfigurationManager.AppSettings.Get("DbType");
+            var dbType = ConfigurationSettings.DbType;
             if (dbType == DbTypes.TestDb.ToString())
                 return new TestLiteCustomerService();
             else
-                return new LiteCustomerService();
+                return new LiteCustomerService(userName);
         }
 
         public static LiteManagerService GetManagerService(string userName)
         {
-            var dbType = ConfigurationManager.AppSettings.Get("DbType");
+            var dbType = ConfigurationSettings.DbType;
             if (dbType == DbTypes.TestDb.ToString())
                 return new TestLiteManagerService();
             else

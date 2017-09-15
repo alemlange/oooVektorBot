@@ -34,6 +34,7 @@
       <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigurationSettings.cs" />
     <Compile Include="Enums\SessionState.cs" />
     <Compile Include="Exceptions\TableNotFoundException.cs" />
     <Compile Include="Models\Dish.cs" />
+    <Compile Include="Models\Config.cs" />
     <Compile Include="Models\ManagerAccount.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\StateVarible.cs" />
@@ -57,5 +60,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

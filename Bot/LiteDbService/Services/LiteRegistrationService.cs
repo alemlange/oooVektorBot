@@ -34,12 +34,42 @@ namespace LiteDbService
             }
         }
 
+        public Config CreateConfig(Guid accountId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Config>("Configs");
+                var config = new Config { Id = Guid.NewGuid(), AccountId = accountId };
+
+                col.Insert(config);
+                return config;
+            }
+        }
+
         public ManagerAccount FindAccount(string login)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<ManagerAccount>("ManagerAccounts");
                 return col.Find(o => o.Login == login).FirstOrDefault();
+            }
+        }
+
+        public ManagerAccount FindAccount(Guid accountId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<ManagerAccount>("ManagerAccounts");
+                return col.Find(o => o.Id == accountId).FirstOrDefault();
+            }
+        }
+
+        public Config FindConfig(Guid accId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Config>("Configs");
+                return col.Find(o => o.AccountId == accId).FirstOrDefault();
             }
         }
     }

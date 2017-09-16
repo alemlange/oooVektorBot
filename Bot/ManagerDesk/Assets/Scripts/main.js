@@ -29,7 +29,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".js-table-body").on("click", ".more-menu-btn", function (e) {
+    $(".js-table-body").on("click", ".toolbar-mini__btn", function (e) {
 
         var menuHeader = $(this).parents(".js-menu-card");
         var menuid = menuHeader.data("itemid");

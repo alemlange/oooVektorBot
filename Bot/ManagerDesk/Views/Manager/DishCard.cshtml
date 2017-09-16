@@ -1,7 +1,13 @@
 ﻿@model ManagerDesk.ViewModels.DishViewModel
 <div class="col-md-6 col-lg-3">
-    <div class="info-item js-dish-card" data-target="@Url.Action("EditDish","Manager")" data-itemid="@Model.Id">
-        <span class="more-menu-btn"><i class="fa fa-pencil js-eddit-card" aria-hidden="true"></i></span>
+    <div class="info-item js-dish-card animated fadeIn" data-target="@Url.Action("EditDish","Manager")" data-itemid="@Model.Id">
+        @*<span class="more-menu-btn"><i class="fa fa-pencil js-eddit-card" aria-hidden="true"></i></span>*@
+
+        <div class="toolbar-mini">
+            <div class="toolbar-mini__btn js-eddit-card"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+            <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+        </div>
+
         <h3 class="info-item-heading">@Model.Name</h3>
         <h4 class="price-heading">@Model.Price р.</h4>
         <div class="dish-description">@Model.Description</div>

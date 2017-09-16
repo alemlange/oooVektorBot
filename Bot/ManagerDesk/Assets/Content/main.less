@@ -21,33 +21,35 @@
         list-style: none;
         margin: 0;
         padding: 0;
-        flex-basis: 65%;
+        flex-grow: 1;
 
         li {
             margin-right: 25px;
         }
     }
 
-    .navbar-left-btn {
-        display: inline-block;
-        color: @color-white;
-        cursor: pointer;
-        /*margin: 14px 5px 5px 37px;*/
-        margin-left: 25px;
-        font-size: 21px;
+    .navbar-left-btn-wrap {
+        width: 240px;
+
+        .navbar-left-btn {
+            display: inline-block;
+            color: @color-white;
+            cursor: pointer;
+            margin-left: 25px;
+            font-size: 28px;
+        }
     }
 
     a {
         color: @color-white;
         cursor: pointer;
         text-decoration: none;
-        font-size: 14px;
+        font-size: 15px;
+        display: inline-block;
+        text-align: center;
     }
 
-    .logout {
-        margin-right: 25px;
-    }
-
+    .logout,
     .config {
         margin-right: 25px;
     }
@@ -121,7 +123,8 @@
         margin-bottom: 25px;
         box-shadow: @box-shadow;
         background-color: @color-background-item;
-        padding: 15px 20px 20px 20px;
+        /*padding: 15px 20px 20px 20px;*/
+        padding: 10px 15px 15px;
         display: block;
         cursor: pointer;
         position: relative;
@@ -140,11 +143,14 @@
         }
 
         .info-item-heading {
+            font-family: "RobotoRegular", sans-serif;
             margin-top: 0;
             text-align: center;
+            color: @color-text;
         }
 
         .price-heading {
+            font-family: "RobotoRegular", sans-serif;
             color: @color-main;
             text-align: center;
         }
@@ -172,35 +178,10 @@
             text-align: center;
         }
 
-        .more-menu-btn {
-            position: absolute;
-            left: 5px;
-            top: 5px;
-            background-color: lighten(@color-main, 5%);
-            width: 30px;
-            height: 30px;
-            font-size: 19px;
-            text-align: center;
-            line-height: 27px;
-            color: @color-white;
-            box-shadow: @box-shadow;
-            border-radius: 3px;
-            transition: 0.3s;
-
-            &:hover {
-                background-color: @color-main;
-            }
-        }
-
-        .edit-dropdown {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-        }
-
         .dish-dropdown {
             height: 75vh;
             overflow: auto;
+            text-align: left;
 
             .btn-save-dishes {
                 margin-bottom: 10px;
@@ -301,5 +282,9 @@
     &:hover {
         background-color: darken(@color-border, 5%);
     }
+}
+
+.profile-item__name {
+    font-family: "RobotoBold", sans-serif;
 }
 

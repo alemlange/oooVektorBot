@@ -2,16 +2,22 @@
 <div class="col-md-6 col-lg-3">
     <div class="info-item" data-itemid="@Model.Id">
         <div class="table-wrap">
-            <h3 class="info-item-heading">Стол <span class="table-number">@Model.TableNumber</span></h3>
-            <div class="dropdown edit-dropdown">
-                <span class="more-menu-btn dropdown-toggle" type="button" id="dropdownTableCard" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                <ul class="dropdown-menu" aria-labelledby="dropdownTableCard">
-                    <li><a href="#">Закрыть столик</a></li>
-                    <li><a href="#">Удалить</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Подробнее</a></li>
-                </ul>
+
+            <div class="toolbar-mini">
+                <div class="toolbar-mini__btn dropdown">
+                    <span class="dropdown-toggle" type="button" id="dropdownTableCard" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownTableCard">
+                        <li><a href="#">Закрыть столик</a></li>
+                        <li><a href="#">Удалить</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Подробнее</a></li>
+                    </ul>
+                </div>
+                <div class="toolbar-mini__btn toolbar-mini__btn_theme_default"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
             </div>
+
+            <h3 class="info-item-heading">Стол <span class="table-number">@Model.TableNumber</span></h3>
+
             @if (Model.CheckNeeded)
             {
                 <span class="label label-danger">Счет</span>
@@ -24,6 +30,7 @@
             {
                 <div class="dish-name-item"><span class="dish-name">@dish.DishFromMenu.Name</span><span class="dish-price">@dish.DishFromMenu.Price р.</span></div>
             }
+
         </div>
     </div>
 </div>

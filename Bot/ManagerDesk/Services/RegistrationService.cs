@@ -29,7 +29,6 @@ namespace ManagerDesk.Services
 
             var service = ServiceCreator.GetRegistrationService();
             service.CreateAccount(account);
-            service.CreateConfig(account.Id);
 
         }
 
@@ -47,20 +46,6 @@ namespace ManagerDesk.Services
         {
             var service = ServiceCreator.GetRegistrationService();
             return service.FindAccount(login);
-
-        }
-
-        public Config FindConfiguration(string login)
-        {
-            var service = ServiceCreator.GetRegistrationService();
-            var acc =  service.FindAccount(login);
-
-            if (acc != null)
-                return service.FindConfig(acc.Id);
-            else
-                throw new Exception("Account not found");
-
-
 
         }
     }

@@ -11,11 +11,6 @@ namespace LiteDbService
 {
     public class TestLiteCustomerService : LiteCustomerService
     {
-        public TestLiteCustomerService() : base("")
-        {
-
-        }
-
         public override string CurrentDb
         {
             get

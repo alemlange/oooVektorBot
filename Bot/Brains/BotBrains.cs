@@ -8,7 +8,6 @@ using LiteDbService;
 using LiteDbService.Helpers;
 using Brains.Responces;
 using DataModels.Enums;
-using DataModels.Configuration;
 
 namespace Brains
 {
@@ -16,9 +15,7 @@ namespace Brains
     {
         //public static readonly Lazy<BotBrains> Instance = new Lazy<BotBrains>(() => new BotBrains());
 
-        private LiteCustomerService _service { get; set; }
-
-        private LiteRegistrationService _regService = ServiceCreator.GetRegistrationService();
+        private LiteCustomerService _service = ServiceCreator.GetCustomerService();
 
         public List<string> DishNames { get; set; }
 
@@ -43,16 +40,6 @@ namespace Brains
             {
                 RestaurantNames.Add(restrunt.Name);
             }
-
-            var accountId = ConfigurationSettings.AccountId;
-            if (accountId != Guid.Empty)
-            {
-                var account = _regService.FindAccount(accountId);
-                _service = ServiceCreator.GetCustomerService(account.Login);
-            }
-            else
-                throw new Exception("AccountId setting not found webconfig.");
-            
         }
 
         public SessionState GetState(long chatId)

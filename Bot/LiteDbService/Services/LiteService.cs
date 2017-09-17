@@ -19,7 +19,7 @@ namespace LiteDbService
             {
                 if (string.IsNullOrEmpty(_currentDb))
                 {
-                    _currentDb = @"C:\db\Qwerty.db"; // todo
+                    _currentDb = @"C:\db\MyData.db";
                 }
                 return _currentDb;
             }

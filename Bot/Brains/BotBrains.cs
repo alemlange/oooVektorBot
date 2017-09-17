@@ -253,7 +253,7 @@ namespace Brains
             {
                 if (_service.CreateTable(chatId) != Guid.Empty)
                 {
-                    var restaurants = _service.GetAllRestaurants();
+                    var restaurants = _service.GetAllActiveRestaurants();
 
                     if (restaurants.Count > 1)
                     {
@@ -271,7 +271,8 @@ namespace Brains
                         return new Responce
                         {
                             ChatId = chatId,
-                            ResponceText = "Привет! За каким столиком вы сидите",
+                            //ResponceText = "Привет! За каким столиком вы сидите",
+                            ResponceText = "<b>Привет! За каким столиком вы сидите</b>",
                             State = SessionState.Queue
                         };
                     }

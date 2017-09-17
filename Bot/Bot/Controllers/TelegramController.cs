@@ -73,6 +73,7 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
+                                        parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }

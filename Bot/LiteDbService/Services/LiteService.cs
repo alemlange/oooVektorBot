@@ -136,6 +136,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 db.DropCollection("Tables");
+                //db.DropCollection("Restaurants");
             }
         }
 
@@ -217,6 +218,18 @@ namespace LiteDbService
             {
                 var col = db.GetCollection<Restaurant>("Restaurants");
                 return col.FindAll().ToList();
+            }
+        }
+
+        public List<Restaurant> GetAllActiveRestaurants()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var menuCol = db.GetCollection<Menu>("Menus");
+                var menus = menuCol.Find(m => m.Restaurant != Guid.Empty).ToList();
+
+                var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
+                return restaurantCol.Find(r => menus.Any(m => m.Restaurant == r.Id)).ToList();
             }
         }
 

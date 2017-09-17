@@ -24,7 +24,7 @@ namespace Bot.CommandParser
                 {
                     keys.Add(new KeyboardButton[] { res });
                 }
-                keys.Add(new KeyboardButton[] { "Назад ↩" });
+                //keys.Add(new KeyboardButton[] { "Назад ↩" });
 
                 return new ReplyKeyboardMarkup
                 {

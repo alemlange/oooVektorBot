@@ -84,6 +84,7 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
+                                        parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
@@ -94,6 +95,7 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
+                                        parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
@@ -105,7 +107,7 @@ namespace Bot.Controllers
                                     {
                                         var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
 
-                                        await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, replyMarkup: keyboard);
+                                        await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
                                     }
                                     else
                                         await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText);
@@ -113,6 +115,7 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         "Хотите чтонибудь из меню? Просто кликните по нему!",
+                                        parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
@@ -125,6 +128,7 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
+                                        parseMode: ParseMode.Html,
                                         replyMarkup: keyboard);
                                     break;
                                 }
@@ -135,6 +139,7 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
+                                        parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
@@ -145,6 +150,7 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
+                                        parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
@@ -155,12 +161,13 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
+                                        parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Unknown:
                                 {
-                                    await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(");
+                                    await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(", parseMode: ParseMode.Html);
                                     break;
                                 }
                         }
@@ -182,6 +189,7 @@ namespace Bot.Controllers
                             chatId,
                             messageId,
                             response.ResponceText,
+                            parseMode: ParseMode.Html,
                             replyMarkup: keyboard);
                     }
                     else if (update.CallbackQuery.Data.ToLower().Contains(" ➡  ")) // todo keyboard
@@ -196,6 +204,7 @@ namespace Bot.Controllers
                             chatId,
                             messageId,
                             response.ResponceText,
+                            parseMode: ParseMode.Html,
                             replyMarkup: keyboard);
                     }
                     else if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
@@ -205,6 +214,7 @@ namespace Bot.Controllers
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
                             response.ResponceText,
+                            parseMode: ParseMode.Html,
                             replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                     }
                     else if (update.CallbackQuery.Data.ToLower().Contains("вернуться к меню"))
@@ -216,11 +226,13 @@ namespace Bot.Controllers
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
                             response.ResponceText,
+                            parseMode: ParseMode.Html,
                             replyMarkup: keyboard);
 
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
                             "Хотите чтонибудь из меню? Просто кликните по нему!",
+                            parseMode: ParseMode.Html,
                             replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                     }
                 }

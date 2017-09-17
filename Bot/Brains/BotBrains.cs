@@ -116,7 +116,7 @@ namespace Brains
                     num += 1;
                     respText += num + ". " +dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р." + Environment.NewLine;
                 }
-                respText += Environment.NewLine + "Итого: " + tableSumm.ToString() + "р." + Environment.NewLine;
+                respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
             }
             else
             {
@@ -271,8 +271,7 @@ namespace Brains
                         return new Responce
                         {
                             ChatId = chatId,
-                            //ResponceText = "Привет! За каким столиком вы сидите",
-                            ResponceText = "<b>Привет! За каким столиком вы сидите</b>",
+                            ResponceText = "Привет! За каким столиком вы сидите",
                             State = SessionState.Queue
                         };
                     }

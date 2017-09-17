@@ -229,7 +229,8 @@ namespace LiteDbService
                 var menus = menuCol.Find(m => m.Restaurant != Guid.Empty).ToList();
 
                 var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
-                return restaurantCol.Find(r => menus.Any(m => m.Restaurant == r.Id)).ToList();
+                var restaurants = restaurantCol.FindAll().ToList();
+                return restaurants.Where(r => menus.Select(m => m.Restaurant).Contains(r.Id)).ToList();
             }
         }
 

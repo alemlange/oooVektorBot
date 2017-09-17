@@ -1,7 +1,10 @@
 ﻿@model List<ManagerDesk.ViewModels.RestaurantViewModel>
-@foreach (var rest in Model)
-{
-    @Html.Partial("RestaurantCard", rest)
-}
+
+<div class="row">
+    @foreach (var rest in Model)
+    {
+        @Html.Partial("RestaurantCard", rest)
+    }
+</div>
 
 <script src="~/Assets/Scripts/libs/equalheights.js"></script>

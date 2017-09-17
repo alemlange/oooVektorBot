@@ -1,11 +1,17 @@
 ﻿@model List<ManagerDesk.ViewModels.DishListViewModel>
 @foreach (var dishList in Model)
 {
-    <h2>@dishList.Category</h2>
-    foreach (var dish in dishList.Dishes)
-    {
-        @Html.Partial("DishCard", dish)
-    }
+    <div class="row">
+        <h2 class="col-md-12">@dishList.Category</h2>
+    </div>
+
+    <div class="row">
+        @foreach (var dish in dishList.Dishes)
+        {
+            @Html.Partial("DishCard", dish)
+        }
+    </div>
+    
 }
 
 <script src="~/Assets/Scripts/libs/equalheights.js"></script>

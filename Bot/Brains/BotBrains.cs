@@ -26,6 +26,16 @@ namespace Brains
 
         public BotBrains()
         {
+            var accountId = ConfigurationSettings.AccountId;
+
+            if (accountId != Guid.Empty)
+            {
+                var account = _regService.FindAccount(accountId);
+                _service = ServiceCreator.GetCustomerService(account.Login);
+            }
+            else
+                throw new Exception("AccountId setting not found webconfig.");
+
             var allDishes = _service.GetAllDishes();
 
             DishNames = new List<string>();
@@ -43,16 +53,6 @@ namespace Brains
             {
                 RestaurantNames.Add(restrunt.Name);
             }
-
-            var accountId = ConfigurationSettings.AccountId;
-            if (accountId != Guid.Empty)
-            {
-                var account = _regService.FindAccount(accountId);
-                _service = ServiceCreator.GetCustomerService(account.Login);
-            }
-            else
-                throw new Exception("AccountId setting not found webconfig.");
-            
         }
 
         public SessionState GetState(long chatId)
@@ -160,7 +160,7 @@ namespace Brains
             try
             {
                 //_service.UpdateTableState(chatId, SessionState.Sitted);
-                var menu = _service.GetAllMenus().First();
+                var menu = _service.GetAllMenus().First(); // todo
 
                 var respText = menu.MenuName + Environment.NewLine + Environment.NewLine;
 
@@ -253,13 +253,28 @@ namespace Brains
             {
                 if (_service.CreateTable(chatId) != Guid.Empty)
                 {
+                    var restaurants = _service.GetAllRestaurants();
 
-                    return new Responce
+                    if (restaurants.Count > 1)
                     {
-                        ChatId = chatId,
-                        ResponceText = "Привет! В каком вы ресторане?",
-                        State = SessionState.Restaurant
-                    };
+                        return new Responce
+                        {
+                            ChatId = chatId,
+                            ResponceText = "Привет! В каком вы ресторане?",
+                            State = SessionState.Restaurant
+                        };
+                    }
+                    else
+                    {
+                        _service.UpdateTableState(chatId, SessionState.Queue);
+
+                        return new Responce
+                        {
+                            ChatId = chatId,
+                            ResponceText = "Привет! За каким столиком вы сидите",
+                            State = SessionState.Queue
+                        };
+                    }
                 }
                 else
                     throw new Exception("Не получилось определить ресторан!");
@@ -274,8 +289,9 @@ namespace Brains
         {
             try
             {
-                if (_service.CreateTable(chatId) != Guid.Empty)
-                {
+                //if (_service.CreateTable(chatId) != Guid.Empty)
+                //{
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
 
                     return new Responce
                     {
@@ -283,9 +299,9 @@ namespace Brains
                         ResponceText = "Привет! За каким столиком вы сидите?",
                         State = SessionState.Queue
                     };
-                }
-                else
-                    throw new Exception("Не получилось создать столик!");
+                //}
+                //else
+                //    throw new Exception("Не получилось создать столик!");
             }
             catch (Exception)
             {

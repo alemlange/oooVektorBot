@@ -288,3 +288,41 @@
     font-family: "RobotoBold", sans-serif;
 }
 
+.btn-save {
+    display: block;
+    margin: auto;
+    width: 100%;
+    background-color: @color-main;
+    color: @color-white;
+
+    &:hover {
+        background-color: darken(@color-main, 5%);
+        color: @color-white;
+    }
+}
+
+/* Login and Registration Pages
+====================================*/
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login__heading {
+    font-family: "RobotoRegular", sans-serif;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.login__link {
+    display: block;
+    text-align: center;
+    color: @color-main;
+
+    &:hover {
+        color: darken(@color-main, 5%);
+    }
+}
+

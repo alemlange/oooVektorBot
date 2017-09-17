@@ -53,7 +53,8 @@ namespace Bot.Controllers
                 {
                     var message = update.Message;
                     var chatId = message.Chat.Id;
-                    var parser = ParserChoser.GetParser(bot.GetState(chatId));
+                    var state = bot.GetState(chatId);
+                    var parser = ParserChoser.GetParser(state);
                     var cmd = parser.ParseForCommand(update);
 
                     if (message.Type == MessageType.TextMessage)
@@ -166,7 +167,7 @@ namespace Bot.Controllers
 
                     if (update.CallbackQuery.Data.ToLower().Contains("  ⬅ ")) // todo keyboard
                     {
-                        var page = int.Parse(update.CallbackQuery.Data.Trim('⬅', ' '));
+                        var page = int.Parse(update.CallbackQuery.Data.Trim('⬅', ' ', 'с', 'т', 'р', '.'));
                         var response = bot.ShowMenuOnPage(chatId, page);
 
                         var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
@@ -179,7 +180,7 @@ namespace Bot.Controllers
                     }
                     else if (update.CallbackQuery.Data.ToLower().Contains(" ➡  ")) // todo keyboard
                     {
-                        var page = int.Parse(update.CallbackQuery.Data.Trim('➡', ' '));
+                        var page = int.Parse(update.CallbackQuery.Data.Trim('➡', ' ', 'с', 'т', 'р', '.'));
 
                         var response = bot.ShowMenuOnPage(chatId, page);
 
@@ -217,6 +218,10 @@ namespace Bot.Controllers
                             replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                     }
                 }
+                //else if (update.Type == UpdateType. MessageUpdate)
+                //{
+
+                //}
             }
             catch (Exception ex)
             {

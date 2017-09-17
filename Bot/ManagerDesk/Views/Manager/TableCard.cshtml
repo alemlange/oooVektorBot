@@ -1,6 +1,6 @@
 ﻿@model ManagerDesk.ViewModels.TableCardViewModel
 <div class="col-md-6 col-lg-3">
-    <div class="info-item" data-itemid="@Model.Id">
+    <div class="info-item animated fadeIn" data-itemid="@Model.Id">
         <div class="table-wrap">
 
             <div class="toolbar-mini">
@@ -13,7 +13,7 @@
                         <li><a href="#">Подробнее</a></li>
                     </ul>
                 </div>
-                <div class="toolbar-mini__btn toolbar-mini__btn_theme_default"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+                <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
             </div>
 
             <h3 class="info-item-heading">Стол <span class="table-number">@Model.TableNumber</span></h3>

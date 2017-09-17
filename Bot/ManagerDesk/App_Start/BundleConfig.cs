@@ -28,6 +28,7 @@ namespace ManagerDesk
                       "~/Assets/Content/font-awesome-4.7.0/css/font-awesome.min.css",
                       "~/Assets/Content/config.css",
                       "~/Assets/Content/main.css",
+                      "~/Assets/Content/animate.css",
                       "~/Assets/Content/media.css").Include("~/Assets/Content/font-awesome-4.7.0/css/font-awesome.min.css", new CssRewriteUrlTransform()));
         }
     }

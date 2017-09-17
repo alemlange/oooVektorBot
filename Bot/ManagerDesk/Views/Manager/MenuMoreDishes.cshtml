@@ -2,7 +2,7 @@
 
 @foreach (var cat in Model)
 {
-    <h3 class="text-center">@cat.Category</h3>
+    <h3 class="info-item-heading">@cat.Category</h3>
     foreach (var dish in cat.Dishes)
     {
         <li><a href="#" class="@dish.SelectedStyle js-dish-drop" data-id="@dish.Id"><i class="fa fa-check" aria-hidden="true" @dish.SelectedIcoStyle></i> @dish.Name @*<span class="dish-price">@dish.Price р.</span>*@</a></li>

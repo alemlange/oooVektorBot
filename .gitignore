@@ -99,3 +99,4 @@ bld/
 # but keep track of directories ending in .cache
 !*.[Cc]ache/
 *.cache
+Bot/.vs/Bot/v15/sqlite3/storage.ide

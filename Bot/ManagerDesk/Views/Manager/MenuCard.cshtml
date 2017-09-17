@@ -3,16 +3,12 @@
      var dropdownId = "drop" + Model.Id;
   }
 <div class="col-md-12 col-lg-6">
-    <div class="info-item js-menu-card" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Manager")">
+    <div class="info-item js-menu-card animated fadeIn" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Manager")">
 
         <div class="toolbar-mini">
             <div class="toolbar-mini__btn dropdown">
-                <span class="dropdown-toggle" type="button" id="dropdownTableCard" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                <ul class="dropdown-menu" aria-labelledby="dropdownTableCard">
-                    <li><a href="#">Закрыть столик</a></li>
-                    <li><a href="#">Удалить</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Подробнее</a></li>
+                <span class="dropdown-toggle" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                <ul class="dropdown-menu dish-dropdown" aria-labelledby="@dropdownId">
                 </ul>
             </div>
             <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
@@ -23,11 +19,11 @@
         {
             <h4>@Model.AttachedRestaurantName</h4>
         }
-        <div class="dropdown edit-dropdown">
+        @*<div class="dropdown edit-dropdown">
             <span class="more-menu-btn dropdown-toggle" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-pencil" aria-hidden="true"></i></span>
             <ul class="dropdown-menu dish-dropdown" aria-labelledby="@dropdownId">
             </ul>
-        </div>
+        </div>*@
         @if (Model.DishList.Any())
         {
             foreach (var dish in Model.DishList)

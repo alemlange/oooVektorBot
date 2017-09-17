@@ -7,16 +7,15 @@
         @if (Model.AvailableRests != null && Model.AvailableRests.Any())
         {
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle js-chosen-rest" type="button" id="rest-drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-value="@Guid.Empty">
-                    Ресторан
-                    <span class="caret"></span>
-                </button>
+                <input class="form-control dropdown-toggle js-chosen-rest" id="rest-drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-value="@Guid.Empty" placeholder="Ресторан" />
+                               
                 <ul class="dropdown-menu" aria-labelledby="rest-drop-menu">
                     @foreach (var rest in Model.AvailableRests)
                     {
                         <li><a href="#" class="js-rest-choose" data-restid="@rest.Id">@rest.Name</a></li>
                     }
                 </ul>
+
             </div>
         }
         <a href="#" class="btn btn-save-dishes js-save-menu" data-target="@Url.Action("EditMenu","Manager")">Сохранить</a>

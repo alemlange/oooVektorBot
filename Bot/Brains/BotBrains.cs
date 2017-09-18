@@ -160,9 +160,9 @@ namespace Brains
             try
             {
                 //_service.UpdateTableState(chatId, SessionState.Sitted);
-                var menu = _service.GetAllMenus().First(); // todo
+                var menu = _service.GetMenuByTable(chatId);
 
-                var respText = menu.MenuName + Environment.NewLine + Environment.NewLine;
+                var respText = "<b>" + menu.MenuName + "</b>" + Environment.NewLine + Environment.NewLine;
 
                 int page = 1;
                 int pageCount = 0;
@@ -196,7 +196,7 @@ namespace Brains
 
                 foreach (var dish in dishes)
                 {
-                    respText += (dishNum += 1) + ". " + dish.Name + " " + dish.Price + "р. " + dish.SlashName + Environment.NewLine;
+                    respText += (dishNum += 1) + ". " + dish.Name + " <b>" + dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
                 }
 
                 return new MenuResponce { ResponceText = respText, Page = page, PageCount = pageCount };

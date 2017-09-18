@@ -48,6 +48,24 @@ namespace Bot.Controllers
         }
 
         [HttpPost]
+        public async Task<IHttpActionResult> SendMessage(long chatId, string message)
+        {
+            try
+            {
+                await Bot.Api.SendTextMessageAsync(
+                    chatId,
+                    message,
+                    parseMode: ParseMode.Html);
+            }
+            catch (Exception ex)
+            {
+                var error = ex.Message;
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
         public async Task<IHttpActionResult> WebHook(Update update)
         {
             try
@@ -167,10 +185,20 @@ namespace Bot.Controllers
                                 }
                             case CmdTypes.Unknown:
                                 {
-                                    await Bot.Api.SendTextMessageAsync(chatId, "Извините, не понял вашей просьбы :(", parseMode: ParseMode.Html);
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        "Извините, не понял вашей просьбы :(",
+                                        parseMode: ParseMode.Html);
                                     break;
                                 }
                         }
+                    }
+                    else if (message.Type == MessageType.PhotoMessage)
+                    {
+                        await Bot.Api.SendTextMessageAsync(
+                            chatId,
+                            ":)",
+                            parseMode: ParseMode.Html);
                     }
                 }
                 else if (update.Type == UpdateType.CallbackQueryUpdate)

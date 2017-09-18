@@ -29,7 +29,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".js-table-body").on("click", ".toolbar-mini__btn", function (e) {
+    $(".js-table-body").on("click", ".menu-more-dishes", function (e) {
 
         var menuHeader = $(this).parents(".js-menu-card");
         var menuid = menuHeader.data("itemid");
@@ -89,5 +89,21 @@ $(document).ready(function () {
 
         e.preventDefault();
         $(this).parent().trigger("dblclick");
+    });
+
+    $(".js-table-body").on("click", ".toolbar-delete", function (e) {
+        e.preventDefault();
+        var chosenCard = $(this).parents(".info-item");
+
+        if (chosenCard.length !== 0) {
+            var itemId = chosenCard.data("itemid");
+            var itemType = chosenCard.data("type");
+
+            var target = $(this).data("target");
+            $.post(target, { itemId: itemId, itemType: itemType }).done(function (data) {
+                $(".menu-section.active").trigger("click");
+            });
+        }
+
     });
 });

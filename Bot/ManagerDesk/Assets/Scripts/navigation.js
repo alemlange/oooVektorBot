@@ -9,6 +9,7 @@ $(document).ready(function () {
         var target = $(this).data("target");
         $.get(target).done(function (data) {
             $(".js-table-body").html(data);
+            equalHeight($(".info-item"));
         });
     });
 
@@ -19,6 +20,16 @@ $(document).ready(function () {
 
         var target = $(this).data("target");
         $.get(target).done(function (data) {
+            $(".js-table-body").html(data);
+        });
+    });
+
+    $(".navbar-left").on("click", ".toolbar-add", function (e) {
+        e.preventDefault();
+        var activeSection = $(this).data("type");
+
+        var target = $(this).data("target");
+        $.get(target, { activeSection: activeSection }).done(function (data) {
             $(".js-table-body").html(data);
         });
     });

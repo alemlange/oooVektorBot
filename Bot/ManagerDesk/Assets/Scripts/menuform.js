@@ -29,8 +29,8 @@ $(document).ready(function () {
 
         var dropBtn = $(this).parents(".dropdown").find(".js-chosen-rest");
 
-        dropBtn.html(restName + " <span class='caret'></span>");
-        dropBtn.data("value", restId);
+        dropBtn.val(restName);
+        dropBtn.attr("data-value", restId);
     });
 
 });

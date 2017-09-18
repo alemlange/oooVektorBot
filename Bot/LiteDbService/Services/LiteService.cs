@@ -46,6 +46,19 @@ namespace LiteDbService
             }
         }
 
+        public Menu GetMenuByTable(long chatId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(t => t.ChatId == chatId).FirstOrDefault();
+                var menuId = table.Menu;
+
+                var menuCol = db.GetCollection<Menu>("Menus");
+                return menuCol.Find(m => m.Id == menuId).FirstOrDefault();
+            }
+        }
+
         public Guid CreateTable(long chatId)
         {
             using (var db = new LiteDatabase(CurrentDb))

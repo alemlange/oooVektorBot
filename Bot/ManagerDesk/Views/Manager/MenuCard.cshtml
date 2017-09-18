@@ -17,13 +17,9 @@
         <h3 class="info-item-heading">@Model.MenuName</h3>
         @if (Model.AttachedRestaurantName != null)
         {
-            <h4>@Model.AttachedRestaurantName</h4>
+            <h4 class="login__heading">@Model.AttachedRestaurantName</h4>
         }
-        @*<div class="dropdown edit-dropdown">
-            <span class="more-menu-btn dropdown-toggle" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-            <ul class="dropdown-menu dish-dropdown" aria-labelledby="@dropdownId">
-            </ul>
-        </div>*@
+
         @if (Model.DishList.Any())
         {
             foreach (var dish in Model.DishList)

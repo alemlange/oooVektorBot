@@ -1,10 +1,7 @@
 ﻿@model List<ManagerDesk.ViewModels.MenuViewModel>
-
 <div class="row">
     @foreach (var menu in Model)
     {
         @Html.Partial("MenuCard", menu)
     }
 </div>
-
-<script src="~/Assets/Scripts/libs/equalheights.js"></script>

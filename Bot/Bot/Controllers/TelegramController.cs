@@ -195,6 +195,14 @@ namespace Bot.Controllers
                     }
                     else if (message.Type == MessageType.PhotoMessage)
                     {
+                        var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
+                        var filename = file.FileId + "." + file.FilePath.Split('.').Last();
+
+                        //using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create))
+                        //{
+                        //    await file.FileStream.CopyToAsync(saveImageStream);
+                        //}
+
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
                             ":)",
@@ -264,10 +272,6 @@ namespace Bot.Controllers
                             replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                     }
                 }
-                //else if (update.Type == UpdateType. MessageUpdate)
-                //{
-
-                //}
             }
             catch (Exception ex)
             {

@@ -19,15 +19,15 @@ $(document).ready(function () {
         $(this).addClass("active-item");
     });
 
-    $(".js-table-body").on("click", ".info-item", function (e) {
-        //e.stopPropagation();
-        if ($(this).hasClass("chosen-card"))
-            $(this).removeClass("chosen-card");
-        else {
-            $(".info-item").removeClass("chosen-card");
-            $(this).addClass("chosen-card");
-        }
-    });
+    //$(".js-table-body").on("click", ".info-item", function (e) {
+    //    //e.stopPropagation();
+    //    if ($(this).hasClass("chosen-card"))
+    //        $(this).removeClass("chosen-card");
+    //    else {
+    //        $(".info-item").removeClass("chosen-card");
+    //        $(this).addClass("chosen-card");
+    //    }
+    //});
 
     $(".js-table-body").on("click", ".menu-more-dishes", function (e) {
 
@@ -89,6 +89,18 @@ $(document).ready(function () {
 
         e.preventDefault();
         $(this).parent().trigger("dblclick");
+    });
+
+    $(".js-table-body").on("click", ".js-edit-menu", function (e) {
+
+        e.preventDefault();
+        var container = $(this).parents(".js-menu-card");
+        var edittarget = container.data("edittarget");
+        var menuId = container.data("itemid");
+
+        $.get(edittarget, { menuId: menuId }).done(function (data) {
+            container.parent().replaceWith(data);
+        });
     });
 
     $(".js-table-body").on("click", ".toolbar-delete", function (e) {

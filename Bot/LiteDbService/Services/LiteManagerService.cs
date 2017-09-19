@@ -133,20 +133,6 @@ namespace LiteDbService
             }
         }
 
-        public void UpdateMenuInfo(Menu menu)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var col = db.GetCollection<Menu>("Menus");
-                var curMenu = col.Find(o => o.Id == menu.Id).FirstOrDefault();
-                if(curMenu != null)
-                {
-                    curMenu.MenuName = menu.MenuName;
-                    col.Update(curMenu);
-                }
-            }
-        }
-
         public void UpdateDish(Dish dish)
         {
             using (var db = new LiteDatabase(CurrentDb))
@@ -197,9 +183,29 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var colDish = db.GetCollection<Menu>("Menus");
-                colDish.Delete(menuId);
+                var colMenus = db.GetCollection<Menu>("Menus");
+                colMenus.Delete(menuId);
 
+            }
+        }
+
+        public void DeleteRestaraunt(Guid restId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var colRests = db.GetCollection<Restaurant>("Restaurants");
+                colRests.Delete(restId);
+
+                var colMenus = db.GetCollection<Menu>("Menus");
+                var menus = colMenus.Find(o => o.Restaurant == restId);
+                if (menus.Any())
+                {
+                    foreach(var menu in menus)
+                    {
+                        menu.Restaurant = Guid.Empty;
+                        colMenus.Update(menu);
+                    }
+                }
             }
         }
 
@@ -207,9 +213,8 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var colDish = db.GetCollection<Table>("Tables");
-                colDish.Delete(tableId);
-
+                var colTables = db.GetCollection<Table>("Tables");
+                colTables.Delete(tableId);
             }
         }
     }

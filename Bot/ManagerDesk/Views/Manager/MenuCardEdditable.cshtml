@@ -4,7 +4,7 @@
         <h3 class="info-item-heading">Меню</h3>
         <input class="form-control js-name" type="text" placeholder="Введите название" value="@Model.MenuName" />
         <div class="dropdown">
-            <input class="form-control dropdown-toggle js-chosen-rest" id="rest-drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-value="@Guid.Empty" placeholder="Ресторан" />
+            <input class="form-control dropdown-toggle js-chosen-rest" value="@Model.AttachedRestaurantName" id="rest-drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-value="@Guid.Empty" placeholder="Ресторан" />
             @if (Model.AvailableRests != null && Model.AvailableRests.Any())
             {
                 <ul class="dropdown-menu" aria-labelledby="rest-drop-menu">
@@ -18,5 +18,3 @@
         <a href="#" class="btn btn-save-dishes js-save-menu" data-target="@Url.Action("EditMenu","Manager")">Сохранить</a>
     </div>
 </div>
-
-<script src="@Url.Content("~/Assets/Scripts/menuform.js")" type="text/javascript"></script>

@@ -180,10 +180,50 @@ namespace ManagerDesk.Controllers
                 }
                 else
                 {
-                    service.UpdateMenuInfo(new Menu { Id = menuId, MenuName = name, Restaurant = rest });
+                    var curMenu = service.GetMenu(menuId);
+                    curMenu.MenuName = name;
+                    curMenu.Restaurant = rest;
+                    service.UpdateMenu(curMenu);
                 }
 
                 return Json(new { isAuthorized = true, isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EditMenu(Guid menuId)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+
+                var menu = service.GetMenu(menuId);
+                if (menu != null)
+                {
+                    var model = Mapper.Map<MenuViewModel>(menu);
+
+                    var rests = service.GetAllRestaurants();
+                    if (rests != null && rests.Any())
+                    {
+                        model.AvailableRests = Mapper.Map<List<RestaurantDropDown>>(rests);
+                        if(model.Restaurant != Guid.Empty)
+                        {
+                            var attachedRest = rests.Where(o => o.Id == model.Restaurant).FirstOrDefault();
+                            if(attachedRest != null)
+                            {
+                                model.AttachedRestaurantName = attachedRest.Name;
+                            }
+                        }
+                    }
+
+                    return View("MenuCardEdditable", model);
+                }
+                else
+                    throw new Exception("Menu not found!");
             }
             catch (Exception ex)
             {
@@ -284,13 +324,18 @@ namespace ManagerDesk.Controllers
                                 service.DeleteTable(itemId);
                                 break;
                             }
+                        case CardTypes.Restaurant:
+                            {
+                                service.DeleteRestaraunt(itemId);
+                                break;
+                            }
                         default:
                             break;
                     }
                     
                 }
                 else
-                    throw new Exception("Dish id not specified!");
+                    throw new Exception("Object id not specified!");
                 return Json(new { isAuthorized = true, isSuccess = true });
 
             }

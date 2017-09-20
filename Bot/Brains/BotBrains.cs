@@ -82,6 +82,33 @@ namespace Brains
                     var dish = _service.FindDish(dishName);
 
                     _service.OrderDish(table.Id, new DataModels.OrderedDish { DishFromMenu = dish });
+                    _service.UpdateTableState(chatId, SessionState.Remark);
+
+                    //return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
+                    return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у Вас есть какие то пожелания к блюду, просто напишите нам!" };
+                }
+                else
+                {
+                    return new Responce { ChatId = chatId, ResponceText = "Вы не выбрали стол! Нажмите 'Начать' в главном меню, чтобы сделать заказ!" };
+                }
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce AddRemark(long chatId, string message)
+        {
+            try
+            {
+                var table = _service.FindTable(chatId);
+
+                if (table != null)
+                {
+                    var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
+
+                    _service.UpdateDishRemark(table.Id, lastDishName.Value.ToString(), message);
                     _service.UpdateTableState(chatId, SessionState.Sitted);
 
                     return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
@@ -114,7 +141,7 @@ namespace Brains
                 foreach (var dish in table.Orders)
                 {
                     num += 1;
-                    respText += num + ". " +dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р." + Environment.NewLine;
+                    respText += num + ". " +dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
                 }
                 respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
             }

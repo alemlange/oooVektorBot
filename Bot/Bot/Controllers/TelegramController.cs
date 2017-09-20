@@ -183,6 +183,17 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
+                            case CmdTypes.Remark:
+                                {
+                                    var response = bot.AddRemark(chatId, message.Text);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
+                                }
                             case CmdTypes.Unknown:
                                 {
                                     await Bot.Api.SendTextMessageAsync(
@@ -214,7 +225,7 @@ namespace Bot.Controllers
                     var chatId = update.CallbackQuery.From.Id;
                     var messageId = update.CallbackQuery.Message.MessageId;
 
-                    if (update.CallbackQuery.Data.ToLower().Contains("  ⬅ ")) // todo keyboard
+                    if (update.CallbackQuery.Data.ToLower().Contains("  ⬅ "))
                     {
                         var page = int.Parse(update.CallbackQuery.Data.Trim('⬅', ' ', 'с', 'т', 'р', '.'));
                         var response = bot.ShowMenuOnPage(chatId, page);
@@ -228,7 +239,7 @@ namespace Bot.Controllers
                             parseMode: ParseMode.Html,
                             replyMarkup: keyboard);
                     }
-                    else if (update.CallbackQuery.Data.ToLower().Contains(" ➡  ")) // todo keyboard
+                    else if (update.CallbackQuery.Data.ToLower().Contains(" ➡  "))
                     {
                         var page = int.Parse(update.CallbackQuery.Data.Trim('➡', ' ', 'с', 'т', 'р', '.'));
 

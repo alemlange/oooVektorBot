@@ -20,6 +20,7 @@ namespace Bot.CommandParser
         MenuCategories,
         Slash,
         Waiter,
-        MyOrder
+        MyOrder,
+        Remark
     }
 }

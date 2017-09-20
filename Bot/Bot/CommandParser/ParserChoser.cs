@@ -18,8 +18,8 @@ namespace Bot.CommandParser
                     return new InQueueSessionParser();
                 case SessionState.Sitted:
                     return new SittedSessionParser();
-                //case SessionState.DishChoosing:
-                //    return new DishChoosingSessionParser();
+                case SessionState.Remark:
+                    return new RemarkSessionParser();
                 case SessionState.Unknown:
                     return new UnknownSessionParser();
                 default:

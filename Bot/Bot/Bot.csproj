@@ -91,7 +91,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CommandParser\KeyBoards\InlineKeyBoardManager.cs" />
-    <Compile Include="CommandParser\Parsers\DishChoosingSessionParser.cs" />
+    <Compile Include="CommandParser\Parsers\RemarkSessionParser.cs" />
     <Compile Include="CommandParser\Enums\CmdTypes.cs" />
     <Compile Include="CommandParser\Interfaces\IParser.cs" />
     <Compile Include="CommandParser\ParserChoser.cs" />

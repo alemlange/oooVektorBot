@@ -12,7 +12,7 @@ namespace DataModels.Enums
         Restaurant,
         Queue,
         Sitted,
-        //DishChoosing,
+        Remark,
         OrderingDish,
         Closed,
         Deactivated

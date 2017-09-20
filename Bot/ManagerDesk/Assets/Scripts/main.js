@@ -73,22 +73,28 @@ $(document).ready(function () {
             
     });
 
-    $(".js-table-body").on("dblclick", ".js-dish-card", function (e) {
+    //$(".js-table-body").on("dblclick", ".js-dish-card", function (e) {
+
+    //    e.preventDefault();
+    //    var container = $(this);
+    //    var edittarget = container.data("target");
+    //    var dishId = container.data("itemid");
+
+    //    $.get(edittarget, { dishId: dishId }).done(function (data) {
+    //        container.parent().replaceWith(data);
+    //    });
+    //});
+
+    $(".js-table-body").on("click", ".js-edit-dish", function (e) {
 
         e.preventDefault();
-        var container = $(this);
-        var edittarget = container.data("target");
+        var container = $(this).parents(".js-dish-card");
+        var edittarget = container.data("edittarget");
         var dishId = container.data("itemid");
 
         $.get(edittarget, { dishId: dishId }).done(function (data) {
             container.parent().replaceWith(data);
         });
-    });
-
-    $(".js-table-body").on("click", ".js-eddit-card", function (e) {
-
-        e.preventDefault();
-        $(this).parent().trigger("dblclick");
     });
 
     $(".js-table-body").on("click", ".js-edit-menu", function (e) {
@@ -99,6 +105,18 @@ $(document).ready(function () {
         var menuId = container.data("itemid");
 
         $.get(edittarget, { menuId: menuId }).done(function (data) {
+            container.parent().replaceWith(data);
+        });
+    });
+
+    $(".js-table-body").on("click", ".js-edit-rest", function (e) {
+
+        e.preventDefault();
+        var container = $(this).parents(".js-rest-card");
+        var edittarget = container.data("edittarget");
+        var restId = container.data("itemid");
+
+        $.get(edittarget, { restId: restId }).done(function (data) {
             container.parent().replaceWith(data);
         });
     });

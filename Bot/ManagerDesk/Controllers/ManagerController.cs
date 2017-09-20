@@ -279,6 +279,29 @@ namespace ManagerDesk.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult EditRest(Guid restId)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+
+                var rest = service.GetRestaurant(restId);
+                if (rest != null)
+                {
+                    var model = Mapper.Map<RestaurantViewModel>(rest);
+
+                    return View("RestaurantCardEdditable", model);
+                }
+                else
+                    throw new Exception("Restaraunt not found!");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
         [HttpPost]
         public ActionResult EditRest(Restaurant Rest)
         {

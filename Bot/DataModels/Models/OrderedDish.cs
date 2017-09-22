@@ -8,8 +8,10 @@ namespace DataModels
 {
     public class OrderedDish
     {
-        public string Remarks { get; set; }
+        public int Num { get; set; }
 
         public Dish DishFromMenu { get; set; }
+
+        public string Remarks { get; set; }
     }
 }

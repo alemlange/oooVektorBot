@@ -16,7 +16,7 @@ namespace Bot.CommandParser
                 return new InlineKeyboardMarkup(
                     new[]
                     {
-                        new[] { new InlineKeyboardButton("Меню 📓") }
+                        new[] { new InlineKeyboardButton("Вернуться к меню 📓") }
                     });
             }
         }
@@ -27,7 +27,7 @@ namespace Bot.CommandParser
 
             switch (msgText)
             {
-                case "меню 📓":
+                case "вернуться к меню 📓":
                     {
                         return CmdTypes.Menu;
                     }

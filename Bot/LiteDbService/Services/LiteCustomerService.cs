@@ -56,7 +56,7 @@ namespace LiteDbService
                 var tableCol = db.GetCollection<Table>("Tables");
                 var table = tableCol.Find(o => o.Id == tableId).FirstOrDefault();
                 var orders = table.Orders;
-                var dish = orders.LastOrDefault(o => o.DishFromMenu.Name == lastDishName); // todo last
+                var dish = orders.LastOrDefault(o => o.DishFromMenu.SlashName == lastDishName); // todo last
 
                 if (dish != null)
                     dish.Remarks = message;
@@ -83,7 +83,6 @@ namespace LiteDbService
                 if (table != null)
                 {
                     table.Menu = menu.Id; // todo check isnull
-                    table.State = SessionState.Queue;
                     tableCol.Update(table);
                 }
             }
@@ -101,14 +100,14 @@ namespace LiteDbService
 
                 if (table != null)
                 {
+                    table.TableNumber = tableNumber;
+                    table.State = SessionState.Sitted;
+                    tableCol.Update(table);
+
                     if (table.Menu == Guid.Empty)
                     {
                         AssignMenu(chatId, restaurant.Name);
                     }
-
-                    table.TableNumber = tableNumber;
-                    table.State = SessionState.Sitted;
-                    tableCol.Update(table);
                 }
             }
         }

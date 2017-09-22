@@ -85,7 +85,7 @@ namespace Brains
                     _service.UpdateTableState(chatId, SessionState.Remark);
 
                     //return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
-                    return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у Вас есть какие то пожелания к блюду, просто напишите нам!" };
+                    return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у Вас есть какие то пожелания к блюду, просто отправьте их сообщением!" };
                 }
                 else
                 {
@@ -186,6 +186,13 @@ namespace Brains
         {
             try
             {
+                var table = _service.FindTable(chatId);
+
+                if (table != null && table.State == SessionState.Remark)
+                {
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
+                }
+
                 //_service.UpdateTableState(chatId, SessionState.Sitted);
                 var menu = _service.GetMenuByTable(chatId);
 
@@ -201,7 +208,7 @@ namespace Brains
                 }
                 else
                 {
-                    var table = _service.FindTable(chatId);
+                    //var table = _service.FindTable(chatId);
 
                     if (table != null)
                     {
@@ -278,7 +285,9 @@ namespace Brains
         {
             try
             {
-                if (_service.CreateTable(chatId) != Guid.Empty)
+                var newTable = _service.CreateTable(chatId);
+
+                if (newTable != Guid.Empty)
                 {
                     var restaurants = _service.GetAllActiveRestaurants();
 

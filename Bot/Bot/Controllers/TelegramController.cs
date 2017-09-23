@@ -287,7 +287,7 @@ namespace Bot.Controllers
             catch (Exception ex)
             {
                 var mes = ex.Message;
-                StreamWriter file = new System.IO.StreamWriter("c:\\db\\test.txt", true);
+                StreamWriter file = new System.IO.StreamWriter("c:\\db\\errors.txt", true);
                 file.WriteLine(mes);
 
                 file.Close();

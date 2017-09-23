@@ -80,8 +80,9 @@ namespace Brains
                     }
 
                     var dish = _service.FindDish(dishName);
+                    var dishNum = table.Orders.Count + 1;
 
-                    _service.OrderDish(table.Id, new DataModels.OrderedDish { DishFromMenu = dish });
+                    _service.OrderDish(table.Id, new DataModels.OrderedDish { Num = dishNum, DishFromMenu = dish });
                     _service.UpdateTableState(chatId, SessionState.Remark);
 
                     //return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
@@ -137,11 +138,11 @@ namespace Brains
 
                 respText = "Вы заказали:" + Environment.NewLine + Environment.NewLine;
 
-                int num = 0;
+                //int num = 0;
                 foreach (var dish in table.Orders)
                 {
-                    num += 1;
-                    respText += num + ". " +dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
+                    //num += 1;
+                    respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
                 }
                 respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
             }

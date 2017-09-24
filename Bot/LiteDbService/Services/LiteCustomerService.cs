@@ -149,6 +149,15 @@ namespace LiteDbService
                 else
                 {
                     table.Orders.RemoveAll(o => o.Num == dishNum);
+
+                    int num = 1;
+
+                    foreach (var order in table.Orders)
+                    {
+                        order.Num = num;
+                        num += 1;
+                    }
+
                     tableCol.Update(table);
                 }
             }

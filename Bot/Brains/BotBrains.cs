@@ -391,6 +391,7 @@ namespace Brains
             try
             {
                 _service.SetHelpNeeded(chatId);
+                _service.UpdateTableState(chatId, SessionState.Sitted);
 
                 return new Responce
                 {
@@ -410,6 +411,7 @@ namespace Brains
             try
             {
                 _service.SetCheckNeeded(chatId);
+                _service.UpdateTableState(chatId, SessionState.Sitted);
 
                 return new Responce
                 {

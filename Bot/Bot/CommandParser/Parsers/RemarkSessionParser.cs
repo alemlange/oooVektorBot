@@ -31,10 +31,40 @@ namespace Bot.CommandParser
                     {
                         return CmdTypes.Menu;
                     }
+                case "меню 📓":
+                    {
+                        return CmdTypes.Menu;
+                    }
+                case "попросить счет 💳":
+                    {
+                        return CmdTypes.Check;
+                    }
+                case "позвать официанта 🔔":
+                    {
+                        return CmdTypes.Waiter;
+                    }
+                case "мой заказ 🍴":
+                    {
+                        return CmdTypes.MyOrder;
+                    }
+                case "убрать из заказа ❌":
+                    {
+                        return CmdTypes.Remove;
+                    }
                 default:
                     {
-                        //return CmdTypes.Unknown;
-                        return CmdTypes.Remark;
+                        if (msgText.StartsWith("/"))
+                        {
+                            return CmdTypes.Slash;
+                        }
+                        //else if (Int32.TryParse(msgText, out result))
+                        //{
+                        //    return CmdTypes.RemoveByNum;
+                        //}
+                        else
+                        {
+                            return CmdTypes.Remark;
+                        }
                     }
             }
         }

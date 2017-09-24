@@ -36,15 +36,15 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var col = db.GetCollection<Table>("Tables");
-                var table = col.Find(o => o.Id == tableId).FirstOrDefault();
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.Id == tableId).FirstOrDefault();
                 if (table == null)
                     throw new TableNotFoundException();
                 else
                 {
                     table.Orders.Add(dish);
                     table.OrderPlaced = DateTime.Now;
-                    col.Update(table);
+                    tableCol.Update(table);
                 }
             }
         }
@@ -134,6 +134,23 @@ namespace LiteDbService
                 }
                 else
                     throw new Exception("Блюдо не найдено");
+            }
+        }
+
+        public void RemoveDishFromOrder(long chatId, int dishNum)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId).FirstOrDefault();
+
+                if (table == null)
+                    throw new TableNotFoundException();
+                else
+                {
+                    table.Orders.RemoveAll(o => o.Num == dishNum);
+                    tableCol.Update(table);
+                }
             }
         }
     }

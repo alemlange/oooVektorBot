@@ -21,6 +21,8 @@ namespace Bot.CommandParser
         Slash,
         Waiter,
         MyOrder,
-        Remark
+        Remark,
+        Remove,
+        RemoveByNum
     }
 }

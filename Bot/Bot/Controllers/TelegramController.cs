@@ -194,6 +194,28 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
                                 }
+                            case CmdTypes.Remove:
+                                {
+                                    var response = bot.RemoveFromOrder(chatId);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.RemoveByNum:
+                                {
+                                    var response = bot.RemoveFromOrderByNum(chatId, message.Text);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                    break;
+                                }
                             case CmdTypes.Unknown:
                                 {
                                     await Bot.Api.SendTextMessageAsync(

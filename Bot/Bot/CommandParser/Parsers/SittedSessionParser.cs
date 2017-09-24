@@ -29,6 +29,8 @@ namespace Bot.CommandParser
         public CmdTypes ParseForCommand(Update update)
         {
             var msgText = update.Message.Text.ToLower();
+            int result;
+
             switch (msgText)
             {
                 case "меню 📓":
@@ -47,11 +49,19 @@ namespace Bot.CommandParser
                     {
                         return CmdTypes.MyOrder;
                     }
+                case "убрать из заказа ❌":
+                    {
+                        return CmdTypes.Remove;
+                    }
                 default:
                     {
                         if (msgText.StartsWith("/"))
                         {
                             return CmdTypes.Slash;
+                        }
+                        else if (Int32.TryParse(msgText, out result))
+                        {
+                            return CmdTypes.RemoveByNum;
                         }
                         else
                         {

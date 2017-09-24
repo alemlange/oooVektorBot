@@ -125,10 +125,50 @@ namespace Brains
             }
         }
 
+        public Responce RemoveFromOrder(long chatId)
+        {
+            try
+            {
+                var table = _service.FindTable(chatId);
+
+                if (table.Orders.Any())
+                {
+                    var resp = ShowCart(chatId);
+                    resp.ResponceText += Environment.NewLine + "Отправьте ообщением номер блюда, которое вы хотите убрать из заказа";
+                    
+                    return resp;
+                }
+                else
+                {
+                    return new Responce { ResponceText = "Вы пока еще ничего не заказали :(" };
+                }
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce RemoveFromOrderByNum(long chatId, string message)
+        {
+            try
+            {
+                var dishNum = int.Parse(message);
+
+                _service.RemoveDishFromOrder(chatId, dishNum);
+
+                return new Responce { ResponceText = "Блюдо успешно удалено из Вашего заказа!" }; // todo Вас Вашего Вам...
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
         public Responce ShowCart(long chatId)
         {
-
             _service.UpdateTableState(chatId, SessionState.Sitted);
+
             var table = _service.FindTable(chatId);
             var respText = "";
 

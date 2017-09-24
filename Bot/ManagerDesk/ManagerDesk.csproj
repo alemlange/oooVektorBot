@@ -164,6 +164,7 @@
     <Compile Include="ViewModels\SelectedDishViewModel.cs" />
     <Compile Include="ViewModels\DishViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\TableActionsViewModel.cs" />
     <Compile Include="ViewModels\TableCardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +273,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Configuration\Configuration.cshtml" />
+    <Content Include="Views\Manager\TableActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

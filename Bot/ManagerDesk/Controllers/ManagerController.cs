@@ -72,6 +72,22 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpGet]
+        public ActionResult TableActions(Guid tableid)
+        {
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
+
+            var table = service.GetTable(tableid);
+            if (table != null)
+            {
+                var tableActions = Mapper.Map<TableActionsViewModel>(table);
+
+                return View(tableActions);
+            }
+            else
+                return Json(new { isAuthorized = true, isSuccess = false});
+        }
+
+        [HttpGet]
         public ActionResult MenuMoreDishes(string menuid)
         {
             var service = ServiceCreator.GetManagerService(User.Identity.Name);

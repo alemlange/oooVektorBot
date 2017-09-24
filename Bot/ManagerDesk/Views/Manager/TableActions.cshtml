@@ -1,0 +1,8 @@
+﻿@model ManagerDesk.ViewModels.TableActionsViewModel
+
+
+<li><a href="#" class="js-order-proc"><i class="fa fa-check" aria-hidden="true" @Model.OrderProcessedIcon></i> Заказ готовится </a></li>
+<li><a href="#" class="js-help-needed"><i class="fa fa-check" aria-hidden="true" @Model.HelpNeededIcon></i> Нужна помощь </a></li>
+<li><a href="#" class="js-check-please"><i class="fa fa-check" aria-hidden="true" @Model.CheckNeededIcon></i> Счет </a></li>
+
+<li><span href="#" class="btn btn-save-dishes js-edit-table-actions" data-target="@Url.Action("EditTableActions","Manager")">Сохранить</span></li>

@@ -20,7 +20,7 @@ namespace DataModels
         public List<StateVarible> StateVaribles { get; set; } 
         public bool HelpNeeded { get; set; }
         public bool CheckNeeded { get; set; }
-        public bool OrederProcessed { get; set; }
+        public bool OrderProcessed { get; set; }
 
     }
 }

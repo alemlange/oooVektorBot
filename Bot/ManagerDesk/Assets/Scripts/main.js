@@ -70,7 +70,7 @@ $(document).ready(function () {
         e.preventDefault();
         e.stopPropagation();
         var curDish = $(this);
-        var active = $(this).hasClass("menu-selected");
+        var active = curDish.hasClass("menu-selected");
         if (active) {
             curDish.find(".fa-check").hide();
             curDish.removeClass("menu-selected");
@@ -80,6 +80,39 @@ $(document).ready(function () {
             curDish.addClass("menu-selected");
         }
             
+    });
+
+    $(".js-table-body").on("click", ".js-action", function (e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+        var action = $(this);
+        var active = action.hasClass("menu-selected");
+        if (active) {
+            action.find(".fa-check").hide();
+            action.removeClass("menu-selected");
+        }
+        else {
+            action.find(".fa-check").show();
+            action.addClass("menu-selected");
+        }
+
+    });
+
+    $(".js-table-body").on("click", ".js-edit-table-actions", function (e) {
+
+        e.preventDefault();
+        var table = $(this).parents(".js-table-card");
+        var tableId = table.data("itemid");
+
+        var orderProc = table.find(".js-order-proc").hasClass("menu-selected");
+        var helpNeeded = table.find(".js-help-needed").hasClass("menu-selected");
+        var checkPlease = table.find(".js-check-please").hasClass("menu-selected");
+
+        var target = $(this).data("target");
+        $.post(target, { tableId: tableId, orderProc: orderProc, helpNeeded: helpNeeded, checkPlease: checkPlease }).done(function (data) {
+            $(".js-tables-section").trigger("click");
+        });
     });
 
     //$(".js-table-body").on("dblclick", ".js-dish-card", function (e) {

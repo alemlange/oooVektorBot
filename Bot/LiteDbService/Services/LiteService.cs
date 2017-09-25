@@ -215,6 +215,15 @@ namespace LiteDbService
             }
         }
 
+        public void UpdateTable(Table table)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                col.Update(table);
+            }
+        }
+
         public List<Dish> GetAllDishes()
         {
             using (var db = new LiteDatabase(CurrentDb))

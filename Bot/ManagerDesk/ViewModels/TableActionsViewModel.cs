@@ -20,6 +20,14 @@ namespace ManagerDesk.ViewModels
             }
         }
 
+        public string OrderProcessedStyle
+        {
+            get
+            {
+                return OrderProcessed ? "menu-selected" : "";
+            }
+        }
+
         public string CheckNeededIcon
         {
             get
@@ -28,11 +36,27 @@ namespace ManagerDesk.ViewModels
             }
         }
 
+        public string CheckNeededStyle
+        {
+            get
+            {
+                return CheckNeeded ? "menu-selected" : "";
+            }
+        }
+
         public string HelpNeededIcon
         {
             get
             {
                 return HelpNeeded ? "style=display:inline;" : "style=display:none;";
+            }
+        }
+
+        public string HelpNeededStyle
+        {
+            get
+            {
+                return HelpNeeded ? "menu-selected" : "";
             }
         }
     }

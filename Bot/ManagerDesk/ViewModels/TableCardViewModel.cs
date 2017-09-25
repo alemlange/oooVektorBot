@@ -8,5 +8,12 @@ namespace ManagerDesk.ViewModels
 {
     public class TableCardViewModel: Table
     {
+        public string TableStyles
+        {
+            get
+            {
+                return (OrderProcessed) ? "table-processed" : "";
+            }
+        }
     }
 }

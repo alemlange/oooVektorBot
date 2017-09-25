@@ -84,6 +84,19 @@ namespace Bot.Controllers
                     {
                         switch (cmd)
                         {
+                            case CmdTypes.Start:
+                                {
+                                    // todo bot name from config
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        "Здравствуйте, меня зовут РестоБот! Я знаю все о местной кухне, могу рассказать Вам " +
+                                        "о наших блюдах, принять заказ с учетом Ваших вкусов и пожеланий, а так же помочь Вам " +
+                                        "в любых вопросах! Для того, чтобы ознакомиться с меню напишите \"меню\", чтобы " +
+                                        "сделать заказ напишите \"начать\". Приятного отдыха!",
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(SessionState.Unknown).Keyboard);
+                                    break;
+                                }
                             case CmdTypes.Greetings:
                                 {
                                     var responce = bot.Greetings(chatId);

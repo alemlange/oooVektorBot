@@ -33,7 +33,11 @@ namespace Bot.CommandParser
             {
                 return CmdTypes.Greetings;
             }
-            if (msgText.StartsWith("/"))
+            else if (msgText == "/start")
+            {
+                return CmdTypes.Start;
+            }
+            if (msgText != "/start" && msgText.StartsWith("/"))
             {
                 return CmdTypes.Slash;
             }

@@ -7,6 +7,7 @@ namespace Bot.CommandParser
 {
     public enum CmdTypes
     {
+        Start,
         Unknown,
         Greetings,
         Restrunt,

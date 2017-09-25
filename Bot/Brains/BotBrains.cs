@@ -24,6 +24,8 @@ namespace Brains
 
         public List<string> RestaurantNames { get; set; }
 
+        public int DishesPerPage { get; set; }
+
         public BotBrains()
         {
             var accountId = ConfigurationSettings.AccountId;
@@ -32,6 +34,9 @@ namespace Brains
             {
                 var account = _regService.FindAccount(accountId);
                 _service = ServiceCreator.GetCustomerService(account.Login);
+
+                var config = _regService.FindConfig(accountId);
+                DishesPerPage = config.DishesPerPage;
             }
             else
                 throw new Exception("AccountId setting not found webconfig.");
@@ -228,6 +233,12 @@ namespace Brains
             try
             {
                 var table = _service.FindTable(chatId);
+                int dishesOnPage = 8;
+
+                if (DishesPerPage > 0)
+                {
+                    dishesOnPage = DishesPerPage;
+                }
 
                 if (table != null && table.State == SessionState.Remark)
                 {
@@ -263,11 +274,11 @@ namespace Brains
                     }
                 }
 
-                int dishNum = (page-1)*8;
+                int dishNum = (page-1)*dishesOnPage;
 
-                decimal d = Math.Ceiling((decimal)menu.DishList.Count / 8);
+                decimal d = Math.Ceiling((decimal)menu.DishList.Count / dishesOnPage);
                 pageCount = (int)d;
-                var dishes = menu.DishList.Skip((page-1)*8).Take(8); //8 items per page
+                var dishes = menu.DishList.Skip((page-1)*dishesOnPage).Take(dishesOnPage);
 
                 foreach (var dish in dishes)
                 {
@@ -410,13 +421,25 @@ namespace Brains
         {
             try
             {
-                _service.SetCheckNeeded(chatId);
-                _service.UpdateTableState(chatId, SessionState.Sitted);
+                var table = _service.FindTable(chatId);
+                var respText = "";
+
+                if (table.Orders.Any())
+                {
+                    _service.SetCheckNeeded(chatId);
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
+
+                    respText = "Счет сейчас принесут";
+                }
+                else
+                {
+                    respText = "Вы пока еще ничего не заказали :(";
+                }
 
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Счет сейчас принесут",
+                    ResponceText = respText,
                     State = SessionState.Sitted
                 };
             }

@@ -167,4 +167,10 @@ $(document).ready(function () {
         });
         
     });
+
+    setInterval(function () {
+
+        if ($(".js-tables-section.active").length !== 0)
+            $(".js-tables-section").trigger("click");
+    }, 10000);
 });

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataModels;
+using DataModels.Enums;
 using LiteDbService.Interfaces;
 using LiteDB;
 
@@ -47,17 +48,21 @@ namespace LiteDbService
 
         public void CloseTable(Guid tableId)
         {
-            //using (var db = new LiteDatabase(CurrentDb))
-            //{
-            //    var col = db.GetCollection<Table>("Tables");
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
 
-            //    col.Delete(o => o.Id == tableId);
-
-            //    col.Insert(menu);
-            //    col.EnsureIndex(o => o.Id);
-
-            //    return menu.Id;
-            //}
+                var table = col.Find(o => o.Id == tableId).FirstOrDefault();
+                if(table != null)
+                {
+                    table.State = SessionState.Closed;
+                    col.Update(table);
+                }
+                else
+                {
+                    throw new Exception("Table not found!");
+                }
+            }
         }
 
         public Guid CreateNewMenu(Menu menu)

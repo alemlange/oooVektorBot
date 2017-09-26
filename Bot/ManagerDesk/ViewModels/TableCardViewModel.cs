@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using DataModels; 
+using DataModels;
+using DataModels.Enums;
 
 namespace ManagerDesk.ViewModels
 {
@@ -12,7 +13,10 @@ namespace ManagerDesk.ViewModels
         {
             get
             {
-                return (OrderProcessed) ? "table-processed" : "";
+                if (State == SessionState.Closed || State == SessionState.Deactivated)
+                    return "table-inactive";
+                else
+                    return (OrderProcessed) ? "table-processed" : "";
             }
         }
     }

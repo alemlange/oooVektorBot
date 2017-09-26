@@ -19,16 +19,6 @@ $(document).ready(function () {
         $(this).addClass("active-item");
     });
 
-    //$(".js-table-body").on("click", ".info-item", function (e) {
-    //    //e.stopPropagation();
-    //    if ($(this).hasClass("chosen-card"))
-    //        $(this).removeClass("chosen-card");
-    //    else {
-    //        $(".info-item").removeClass("chosen-card");
-    //        $(this).addClass("chosen-card");
-    //    }
-    //});
-
     $(".js-table-body").on("click", ".menu-more-dishes", function (e) {
 
         var menuHeader = $(this).parents(".js-menu-card");
@@ -115,18 +105,6 @@ $(document).ready(function () {
         });
     });
 
-    //$(".js-table-body").on("dblclick", ".js-dish-card", function (e) {
-
-    //    e.preventDefault();
-    //    var container = $(this);
-    //    var edittarget = container.data("target");
-    //    var dishId = container.data("itemid");
-
-    //    $.get(edittarget, { dishId: dishId }).done(function (data) {
-    //        container.parent().replaceWith(data);
-    //    });
-    //});
-
     $(".js-table-body").on("click", ".js-edit-dish", function (e) {
 
         e.preventDefault();
@@ -176,6 +154,17 @@ $(document).ready(function () {
                 $(".menu-section.active").trigger("click");
             });
         }
+    });
 
+    $(".js-table-body").on("click", ".js-toolbar-close-table", function (e) {
+        e.preventDefault();
+        var table = $(this).parents(".js-table-card");
+        var tableId = table.data("itemid");
+
+        var target = $(this).data("target");
+        $.post(target, { tableId: tableId }).done(function (data) {
+            $(".js-tables-section").trigger("click");
+        });
+        
     });
 });

@@ -165,6 +165,7 @@
     <Compile Include="ViewModels\DishViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\TableActionsViewModel.cs" />
+    <Compile Include="ViewModels\AllTablesViewModel.cs" />
     <Compile Include="ViewModels\TableCardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

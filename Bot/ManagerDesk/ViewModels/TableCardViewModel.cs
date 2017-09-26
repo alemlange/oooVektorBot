@@ -19,5 +19,13 @@ namespace ManagerDesk.ViewModels
                     return (OrderProcessed) ? "table-processed" : "";
             }
         }
+
+        public bool TableActive
+        {
+            get
+            {
+                return (State != SessionState.Closed && State != SessionState.Deactivated);
+            }
+        }
     }
 }

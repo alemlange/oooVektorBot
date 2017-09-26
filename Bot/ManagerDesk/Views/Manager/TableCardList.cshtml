@@ -1,8 +1,21 @@
-﻿@model List<ManagerDesk.ViewModels.TableCardViewModel>
+﻿@model ManagerDesk.ViewModels.AllTablesViewModel
 
-<div class="row">
-    @foreach (var table in Model)
-    {
-        @Html.Partial("TableCard", table)
-    }
-</div>
+@if (Model.ActiveTables.Any())
+{
+    <div class="row">
+        @foreach (var table in Model.ActiveTables)
+        {
+            @Html.Partial("TableCard", table)
+        }
+    </div>
+}
+<hr/>
+@if (Model.InActiveTables.Any())
+{
+    <div class="row">
+        @foreach (var table in Model.InActiveTables)
+        {
+            @Html.Partial("TableCard", table)
+        }
+    </div>
+}

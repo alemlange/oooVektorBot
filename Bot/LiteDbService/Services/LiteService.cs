@@ -29,7 +29,6 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                // Получаем коллекцию
                 var col = db.GetCollection<Menu>("Menus");
                 return col.Find(o => o.Id == menuId).FirstOrDefault();
 
@@ -40,53 +39,8 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                // Получаем коллекцию
                 var col = db.GetCollection<Menu>("Menus");
                 return col.FindAll().ToList();
-            }
-        }
-
-        public Menu GetMenuByTable(long chatId)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var tableCol = db.GetCollection<Table>("Tables");
-                var menuCol = db.GetCollection<Menu>("Menus");
-
-                var table = tableCol.Find(t => t.ChatId == chatId).FirstOrDefault();
-
-                if (table == null)
-                {
-                    return GetAllMenus().FirstOrDefault();
-                }
-                else
-                {
-                    var menuId = table.Menu;
-                    return menuCol.Find(m => m.Id == menuId).FirstOrDefault();
-                }
-            }
-        }
-
-        public Guid CreateTable(long chatId)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var col = db.GetCollection<Table>("Tables");
-
-                var table = new Table
-                {
-                    Id = Guid.NewGuid(),
-                    ChatId = chatId,
-                    State = SessionState.Restaurant,
-                    CreatedOn = DateTime.Now,
-                    Orders = new List<OrderedDish>(),
-                    StateVaribles = new List<StateVarible>()
-                };
-
-                col.Insert(table);
-                col.EnsureIndex(o => o.Id);
-                return table.Id;
-
             }
         }
 
@@ -110,39 +64,12 @@ namespace LiteDbService
             }
         }
 
-        public void AddLastDishToTable(long chatId, string dishName)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var dishCol = db.GetCollection<Dish>("Dishes");
-                var dish = dishCol.Find(o => o.SlashName == dishName).FirstOrDefault();
-
-                var tableCol = db.GetCollection<Table>("Tables");
-                var table = tableCol.Find(o => o.ChatId == chatId).FirstOrDefault();
-
-                if (table != null)
-                {
-                    var stateVarible = new StateVarible();
-                    stateVarible.Key = "LastDish";
-                    stateVarible.Value = dish.SlashName;
-
-                    if (table.StateVaribles != null)
-                    {
-                        table.StateVaribles.RemoveAll(s => s.Key == "LastDish");
-                    }
-                    table.StateVaribles.Add(stateVarible);
-
-                    tableCol.Update(table);
-                }
-            }
-        }
-
         public void UpdateTableState(long chatId, SessionState state)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
-                var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
+                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.Deactivated).FirstOrDefault();
 
                 if (table != null)
                 {
@@ -158,51 +85,6 @@ namespace LiteDbService
             {
                 db.DropCollection("Tables");
                 //db.DropCollection("Restaurants");
-            }
-        }
-
-        public void UpdateLastPage(long chatId, int lastPage)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var tableCol = db.GetCollection<Table>("Tables");
-                var table = tableCol.Find(o => o.ChatId == chatId).FirstOrDefault();
-
-                if (table != null)
-                {
-                    var stateVarible = new StateVarible();
-                    stateVarible.Key = "LastPage";
-                    stateVarible.Value = lastPage;
-
-                    table.StateVaribles.RemoveAll(s => s.Key == "LastPage");
-                    table.StateVaribles.Add(stateVarible);
-
-                    tableCol.Update(table);
-                }
-            }
-        }
-
-        public void SetHelpNeeded(long chatId)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var col = db.GetCollection<Table>("Tables");
-                var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
-
-                table.HelpNeeded = true;
-                col.Update(table);
-            }
-        }
-
-        public void SetCheckNeeded(long chatId)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var col = db.GetCollection<Table>("Tables");
-                var table = col.Find(o => o.ChatId == chatId).FirstOrDefault();
-
-                table.CheckNeeded = true;
-                col.Update(table);
             }
         }
 
@@ -261,15 +143,6 @@ namespace LiteDbService
                 var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
                 var restaurants = restaurantCol.FindAll().ToList();
                 return restaurants.Where(r => menus.Select(m => m.Restaurant).Contains(r.Id)).ToList();
-            }
-        }
-
-        public Table GetActiveTable(long chatId)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var col = db.GetCollection<Table>("Tables");
-                return col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.Deactivated).FirstOrDefault();
             }
         }
     }

@@ -74,7 +74,7 @@ namespace Brains
         {
             try
             {
-                var table = _service.FindTable(chatId);
+                var table = _service.GetActiveTable(chatId);
 
                 if (table != null)
                 {
@@ -108,7 +108,7 @@ namespace Brains
         {
             try
             {
-                var table = _service.FindTable(chatId);
+                var table = _service.GetActiveTable(chatId);
 
                 if (table != null)
                 {
@@ -134,7 +134,7 @@ namespace Brains
         {
             try
             {
-                var table = _service.FindTable(chatId);
+                var table = _service.GetActiveTable(chatId);
 
                 if (table.Orders.Any())
                 {
@@ -174,7 +174,7 @@ namespace Brains
         {
             _service.UpdateTableState(chatId, SessionState.Sitted);
 
-            var table = _service.FindTable(chatId);
+            var table = _service.GetActiveTable(chatId);
             var respText = "";
 
             if (table.Orders.Any())
@@ -232,7 +232,7 @@ namespace Brains
         {
             try
             {
-                var table = _service.FindTable(chatId);
+                var table = _service.GetActiveTable(chatId);
                 int dishesOnPage = 8;
 
                 if (DishesPerPage > 0)
@@ -421,7 +421,7 @@ namespace Brains
         {
             try
             {
-                var table = _service.FindTable(chatId);
+                var table = _service.GetActiveTable(chatId);
                 var respText = "";
 
                 if (table.Orders.Any())

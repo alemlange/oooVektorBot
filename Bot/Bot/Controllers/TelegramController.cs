@@ -16,7 +16,6 @@ using Telegram.Bot.Args;
 using Bot.CommandParser;
 using Bot.CommandParser.KeyBoards;
 using Brains;
-using LiteDbService;
 using DataModels.Enums;
 using LiteDbService.Helpers;
 using DataModels.Configuration;
@@ -89,8 +88,8 @@ namespace Bot.Controllers
                                     // todo bot name from config
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
-                                        "Здравствуйте, меня зовут РестоБот! Я знаю все о местной кухне, могу рассказать Вам " +
-                                        "о наших блюдах, принять заказ с учетом Ваших вкусов и пожеланий, а так же помочь Вам " +
+                                        "Здравствуйте, меня зовут РестоБот! Я знаю все о местной кухне, могу рассказать вам " +
+                                        "о наших блюдах, принять заказ с учетом ваших вкусов и пожеланий, а так же помочь вам " +
                                         "в любых вопросах! Для того, чтобы ознакомиться с меню напишите \"меню\", чтобы " +
                                         "сделать заказ напишите \"начать\". Приятного отдыха!",
                                         parseMode: ParseMode.Html,

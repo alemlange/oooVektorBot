@@ -16,6 +16,10 @@ namespace DataModels
 
         public string BotName { get; set; }
 
+        public string BotGreeting { get; set; }
+
+        public int TablesCount { get; set; }
+
         public int DishesPerPage { get; set; }
 
         public int UseQR { get; set; }

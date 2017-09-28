@@ -26,6 +26,8 @@ namespace Brains
 
         public int DishesPerPage { get; set; }
 
+        public int TablesCount { get; set; }
+
         public BotBrains()
         {
             var accountId = ConfigurationSettings.AccountId;
@@ -37,6 +39,7 @@ namespace Brains
 
                 var config = _regService.FindConfig(accountId);
                 DishesPerPage = config.DishesPerPage;
+                TablesCount = config.TablesCount;
             }
             else
                 throw new Exception("AccountId setting not found webconfig.");
@@ -359,7 +362,7 @@ namespace Brains
                         return new Responce
                         {
                             ChatId = chatId,
-                            ResponceText = "Привет! За каким столиком вы сидите",
+                            ResponceText = "Напишите номер столика, за которым вы сидите",
                             State = SessionState.Queue
                         };
                     }

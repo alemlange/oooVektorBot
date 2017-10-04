@@ -22,6 +22,6 @@ namespace DataModels
 
         public int DishesPerPage { get; set; }
 
-        public int UseQR { get; set; }
+        public bool UseQR { get; set; }
     }
 }

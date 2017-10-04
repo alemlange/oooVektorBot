@@ -113,6 +113,75 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
+        public ActionResult TableSetProccesed(Guid tableId, bool value)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+                var table = service.GetTable(tableId);
+                if (table != null)
+                {
+                    table.OrderProcessed = value;
+                    service.UpdateTable(table);
+                }
+                else
+                    throw new ArgumentNullException("Table not found!");
+
+                return Json(new { isAuthorized = true, isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult TableSetHelp(Guid tableId, bool value)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+                var table = service.GetTable(tableId);
+                if (table != null)
+                {
+                    table.HelpNeeded = value;
+                    service.UpdateTable(table);
+                }
+                else
+                    throw new ArgumentNullException("Table not found!");
+
+                return Json(new { isAuthorized = true, isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult TableSetCheck(Guid tableId, bool value)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+                var table = service.GetTable(tableId);
+                if (table != null)
+                {
+                    table.CheckNeeded = value;
+                    service.UpdateTable(table);
+                }
+                else
+                    throw new ArgumentNullException("Table not found!");
+
+                return Json(new { isAuthorized = true, isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
+        [HttpPost]
         public ActionResult CloseTable(Guid tableId)
         {
             try

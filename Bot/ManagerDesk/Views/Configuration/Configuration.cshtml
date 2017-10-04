@@ -4,10 +4,40 @@
 {
     <div class="col-md-12">
         <div class="info-item animated fadeIn" data-itemid="@Model.Id">
-            @Html.LabelFor(model => model.OrgName, "Организация", htmlAttributes: new { @class = "control-label" })
-            @Html.EditorFor(model => model.OrgName, new { htmlAttributes = new { @class = "form-control" } })
 
-            <a class="btn btn-save-dishes" href="#">Сохранить</a>
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.OrgName, "Организация", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.OrgName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.BotName, "Имя бота", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.BotName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.UseQR, "Использовать QR-коды", htmlAttributes: new { @class = "control-label" })
+                @Html.CheckBoxFor(model => model.UseQR, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.BotGreeting, "Приветствие бота", htmlAttributes: new { @class = "control-label" })
+                @Html.TextAreaFor(model => model.BotGreeting, new { @class = "form-control" })
+            </div>
+            
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.DishesPerPage, "Блюд на странице", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.DishesPerPage, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.TablesCount, "Количество столов", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.TablesCount, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            <button class="btn btn-save-dishes col-md-12">Сохранить</button>
+
+            @Html.HiddenFor(o => o.Id)
+            @Html.HiddenFor(o => o.AccountId)
+
         </div>
     </div>
 }

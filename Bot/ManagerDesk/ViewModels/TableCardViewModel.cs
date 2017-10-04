@@ -27,5 +27,29 @@ namespace ManagerDesk.ViewModels
                 return (State != SessionState.Closed && State != SessionState.Deactivated);
             }
         }
+
+        public string OrderProcessedStyle
+        {
+            get
+            {
+                return OrderProcessed ? "" : "un-checked";
+            }
+        }
+
+        public string CheckNeededStyle
+        {
+            get
+            {
+                return CheckNeeded ? "" : "un-checked";
+            }
+        }
+
+        public string HelpNeededStyle
+        {
+            get
+            {
+                return HelpNeeded ? "" : "un-checked";
+            }
+        }
     }
 }

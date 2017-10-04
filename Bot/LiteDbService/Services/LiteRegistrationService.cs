@@ -72,5 +72,14 @@ namespace LiteDbService
                 return col.Find(o => o.AccountId == accId).FirstOrDefault();
             }
         }
+
+        public void UpdateConfig(Config config)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Config>("Configs");
+                col.Update(config);
+            }
+        }
     }
 }

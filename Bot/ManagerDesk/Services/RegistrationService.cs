@@ -60,7 +60,12 @@ namespace ManagerDesk.Services
             else
                 throw new Exception("Account not found");
 
+        }
 
+        public void UpdateConfiguration(Config config)
+        {
+            var service = ServiceCreator.GetRegistrationService();
+            service.UpdateConfig(config);
 
         }
     }

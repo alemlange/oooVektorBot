@@ -26,5 +26,15 @@ namespace ManagerDesk.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult Configuration(ConfigViewModel model)
+        {
+            var regService = new RegistrationService();
+            var config = Mapper.Map<Config>(model);
+            regService.UpdateConfiguration(config);
+
+            return RedirectToAction("Index", "Manager");
+        }
+
     }
 }

@@ -1,16 +1,16 @@
 ﻿@model ManagerDesk.ViewModels.TableCardViewModel
 <div class="col-md-6 col-lg-3">
-    <div class="info-item js-table-card @Model.TableStyles animated fadeIn" data-actionstarget="@Url.Action("TableActions","Manager")" data-itemid="@Model.Id" data-type="Table">
+    <div class="info-item js-table-card @Model.TableStyles" data-actionstarget="@Url.Action("TableActions","Manager")" data-itemid="@Model.Id" data-type="Table">
         <div class="table-wrap">
 
             @if (Model.TableActive)
             {
                 <div class="toolbar-mini">
-                    <div class="toolbar-mini__btn dropdown">
+                    @*<div class="toolbar-mini__btn dropdown">
                         <span class="dropdown-toggle table-actions" type="button" id="dropdownTableCard" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                         <ul class="dropdown-menu actions-dropdown" aria-labelledby="dropdownTableCard"></ul>
-                    </div>
-                    <div>
+                    </div>*@
+                    @*<div>
                         @if (Model.CheckNeeded)
                         {
                             <span class="label label-danger">Счет</span>
@@ -19,11 +19,25 @@
                         {
                             <span class="label label-warning">Нужна помощь</span>
                         }
-                    </div>
+                    </div>*@
+                    <div class="toolbar-mini__btn @Model.OrderProcessedStyle js-set-table-action" data-target="@Url.Action("TableSetProccesed","Manager")"><i class="fa fa-check" aria-hidden="true"></i></div>
+                    <div class="toolbar-mini__btn @Model.CheckNeededStyle js-set-table-action" data-target="@Url.Action("TableSetCheck","Manager")"><i class="fa fa-file-text" aria-hidden="true"></i></div>
+                    <div class="toolbar-mini__btn @Model.HelpNeededStyle js-set-table-action" data-target="@Url.Action("TableSetHelp","Manager")"><i class="fa fa-child" aria-hidden="true"></i></div>
                     <div class="toolbar-mini__btn js-toolbar-close-table" data-target="@Url.Action("CloseTable","Manager")"><i class="fa fa-lock" aria-hidden="true"></i></div>
                     @*<div class="toolbar-mini__btn toolbar-mini__btn_theme_danger toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")"><i class="fa fa-trash-o" aria-hidden="true"></i></div>*@
                 </div>
             }
+
+            <div class="table-labels">
+                @if (Model.CheckNeeded)
+                {
+                    <span class="label label-danger">Счет</span>
+                }
+                @if (Model.HelpNeeded)
+                {
+                    <span class="label label-warning">Нужна помощь</span>
+                }
+            </div>
             
             <div>
                 @if (Model.TableNumber == 0)

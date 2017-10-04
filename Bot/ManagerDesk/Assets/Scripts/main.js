@@ -105,6 +105,29 @@ $(document).ready(function () {
         });
     });
 
+    $(".js-table-body").on("click", ".js-set-table-action", function (e) {
+
+        e.preventDefault();
+
+        var inactive = $(this).hasClass("un-checked");
+        if (inactive) {
+            $(this).removeClass("un-checked");
+        }
+        else {
+            $(this).addClass("un-checked");
+        }
+
+        var table = $(this).parents(".js-table-card");
+        var tableId = table.data("itemid");
+
+        var value = !$(this).hasClass("un-checked");
+
+        var target = $(this).data("target");
+        $.post(target, { tableId: tableId, value: value }).done(function (data) {
+            $(".js-tables-section").trigger("click");
+        });
+    });
+
     $(".js-table-body").on("click", ".js-edit-dish", function (e) {
 
         e.preventDefault();
@@ -169,7 +192,6 @@ $(document).ready(function () {
     });
 
     setInterval(function () {
-        return;
         if ($(".js-tables-section.active").length !== 0)
             $(".js-tables-section").trigger("click");
     }, 10000);

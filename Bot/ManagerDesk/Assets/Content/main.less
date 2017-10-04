@@ -163,6 +163,11 @@
             text-align: center;
         }
 
+        .table-labels{
+            align-self:center;
+            margin-bottom: 10px;
+        }
+
         .dish-name-item {
             border-bottom: 1px solid @color-border;
             padding: 5px 0;
@@ -286,6 +291,11 @@
     box-shadow: @box-shadow;
     border-radius: 3px;
     transition: 0.3s;
+
+    &.un-checked {
+        opacity: 0.3;
+        background-color: @color-grey;
+    }
 
     &:hover {
         background-color: @color-main;

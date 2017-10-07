@@ -6,10 +6,9 @@ using DataModels;
 
 namespace ManagerDesk.ViewModels
 {
-    public class ConfigViewModel
+    public class NavigationViewModel
     {
-        public HttpPostedFileBase Image { get; set; }
-
-        public Config Config { get; set; }
+        public string UserPicPath { get; set; }
+        public string OrgName { get; set; }
     }
 }

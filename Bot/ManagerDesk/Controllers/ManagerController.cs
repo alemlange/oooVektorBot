@@ -8,6 +8,7 @@ using ManagerDesk.ViewModels;
 using ManagerDesk.ViewModels.Enums;
 using AutoMapper;
 using DataModels;
+using ManagerDesk.Services;
 
 namespace ManagerDesk.Controllers
 {
@@ -17,6 +18,16 @@ namespace ManagerDesk.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult Navigation()
+        {
+            var regService = new RegistrationService();
+            var config = regService.FindConfiguration(User.Identity.Name);
+
+            var model = new NavigationViewModel { UserPicPath = config.ProfilePicturePath, OrgName= config.OrgName };
+            return View(model);
         }
 
         [HttpGet]

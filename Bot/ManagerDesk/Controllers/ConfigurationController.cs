@@ -9,6 +9,7 @@ using ManagerDesk.ViewModels.Enums;
 using AutoMapper;
 using ManagerDesk.Services;
 using DataModels;
+using System.IO;
 
 namespace ManagerDesk.Controllers
 {
@@ -21,7 +22,7 @@ namespace ManagerDesk.Controllers
             var regService = new RegistrationService();
             var config = regService.FindConfiguration(User.Identity.Name);
 
-            var model = Mapper.Map<ConfigViewModel>(config);
+            var model = new ConfigViewModel { Config = config };
 
             return View(model);
         }
@@ -30,8 +31,17 @@ namespace ManagerDesk.Controllers
         public ActionResult Configuration(ConfigViewModel model)
         {
             var regService = new RegistrationService();
-            var config = Mapper.Map<Config>(model);
-            regService.UpdateConfiguration(config);
+
+            if (model.Image != null && model.Image.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(model.Image.FileName);
+                var path = Path.Combine(Server.MapPath("~/Assets/Imgs/UserPics/"), fileName);
+                model.Image.SaveAs(path);
+
+                model.Config.ProfilePicturePath = "~/Assets/Imgs/UserPics/" + fileName;
+            }
+
+            regService.UpdateConfiguration(model.Config);
 
             return RedirectToAction("Index", "Manager");
         }

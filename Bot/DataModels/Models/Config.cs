@@ -14,6 +14,8 @@ namespace DataModels
 
         public string OrgName { get; set; }
 
+        public string ProfilePicturePath { get; set; }
+
         public string BotName { get; set; }
 
         public string BotGreeting { get; set; }

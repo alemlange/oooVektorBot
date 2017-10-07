@@ -251,7 +251,7 @@ namespace Brains
                 //_service.UpdateTableState(chatId, SessionState.Sitted);
                 var menu = _service.GetMenuByTable(chatId);
 
-                var respText = "<b>" + menu.MenuName + "</b>" + Environment.NewLine + Environment.NewLine;
+                var respText = "<b>" + menu.MenuName + "</b>" + Environment.NewLine;
 
                 int page = 1;
                 int pageCount = 0;
@@ -281,11 +281,27 @@ namespace Brains
 
                 decimal d = Math.Ceiling((decimal)menu.DishList.Count / dishesOnPage);
                 pageCount = (int)d;
-                var dishes = menu.DishList.Skip((page-1)*dishesOnPage).Take(dishesOnPage);
+
+                var dishes = menu.DishList.OrderBy(m => m.Category).Skip((page-1)*dishesOnPage).Take(dishesOnPage);
+                string category = "";
 
                 foreach (var dish in dishes)
                 {
-                    respText += (dishNum += 1) + ". " + dish.Name + " <b>" + dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
+                    if (dish.Category != null && category != dish.Category)
+                    {
+                        respText += Environment.NewLine + "<b>" + dish.Category + "</b>" + Environment.NewLine + Environment.NewLine +
+                            (dishNum += 1) + ". " + dish.Name + " <b>" + //Environment.NewLine +
+                            dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
+                            //Environment.NewLine + "----------------------------------------" + Environment.NewLine;
+
+                        category = dish.Category;
+                    }
+                    else
+                    {
+                        respText += (dishNum += 1) + ". " + dish.Name + " <b>" + //Environment.NewLine +
+                            dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
+                            //Environment.NewLine + "----------------------------------------" + Environment.NewLine;
+                    }
                 }
 
                 return new MenuResponce { ResponceText = respText, Page = page, PageCount = pageCount };

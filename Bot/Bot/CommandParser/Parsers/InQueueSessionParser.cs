@@ -63,12 +63,12 @@ namespace Bot.CommandParser
 
         public CmdTypes ParseForCommand(Update update)
         {
-            var msgText = update.Message.Text;
+            var msgText = update.Message.Text.ToLower();
             int result;
 
             if (Int32.TryParse(msgText, out result))
                 return CmdTypes.TableNumber;
-            else if (msgText.ToLower() == "меню 📓")
+            else if (msgText.Contains("меню"))
                 return CmdTypes.Menu;
             else
                 return CmdTypes.Unknown;

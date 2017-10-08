@@ -31,43 +31,37 @@ namespace Bot.CommandParser
             var msgText = update.Message.Text.ToLower();
             int result;
 
-            switch (msgText)
+            if (msgText.Contains("меню"))
             {
-                case "меню 📓":
-                    {
-                        return CmdTypes.Menu;
-                    }
-                case "попросить счет 💳":
-                    {
-                        return CmdTypes.Check;
-                    }
-                case "позвать официанта 🔔":
-                    {
-                        return CmdTypes.Waiter;
-                    }
-                case "мой заказ 🍴":
-                    {
-                        return CmdTypes.MyOrder;
-                    }
-                case "убрать из заказа ❌":
-                    {
-                        return CmdTypes.Remove;
-                    }
-                default:
-                    {
-                        if (msgText.StartsWith("/"))
-                        {
-                            return CmdTypes.Slash;
-                        }
-                        else if (Int32.TryParse(msgText, out result))
-                        {
-                            return CmdTypes.RemoveByNum;
-                        }
-                        else
-                        {
-                            return CmdTypes.Unknown;
-                        }
-                    }
+                return CmdTypes.Menu;
+            }
+            else if (msgText.Contains("попросить счет"))
+            {
+                return CmdTypes.Check;
+            }
+            else if (msgText.Contains("позвать официанта"))
+            {
+                return CmdTypes.Waiter;
+            }
+            else if (msgText.Contains("мой заказ"))
+            {
+                return CmdTypes.MyOrder;
+            }
+            else if (msgText.Contains("убрать из заказа"))
+            {
+                return CmdTypes.Remove;
+            }
+            else if (msgText.StartsWith("/"))
+            {
+                return CmdTypes.Slash;
+            }
+            else if (Int32.TryParse(msgText, out result))
+            {
+                return CmdTypes.RemoveByNum;
+            }
+            else
+            {
+                return CmdTypes.Unknown;
             }
         }
     }

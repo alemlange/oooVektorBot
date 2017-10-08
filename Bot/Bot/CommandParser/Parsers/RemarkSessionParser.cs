@@ -25,47 +25,37 @@ namespace Bot.CommandParser
         {
             var msgText = update.Message.Text.ToLower();
 
-            switch (msgText)
+            if (msgText.Contains("вернуться к меню"))
             {
-                case "вернуться к меню 📓":
-                    {
-                        return CmdTypes.Menu;
-                    }
-                case "меню 📓":
-                    {
-                        return CmdTypes.Menu;
-                    }
-                case "попросить счет 💳":
-                    {
-                        return CmdTypes.Check;
-                    }
-                case "позвать официанта 🔔":
-                    {
-                        return CmdTypes.Waiter;
-                    }
-                case "мой заказ 🍴":
-                    {
-                        return CmdTypes.MyOrder;
-                    }
-                case "убрать из заказа ❌":
-                    {
-                        return CmdTypes.Remove;
-                    }
-                default:
-                    {
-                        if (msgText.StartsWith("/"))
-                        {
-                            return CmdTypes.Slash;
-                        }
-                        //else if (Int32.TryParse(msgText, out result))
-                        //{
-                        //    return CmdTypes.RemoveByNum;
-                        //}
-                        else
-                        {
-                            return CmdTypes.Remark;
-                        }
-                    }
+                return CmdTypes.Menu;
+            }
+            else if (msgText.Contains("меню"))
+            {
+                return CmdTypes.Menu;
+            }
+            else if (msgText.Contains("попросить счет"))
+            {
+                return CmdTypes.Check;
+            }
+            else if (msgText.Contains("позвать официанта"))
+            {
+                return CmdTypes.Waiter;
+            }
+            else if (msgText.Contains("мой заказ"))
+            {
+                return CmdTypes.MyOrder;
+            }
+            else if (msgText.Contains("убрать из заказа"))
+            {
+                return CmdTypes.Remove;
+            }
+            if (msgText.StartsWith("/"))
+            {
+                return CmdTypes.Slash;
+            }
+            else
+            {
+                return CmdTypes.Remark;
             }
         }
     }

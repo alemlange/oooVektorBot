@@ -19,12 +19,12 @@ using Brains;
 using DataModels.Enums;
 using LiteDbService.Helpers;
 using DataModels.Configuration;
+using Bot.Tools;
 
 namespace Bot.Controllers
 {
     public class TelegramController : ApiController
     {
-
         static class Bot
         {
             public static readonly TelegramBotClient Api = new TelegramBotClient("392797621:AAECgGELrjENABjPvPnorEaE0BjnlHN-qY0");
@@ -77,10 +77,11 @@ namespace Bot.Controllers
                     var chatId = message.Chat.Id;
                     var state = bot.GetState(chatId);
                     var parser = ParserChoser.GetParser(state);
-                    var cmd = parser.ParseForCommand(update);
 
                     if (message.Type == MessageType.TextMessage)
                     {
+                        var cmd = parser.ParseForCommand(update);
+
                         switch (cmd)
                         {
                             case CmdTypes.Start:
@@ -241,16 +242,26 @@ namespace Bot.Controllers
                     else if (message.Type == MessageType.PhotoMessage)
                     {
                         var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
-                        var filename = file.FileId + "." + file.FilePath.Split('.').Last();
+                        //var filename = file.FileId + "." + file.FilePath.Split('.').Last();
+                        var filename = @"C:\DB\Pics\" + chatId + "." + file.FilePath.Split('.').Last();
 
-                        //using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create))
-                        //{
-                        //    await file.FileStream.CopyToAsync(saveImageStream);
-                        //}
+                        //using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.Write))
+                        using (FileStream fs = new FileStream(filename, FileMode.Create))
+                        {
+                            await file.FileStream.CopyToAsync(fs);
+
+                            //saveImageStream.Close();
+                            //saveImageStream.Dispose();
+                        }
+
+                        file.FileStream.Close();
+                        file.FileStream.Dispose();
+
+                        var code = CodeController.ReadCode(filename);
 
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
-                            ":)",
+                            code,
                             parseMode: ParseMode.Html);
                     }
                 }
@@ -323,7 +334,6 @@ namespace Bot.Controllers
                 var mes = ex.Message;
                 StreamWriter file = new System.IO.StreamWriter("c:\\db\\errors.txt", true);
                 file.WriteLine(mes);
-
                 file.Close();
             }
 

@@ -282,14 +282,25 @@ namespace Brains
                 decimal d = Math.Ceiling((decimal)menu.DishList.Count / dishesOnPage);
                 pageCount = (int)d;
 
-                var dishes = menu.DishList.OrderBy(m => m.Category).Skip((page-1)*dishesOnPage).Take(dishesOnPage);
+                var dishlist = menu.DishList.Where(m => m.Category != null).OrderBy(m => m.Category).Concat(menu.DishList.Where(m => m.Category == null));
+
+                foreach (var dish in dishlist)
+                {
+                    if (dish.Category == null)
+                    {
+                        dish.Category = "Другое";
+                    }
+                }
+
+                var dishes = dishlist.Skip((page-1)*dishesOnPage).Take(dishesOnPage);
+
                 string category = "";
 
                 foreach (var dish in dishes)
                 {
                     if (dish.Category != null && category != dish.Category)
                     {
-                        respText += Environment.NewLine + "<b>" + dish.Category + "</b>" + Environment.NewLine + Environment.NewLine +
+                        respText += Environment.NewLine + "<b>" + dish.Category + "</b>" + Environment.NewLine +
                             (dishNum += 1) + ". " + dish.Name + " <b>" + //Environment.NewLine +
                             dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
                             //Environment.NewLine + "----------------------------------------" + Environment.NewLine;

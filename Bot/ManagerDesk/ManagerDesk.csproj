@@ -181,6 +181,7 @@
     <Content Include="Assets\Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Assets\Content\main.css" />
     <Content Include="Assets\Content\media.css" />
+    <Content Include="Assets\Imgs\insta_placeholder.png" />
     <Content Include="Assets\Scripts\restform.js" />
     <Content Include="Assets\Scripts\menuform.js" />
     <Content Include="Assets\Scripts\libs\equalheights.js" />

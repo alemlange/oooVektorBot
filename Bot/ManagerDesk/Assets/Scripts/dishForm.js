@@ -32,4 +32,16 @@ $(document).ready(function () {
         catInput.val(catName);
     });
 
+    $(".js-table-body").on("change", ".js-picture-url", function (e) {
+
+        var value = $(this).val();
+        if (value.includes("https://www.instagram.com/p/")) {
+            var container = $(this).parents(".js-dish-form");
+
+            var picture = container.find(".js-insta-picture");
+
+            picture.attr("src", value + "/media");
+        }
+    });
+
 });

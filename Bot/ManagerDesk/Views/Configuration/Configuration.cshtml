@@ -20,11 +20,11 @@
                 </label>
                 @if (!string.IsNullOrEmpty(Model.Config.ProfilePicturePath))
                 {
-                    <img class="settings-profile-img" src="@Url.Content(Model.Config.ProfilePicturePath)" alt="your image" />
+                    <img class="settings-profile-img" src="@Url.Content(Model.Config.ProfilePicturePath)" alt="pic" />
                 }
                 else
                 {
-                    <img class="settings-profile-img" src="@Url.Content("~/Assets/Imgs/empty-profile-img.png")" alt="your image" />
+                    <img class="settings-profile-img" src="@Url.Content("~/Assets/Imgs/empty-profile-img.png")" alt="pic" />
                 }
             </div>
 

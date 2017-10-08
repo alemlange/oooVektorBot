@@ -17,5 +17,18 @@ namespace ManagerDesk.ViewModels
                 return Price == 0 ? "" : Price.ToString();
             }
         }
+
+        public string InstImageUrl
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(PictureUrl))
+                {
+                    return PictureUrl + "/media";
+                }
+                else
+                    return "/Assets/Imgs/insta_placeholder.png";
+            }
+        }
     }
 }

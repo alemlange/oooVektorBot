@@ -300,7 +300,7 @@ namespace Brains
                 {
                     if (dish.Category != null && category != dish.Category)
                     {
-                        respText += Environment.NewLine + "<b>" + dish.Category + "</b>" + Environment.NewLine +
+                        respText += Environment.NewLine + "<i>" + dish.Category + "</i>" + Environment.NewLine +
                             (dishNum += 1) + ". " + dish.Name + " <b>" + //Environment.NewLine +
                             dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
                             //Environment.NewLine + "----------------------------------------" + Environment.NewLine;

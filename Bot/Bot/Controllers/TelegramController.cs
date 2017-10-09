@@ -241,27 +241,44 @@ namespace Bot.Controllers
                     }
                     else if (message.Type == MessageType.PhotoMessage)
                     {
+                        Stream saveImageStream;
+
+                        var response = "";
                         var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
-                        //var filename = file.FileId + "." + file.FilePath.Split('.').Last();
-                        var filename = @"C:\DB\Pics\" + chatId + "." + file.FilePath.Split('.').Last();
+                        var filename = @"C:\DB\Pics\" + file.FileId + "." + file.FilePath.Split('.').Last();
+                        //var filename = @"C:\DB\Pics\" + chatId + "." + file.FilePath.Split('.').Last();
 
                         //using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.Write))
-                        using (FileStream fs = new FileStream(filename, FileMode.Create))
+                        //using (FileStream fs = new FileStream(filename, FileMode.Create))
+                        //using (saveImageStream = System.IO.File.Open(filename, FileMode.OpenOrCreate, FileAccess.Write))
+                        using (saveImageStream = System.IO.File.Open(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
-                            await file.FileStream.CopyToAsync(fs);
+
+                            await file.FileStream.CopyToAsync(saveImageStream);
+
+
+                            saveImageStream.Position = 0;
+
+                            //response = CodeController.ReadCode(filename);
+
+                            //fs.Flush();
+                            //fs.Close();
+                            //fs.Dispose();
 
                             //saveImageStream.Close();
                             //saveImageStream.Dispose();
                         }
 
+                        file.FileStream.Position = 0;
+                        //file.FileStream.Flush();
                         file.FileStream.Close();
-                        file.FileStream.Dispose();
+                        //file.FileStream.Dispose();
 
-                        var code = CodeController.ReadCode(filename);
+                        response = CodeController.ReadCode(filename);
 
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
-                            code,
+                            response,
                             parseMode: ParseMode.Html);
                     }
                 }
@@ -333,7 +350,7 @@ namespace Bot.Controllers
             {
                 var mes = ex.Message;
                 StreamWriter file = new System.IO.StreamWriter("c:\\db\\errors.txt", true);
-                file.WriteLine(mes);
+                file.WriteLine(DateTime.Now.ToString() + " - " + mes);
                 file.Close();
             }
 

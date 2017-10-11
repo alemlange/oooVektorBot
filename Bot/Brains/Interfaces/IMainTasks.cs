@@ -9,7 +9,7 @@ namespace Brains.Interfaces
 {
     interface IMainTasks
     {
-        Responce ShowMenu(long chatId);
+        //Responce ShowMenu(long chatId);
         Responce ShowCart(long chatId);
         Responce OrderMeal(long chatId, string dishName = "");
     }

@@ -145,7 +145,7 @@ namespace Bot.Controllers
                                     
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
-                                        "Хотите чтонибудь из меню? Просто кликните по нему!",
+                                        "Хотите чтонибудь из меню? Просто кликните по ссылке рядом с блюдом.",
                                         parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                                     break;
@@ -340,7 +340,7 @@ namespace Bot.Controllers
 
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
-                            "Хотите чтонибудь из меню? Просто кликните по нему!",
+                            "Хотите чтонибудь из меню? Просто кликните по ссылке рядом с блюдом.",
                             parseMode: ParseMode.Html,
                             replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
                     }

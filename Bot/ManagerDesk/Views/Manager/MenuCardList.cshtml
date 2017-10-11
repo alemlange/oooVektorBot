@@ -2,6 +2,8 @@
 <div class="row">
     @foreach (var menu in Model)
     {
-        @Html.Partial("MenuCard", menu)
+        <div class="col-md-12 col-lg-6">
+            @Html.Partial("MenuCard", menu)
+        </div>
     }
 </div>

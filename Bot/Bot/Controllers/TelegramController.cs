@@ -241,7 +241,7 @@ namespace Bot.Controllers
                     }
                     else if (message.Type == MessageType.PhotoMessage)
                     {
-                        Stream saveImageStream;
+                        //Stream saveImageStream;
 
                         var response = "";
                         var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
@@ -251,7 +251,7 @@ namespace Bot.Controllers
                         //using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.Write))
                         //using (FileStream fs = new FileStream(filename, FileMode.Create))
                         //using (saveImageStream = System.IO.File.Open(filename, FileMode.OpenOrCreate, FileAccess.Write))
-                        using (saveImageStream = System.IO.File.Open(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
+                        using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
 
                             await file.FileStream.CopyToAsync(saveImageStream);
@@ -265,7 +265,7 @@ namespace Bot.Controllers
                             //fs.Close();
                             //fs.Dispose();
 
-                            //saveImageStream.Close();
+                            saveImageStream.Close();
                             //saveImageStream.Dispose();
                         }
 

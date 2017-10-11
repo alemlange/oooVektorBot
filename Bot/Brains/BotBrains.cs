@@ -94,7 +94,7 @@ namespace Brains
                     _service.UpdateTableState(chatId, SessionState.Remark);
 
                     //return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
-                    return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у Вас есть какие то пожелания к блюду, просто отправьте их сообщением!" };
+                    return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у вас есть какие то пожелания к блюду, просто отправьте их сообщением!" };
                 }
                 else
                 {
@@ -120,7 +120,7 @@ namespace Brains
                     _service.UpdateDishRemark(table.Id, lastDishName.Value.ToString(), message);
                     _service.UpdateTableState(chatId, SessionState.Sitted);
 
-                    return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
+                    return new Responce { ChatId = chatId, ResponceText = "Отношу заказ на кухню, чтонибудь еще?" };
                 }
                 else
                 {
@@ -142,7 +142,7 @@ namespace Brains
                 if (table.Orders.Any())
                 {
                     var resp = ShowCart(chatId);
-                    resp.ResponceText += Environment.NewLine + "Отправьте ообщением номер блюда, которое вы хотите убрать из заказа";
+                    resp.ResponceText += Environment.NewLine + "Отправьте сообщением номер блюда, которое вы хотите убрать из заказа";
                     
                     return resp;
                 }
@@ -165,7 +165,7 @@ namespace Brains
 
                 _service.RemoveDishFromOrder(chatId, dishNum);
 
-                return new Responce { ResponceText = "Блюдо успешно удалено из Вашего заказа!" }; // todo Вас Вашего Вам...
+                return new Responce { ResponceText = "Блюдо успешно удалено из вашего заказа!" }; // todo Вас Вашего Вам...
             }
             catch (Exception)
             {
@@ -196,7 +196,7 @@ namespace Brains
             }
             else
             {
-                respText = "Вы пока еще ничего не заказали :(";
+                respText = "Вы пока еще ничего не заказали.";
             }
                 
             return new Responce
@@ -207,29 +207,29 @@ namespace Brains
             };
         }
 
-        public Responce ShowMenu(long chatId)
-        {
-            try
-            {
-                _service.UpdateTableState(chatId, SessionState.Sitted);
-                var menu = _service.GetAllMenus().First(); // to do
-                int dishNum = 0;
+        //public Responce ShowMenu(long chatId)
+        //{
+        //    try
+        //    {
+        //        _service.UpdateTableState(chatId, SessionState.Sitted);
+        //        var menu = _service.GetAllMenus().First(); // to do
+        //        int dishNum = 0;
 
-                var respText = menu.MenuName + Environment.NewLine;
+        //        var respText = menu.MenuName + Environment.NewLine;
 
-                foreach (var dish in menu.DishList)
-                {
-                    respText += (dishNum += 1) + ". " + dish.Name + " " + dish.Price + "р. " + dish.SlashName + Environment.NewLine;
-                }
-                respText += "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
+        //        foreach (var dish in menu.DishList)
+        //        {
+        //            respText += (dishNum += 1) + ". " + dish.Name + " " + dish.Price + "р. " + dish.SlashName + Environment.NewLine;
+        //        }
+        //        respText += "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
 
-                return new Responce { ResponceText = respText };
-            }
-            catch (Exception)
-            {
-                return Responce.UnknownResponce(chatId);
-            }
-        }
+        //        return new Responce { ResponceText = respText };
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Responce.UnknownResponce(chatId);
+        //    }
+        //}
 
         public MenuResponce ShowMenuOnPage(long chatId, int? showPage = null) // todo
         {
@@ -463,7 +463,7 @@ namespace Brains
                 }
                 else
                 {
-                    respText = "Вы пока еще ничего не заказали :(";
+                    respText = "Вы пока еще ничего не заказали.";
                 }
 
                 return new Responce

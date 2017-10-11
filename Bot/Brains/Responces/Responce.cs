@@ -17,7 +17,7 @@ namespace Brains.Responces
 
         public static Responce UnknownResponce(long chatId)
         {
-            return new Responce { ChatId = chatId, ResponceText = "Извините, не понял вашей просьбы :(" };
+            return new Responce { ChatId = chatId, ResponceText = "Упс, что пошло не так, попробуйте еще раз. :(" };
         }
     }
 }

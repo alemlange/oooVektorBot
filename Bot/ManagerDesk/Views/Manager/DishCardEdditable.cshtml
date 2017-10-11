@@ -1,5 +1,5 @@
 ﻿@model ManagerDesk.ViewModels.DishViewModel
-<div class="col-md-6 col-lg-3">
+@*<div class="col-md-6 col-lg-3">*@
     <div class="info-item js-dish-form animated fadeIn" data-itemid="@Model.Id">
         <h3 class="info-item-heading">Блюдо</h3>
         <img class="img-rounded js-insta-picture" src="@Model.InstImageUrl" alt="pic">
@@ -18,9 +18,8 @@
                 }
         </div>
         <input class="form-control js-slash-name" type="text" placeholder="Слэш название" value="@Model.SlashName" />
-        <input class="form-control js-picture-url" type="text" placeholder="Ссылка на картинку" value="@Model.PictureUrl" />
         <input class="form-control js-price" type="text" placeholder="Цена" value="@Model.PriceString" />
         <textarea class="form-control js-description" type="text" placeholder="Описание">@Model.Description</textarea>
         <a href="#" class="btn btn-save-dishes js-save-dish" data-target="@Url.Action("EditDish","Manager")">Сохранить</a>
     </div>
-</div>
+@*</div>*@

@@ -2,35 +2,34 @@
  @{
      var dropdownId = "drop" + Model.Id;
   }
-<div class="col-md-12 col-lg-6">
-    <div class="info-item js-menu-card animated fadeIn" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Manager")"  data-edittarget="@Url.Action("EditMenu","Manager")" data-type="Menu">
 
-        <div class="toolbar-mini">
-            <div class="toolbar-mini__btn dropdown pull-left">
-                <span class="dropdown-toggle menu-more-dishes" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-cutlery" aria-hidden="true"></i></span>
-                <ul class="dropdown-menu dish-dropdown" aria-labelledby="@dropdownId">
-                </ul>
-            </div>
-            <div class="toolbar-mini__btn js-edit-menu"><i class="fa fa-pencil" aria-hidden="true"></i></div>
-            <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+<div class="info-item js-menu-card animated fadeIn" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Manager")"  data-edittarget="@Url.Action("EditMenu","Manager")" data-type="Menu">
+
+    <div class="toolbar-mini">
+        <div class="toolbar-mini__btn dropdown pull-left">
+            <span class="dropdown-toggle menu-more-dishes" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-cutlery" aria-hidden="true"></i></span>
+            <ul class="dropdown-menu dish-dropdown" aria-labelledby="@dropdownId">
+            </ul>
         </div>
-
-        <h3 class="info-item-heading">@Model.MenuName</h3>
-        @if (Model.AttachedRestaurantName != null)
-        {
-            <h4 class="login__heading">@Model.AttachedRestaurantName</h4>
-        }
-
-        @if (Model.DishList.Any())
-        {
-            foreach (var dish in Model.DishList)
-            {
-                <div class="dish-name-item"><span class="dish-name">@dish.Name</span><span class="dish-price">@dish.Price р.</span></div>
-            }
-        }
-        else
-        {
-            <p class="text-center error">Нажмите на карандаш, чтобы добавить блюда в меню.</p>
-        }
+        <div class="toolbar-mini__btn js-edit-menu"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+        <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
     </div>
+
+    <h3 class="info-item-heading">@Model.MenuName</h3>
+    @if (Model.AttachedRestaurantName != null)
+    {
+        <h4 class="login__heading">@Model.AttachedRestaurantName</h4>
+    }
+
+    @if (Model.DishList.Any())
+    {
+        foreach (var dish in Model.DishList)
+        {
+            <div class="dish-name-item"><span class="dish-name">@dish.Name</span><span class="dish-price">@dish.Price р.</span></div>
+        }
+    }
+    else
+    {
+        <p class="text-center error">Нажмите на карандаш, чтобы добавить блюда в меню.</p>
+    }
 </div>

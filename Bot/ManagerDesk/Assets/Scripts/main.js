@@ -89,21 +89,21 @@ $(document).ready(function () {
 
     });
 
-    $(".js-table-body").on("click", ".js-edit-table-actions", function (e) {
+    //$(".js-table-body").on("click", ".js-edit-table-actions", function (e) {
 
-        e.preventDefault();
-        var table = $(this).parents(".js-table-card");
-        var tableId = table.data("itemid");
+    //    e.preventDefault();
+    //    var table = $(this).parents(".js-table-card");
+    //    var tableId = table.data("itemid");
 
-        var orderProc = table.find(".js-order-proc").hasClass("menu-selected");
-        var helpNeeded = table.find(".js-help-needed").hasClass("menu-selected");
-        var checkPlease = table.find(".js-check-please").hasClass("menu-selected");
+    //    var orderProc = table.find(".js-order-proc").hasClass("menu-selected");
+    //    var helpNeeded = table.find(".js-help-needed").hasClass("menu-selected");
+    //    var checkPlease = table.find(".js-check-please").hasClass("menu-selected");
 
-        var target = $(this).data("target");
-        $.post(target, { tableId: tableId, orderProc: orderProc, helpNeeded: helpNeeded, checkPlease: checkPlease }).done(function (data) {
-            $(".js-tables-section").trigger("click");
-        });
-    });
+    //    var target = $(this).data("target");
+    //    $.post(target, { tableId: tableId, orderProc: orderProc, helpNeeded: helpNeeded, checkPlease: checkPlease }).done(function (data) {
+    //        $(".js-tables-section").trigger("click");
+    //    });
+    //});
 
     $(".js-table-body").on("click", ".js-set-table-action", function (e) {
 
@@ -131,36 +131,51 @@ $(document).ready(function () {
     $(".js-table-body").on("click", ".js-edit-dish", function (e) {
 
         e.preventDefault();
+
+        $(".js-table-body").find(".js-dish-form").replaceWith("");
+        $(".js-dish-card.hidden").removeClass("hidden");
+
         var container = $(this).parents(".js-dish-card");
         var edittarget = container.data("edittarget");
         var dishId = container.data("itemid");
 
         $.get(edittarget, { dishId: dishId }).done(function (data) {
-            container.parent().replaceWith(data);
+            container.addClass("hidden");
+            container.parent().append(data);
         });
     });
 
     $(".js-table-body").on("click", ".js-edit-menu", function (e) {
 
         e.preventDefault();
+
+        $(".js-table-body").find(".js-menu-form").replaceWith("");
+        $(".js-menu-card.hidden").removeClass("hidden");
+
         var container = $(this).parents(".js-menu-card");
         var edittarget = container.data("edittarget");
         var menuId = container.data("itemid");
 
         $.get(edittarget, { menuId: menuId }).done(function (data) {
-            container.parent().replaceWith(data);
+            container.addClass("hidden");
+            container.parent().append(data);
         });
     });
 
     $(".js-table-body").on("click", ".js-edit-rest", function (e) {
 
         e.preventDefault();
+
+        $(".js-table-body").find(".js-rest-form").replaceWith("");
+        $(".js-rest-card.hidden").removeClass("hidden");
+
         var container = $(this).parents(".js-rest-card");
         var edittarget = container.data("edittarget");
         var restId = container.data("itemid");
 
         $.get(edittarget, { restId: restId }).done(function (data) {
-            container.parent().replaceWith(data);
+            container.addClass("hidden");
+            container.parent().append(data);
         });
     });
 

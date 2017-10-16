@@ -184,13 +184,30 @@ $(document).ready(function () {
         var chosenCard = $(this).parents(".info-item");
 
         if (chosenCard.length !== 0) {
-            var itemId = chosenCard.data("itemid");
-            var itemType = chosenCard.data("type");
+            $("#dialog-message").dialog({
+                modal: true,
+                draggable: false,
+                resizable: false,
+                position: ['center', 'top'],
+                show: 'blind',
+                hide: 'blind',
+                width: 400,
+                dialogClass: 'ui-dialog-osx',
+                buttons: {
+                    "Да": function () {
+                        var itemId = chosenCard.data("itemid");
+                        var itemType = chosenCard.data("type");
 
-            var target = $(this).data("target");
-            $.post(target, { itemId: itemId, itemType: itemType }).done(function (data) {
-                $(".menu-section.active").trigger("click");
-            });
+                        var target = $(this).data("target");
+                        $.post(target, { itemId: itemId, itemType: itemType }).done(function (data) {
+                            $(".menu-section.active").trigger("click");
+                        });
+                    },
+                    "Отмена": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });            
         }
     });
 

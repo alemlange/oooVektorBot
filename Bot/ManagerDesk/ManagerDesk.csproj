@@ -170,6 +170,7 @@
     <Compile Include="ViewModels\TableCardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Content\dialog.css" />
     <Content Include="Assets\Imgs\empty-profile-img.png" />
     <Content Include="Assets\Content\animate.css" />
     <Content Include="Assets\Content\bootstrap.css" />
@@ -182,6 +183,7 @@
     <Content Include="Assets\Content\main.css" />
     <Content Include="Assets\Content\media.css" />
     <Content Include="Assets\Imgs\insta_placeholder.png" />
+    <Content Include="Assets\Scripts\libs\jquery-ui.min.js" />
     <Content Include="Assets\Scripts\restform.js" />
     <Content Include="Assets\Scripts\menuform.js" />
     <Content Include="Assets\Scripts\libs\equalheights.js" />

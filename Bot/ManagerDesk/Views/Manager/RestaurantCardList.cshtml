@@ -1,5 +1,8 @@
 ﻿@model List<ManagerDesk.ViewModels.RestaurantViewModel>
 
+<script src="~/Assets/Scripts/libs/jquery-ui.min.js"></script>
+<link href="~/Assets/Content/dialog.css" rel="stylesheet" />
+
 <div class="row">
     @foreach (var rest in Model)
     {
@@ -7,4 +10,13 @@
             @Html.Partial("RestaurantCard", rest)
         </div>
     }
+</div>
+
+<div id="dialog-message" title="Important information">
+    <span class="ui-state-default"><span class="ui-icon ui-icon-info" style="float:right; margin:0 7px 0 0;"></span></span>
+    <div style="margin-left: 23px;">
+        <p>
+            Вы уверены, что хотите удалить элемент?
+        </p>
+    </div>
 </div>

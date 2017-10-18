@@ -181,34 +181,45 @@ $(document).ready(function () {
 
     $(".js-table-body").on("click", ".toolbar-delete", function (e) {
         e.preventDefault();
+
         var chosenCard = $(this).parents(".info-item");
+        var itemId = chosenCard.data("itemid");
+        var type = chosenCard.data("type");
+        var target = $(this).data("target");
 
-        if (chosenCard.length !== 0) {
-            $("#dialog-message").dialog({
-                modal: true,
-                draggable: false,
-                resizable: false,
-                position: ['center', 'top'],
-                show: 'blind',
-                hide: 'blind',
-                width: 400,
-                dialogClass: 'ui-dialog-osx',
-                buttons: {
-                    "Да": function () {
-                        var itemId = chosenCard.data("itemid");
-                        var itemType = chosenCard.data("type");
+        var options = { itemid: itemId, type: type, target: target}
+        $("#deletemodal").modal(options);
+        $("#deletemodal").modal('show');
+        return;
 
-                        var target = $(this).data("target");
-                        $.post(target, { itemId: itemId, itemType: itemType }).done(function (data) {
-                            $(".menu-section.active").trigger("click");
-                        });
-                    },
-                    "Отмена": function () {
-                        $(this).dialog("close");
-                    }
-                }
-            });            
-        }
+        //if (chosenCard.length !== 0) {
+        //    $("#dialog-message").dialog({
+        //        modal: true,
+        //        draggable: false,
+        //        resizable: false,
+        //        //position: ['center', 'top'],
+        //        show: 'blind',
+        //        hide: 'blind',
+        //        width: 600,
+        //        height:300,
+        //        dialogClass: 'ui-dialog-osx',
+        //        buttons: {
+        //            "Yes": function () {
+        //                var itemId = chosenCard.data("itemid");
+        //                var itemType = chosenCard.data("type");
+
+        //                var target = $(this).data("target");
+        //                $.post(target, { itemId: itemId, itemType: itemType }).done(function (data) {
+        //                    $(".menu-section.active").trigger("click");
+        //                });
+        //            },
+        //            "No": function () {
+        //                $(this).dialog("close");
+        //            }
+        //        }
+        //    }); 
+        //    $('#dialog-message').dialog('open');
+        //}
     });
 
     $(".js-table-body").on("click", ".js-toolbar-close-table", function (e) {

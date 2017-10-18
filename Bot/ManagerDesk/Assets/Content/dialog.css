@@ -1,7 +1,32 @@
-body { font: normal normal normal 10px/1.5 Arial, Helvetica, sans-serif; }
-
 .ui-dialog-osx {
     -moz-border-radius: 0 0 8px 8px;
     -webkit-border-radius: 0 0 8px 8px;
     border-radius: 0 0 8px 8px; border-width: 0 8px 8px 8px;
+}
+
+.ui-dialog {
+    z-index: 1101;
+}
+
+.ui-widget-overlay{
+    opacity: 0.7;
+}
+
+.modal {
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
 }

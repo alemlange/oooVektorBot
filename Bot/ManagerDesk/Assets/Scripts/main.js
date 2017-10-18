@@ -89,22 +89,6 @@ $(document).ready(function () {
 
     });
 
-    //$(".js-table-body").on("click", ".js-edit-table-actions", function (e) {
-
-    //    e.preventDefault();
-    //    var table = $(this).parents(".js-table-card");
-    //    var tableId = table.data("itemid");
-
-    //    var orderProc = table.find(".js-order-proc").hasClass("menu-selected");
-    //    var helpNeeded = table.find(".js-help-needed").hasClass("menu-selected");
-    //    var checkPlease = table.find(".js-check-please").hasClass("menu-selected");
-
-    //    var target = $(this).data("target");
-    //    $.post(target, { tableId: tableId, orderProc: orderProc, helpNeeded: helpNeeded, checkPlease: checkPlease }).done(function (data) {
-    //        $(".js-tables-section").trigger("click");
-    //    });
-    //});
-
     $(".js-table-body").on("click", ".js-set-table-action", function (e) {
 
         e.preventDefault();
@@ -183,13 +167,12 @@ $(document).ready(function () {
         e.preventDefault();
 
         var chosenCard = $(this).parents(".info-item");
-        var itemId = chosenCard.data("itemid");
-        var type = chosenCard.data("type");
-        var target = $(this).data("target");
 
-        var options = { itemid: itemId, type: type, target: target}
-        $("#deletemodal").modal(options);
+        $("#deletemodal").data("itemid", chosenCard.data("itemid"));
+        $("#deletemodal").data("type", chosenCard.data("type"));
+        $("#deletemodal").data("target", $(this).data("target"));
         $("#deletemodal").modal('show');
+
         return;
 
         //if (chosenCard.length !== 0) {

@@ -9,6 +9,7 @@ $(document).ready(function () {
         var target = chosenCard.data("target");
 
         $.post(target, { itemId: itemId, itemType: itemType }).done(function (data) {
+            $("#deletemodal").modal('hide');
             $(".menu-section.active").trigger("click");
         });
 

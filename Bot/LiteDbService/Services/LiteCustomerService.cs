@@ -263,6 +263,7 @@ namespace LiteDbService
                 if (table != null)
                 {
                     table.Menu = menu.Id; // todo check isnull
+                    table.State = SessionState.Queue;
                     tableCol.Update(table);
                 }
             }

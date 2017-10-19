@@ -36,13 +36,6 @@ namespace Bot.Controllers
             Bot.Api.SetWebhookAsync().Wait();
             Bot.Api.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
 
-            // remove all tables
-            var accountId = ConfigurationSettings.AccountId;
-            var regService = ServiceCreator.GetRegistrationService();
-            var account = regService.FindAccount(accountId);
-            var service = ServiceCreator.GetCustomerService(account.Login);
-            service.RemoveAllTables();
-
             return "Ok" ;
         }
 
@@ -141,7 +134,7 @@ namespace Bot.Controllers
                                         await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
                                     }
                                     else
-                                        await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText);
+                                        await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html);
                                     
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
@@ -348,9 +341,8 @@ namespace Bot.Controllers
             }
             catch (Exception ex)
             {
-                var mes = ex.Message;
-                StreamWriter file = new System.IO.StreamWriter("c:\\db\\errors.txt", true);
-                file.WriteLine(DateTime.Now.ToString() + " - " + mes);
+                var file = new StreamWriter("c:\\db\\errors.txt", true);
+                file.WriteLine(DateTime.Now.ToString() + " - " + ex.Message);
                 file.Close();
             }
 

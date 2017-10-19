@@ -17,10 +17,9 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "Меню 📓", "Мой заказ 🍴" },
-                        new KeyboardButton[] { "Убрать из заказа ❌" },
-                        new KeyboardButton[] { "Попросить счет 💳" },
-                        new KeyboardButton[] { "Позвать официанта 🔔" }
+                        new KeyboardButton[] { "Меню 📓" },
+                        new KeyboardButton[] { "Мой заказ 🍴", "Убрать из заказа ❌" },
+                        new KeyboardButton[] { "Попросить счет 💳", "Официант 🔔" }
                     }
                 };
             }
@@ -39,7 +38,7 @@ namespace Bot.CommandParser
             {
                 return CmdTypes.Check;
             }
-            else if (msgText.Contains("позвать официанта"))
+            else if (msgText.Contains("официант"))
             {
                 return CmdTypes.Waiter;
             }

@@ -9,8 +9,7 @@ namespace ManagerDesk
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Assets/Scripts/libs/jquery-{version}.js",
-                        "~/Assets/Scripts/libs/jquery-ui.min.js"));
+                        "~/Assets/Scripts/libs/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Assets/Scripts/libs/jquery.validate*"));
@@ -26,8 +25,6 @@ namespace ManagerDesk
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Assets/Content/bootstrap.css",
-                      "~/Assets/Content/jquery-ui.css", 
-                      "~/Assets/Content/jquery-ui.theme.css",
                       "~/Assets/Content/font-awesome-4.7.0/css/font-awesome.min.css",
                       "~/Assets/Content/config.css",
                       "~/Assets/Content/main.css",

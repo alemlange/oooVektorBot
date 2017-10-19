@@ -14,7 +14,7 @@ namespace Bot.CommandParser
             {
                 var keys = new List<KeyboardButton[]>();
                 var brains = new BotBrains();
-                var tablesCount = brains.TablesCount;
+                var tablesCount = brains.Config.TablesCount;
 
                 keys.Add(new KeyboardButton[] { "Меню 📓" });
 
@@ -46,18 +46,6 @@ namespace Bot.CommandParser
                     Keyboard = keys.ToArray()
                 };
 
-                /*
-                return new ReplyKeyboardMarkup
-                {
-                    Keyboard = new KeyboardButton[][]
-                    {
-                        new KeyboardButton[] { "Меню 📓" },
-                        new KeyboardButton[] { "1", "2", "3" },
-                        new KeyboardButton[] { "4", "5", "6" },
-                        new KeyboardButton[] { "7", "8", "9" },
-                    }
-                };
-                */
             }
         }
 

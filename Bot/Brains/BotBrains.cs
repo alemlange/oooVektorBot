@@ -24,9 +24,7 @@ namespace Brains
 
         public List<string> RestaurantNames { get; set; }
 
-        public int DishesPerPage { get; set; }
-
-        public int TablesCount { get; set; }
+        public BrainsConfig Config {get;set;}
 
         public BotBrains()
         {
@@ -35,32 +33,32 @@ namespace Brains
             if (accountId != Guid.Empty)
             {
                 var account = _regService.FindAccount(accountId);
+
                 _service = ServiceCreator.GetCustomerService(account.Login);
 
-                var config = _regService.FindConfig(accountId);
-                DishesPerPage = config.DishesPerPage;
-                TablesCount = config.TablesCount;
+                var dataConfig = _regService.FindConfig(accountId);
+                Config = new BrainsConfig { DishesPerPage = dataConfig.DishesPerPage, TablesCount = dataConfig.TablesCount };
+
+                var allDishes = _service.GetAllDishes();
+
+                DishNames = new List<string>();
+
+                foreach (var dish in allDishes)
+                {
+                    DishNames.Add(dish.Name.ToLower());
+                }
+
+                var allRestaurants = _service.GetAllRestaurants();
+
+                RestaurantNames = new List<string>();
+
+                foreach (var restrunt in allRestaurants)
+                {
+                    RestaurantNames.Add(restrunt.Name);
+                }
             }
             else
-                throw new Exception("AccountId setting not found webconfig.");
-
-            var allDishes = _service.GetAllDishes();
-
-            DishNames = new List<string>();
-
-            foreach(var dish in allDishes)
-            {
-                DishNames.Add(dish.Name.ToLower());
-            }
-
-            var allRestaurants = _service.GetAllRestaurants();
-
-            RestaurantNames = new List<string>();
-
-            foreach (var restrunt in allRestaurants)
-            {
-                RestaurantNames.Add(restrunt.Name);
-            }
+                throw new Exception("AccountId setting not found in webconfig.");   
         }
 
         public SessionState GetState(long chatId)
@@ -207,30 +205,6 @@ namespace Brains
             };
         }
 
-        //public Responce ShowMenu(long chatId)
-        //{
-        //    try
-        //    {
-        //        _service.UpdateTableState(chatId, SessionState.Sitted);
-        //        var menu = _service.GetAllMenus().First(); // to do
-        //        int dishNum = 0;
-
-        //        var respText = menu.MenuName + Environment.NewLine;
-
-        //        foreach (var dish in menu.DishList)
-        //        {
-        //            respText += (dishNum += 1) + ". " + dish.Name + " " + dish.Price + "р. " + dish.SlashName + Environment.NewLine;
-        //        }
-        //        respText += "Хотите чтонибудь из меню? Просто напишите назавние блюда в чат." + Environment.NewLine;
-
-        //        return new Responce { ResponceText = respText };
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Responce.UnknownResponce(chatId);
-        //    }
-        //}
-
         public MenuResponce ShowMenuOnPage(long chatId, int? showPage = null) // todo
         {
             try
@@ -238,9 +212,9 @@ namespace Brains
                 var table = _service.GetActiveTable(chatId);
                 int dishesOnPage = 8;
 
-                if (DishesPerPage > 0)
+                if (Config.DishesPerPage > 0)
                 {
-                    dishesOnPage = DishesPerPage;
+                    dishesOnPage = Config.DishesPerPage;
                 }
 
                 if (table != null && table.State == SessionState.Remark)
@@ -248,7 +222,6 @@ namespace Brains
                     _service.UpdateTableState(chatId, SessionState.Sitted);
                 }
 
-                //_service.UpdateTableState(chatId, SessionState.Sitted);
                 var menu = _service.GetMenuByTable(chatId);
 
                 var respText = "<b>" + menu.MenuName + "</b>" + Environment.NewLine;
@@ -263,7 +236,6 @@ namespace Brains
                 }
                 else
                 {
-                    //var table = _service.FindTable(chatId);
 
                     if (table != null)
                     {
@@ -301,17 +273,15 @@ namespace Brains
                     if (dish.Category != null && category != dish.Category)
                     {
                         respText += Environment.NewLine + "<i>" + dish.Category + "</i>" + Environment.NewLine +
-                            (dishNum += 1) + ". " + dish.Name + " <b>" + //Environment.NewLine +
+                            (dishNum += 1) + ". " + dish.Name + " <b>" +
                             dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
-                            //Environment.NewLine + "----------------------------------------" + Environment.NewLine;
 
                         category = dish.Category;
                     }
                     else
                     {
-                        respText += (dishNum += 1) + ". " + dish.Name + " <b>" + //Environment.NewLine +
+                        respText += (dishNum += 1) + ". " + dish.Name + " <b>" +
                             dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
-                            //Environment.NewLine + "----------------------------------------" + Environment.NewLine;
                     }
                 }
 

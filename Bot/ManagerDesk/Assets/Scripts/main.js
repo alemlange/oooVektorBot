@@ -172,37 +172,6 @@ $(document).ready(function () {
         $("#deletemodal").data("type", chosenCard.data("type"));
         $("#deletemodal").data("target", $(this).data("target"));
         $("#deletemodal").modal('show');
-
-        return;
-
-        //if (chosenCard.length !== 0) {
-        //    $("#dialog-message").dialog({
-        //        modal: true,
-        //        draggable: false,
-        //        resizable: false,
-        //        //position: ['center', 'top'],
-        //        show: 'blind',
-        //        hide: 'blind',
-        //        width: 600,
-        //        height:300,
-        //        dialogClass: 'ui-dialog-osx',
-        //        buttons: {
-        //            "Yes": function () {
-        //                var itemId = chosenCard.data("itemid");
-        //                var itemType = chosenCard.data("type");
-
-        //                var target = $(this).data("target");
-        //                $.post(target, { itemId: itemId, itemType: itemType }).done(function (data) {
-        //                    $(".menu-section.active").trigger("click");
-        //                });
-        //            },
-        //            "No": function () {
-        //                $(this).dialog("close");
-        //            }
-        //        }
-        //    }); 
-        //    $('#dialog-message').dialog('open');
-        //}
     });
 
     $(".js-table-body").on("click", ".js-toolbar-close-table", function (e) {

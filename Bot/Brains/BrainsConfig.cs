@@ -11,5 +11,7 @@ namespace Brains
         public int DishesPerPage { get; set; }
 
         public int TablesCount { get; set; }
+
+        public string Greetings { get; set; }
     }
 }

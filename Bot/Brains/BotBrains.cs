@@ -37,21 +37,22 @@ namespace Brains
                 _service = ServiceCreator.GetCustomerService(account.Login);
 
                 var dataConfig = _regService.FindConfig(accountId);
-                Config = new BrainsConfig { DishesPerPage = dataConfig.DishesPerPage, TablesCount = dataConfig.TablesCount };
+                Config = new BrainsConfig
+                        {
+                            DishesPerPage = dataConfig.DishesPerPage,
+                            TablesCount = dataConfig.TablesCount,
+                            Greetings = dataConfig.BotGreeting
+                        };
 
                 var allDishes = _service.GetAllDishes();
-
                 DishNames = new List<string>();
-
                 foreach (var dish in allDishes)
                 {
                     DishNames.Add(dish.Name.ToLower());
                 }
 
                 var allRestaurants = _service.GetAllRestaurants();
-
                 RestaurantNames = new List<string>();
-
                 foreach (var restrunt in allRestaurants)
                 {
                     RestaurantNames.Add(restrunt.Name);
@@ -88,10 +89,9 @@ namespace Brains
                     var dish = _service.FindDish(dishName);
                     var dishNum = table.Orders.Count + 1;
 
-                    _service.OrderDish(table.Id, new DataModels.OrderedDish { Num = dishNum, DishFromMenu = dish });
+                    _service.OrderDish(table.Id, new DataModels.OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now });
                     _service.UpdateTableState(chatId, SessionState.Remark);
 
-                    //return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Отношу заказ на кухню, чтонибудь еще?" };
                     return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у вас есть какие то пожелания к блюду, просто отправьте их сообщением!" };
                 }
                 else
@@ -113,9 +113,7 @@ namespace Brains
 
                 if (table != null)
                 {
-                    var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
-
-                    _service.UpdateDishRemark(table.Id, lastDishName.Value.ToString(), message);
+                    _service.UpdateDishRemark(table.Id, message);
                     _service.UpdateTableState(chatId, SessionState.Sitted);
 
                     return new Responce { ChatId = chatId, ResponceText = "Отношу заказ на кухню, чтонибудь еще?" };
@@ -163,7 +161,7 @@ namespace Brains
 
                 _service.RemoveDishFromOrder(chatId, dishNum);
 
-                return new Responce { ResponceText = "Блюдо успешно удалено из вашего заказа!" }; // todo Вас Вашего Вам...
+                return new Responce { ResponceText = "Блюдо успешно удалено из вашего заказа!" };
             }
             catch (Exception)
             {
@@ -184,10 +182,8 @@ namespace Brains
 
                 respText = "Вы заказали:" + Environment.NewLine + Environment.NewLine;
 
-                //int num = 0;
                 foreach (var dish in table.Orders)
                 {
-                    //num += 1;
                     respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
                 }
                 respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
@@ -298,6 +294,7 @@ namespace Brains
             try
             {
                 _service.AssignMenu(chatId, restruntName);
+                _service.UpdateTableState(chatId, SessionState.Queue);
 
                 return new Responce
                 {
@@ -318,6 +315,7 @@ namespace Brains
             try
             {
                 _service.AssignNumber(chatId, tableNumber);
+                _service.UpdateTableState(chatId, SessionState.Sitted);
 
                 return new Responce
                 {
@@ -377,19 +375,14 @@ namespace Brains
         {
             try
             {
-                //if (_service.CreateTable(chatId) != Guid.Empty)
-                //{
-                    _service.UpdateTableState(chatId, SessionState.Sitted);
+                _service.UpdateTableState(chatId, SessionState.Sitted);
 
-                    return new Responce
-                    {
-                        ChatId = chatId,
-                        ResponceText = "Привет! За каким столиком вы сидите?",
-                        State = SessionState.Queue
-                    };
-                //}
-                //else
-                //    throw new Exception("Не получилось создать столик!");
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Привет! За каким столиком вы сидите?",
+                    State = SessionState.Queue
+                };
             }
             catch (Exception)
             {
@@ -455,7 +448,6 @@ namespace Brains
             {
                 var dish = _service.GetDish(dishName); // to do get dish from memory
                 _service.AddLastDishToTable(chatId, dishName);
-                //_service.UpdateTableState(chatId, SessionState.DishChoosing);
 
                 return new Responce
                 {

@@ -11,6 +11,7 @@ namespace Bot.CommandParser
     public interface IParser
     {
         IReplyMarkup Keyboard { get; }
+
         CmdTypes ParseForCommand(Update update);
     }
 }

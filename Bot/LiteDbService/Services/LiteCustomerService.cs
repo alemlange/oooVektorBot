@@ -61,6 +61,7 @@ namespace LiteDbService
                 {
                     table.Orders.Add(dish);
                     table.OrderPlaced = DateTime.Now;
+                    table.OrderProcessed = false;
                     tableCol.Update(table);
                 }
             }
@@ -85,28 +86,28 @@ namespace LiteDbService
                     }
 
                     UpdateTable(table);
-                    //tableCol.Update(table);
                 }
             }
             else
                 throw new TableNotFoundException();
         }
 
-        public void UpdateDishRemark(Guid tableId, string lastDishName, string message) // toddo одинаковые блюда в заказе
+        public void UpdateDishRemark(Guid tableId, string message) 
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var tableCol = db.GetCollection<Table>("Tables");
                 var table = tableCol.Find(o => o.Id == tableId).FirstOrDefault();
-                var orders = table.Orders;
-                var dish = orders.LastOrDefault(o => o.DishFromMenu.SlashName == lastDishName); // todo last
 
-                if (dish != null)
-                    dish.Remarks = message;
+                var lastOrder = table.Orders.OrderBy(o => o.DateOfOrdering).LastOrDefault();
+                if (lastOrder != null)
+                {
+                    lastOrder.Remarks = message;
 
-                table.Orders = orders;
-                //table.OrderPlaced = DateTime.Now;
-                tableCol.Update(table);
+                    table.OrderPlaced = DateTime.Now;
+                    table.OrderProcessed = false;
+                    tableCol.Update(table);
+                }
             }
         }
 
@@ -161,16 +162,15 @@ namespace LiteDbService
 
                 if (table != null)
                 {
-                    var restCol = db.GetCollection<Restaurant>("Restaurants");
-                    var restaurant = restCol.FindAll().FirstOrDefault();
-
                     table.TableNumber = tableNumber;
-                    table.State = SessionState.Sitted;
                     tableCol.Update(table);
 
                     if (table.Menu == Guid.Empty)
                     {
-                        AssignMenu(chatId, restaurant.Name);
+                        var menuCol = db.GetCollection<Menu>("Menus");
+                        var menu = menuCol.FindAll().FirstOrDefault();
+                        if(menu != null)
+                            AssignMenu(chatId, menu.Id);
                     }
                 }
             }
@@ -262,8 +262,22 @@ namespace LiteDbService
 
                 if (table != null)
                 {
-                    table.Menu = menu.Id; // todo check isnull
-                    table.State = SessionState.Queue;
+                    table.Menu = menu.Id;
+                    tableCol.Update(table);
+                }
+            }
+        }
+
+        public void AssignMenu(long chatId, Guid menuId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+
+                if (table != null)
+                {
+                    table.Menu = menuId;
                     tableCol.Update(table);
                 }
             }

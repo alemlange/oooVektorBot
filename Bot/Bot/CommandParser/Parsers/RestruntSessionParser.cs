@@ -8,23 +8,22 @@ using Brains;
 
 namespace Bot.CommandParser
 {
-    public class RestruntSessionParser : IParser
+    public class RestruntSessionParser : SessionParser, IParser
     {
-        private List<string> Restaurants;
+        public RestruntSessionParser(List<string> restaurantNames, int tablesCount) : base(restaurantNames, tablesCount)
+        {
+        }
 
         public IReplyMarkup Keyboard
         {
             get
             {
                 var keys = new List<KeyboardButton[]>();
-                var brains = new BotBrains();
-                Restaurants = brains.RestaurantNames;
                 
                 foreach (var res in Restaurants)
                 {
                     keys.Add(new KeyboardButton[] { res });
                 }
-                //keys.Add(new KeyboardButton[] { "Назад ↩" });
 
                 return new ReplyKeyboardMarkup
                 {

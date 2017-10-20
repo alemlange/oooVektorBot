@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CommandParser\KeyBoards\InlineKeyBoardManager.cs" />
+    <Compile Include="CommandParser\Parsers\SessionParser.cs" />
     <Compile Include="CommandParser\Parsers\RemarkSessionParser.cs" />
     <Compile Include="CommandParser\Enums\CmdTypes.cs" />
     <Compile Include="CommandParser\Interfaces\IParser.cs" />
@@ -111,7 +112,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommandParser\OldParser\TelegramCmdParser.cs" />
     <Compile Include="Tools\CodeController.cs" />
   </ItemGroup>
   <ItemGroup>

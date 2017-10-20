@@ -6,29 +6,30 @@ using System.Collections.Generic;
 
 namespace Bot.CommandParser
 {
-    public class InQueueSessionParser : IParser
+    public class InQueueSessionParser : SessionParser, IParser
     {
+        public InQueueSessionParser(List<string> restaurantNames, int tablesCount) : base(restaurantNames, tablesCount)
+        {
+        }
+
         public IReplyMarkup Keyboard
         {
             get
             {
                 var keys = new List<KeyboardButton[]>();
-                var brains = new BotBrains();
-                var tablesCount = brains.Config.TablesCount;
-
                 keys.Add(new KeyboardButton[] { "Меню 📓" });
 
-                if (tablesCount > 0)
+                if (TablesCount > 0)
                 {
                     int table = 1;
-                    while (table <= tablesCount)
+                    while (table <= TablesCount)
                     {
-                        if (table + 2 <= tablesCount)
+                        if (table + 2 <= TablesCount)
                         {
                             keys.Add(new KeyboardButton[] { table.ToString(), (table + 1).ToString(), (table + 2).ToString() });
                             table += 3;
                         }
-                        else if (table + 1 <= tablesCount)
+                        else if (table + 1 <= TablesCount)
                         {
                             keys.Add(new KeyboardButton[] { table.ToString(), (table + 1).ToString() });
                             table += 2;

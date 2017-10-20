@@ -34,7 +34,7 @@ namespace ManagerDesk.Controllers
         public ActionResult AllTables()
         {
             var service = ServiceCreator.GetManagerService(User.Identity.Name);
-            var activeTables = service.GetActiveTables();
+            var activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
             var inActiveTables = service.GetInActiveTables();
             var model = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };
 

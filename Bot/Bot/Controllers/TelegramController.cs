@@ -69,7 +69,7 @@ namespace Bot.Controllers
                     var message = update.Message;
                     var chatId = message.Chat.Id;
                     var state = bot.GetState(chatId);
-                    var parser = ParserChoser.GetParser(state);
+                    var parser = ParserChoser.GetParser(state, bot);
 
                     if (message.Type == MessageType.TextMessage)
                     {
@@ -79,15 +79,16 @@ namespace Bot.Controllers
                         {
                             case CmdTypes.Start:
                                 {
-                                    // todo bot name from config
-                                    await Bot.Api.SendTextMessageAsync(
-                                        chatId,
-                                        "Здравствуйте, меня зовут РестоБот! Я знаю все о местной кухне, могу рассказать вам " +
+                                    var greetings = "Здравствуйте, меня зовут ДайнерБот! Я знаю все о местной кухне, могу рассказать вам " +
                                         "о наших блюдах, принять заказ с учетом ваших вкусов и пожеланий, а так же помочь вам " +
                                         "в любых вопросах! Для того, чтобы ознакомиться с меню напишите \"меню\", чтобы " +
-                                        "сделать заказ напишите \"начать\". Приятного отдыха!",
+                                        "сделать заказ напишите \"начать\". Приятного отдыха!";
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        bot.Config.Greetings ?? greetings,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(SessionState.Unknown).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(SessionState.Unknown, bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Greetings:
@@ -98,7 +99,7 @@ namespace Bot.Controllers
                                         chatId,
                                         responce.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Restrunt:
@@ -109,7 +110,7 @@ namespace Bot.Controllers
                                         chatId,
                                         responce.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.TableNumber:
@@ -120,7 +121,7 @@ namespace Bot.Controllers
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Menu:
@@ -140,7 +141,7 @@ namespace Bot.Controllers
                                         chatId,
                                         "Хотите чтонибудь из меню? Просто кликните по ссылке рядом с блюдом.",
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Slash:
@@ -164,7 +165,7 @@ namespace Bot.Controllers
                                         chatId,
                                         responce.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Check:
@@ -175,7 +176,7 @@ namespace Bot.Controllers
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Waiter:
@@ -186,7 +187,7 @@ namespace Bot.Controllers
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Remark:
@@ -197,7 +198,7 @@ namespace Bot.Controllers
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Remove:
@@ -208,7 +209,7 @@ namespace Bot.Controllers
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.RemoveByNum:
@@ -219,7 +220,7 @@ namespace Bot.Controllers
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                                        replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.Unknown:
@@ -234,38 +235,21 @@ namespace Bot.Controllers
                     }
                     else if (message.Type == MessageType.PhotoMessage)
                     {
-                        //Stream saveImageStream;
 
                         var response = "";
                         var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
                         var filename = @"C:\DB\Pics\" + file.FileId + "." + file.FilePath.Split('.').Last();
-                        //var filename = @"C:\DB\Pics\" + chatId + "." + file.FilePath.Split('.').Last();
 
-                        //using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.Write))
-                        //using (FileStream fs = new FileStream(filename, FileMode.Create))
-                        //using (saveImageStream = System.IO.File.Open(filename, FileMode.OpenOrCreate, FileAccess.Write))
                         using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
                         {
-
                             await file.FileStream.CopyToAsync(saveImageStream);
 
-
                             saveImageStream.Position = 0;
-
-                            //response = CodeController.ReadCode(filename);
-
-                            //fs.Flush();
-                            //fs.Close();
-                            //fs.Dispose();
-
                             saveImageStream.Close();
-                            //saveImageStream.Dispose();
                         }
 
                         file.FileStream.Position = 0;
-                        //file.FileStream.Flush();
                         file.FileStream.Close();
-                        //file.FileStream.Dispose();
 
                         response = CodeController.ReadCode(filename);
 
@@ -317,25 +301,26 @@ namespace Bot.Controllers
                             chatId,
                             response.ResponceText,
                             parseMode: ParseMode.Html,
-                            replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                            replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                     }
                     else if (update.CallbackQuery.Data.ToLower().Contains("вернуться к меню"))
                     {
                         var response = bot.ShowMenuOnPage(chatId);
 
-                        var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
+                        if (response.PageCount > 1)
+                        {
+                            var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
 
-                        await Bot.Api.SendTextMessageAsync(
-                            chatId,
-                            response.ResponceText,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: keyboard);
+                            await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
+                        }
+                        else
+                            await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html);
 
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
                             "Хотите чтонибудь из меню? Просто кликните по ссылке рядом с блюдом.",
                             parseMode: ParseMode.Html,
-                            replyMarkup: ParserChoser.GetParser(bot.GetState(chatId)).Keyboard);
+                            replyMarkup: ParserChoser.GetParser(bot.GetState(chatId), bot).Keyboard);
                     }
                 }
             }

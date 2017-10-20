@@ -3,9 +3,7 @@ $(document).ready(function () {
     $(".navbar-left-btn").on("click", function () {
         if ($(this).hasClass("js-opened")) {
             $(this).removeClass("js-opened");
-
             $(".navbar-left").slideToggle("slow", function () { $(".page-wrapper").css("padding-left", "0px"); });
-            
         }
         else {
             $(this).addClass("js-opened");
@@ -203,5 +201,4 @@ $(document).ready(function () {
             reader.readAsDataURL(this.files[0]);
         }
     });
-
 });

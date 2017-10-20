@@ -21,6 +21,7 @@ $(document).ready(function () {
         var target = $(this).data("target");
         $.get(target).done(function (data) {
             $(".js-table-body").html(data);
+            equalHeight($(".info-item"));
         });
     });
 

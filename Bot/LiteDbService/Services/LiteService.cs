@@ -84,7 +84,6 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 db.DropCollection("Tables");
-                //db.DropCollection("Restaurants");
             }
         }
 

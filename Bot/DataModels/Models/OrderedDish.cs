@@ -10,6 +10,8 @@ namespace DataModels
     {
         public int Num { get; set; }
 
+        public DateTime DateOfOrdering { get; set; }
+
         public Dish DishFromMenu { get; set; }
 
         public string Remarks { get; set; }

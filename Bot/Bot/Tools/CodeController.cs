@@ -18,6 +18,8 @@ namespace Bot.Tools
                 var barcodeBitmap = (Bitmap)Bitmap.FromFile(fileName);
                 var barcodeResult = barcodeReader.Decode(barcodeBitmap);
 
+                barcodeBitmap.Dispose();
+
                 return barcodeResult.Text;
             }
             catch (Exception ex)

@@ -3,6 +3,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Brains;
 using System.Collections.Generic;
+using Telegram.Bot.Types.Enums;
 
 namespace Bot.CommandParser
 {
@@ -49,21 +50,31 @@ namespace Bot.CommandParser
                 {
                     Keyboard = keys.ToArray()
                 };
-
             }
         }
 
         public CmdTypes ParseForCommand(Update update)
         {
-            var msgText = update.Message.Text.ToLower();
-            int result;
+            if (update.Message.Type == MessageType.TextMessage)
+            {
+                var msgText = update.Message.Text.ToLower();
+                int result;
 
-            if (Int32.TryParse(msgText, out result))
-                return CmdTypes.TableNumber;
-            else if (msgText.Contains("меню"))
-                return CmdTypes.Menu;
+                if (Int32.TryParse(msgText, out result))
+                    return CmdTypes.TableNumber;
+                else if (msgText.Contains("меню"))
+                    return CmdTypes.Menu;
+                else
+                    return CmdTypes.Unknown;
+            }
+            else if (update.Message.Type == MessageType.PhotoMessage)
+            {
+                return CmdTypes.QRCode;
+            }
             else
+            {
                 return CmdTypes.Unknown;
+            }
         }
     }
 }

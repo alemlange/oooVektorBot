@@ -70,7 +70,7 @@ namespace Bot.Controllers
                     var chatId = message.Chat.Id;
                     var parser = ParserChoser.GetParser(chatId, bot);
 
-                    if (message.Type == MessageType.TextMessage)
+                    if (message.Type == MessageType.TextMessage || message.Type == MessageType.PhotoMessage)
                     {
                         var cmd = parser.ParseForCommand(update);
 
@@ -230,47 +230,48 @@ namespace Bot.Controllers
                                         parseMode: ParseMode.Html);
                                     break;
                                 }
-                        }
-                    }
-                    else if (message.Type == MessageType.PhotoMessage)
-                    {
-                        var code = "";
-                        var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
-                        var filename = @"C:\DB\Pics\" + chatId + "." + file.FilePath.Split('.').Last();
+                            case CmdTypes.QRCode:
+                                {
+                                    var code = "";
+                                    var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
+                                    var filename = @"C:\DB\Pics\" + chatId + "." + file.FilePath.Split('.').Last();
 
-                        using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
-                        {
-                            await file.FileStream.CopyToAsync(saveImageStream);
+                                    using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+                                    {
+                                        await file.FileStream.CopyToAsync(saveImageStream);
 
-                            saveImageStream.Position = 0;
-                            saveImageStream.Close();
-                        }
+                                        saveImageStream.Position = 0;
+                                        saveImageStream.Close();
+                                    }
 
-                        file.FileStream.Position = 0;
-                        file.FileStream.Close();
+                                    file.FileStream.Position = 0;
+                                    file.FileStream.Close();
 
-                        code = CodeController.ReadCode(filename);
+                                    code = CodeController.ReadCode(filename);
 
-                        if (System.IO.File.Exists(filename))
-                        {
-                            System.IO.File.Delete(filename);
-                        }
-                        
-                        if (code != null)
-                        {
-                            var response = bot.QRCode(chatId, code);
+                                    if (System.IO.File.Exists(filename))
+                                    {
+                                        System.IO.File.Delete(filename);
+                                    }
 
-                            await Bot.Api.SendTextMessageAsync(
-                            chatId,
-                            response.ResponceText,
-                            parseMode: ParseMode.Html);
-                        }
-                        else
-                        {
-                            await Bot.Api.SendTextMessageAsync(
-                            chatId,
-                            "Не удалось распознать код! Попробуйте еще раз или выберите ресторан и номер стола через меню!",
-                            parseMode: ParseMode.Html);
+                                    if (code != null)
+                                    {
+                                        var response = bot.QRCode(chatId, code);
+
+                                        await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        parseMode: ParseMode.Html);
+                                    }
+                                    else
+                                    {
+                                        await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        "Не удалось распознать код! Попробуйте еще раз или выберите ресторан и номер стола через меню!",
+                                        parseMode: ParseMode.Html);
+                                    }
+                                    break;
+                                }
                         }
                     }
                 }

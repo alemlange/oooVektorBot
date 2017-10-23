@@ -24,6 +24,7 @@ namespace Bot.CommandParser
         MyOrder,
         Remark,
         Remove,
-        RemoveByNum
+        RemoveByNum,
+        QRCode
     }
 }

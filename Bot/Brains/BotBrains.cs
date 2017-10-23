@@ -347,38 +347,26 @@ namespace Brains
 
         public Responce QRCode(long chatId, string code)
         {
-            if (GetState(chatId) == SessionState.Restaurant)
+            try
             {
-                try
-                {
-                    int restruntNumber = int.Parse(code.Substring(code.IndexOf("t")));
-                    int tableNumber = int.Parse(code.Substring(code.IndexOf("t")));
+                int restruntNumber = int.Parse(code.Substring(code.IndexOf("t")));
+                int tableNumber = int.Parse(code.Substring(code.IndexOf("t")));
 
-                    //_service.AssignMenu(chatId, restruntNumber);
-                    _service.AssignNumber(chatId, tableNumber);
-                    _service.UpdateTableState(chatId, SessionState.Sitted);
+                //_service.AssignMenu(chatId, restruntNumber);
+                _service.AssignNumber(chatId, tableNumber);
+                _service.UpdateTableState(chatId, SessionState.Sitted);
 
-                    return new Responce
-                    {
-                        ChatId = chatId,
-                        ResponceText = "Отлично! Выберите столик!",
-                        State = SessionState.Queue
-                    };
-
-                }
-                catch (Exception)
-                {
-                    return Responce.UnknownResponce(chatId);
-                }
-            }
-            else
-            {
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Спасибо за картинку!",
-                    State = SessionState.Restaurant
+                    ResponceText = "Отлично! Выберите столик!",
+                    State = SessionState.Queue
                 };
+
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
             }
         }
 

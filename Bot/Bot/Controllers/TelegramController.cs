@@ -235,7 +235,7 @@ namespace Bot.Controllers
                     }
                     else if (message.Type == MessageType.PhotoMessage)
                     {
-                        var response = "";
+                        var code = "";
                         var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
                         var filename = @"C:\DB\Pics\" + chatId + "." + file.FilePath.Split('.').Last();
 
@@ -250,17 +250,29 @@ namespace Bot.Controllers
                         file.FileStream.Position = 0;
                         file.FileStream.Close();
 
-                        response = CodeController.ReadCode(filename);
+                        code = CodeController.ReadCode(filename);
 
                         if (System.IO.File.Exists(filename))
                         {
                             System.IO.File.Delete(filename);
                         }
+                        
+                        if (code != null)
+                        {
+                            var response = bot.QRCode(chatId, code);
 
-                        await Bot.Api.SendTextMessageAsync(
+                            await Bot.Api.SendTextMessageAsync(
                             chatId,
-                            response,
+                            response.ResponceText,
                             parseMode: ParseMode.Html);
+                        }
+                        else
+                        {
+                            await Bot.Api.SendTextMessageAsync(
+                            chatId,
+                            "Не удалось распознать код! Попробуйте еще раз или выберите ресторан и номер стола через меню!",
+                            parseMode: ParseMode.Html);
+                        }
                     }
                 }
                 else if (update.Type == UpdateType.CallbackQueryUpdate)

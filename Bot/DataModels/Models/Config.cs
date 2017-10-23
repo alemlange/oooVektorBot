@@ -20,8 +20,6 @@ namespace DataModels
 
         public string BotGreeting { get; set; }
 
-        public int TablesCount { get; set; }
-
         public int DishesPerPage { get; set; }
 
         public bool UseQR { get; set; }

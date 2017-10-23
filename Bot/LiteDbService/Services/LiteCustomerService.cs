@@ -302,5 +302,28 @@ namespace LiteDbService
             }
         }
         #endregion
+
+        #region Restaurant
+        public Restaurant GetRestaurantByMenu(Guid menuId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var menuCol = db.GetCollection<Menu>("Menus");
+                var menu = menuCol.Find(o => o.Id == menuId).FirstOrDefault();
+
+                if(menu != null)
+                {
+                    if(menu.Restaurant != Guid.Empty)
+                        return GetRestaurant(menu.Restaurant);
+                    else
+                        throw new Exception("Menu does not containg restaurant reference");
+                }
+                else
+                {
+                    throw new Exception("Menu not found");
+                }
+            }
+        }
+        #endregion
     }
 }

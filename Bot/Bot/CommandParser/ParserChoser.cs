@@ -9,14 +9,21 @@ namespace Bot.CommandParser
 {
     public static class ParserChoser
     {
-        public static IParser GetParser(SessionState state, BotBrains bot)
+        public static IParser GetParser(long chatId, BotBrains bot)
         {
+
+            var state = bot.GetState(chatId);
             switch (state)
             {
                 case SessionState.Restaurant:
-                    return new RestruntSessionParser(bot.DishNames, bot.Config.TablesCount);
+                    {
+                        return new RestruntSessionParser(bot.RestaurantNames);
+                    }
                 case SessionState.Queue:
-                    return new InQueueSessionParser(bot.DishNames, bot.Config.TablesCount);
+                    {
+                        var tableCount = bot.RestTableCount(chatId);
+                        return new InQueueSessionParser(tableCount);
+                    }
                 case SessionState.Sitted:
                     return new SittedSessionParser();
                 case SessionState.Remark:

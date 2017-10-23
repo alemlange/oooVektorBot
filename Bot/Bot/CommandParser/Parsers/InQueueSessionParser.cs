@@ -6,10 +6,13 @@ using System.Collections.Generic;
 
 namespace Bot.CommandParser
 {
-    public class InQueueSessionParser : SessionParser, IParser
+    public class InQueueSessionParser : IParser
     {
-        public InQueueSessionParser(List<string> restaurantNames, int tablesCount) : base(restaurantNames, tablesCount)
+        protected int TablesCount { get; set; }
+
+        public InQueueSessionParser(int tablesCount)
         {
+            TablesCount = tablesCount;
         }
 
         public IReplyMarkup Keyboard

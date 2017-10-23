@@ -8,10 +8,13 @@ using Brains;
 
 namespace Bot.CommandParser
 {
-    public class RestruntSessionParser : SessionParser, IParser
+    public class RestruntSessionParser : IParser
     {
-        public RestruntSessionParser(List<string> restaurantNames, int tablesCount) : base(restaurantNames, tablesCount)
+        protected List<string> Restaurants { get; set; }
+
+        public RestruntSessionParser(List<string> restaurantNames)
         {
+            Restaurants = restaurantNames;
         }
 
         public IReplyMarkup Keyboard
@@ -35,8 +38,6 @@ namespace Bot.CommandParser
         public CmdTypes ParseForCommand(Update update)
         {
             var msgText = update.Message.Text;
-            var brains = new BotBrains();
-            Restaurants = brains.RestaurantNames;
 
             if (Restaurants.Contains(msgText))
                 return CmdTypes.Restrunt;

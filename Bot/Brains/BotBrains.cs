@@ -7,7 +7,9 @@ using Brains.Interfaces;
 using LiteDbService;
 using LiteDbService.Helpers;
 using Brains.Responces;
+using DataModels;
 using DataModels.Enums;
+using DataModels.Exceptions;
 using DataModels.Configuration;
 
 namespace Brains
@@ -40,7 +42,6 @@ namespace Brains
                 Config = new BrainsConfig
                         {
                             DishesPerPage = dataConfig.DishesPerPage,
-                            TablesCount = dataConfig.TablesCount,
                             Greetings = dataConfig.BotGreeting
                         };
 
@@ -70,6 +71,19 @@ namespace Brains
                 return table.State;
             else
                 return SessionState.Unknown;
+        }
+
+        public int RestTableCount(long chatId)
+        {
+            var table = _service.GetActiveTable(chatId);
+
+            if (table != null)
+            {
+                var rest = _service.GetRestaurantByMenu(table.Menu);
+                return rest.TableCount == 0 ? 50 : rest.TableCount;
+            }
+            else
+                throw new TableNotFoundException("Table not found!");
         }
 
         public Responce OrderMeal(long chatId, string dishName = "")
@@ -374,33 +388,31 @@ namespace Brains
             {
                 var newTable = _service.CreateTable(chatId);
 
-                if (newTable != Guid.Empty)
+                var restaurants = _service.GetAllActiveRestaurants();
+
+                if (restaurants.Count > 1)
                 {
-                    var restaurants = _service.GetAllActiveRestaurants();
-
-                    if (restaurants.Count > 1)
+                    return new Responce
                     {
-                        return new Responce
-                        {
-                            ChatId = chatId,
-                            ResponceText = "Привет! В каком вы ресторане?",
-                            State = SessionState.Restaurant
-                        };
-                    }
-                    else
-                    {
-                        _service.UpdateTableState(chatId, SessionState.Queue);
-
-                        return new Responce
-                        {
-                            ChatId = chatId,
-                            ResponceText = "Напишите номер столика, за которым вы сидите",
-                            State = SessionState.Queue
-                        };
-                    }
+                        ChatId = chatId,
+                        ResponceText = "Привет! В каком вы ресторане?",
+                        State = SessionState.Restaurant
+                    };
                 }
                 else
-                    throw new Exception("Не получилось определить ресторан!");
+                {
+                    var rest = restaurants.FirstOrDefault();
+                    _service.AssignMenu(chatId, rest.Name);
+                    _service.UpdateTableState(chatId, SessionState.Queue);
+
+                    return new Responce
+                    {
+                        ChatId = chatId,
+                        ResponceText = "Напишите номер столика, за которым вы сидите",
+                        State = SessionState.Queue
+                    };
+                }
+
             }
             catch (Exception)
             {

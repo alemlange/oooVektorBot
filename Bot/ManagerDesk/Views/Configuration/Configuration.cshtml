@@ -33,13 +33,9 @@
                 @Html.TextAreaFor(model => model.Config.BotGreeting, new { @class = "form-control" })
             </div>
             
-            <div class="col-md-6">
+            <div class="col-md-12">
                 @Html.LabelFor(model => model.Config.DishesPerPage, "Блюд на странице", htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.Config.DishesPerPage, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-            <div class="col-md-6">
-                @Html.LabelFor(model => model.Config.TablesCount, "Количество столов", htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Config.TablesCount, new { htmlAttributes = new { @class = "form-control" } })
             </div>
 
             <button class="btn btn-save-dishes col-md-12" type="submit">Сохранить</button>

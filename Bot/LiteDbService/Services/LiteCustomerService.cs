@@ -268,6 +268,27 @@ namespace LiteDbService
             }
         }
 
+        public void AssignMenuByCode(long chatId, string restruntCode)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var restCol = db.GetCollection<Restaurant>("Restaurants");
+                var restaurant = restCol.Find(o => o.Code == restruntCode).FirstOrDefault();
+
+                var menuCol = db.GetCollection<Menu>("Menus");
+                var menu = menuCol.Find(o => o.Restaurant == restaurant.Id).FirstOrDefault();
+
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+
+                if (table != null)
+                {
+                    table.Menu = menu.Id;
+                    tableCol.Update(table);
+                }
+            }
+        }
+
         public void AssignMenu(long chatId, Guid menuId)
         {
             using (var db = new LiteDatabase(CurrentDb))

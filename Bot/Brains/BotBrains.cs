@@ -349,10 +349,10 @@ namespace Brains
         {
             try
             {
-                int restruntNumber = int.Parse(code.Substring(code.IndexOf("t")));
-                int tableNumber = int.Parse(code.Substring(code.IndexOf("t")));
+                string restruntCode = code.Substring(1, 3);
+                int tableNumber = int.Parse(code.Substring(5));
 
-                //_service.AssignMenu(chatId, restruntNumber);
+                _service.AssignMenuByCode(chatId, restruntCode);
                 _service.AssignNumber(chatId, tableNumber);
                 _service.UpdateTableState(chatId, SessionState.Sitted);
 

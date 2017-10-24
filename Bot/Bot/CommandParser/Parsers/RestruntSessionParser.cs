@@ -5,6 +5,7 @@ using System.Web;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Brains;
+using Telegram.Bot.Types.Enums;
 
 namespace Bot.CommandParser
 {
@@ -37,14 +38,25 @@ namespace Bot.CommandParser
 
         public CmdTypes ParseForCommand(Update update)
         {
-            var msgText = update.Message.Text;
+            if (update.Message.Type == MessageType.TextMessage)
+            {
+                var msgText = update.Message.Text;
 
-            if (Restaurants.Contains(msgText))
-                return CmdTypes.Restrunt;
-            else if (msgText.ToLower() == "назад ↩") // todo
-                return CmdTypes.Menu;
+                if (Restaurants.Contains(msgText))
+                    return CmdTypes.Restrunt;
+                else if (msgText.ToLower() == "назад ↩") // todo
+                    return CmdTypes.Menu;
+                else
+                    return CmdTypes.Unknown;
+            }
+            else if (update.Message.Type == MessageType.PhotoMessage)
+            {
+                return CmdTypes.QRCode;
+            }
             else
+            {
                 return CmdTypes.Unknown;
+            }
         }
     }
 }

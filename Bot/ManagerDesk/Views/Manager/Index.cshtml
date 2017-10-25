@@ -3,7 +3,7 @@
 }
 
 <div class="page-wrapper">
-    @Html.Partial("Toolbar")
+    @Html.Action("Toolbar", "Manager")
     @Html.Action("Navigation", "Manager")
     <div class="clearfix"></div>
     <section class="info-main">
@@ -20,6 +20,7 @@
 
 @section scripts
 {
+    <script src="@Url.Content("~/Assets/Scripts/cookie_manager.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Assets/Scripts/main.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Assets/Scripts/dishform.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Assets/Scripts/menuform.js")" type="text/javascript"></script>

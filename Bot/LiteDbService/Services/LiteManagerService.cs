@@ -64,6 +64,24 @@ namespace LiteDbService
             }
         }
 
+        public List<Table> GetActiveTables(Guid menuId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                return col.Find(o => o.State != SessionState.Closed && o.State != SessionState.Deactivated && o.Menu == menuId).ToList();
+            }
+        }
+
+        public List<Table> GetInActiveTables(Guid menuId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                return col.Find(o => (o.State == SessionState.Closed || o.State == SessionState.Deactivated) && o.Menu == menuId).ToList();
+            }
+        }
+
         public void CloseTable(Guid tableId)
         {
             using (var db = new LiteDatabase(CurrentDb))

@@ -1,11 +1,21 @@
-﻿<header class="header-top">
+﻿@model ManagerDesk.ViewModels.ToolbarViewModel
+<header class="header-top">
     <nav class="navbar-top">
         <div class="navbar-left-btn-wrap">
             <div class="navbar-left-btn js-opened"><i class="fa fa-bars"></i></div>
         </div>
         <ul class="toolbar-top">
-            @*<li><a href="#" class="toolbar-add" data-target="@Url.Action("Add","Manager")"><i class="fa fa-plus" aria-hidden="true"></i> Добавить</a></li>
-            <li><a href="#" class="toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")"><i class="fa fa-trash-o" aria-hidden="true"></i> Удалить</a></li>*@
+            <li>
+                <div class="active-rest">
+                    <label>Текущий ресторан:</label>
+                    <select class="form-control js-rest-select">
+                        @foreach (var rest in Model.AvailableRests)
+                        {
+                            <option @Model.SelectedOptionStyle(rest.Id) data-objid="@rest.Id">@rest.Name</option>
+                        }
+                    </select>
+                </div>
+            </li>
         </ul>
         <a class="config js-config-section" href="#" data-target="@Url.Action("Configuration","Configuration")"><i class="fa fa-wrench"></i> Настройки</a>
         <a class="logout" href="@Url.Action("Logoff","Account")"><i class="fa fa-sign-out"></i> Выйти</a>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace Bot.CommandParser
 {
@@ -27,41 +28,30 @@ namespace Bot.CommandParser
 
         public CmdTypes ParseForCommand(Update update)
         {
-            var msgText = update.Message.Text.ToLower();
-            int result;
+            if (update.Message.Type == MessageType.TextMessage)
+            {
+                var msgText = update.Message.Text.ToLower();
+                int result;
 
-            if (msgText.Contains("меню"))
-            {
-                return CmdTypes.Menu;
-            }
-            else if (msgText.Contains("попросить счет"))
-            {
-                return CmdTypes.Check;
-            }
-            else if (msgText.Contains("официант"))
-            {
-                return CmdTypes.Waiter;
-            }
-            else if (msgText.Contains("мой заказ"))
-            {
-                return CmdTypes.MyOrder;
-            }
-            else if (msgText.Contains("убрать из заказа"))
-            {
-                return CmdTypes.Remove;
-            }
-            else if (msgText.StartsWith("/"))
-            {
-                return CmdTypes.Slash;
-            }
-            else if (Int32.TryParse(msgText, out result))
-            {
-                return CmdTypes.RemoveByNum;
+                if (msgText.Contains("меню"))
+                    return CmdTypes.Menu;
+                else if (msgText.Contains("попросить счет"))
+                    return CmdTypes.Check;
+                else if (msgText.Contains("официант"))
+                    return CmdTypes.Waiter;
+                else if (msgText.Contains("мой заказ"))
+                    return CmdTypes.MyOrder;
+                else if (msgText.Contains("убрать из заказа"))
+                    return CmdTypes.Remove;
+                else if (msgText.StartsWith("/"))
+                    return CmdTypes.Slash;
+                else if (Int32.TryParse(msgText, out result))
+                    return CmdTypes.RemoveByNum;
+                else
+                    return CmdTypes.Unknown;
             }
             else
-            {
                 return CmdTypes.Unknown;
-            }
         }
     }
 }

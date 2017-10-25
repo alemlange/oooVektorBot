@@ -68,13 +68,9 @@ namespace Bot.CommandParser
                     return CmdTypes.Unknown;
             }
             else if (update.Message.Type == MessageType.PhotoMessage)
-            {
                 return CmdTypes.QRCode;
-            }
             else
-            {
                 return CmdTypes.Unknown;
-            }
         }
     }
 }

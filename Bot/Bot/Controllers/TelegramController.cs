@@ -261,7 +261,8 @@ namespace Bot.Controllers
                                         await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
-                                        parseMode: ParseMode.Html);
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     }
                                     else
                                     {

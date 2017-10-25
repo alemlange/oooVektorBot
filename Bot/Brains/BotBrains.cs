@@ -359,8 +359,8 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Отлично! Выберите столик!",
-                    State = SessionState.Queue
+                    ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
+                    State = SessionState.Sitted
                 };
 
             }

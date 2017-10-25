@@ -53,24 +53,20 @@ namespace ManagerDesk.Controllers
         {
             var service = ServiceCreator.GetManagerService(User.Identity.Name);
 
-            var curRest = Request.Cookies.Get("CurRest").Value;
-            var curMenu = service.GetMenuByRestaurant(Guid.Parse(curRest));
+            var activeTables = new List<Table>();
+            var inActiveTables = new List<Table>();
 
-            List<Table> activeTables;
-            List<Table> inActiveTables;
-            if (curMenu != null)
+            var restCookie = Request.Cookies.Get("CurRest");
+            if (restCookie != null)
             {
-                activeTables = service.GetActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
-                inActiveTables = service.GetInActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
+                var curRest = restCookie.Value;
+                var curMenu = service.GetMenuByRestaurant(Guid.Parse(curRest));           
+                if (curMenu != null)
+                {
+                    activeTables = service.GetActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
+                    inActiveTables = service.GetInActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
+                }
             }
-            else
-            {
-                activeTables = new List<Table>();
-                inActiveTables = new List<Table>();
-                //activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
-                //inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
-            }
-            
             var model = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };
 
             return View("TableCardList", model);

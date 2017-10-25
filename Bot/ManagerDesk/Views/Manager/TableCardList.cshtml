@@ -1,21 +1,28 @@
 ﻿@model ManagerDesk.ViewModels.AllTablesViewModel
 
-@if (Model.ActiveTables.Any())
+@if (Model.ActiveTables.Any() || Model.InActiveTables.Any())
 {
-    <div class="row">
-        @foreach (var table in Model.ActiveTables)
-        {
-            @Html.Partial("TableCard", table)
-        }
-    </div>
+    if (Model.ActiveTables.Any())
+    {
+        <div class="row">
+            @foreach (var table in Model.ActiveTables)
+            {
+                @Html.Partial("TableCard", table)
+            }
+        </div>
+    }
+    <hr />
+    if (Model.InActiveTables.Any())
+    {
+        <div class="row">
+            @foreach (var table in Model.InActiveTables)
+            {
+                @Html.Partial("TableCard", table)
+            }
+        </div>
+    }
 }
-<hr/>
-@if (Model.InActiveTables.Any())
+else
 {
-    <div class="row">
-        @foreach (var table in Model.InActiveTables)
-        {
-            @Html.Partial("TableCard", table)
-        }
-    </div>
+    @*<h4>Нет столов</h4>*@
 }

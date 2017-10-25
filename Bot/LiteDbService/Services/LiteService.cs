@@ -44,6 +44,15 @@ namespace LiteDbService
             }
         }
 
+        public Menu GetMenuByRestaurant(Guid restId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var menuCol = db.GetCollection<Menu>("Menus");
+                return menuCol.Find(o => o.Restaurant == restId).FirstOrDefault();
+            }
+        }
+
         public Dish GetDish(string dishSlashName)
         {
             using (var db = new LiteDatabase(CurrentDb))

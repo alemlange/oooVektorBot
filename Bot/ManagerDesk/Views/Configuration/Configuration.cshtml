@@ -1,10 +1,10 @@
 ﻿@model ManagerDesk.ViewModels.ConfigViewModel
 
-@using (Html.BeginForm("Configuration", "Configuration", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="col-md-12">
-        <div class="info-item animated fadeIn" data-itemid="@Model.Config.Id">
+<div class="info-item animated fadeIn" data-itemid="@Model.Config.Id">
 
+    @using (Html.BeginForm("Configuration", "Configuration", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="col-md-12">
             <div class="col-md-6">
                 @Html.LabelFor(model => model.Config.OrgName, "Организация", htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.Config.OrgName, new { htmlAttributes = new { @class = "form-control" } })
@@ -32,7 +32,7 @@
                 @Html.LabelFor(model => model.Config.BotGreeting, "Приветствие бота", htmlAttributes: new { @class = "control-label" })
                 @Html.TextAreaFor(model => model.Config.BotGreeting, new { @class = "form-control" })
             </div>
-            
+
             <div class="col-md-12">
                 @Html.LabelFor(model => model.Config.DishesPerPage, "Блюд на странице", htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.Config.DishesPerPage, new { htmlAttributes = new { @class = "form-control" } })
@@ -45,5 +45,5 @@
             @Html.HiddenFor(o => o.Config.ProfilePicturePath)
 
         </div>
-    </div>
-}
+    }
+</div>

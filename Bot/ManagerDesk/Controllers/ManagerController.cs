@@ -31,11 +31,46 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpGet]
+        public ActionResult Toolbar()
+        {
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
+            var rests = service.GetAllRestaurants();
+            if (rests != null)
+            {
+                var model = new ToolbarViewModel { AvailableRests = rests, CurrentRest = rests.FirstOrDefault() };
+                return View(model);
+            }
+            else
+            {
+                var model = new ToolbarViewModel { AvailableRests = new List<Restaurant>() };
+                return View(model);
+            }
+
+        }
+
+        [HttpGet]
         public ActionResult AllTables()
         {
             var service = ServiceCreator.GetManagerService(User.Identity.Name);
-            var activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
-            var inActiveTables = service.GetInActiveTables();
+
+            var curRest = Request.Cookies.Get("CurRest").Value;
+            var curMenu = service.GetMenuByRestaurant(Guid.Parse(curRest));
+
+            List<Table> activeTables;
+            List<Table> inActiveTables;
+            if (curMenu != null)
+            {
+                activeTables = service.GetActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
+                inActiveTables = service.GetInActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
+            }
+            else
+            {
+                activeTables = new List<Table>();
+                inActiveTables = new List<Table>();
+                //activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                //inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
+            }
+            
             var model = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };
 
             return View("TableCardList", model);

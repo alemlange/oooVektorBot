@@ -11,7 +11,6 @@ namespace Bot.CommandParser
     {
         public static IParser GetParser(long chatId, BotBrains bot)
         {
-
             var state = bot.GetState(chatId);
             switch (state)
             {

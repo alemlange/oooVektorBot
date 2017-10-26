@@ -227,7 +227,8 @@ namespace Bot.Controllers
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         "Извините, не понял вашей просьбы :(",
-                                        parseMode: ParseMode.Html);
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.QRCode:
@@ -269,7 +270,8 @@ namespace Bot.Controllers
                                         await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         "Не удалось распознать код! Попробуйте еще раз или выберите ресторан и номер стола через меню!",
-                                        parseMode: ParseMode.Html);
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     }
                                     break;
                                 }
@@ -335,7 +337,7 @@ namespace Bot.Controllers
 
                         await Bot.Api.SendTextMessageAsync(
                             chatId,
-                            "Хотите чтонибудь из меню? Просто кликните по ссылке рядом с блюдом.",
+                            "Хотите увидеть блюдо подробнее? Просто кликните по слэш-ссылке рядом с блюдом.",
                             parseMode: ParseMode.Html,
                             replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                     }

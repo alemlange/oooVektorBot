@@ -42,7 +42,8 @@ namespace Brains
                 Config = new BrainsConfig
                         {
                             DishesPerPage = dataConfig.DishesPerPage,
-                            Greetings = dataConfig.BotGreeting
+                            Greetings = dataConfig.BotGreeting,
+                            PicturePath = ConfigurationSettings.FilePath
                         };
 
                 var allDishes = _service.GetAllDishes();

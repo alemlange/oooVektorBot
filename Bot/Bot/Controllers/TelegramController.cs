@@ -14,12 +14,11 @@ using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Args;
 using Bot.CommandParser;
+using Bot.Tools;
 using Bot.CommandParser.KeyBoards;
 using Brains;
+using Brains.Responces;
 using DataModels.Enums;
-using LiteDbService.Helpers;
-using DataModels.Configuration;
-using Bot.Tools;
 
 namespace Bot.Controllers
 {
@@ -60,6 +59,7 @@ namespace Bot.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> WebHook(Update update)
         {
+            long chatId = 0;
             try
             {
                 var bot = new BotBrains(); //.Instance.Value;
@@ -67,7 +67,7 @@ namespace Bot.Controllers
                 if (update.Type == UpdateType.MessageUpdate)
                 {
                     var message = update.Message;
-                    var chatId = message.Chat.Id;
+                    chatId = message.Chat.Id;
                     var parser = ParserChoser.GetParser(chatId, bot);
 
                     if (message.Type == MessageType.TextMessage || message.Type == MessageType.PhotoMessage)
@@ -138,7 +138,7 @@ namespace Bot.Controllers
                                     
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
-                                        "Хотите чтонибудь из меню? Просто кликните по ссылке рядом с блюдом.",
+                                        "Хотите увидеть блюдо подробнее? Просто кликните по слэш-ссылке рядом с блюдом.",
                                         parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
@@ -226,7 +226,7 @@ namespace Bot.Controllers
                                 {
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
-                                        "Извините, не понял вашей просьбы :(",
+                                        "Извините, не понял вашей просьбы.",
                                         parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
@@ -235,7 +235,7 @@ namespace Bot.Controllers
                                 {
                                     var code = "";
                                     var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
-                                    var filename = @"C:\DB\Pics\" + chatId + "." + file.FilePath.Split('.').Last();
+                                    var filename = bot.Config.PicturePath + chatId + "." + file.FilePath.Split('.').Last();
 
                                     using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
                                     {
@@ -280,7 +280,7 @@ namespace Bot.Controllers
                 }
                 else if (update.Type == UpdateType.CallbackQueryUpdate)
                 {
-                    var chatId = update.CallbackQuery.From.Id;
+                    chatId = update.CallbackQuery.From.Id;
                     var messageId = update.CallbackQuery.Message.MessageId;
 
                     if (update.CallbackQuery.Data.ToLower().Contains("  ⬅ "))
@@ -345,9 +345,16 @@ namespace Bot.Controllers
             }
             catch (Exception ex)
             {
-                var file = new StreamWriter("c:\\db\\errors.txt", true);
-                file.WriteLine(DateTime.Now.ToString() + " - " + ex.Message);
-                file.Close();
+                new LogWriter().WriteException(ex.Message);
+
+                if(chatId != 0)
+                {
+                    var excResponce = Responce.UnknownResponce(chatId);
+                    await Bot.Api.SendTextMessageAsync(
+                    chatId,
+                    excResponce.ResponceText,
+                    parseMode: ParseMode.Html);
+                }
             }
 
             return Ok();

@@ -13,12 +13,25 @@ namespace DataModels.Configuration
         {
             public const string DbType = "DbType";
             public const string AccountId = "AccountId";
+            public const string ExceptionPath = "ExceptionPath";
+            public const string FilePath = "FilePath";
         }
 
         public static string DbType
         {
             get { return ConfigurationManager.AppSettings[AppKeys.DbType]; }
         }
+
+        public static string ExceptionPath
+        {
+            get { return ConfigurationManager.AppSettings[AppKeys.ExceptionPath]; }
+        }
+
+        public static string FilePath
+        {
+            get { return ConfigurationManager.AppSettings[AppKeys.FilePath]; }
+        }
+
         public static Guid AccountId
         {
             get

@@ -20,6 +20,7 @@ namespace ManagerDesk
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Assets/Scripts/libs/bootstrap.js",
+                      "~/Assets/Scripts/libs/Sortable.min.js",
                       "~/Assets/Scripts/libs/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

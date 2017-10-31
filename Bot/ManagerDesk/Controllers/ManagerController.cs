@@ -264,6 +264,12 @@ namespace ManagerDesk.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult MenuCatList(string menuid)
+        {
+            return View();
+        }
+
         [HttpPost]
         public JsonResult EditMenuDishes(Guid menuId, List<Guid> allActiveDishes)
         {

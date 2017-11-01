@@ -67,6 +67,22 @@ $(document).ready(function () {
         });
     });
 
+    $(".js-table-body").on("click", ".js-save-cat-list", function (e) {
+
+        e.preventDefault();
+        var menuCard = $(this).parents(".js-menu-card");
+        var menuid = menuCard.data("itemid");
+        var target = $(this).data("edittarget");
+
+        var sortedCat = [];
+        menuCard.find(".js-cat-value").each(function (i, e) {
+            sortedCat.push($(e).data("value"));
+        });
+
+        alert(sortedCat);
+
+    });
+
     $(".js-table-body").on("click", ".js-dish-drop", function (e) {
 
         e.preventDefault();

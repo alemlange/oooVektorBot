@@ -265,9 +265,13 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpGet]
-        public ActionResult MenuCatList(string menuid)
+        public ActionResult MenuCatList(Guid menuid)
         {
-            return View();
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
+            var curMenu = service.GetMenu(menuid);
+
+            var model = curMenu.CategoriesSorted;
+            return View(model);
         }
 
         [HttpPost]
@@ -354,7 +358,7 @@ namespace ManagerDesk.Controllers
                 var service = ServiceCreator.GetManagerService(User.Identity.Name);
                 if (menuId == Guid.Empty)
                 {
-                    var menu = new Menu { MenuName = name, DishList = new List<Dish>(), Restaurant = rest };
+                    var menu = new Menu { MenuName = name, DishList = new List<Dish>(), Restaurant = rest, CategoriesSorted = new List<string>() };
                     service.CreateNewMenu(menu);
                 }
                 else

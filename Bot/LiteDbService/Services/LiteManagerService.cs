@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataModels;
 using DataModels.Enums;
 using LiteDbService.Interfaces;
@@ -42,8 +40,91 @@ namespace LiteDbService
                     dishToAdd.Id = Guid.NewGuid();
                 curMenu.DishList.Add(dishToAdd);
                 col.Update(curMenu);
+
+                RefreshMenuCategories(menu.Id);
                 return curMenu;
             }
+        }
+
+        public void RefreshMenuCategories(Guid menuId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Menu>("Menus");
+                var menu = col.Find(o => o.Id == menuId).FirstOrDefault();
+                if (menu != null)
+                {
+                    if (menu.DishList != null && menu.DishList.Any())
+                    {
+                        var dishCats = menu.DishList.Select(o => o.Category).Distinct();
+                        var newCats = new List<string>();
+
+                        if(menu.CategoriesSorted != null)
+                        {
+                            foreach (var cat in menu.CategoriesSorted)
+                            {
+                                if (dishCats.Contains(cat))
+                                {
+                                    newCats.Add(cat);
+                                }
+                            }
+                        }
+                        
+
+                        foreach(var cat in dishCats)
+                        {
+                            if (!newCats.Contains(cat))
+                            {
+                                newCats.Add(cat);
+                            }
+                        }
+                        menu.CategoriesSorted = newCats;
+                    }
+                    else
+                        menu.CategoriesSorted = new List<string>();
+                }
+
+                col.Update(menu);
+            }
+        }
+
+        public void RefreshMenuCategories(LiteCollection<Menu> col, Guid menuId)
+        {
+            var menu = col.Find(o => o.Id == menuId).FirstOrDefault();
+            if (menu != null)
+            {
+                if (menu.DishList != null && menu.DishList.Any())
+                {
+                    var dishCats = menu.DishList.Select(o => o.Category).Distinct();
+                    var newCats = new List<string>();
+
+                    if (menu.CategoriesSorted != null)
+                    {
+                        foreach (var cat in menu.CategoriesSorted)
+                        {
+                            if (dishCats.Contains(cat))
+                            {
+                                newCats.Add(cat);
+                            }
+                        }
+                    }
+
+
+                    foreach (var cat in dishCats)
+                    {
+                        if (!newCats.Contains(cat))
+                        {
+                            newCats.Add(cat);
+                        }
+                    }
+                    menu.CategoriesSorted = newCats;
+                }
+                else
+                    menu.CategoriesSorted = new List<string>();
+            }
+
+            col.Update(menu);
+            
         }
 
         public List<Table> GetActiveTables()
@@ -108,6 +189,10 @@ namespace LiteDbService
                 var col = db.GetCollection<Menu>("Menus");
                 if (menu.Id == Guid.Empty)
                     menu.Id = Guid.NewGuid();
+
+                if (menu.CategoriesSorted == null)
+                    menu.CategoriesSorted = new List<string>();
+
                 col.Insert(menu);
                 col.EnsureIndex(o => o.Id);
 
@@ -125,6 +210,8 @@ namespace LiteDbService
                     }
 
                 }
+
+                RefreshMenuCategories(col, menu.Id);
 
                 return menu.Id;
             }
@@ -171,6 +258,8 @@ namespace LiteDbService
             {
                 var col = db.GetCollection<Menu>("Menus");
                 col.Update(menu);
+
+                RefreshMenuCategories(col, menu.Id);
             }
         }
 
@@ -189,6 +278,8 @@ namespace LiteDbService
                     menu.DishList.RemoveAll(o => o.Id == dish.Id);
                     menu.DishList.Add(dish);
                     colMenu.Update(menu);
+
+                    RefreshMenuCategories(colMenu, menu.Id);
                 }
             }
         }
@@ -216,6 +307,8 @@ namespace LiteDbService
                 {
                     menu.DishList.RemoveAll(o => o.Id == dishId);
                     colMenu.Update(menu);
+
+                    RefreshMenuCategories(colMenu, menu.Id);
                 }
             }
         }

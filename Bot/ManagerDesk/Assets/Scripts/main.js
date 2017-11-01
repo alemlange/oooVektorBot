@@ -71,15 +71,18 @@ $(document).ready(function () {
 
         e.preventDefault();
         var menuCard = $(this).parents(".js-menu-card");
-        var menuid = menuCard.data("itemid");
+        var menuId = menuCard.data("itemid");
         var target = $(this).data("edittarget");
 
         var sortedCat = [];
         menuCard.find(".js-cat-value").each(function (i, e) {
-            sortedCat.push($(e).data("value"));
+            var cat = $(e).data("value");
+            sortedCat.push(cat);  
         });
 
-        alert(sortedCat);
+        $.post(target, { menuId: menuId, sortedCat: sortedCat }).done(function (data) {
+            //$(".js-menu-section").trigger("click");
+        });
 
     });
 

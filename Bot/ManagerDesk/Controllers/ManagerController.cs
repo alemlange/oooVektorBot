@@ -377,6 +377,31 @@ namespace ManagerDesk.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult EditCatList(Guid menuId, List<string> sortedCat)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+
+                var categories = new List<string>();
+                foreach(var cat in sortedCat)
+                {
+                    if (cat == "")
+                        categories.Add(null);
+                    else
+                        categories.Add(cat);
+                }
+
+                service.UpdateMenuCategories(menuId, categories);
+                return Json(new { isAuthorized = true, isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
         [HttpGet]
         public ActionResult EditMenu(Guid menuId)
         {

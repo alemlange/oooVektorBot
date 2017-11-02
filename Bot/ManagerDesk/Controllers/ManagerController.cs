@@ -264,6 +264,16 @@ namespace ManagerDesk.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult MenuCatList(Guid menuid)
+        {
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
+            var curMenu = service.GetMenu(menuid);
+
+            var model = curMenu.CategoriesSorted;
+            return View(model);
+        }
+
         [HttpPost]
         public JsonResult EditMenuDishes(Guid menuId, List<Guid> allActiveDishes)
         {
@@ -348,7 +358,7 @@ namespace ManagerDesk.Controllers
                 var service = ServiceCreator.GetManagerService(User.Identity.Name);
                 if (menuId == Guid.Empty)
                 {
-                    var menu = new Menu { MenuName = name, DishList = new List<Dish>(), Restaurant = rest };
+                    var menu = new Menu { MenuName = name, DishList = new List<Dish>(), Restaurant = rest, CategoriesSorted = new List<string>() };
                     service.CreateNewMenu(menu);
                 }
                 else
@@ -359,6 +369,31 @@ namespace ManagerDesk.Controllers
                     service.UpdateMenu(curMenu);
                 }
 
+                return Json(new { isAuthorized = true, isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditCatList(Guid menuId, List<string> sortedCat)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+
+                var categories = new List<string>();
+                foreach(var cat in sortedCat)
+                {
+                    if (cat == "")
+                        categories.Add(null);
+                    else
+                        categories.Add(cat);
+                }
+
+                service.UpdateMenuCategories(menuId, categories);
                 return Json(new { isAuthorized = true, isSuccess = true });
             }
             catch (Exception ex)

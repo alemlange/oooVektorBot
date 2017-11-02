@@ -11,6 +11,11 @@
             <ul class="dropdown-menu dish-dropdown" aria-labelledby="@dropdownId">
             </ul>
         </div>
+        <div class="toolbar-mini__btn dropdown pull-left">
+            <span class="dropdown-toggle menu-cat-list" type="button"  data-toggle="dropdown" data-cattarget="@Url.Action("MenuCatList","Manager")"><i class="fa fa-list" aria-hidden="true"></i></span>
+            <ul class="dropdown-menu cat-list-dropdown">
+            </ul>
+        </div>
         <div class="toolbar-mini__btn js-edit-menu"><i class="fa fa-pencil" aria-hidden="true"></i></div>
         <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
     </div>

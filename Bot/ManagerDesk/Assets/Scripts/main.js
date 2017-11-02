@@ -23,7 +23,21 @@ $(document).ready(function () {
         var menuid = menuHeader.data("itemid");
         var target = menuHeader.data("moretarget");
         $.get(target, { menuid: menuid }).done(function (data) {
-            menuHeader.find(".dropdown-menu").html(data);
+            menuHeader.find(".dish-dropdown").html(data);
+        });
+    });
+
+    $(".js-table-body").on("click", ".menu-cat-list", function (e) {
+
+        var menuCard = $(this).parents(".js-menu-card");
+        var menuid = menuCard.data("itemid");
+        var target = $(this).data("cattarget");
+
+        $.get(target, { menuid: menuid }).done(function (data) {
+            var catList = menuCard.find(".cat-list-dropdown");
+            catList.html(data);
+            
+            var sortable = Sortable.create(catList[0]);
         });
     });
 
@@ -51,6 +65,25 @@ $(document).ready(function () {
         $.post(target, { menuId: menuId, allActiveDishes: allActiveDishes }).done(function (data) {
             $(".js-menu-section").trigger("click");
         });
+    });
+
+    $(".js-table-body").on("click", ".js-save-cat-list", function (e) {
+
+        e.preventDefault();
+        var menuCard = $(this).parents(".js-menu-card");
+        var menuId = menuCard.data("itemid");
+        var target = $(this).data("edittarget");
+
+        var sortedCat = [];
+        menuCard.find(".js-cat-value").each(function (i, e) {
+            var cat = $(e).data("value");
+            sortedCat.push(cat);  
+        });
+
+        $.post(target, { menuId: menuId, sortedCat: sortedCat }).done(function (data) {
+            //$(".js-menu-section").trigger("click");
+        });
+
     });
 
     $(".js-table-body").on("click", ".js-dish-drop", function (e) {

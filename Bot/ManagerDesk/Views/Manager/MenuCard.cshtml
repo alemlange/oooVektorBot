@@ -26,8 +26,27 @@
         <h4 class="login__heading">@Model.AttachedRestaurantName</h4>
     }
 
-    @if (Model.DishList.Any())
+    @if (Model.GroupedDishes.Any())
     {
+        foreach (var dishList in Model.GroupedDishes)
+        {
+            <h4 class="info-item-heading">@dishList.CategoryString</h4>
+            foreach (var dish in dishList.Dishes)
+            {
+                <div class="dish-item">
+                    <div class="dish-name-item"><span class="dish-name">@dish.Name</span><span class="dish-price">@dish.Price р.</span></div>
+                </div>
+            }
+        }
+    }
+    else
+    {
+        <p class="text-center error">Нажмите на карандаш, чтобы добавить блюда в меню.</p>
+    }
+
+    @*@if (Model.DishList.Any())
+    {
+        <h3 class="info-item-heading">Стейки</h3>
         foreach (var dish in Model.DishList)
         {
             <div class="dish-item">
@@ -38,5 +57,5 @@
     else
     {
         <p class="text-center error">Нажмите на карандаш, чтобы добавить блюда в меню.</p>
-    }
+    }*@
 </div>

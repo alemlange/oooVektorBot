@@ -87,7 +87,19 @@ namespace ManagerDesk.Controllers
                         if (rest != null)
                             o.AttachedRestaurantName = rest.Name;
                     }
+
+                    if(o.DishList != null && o.DishList.Any())
+                    {
+                        var groupedDishes = o.DishList.GroupBy(d => d.Category).Select(d => new DishListViewModel { Category =d.Key, Dishes = Mapper.Map<List<DishViewModel>>(d.ToList()) }).ToList();
+                        o.GroupedDishes = new List<DishListViewModel>();
+
+                        foreach(var category in o.CategoriesSorted)
+                        {
+                            o.GroupedDishes.AddRange(groupedDishes.Where(g => g.Category == category));
+                        }
+                    }
                     
+
                 });
             return View("MenuCardList", model);
         }

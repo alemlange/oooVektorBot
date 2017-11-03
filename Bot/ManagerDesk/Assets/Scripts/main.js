@@ -81,7 +81,7 @@ $(document).ready(function () {
         });
 
         $.post(target, { menuId: menuId, sortedCat: sortedCat }).done(function (data) {
-            //$(".js-menu-section").trigger("click");
+            $(".js-menu-section").trigger("click");
         });
 
     });

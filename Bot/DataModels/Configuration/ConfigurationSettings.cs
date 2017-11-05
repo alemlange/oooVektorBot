@@ -15,6 +15,10 @@ namespace DataModels.Configuration
             public const string AccountId = "AccountId";
             public const string ExceptionPath = "ExceptionPath";
             public const string FilePath = "FilePath";
+            public const string SMTPServer = "SMTPServer";
+            public const string Mail = "Mail";
+            public const string Password = "Password";
+            public const int Port = 0;
         }
 
         public static string DbType
@@ -38,6 +42,7 @@ namespace DataModels.Configuration
             {
                 var setting = ConfigurationManager.AppSettings[AppKeys.AccountId];
                 Guid guidValue;
+
                 if (setting != null && Guid.TryParse(setting, out guidValue))
                 {
                     return guidValue;
@@ -45,6 +50,39 @@ namespace DataModels.Configuration
                 else
                 {
                     return Guid.Empty;
+                }
+            }
+        }
+
+        public static string SMTPServer
+        {
+            get { return ConfigurationManager.AppSettings[AppKeys.SMTPServer]; }
+        }
+
+        public static string Mail
+        {
+            get { return ConfigurationManager.AppSettings[AppKeys.Mail]; }
+        }
+
+        public static string Password
+        {
+            get { return ConfigurationManager.AppSettings[AppKeys.Password]; }
+        }
+
+        public static int Port
+        {
+            get
+            {
+                var setting = ConfigurationManager.AppSettings[AppKeys.Port];
+                int intValue;
+
+                if (setting != null && int.TryParse(setting, out intValue))
+                {
+                    return intValue;
+                }
+                else
+                {
+                    return 0;
                 }
             }
         }

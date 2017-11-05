@@ -4,22 +4,24 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Web.Configuration;
 using System.Web.Http;
+using DataModels.Configuration;
 
 namespace EmailService.Controllers
 {
     public class EmailController : ApiController
     {
-        public string SMTPServer = "";
-        public string Mail = "";
-        public string Password = "";
-        public int Port = 0;
-
         [HttpPost]
         public string SendMail(string subject, string body, string to)
         {
             try
             {
+                var SMTPServer = ConfigurationSettings.SMTPServer;
+                var Mail = ConfigurationSettings.Mail;
+                var Password = ConfigurationSettings.Password;
+                var Port = ConfigurationSettings.Port;
+
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient(SMTPServer);
 

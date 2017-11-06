@@ -98,6 +98,10 @@ namespace ManagerDesk.Controllers
                             o.GroupedDishes.AddRange(groupedDishes.Where(g => g.Category == category));
                         }
                     }
+                    else
+                    {
+                        o.GroupedDishes = new List<DishListViewModel>();
+                    }
                     
 
                 });

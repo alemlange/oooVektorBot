@@ -18,7 +18,7 @@ namespace DataModels.Configuration
             public const string SMTPServer = "SMTPServer";
             public const string Mail = "Mail";
             public const string Password = "Password";
-            public const int Port = 0;
+            public const string Port = "Port";
         }
 
         public static string DbType

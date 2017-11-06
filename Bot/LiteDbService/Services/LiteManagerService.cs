@@ -197,8 +197,16 @@ namespace LiteDbService
                 if (rest.Id == Guid.Empty)
                     rest.Id = Guid.NewGuid();
 
-                var code = int.Parse(col.Max(r => r.Code));
-                rest.Code = (code + 1).ToString();
+                var code = col.Max(r => r.Code);
+                
+                if (code != null)
+                {
+                    rest.Code = (1).ToString();
+                }
+                else
+                {
+                    rest.Code = (code + 1).ToString();
+                }
 
                 col.Insert(rest);
 

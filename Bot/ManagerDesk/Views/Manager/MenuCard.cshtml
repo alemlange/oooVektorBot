@@ -26,7 +26,7 @@
         <h4 class="login__heading">@Model.AttachedRestaurantName</h4>
     }
 
-    @if (Model.GroupedDishes.Any())
+    @if (Model.GroupedDishes != null && Model.GroupedDishes.Any())
     {
         foreach (var dishList in Model.GroupedDishes)
         {

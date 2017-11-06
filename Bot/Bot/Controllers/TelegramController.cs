@@ -19,6 +19,8 @@ using Bot.CommandParser.KeyBoards;
 using Brains;
 using Brains.Responces;
 using DataModels.Enums;
+using DataModels.Configuration;
+using LiteDbService.Helpers;
 
 namespace Bot.Controllers
 {
@@ -34,6 +36,13 @@ namespace Bot.Controllers
         {
             Bot.Api.SetWebhookAsync().Wait();
             Bot.Api.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
+
+            // remove all tables
+            var accountId = ConfigurationSettings.AccountId;
+            var regService = ServiceCreator.GetRegistrationService();
+            var account = regService.FindAccount(accountId);
+            var service = ServiceCreator.GetCustomerService(account.Login);
+            service.RemoveAllTables();
 
             return "Ok" ;
         }

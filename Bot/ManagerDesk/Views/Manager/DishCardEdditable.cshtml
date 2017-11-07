@@ -1,24 +1,29 @@
 ﻿@model ManagerDesk.ViewModels.DishViewModel
 
-<div class="info-item js-dish-form animated fadeIn" data-itemid="@Model.Id">
-    <h3 class="info-item-heading">Блюдо</h3>
-    <img class="img-rounded js-insta-picture" src="@Model.InstImageUrl" alt="pic">
-    <input class="form-control js-name" type="text" placeholder="Название" value="@Model.Name" />
-    <input class="form-control js-picture-url" type="text" placeholder="Инстаграм ссылка" value="@Model.PictureUrl" />
-    <div class="dropdown">
-        <input class="form-control dropdown-toggle js-category" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="Категория" value="@Model.Category"/>
-            @if (Model.AvailableCategories != null && Model.AvailableCategories.Any())
+<div class="row">
+    <div class="col-md-6 col-lg-3">
+        <div class="info-item js-dish-form animated fadeIn" data-itemid="@Model.Id">
+            <h3 class="info-item-heading">Блюдо</h3>
+            <img class="img-rounded js-insta-picture" src="@Model.InstImageUrl" alt="pic">
+            <input class="form-control js-name" type="text" placeholder="Название" value="@Model.Name" />
+            <input class="form-control js-picture-url" type="text" placeholder="Инстаграм ссылка" value="@Model.PictureUrl" />
+            <div class="dropdown">
+                <input class="form-control dropdown-toggle js-category" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="Категория" value="@Model.Category" />
+                @if (Model.AvailableCategories != null && Model.AvailableCategories.Any())
             {
-                <ul class="dropdown-menu">
-                    @foreach (var cat in Model.AvailableCategories)
-                    {
-                        <li><a href="#" class="dropdown-item js-cat-choose" data-value="@cat">@cat</a></li>
-                    }
-                </ul>
-            }
+                    <ul class="dropdown-menu">
+                        @foreach (var cat in Model.AvailableCategories)
+                        {
+                            <li><a href="#" class="dropdown-item js-cat-choose" data-value="@cat">@cat</a></li>
+                        }
+                    </ul>
+                }
+            </div>
+            <input class="form-control js-slash-name" type="text" placeholder="Слэш название" value="@Model.SlashName" />
+            <input class="form-control js-price" type="text" placeholder="Цена" value="@Model.PriceString" />
+            <textarea class="form-control js-description" type="text" placeholder="Описание">@Model.Description</textarea>
+            <a href="#" class="btn btn-save-dishes js-save-dish" data-target="@Url.Action("EditDish","Manager")">Сохранить</a>
+        </div>
     </div>
-    <input class="form-control js-slash-name" type="text" placeholder="Слэш название" value="@Model.SlashName" />
-    <input class="form-control js-price" type="text" placeholder="Цена" value="@Model.PriceString" />
-    <textarea class="form-control js-description" type="text" placeholder="Описание">@Model.Description</textarea>
-    <a href="#" class="btn btn-save-dishes js-save-dish" data-target="@Url.Action("EditDish","Manager")">Сохранить</a>
 </div>
+ 

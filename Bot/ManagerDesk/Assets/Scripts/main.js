@@ -229,7 +229,7 @@ $(document).ready(function () {
 
             reader.onload = function (e) {
                 $('.settings-profile-img').attr('src', e.target.result);
-            }
+            };
 
             reader.readAsDataURL(this.files[0]);
         }

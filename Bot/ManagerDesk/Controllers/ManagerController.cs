@@ -37,7 +37,17 @@ namespace ManagerDesk.Controllers
             var rests = service.GetAllRestaurants();
             if (rests != null)
             {
-                var model = new ToolbarViewModel { AvailableRests = rests, CurrentRest = rests.FirstOrDefault() };
+                var model = new ToolbarViewModel { AvailableRests = rests };
+
+                var restCookie = Request.Cookies.Get("CurRest");
+                if (restCookie != null)
+                {
+                    var curRest = restCookie.Value;
+                    var rest = service.GetRestaurant(Guid.Parse(curRest));
+
+                    model.CurrentRest = rest;
+                }
+                
                 return View(model);
             }
             else
@@ -45,7 +55,6 @@ namespace ManagerDesk.Controllers
                 var model = new ToolbarViewModel { AvailableRests = new List<Restaurant>() };
                 return View(model);
             }
-
         }
 
         [HttpGet]

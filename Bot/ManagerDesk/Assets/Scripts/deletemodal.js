@@ -1,17 +1,30 @@
-$(document).ready(function () {
-
-    $("#deletemodal").on("click", ".js-ok", function (e) {
-        e.preventDefault();
-
-        var chosenCard = $("#deletemodal");
-        var itemId = chosenCard.data("itemid");
-        var itemType = chosenCard.data("type");
-        var target = chosenCard.data("target");
-
-        $.post(target, { itemId: itemId, itemType: itemType }).done(function (data) {
+﻿var DeleteModal = {
+    id: "#deletemodal",
+    text: "Раз раз раз",
+    title: "Сообщение",
+    itemid: "",
+    type: "",
+    target:"",
+    show: function (_itemid, _type, _target) {
+        if (!$(this.id).is(':visible')) {
+            this.itemid = _itemid;
+            this.type = _type;
+            this.target = _target;
+            $(this.id).modal('show');
+        }
+    },
+    delete: function () {
+        $.post(this.target, { itemId: this.itemid, itemType: this.type }).done(function (data) {
             $("#deletemodal").modal('hide');
             $(".menu-section.active").trigger("click");
         });
+    }
+}
 
+$(document).ready(function () {
+    $("#deletemodal").on("click", ".js-ok", function (e) {
+        e.preventDefault();
+
+        DeleteModal.delete();
     });
 });

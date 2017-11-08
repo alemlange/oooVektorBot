@@ -1,6 +1,6 @@
 ﻿@model ManagerDesk.ViewModels.RestaurantViewModel
 
-<div class="info-item js-rest-card animated fadeIn" data-edittarget="@Url.Action("EditRest","Manager")"  data-type="Restaurant" data-itemid="@Model.Id">
+<div class="info-item js-rest-card animated fadeIn" data-edittarget="@Url.Action("EditRest","Restaurant")"  data-type="Restaurant" data-itemid="@Model.Id">
         
     <div class="toolbar-mini">
         <div class="toolbar-mini__btn js-edit-rest"><i class="fa fa-pencil" aria-hidden="true"></i></div>         
@@ -9,6 +9,7 @@
 
     <h3 class="info-item-heading">@Model.Name</h3>
     <h4 class="price-heading">@Model.Address</h4>
+    <div class="dish-description">Количество столов: @Model.TableCount</div>
     <div class="dish-description">@Model.Description</div>
 
 </div>

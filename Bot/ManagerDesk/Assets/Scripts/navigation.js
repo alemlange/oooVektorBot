@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
     $(".navbar-left").on("click", ".js-tables-section", function (e) {
         e.preventDefault();
@@ -11,6 +11,9 @@ $(document).ready(function () {
             $(".active-rest").show();
             $(".js-table-body").html(data);
             equalHeight($(".info-item"));
+        }).fail(function (ex) {
+            AlertModal.text = "Не получилось обновить столики, возможно отсутствует соединение с сетью!";
+            AlertModal.show();
         });
     });
 

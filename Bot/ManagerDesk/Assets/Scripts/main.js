@@ -199,10 +199,11 @@ $(document).ready(function () {
 
         var chosenCard = $(this).parents(".info-item");
 
-        $("#deletemodal").data("itemid", chosenCard.data("itemid"));
-        $("#deletemodal").data("type", chosenCard.data("type"));
-        $("#deletemodal").data("target", $(this).data("target"));
-        $("#deletemodal").modal('show');
+        //$("#deletemodal").data("itemid", chosenCard.data("itemid"));
+        //$("#deletemodal").data("type", chosenCard.data("type"));
+        //$("#deletemodal").data("target", $(this).data("target"));
+        //$("#deletemodal").modal('show');
+        DeleteModal.show(chosenCard.data("itemid"), chosenCard.data("type"), $(this).data("target"))
     });
 
     $(".js-table-body").on("click", ".js-toolbar-close-table", function (e) {

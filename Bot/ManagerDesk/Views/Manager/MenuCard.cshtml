@@ -37,25 +37,11 @@
                     <div class="dish-name-item"><span class="dish-name">@dish.Name</span><span class="dish-price">@dish.Price р.</span></div>
                 </div>
             }
+            <br/>
         }
     }
     else
     {
         <p class="text-center error">Нажмите на карандаш, чтобы добавить блюда в меню.</p>
     }
-
-    @*@if (Model.DishList.Any())
-    {
-        <h3 class="info-item-heading">Стейки</h3>
-        foreach (var dish in Model.DishList)
-        {
-            <div class="dish-item">
-                <div class="dish-name-item"><span class="dish-name">@dish.Name</span><span class="dish-price">@dish.Price р.</span></div>
-            </div>
-        }
-    }
-    else
-    {
-        <p class="text-center error">Нажмите на карандаш, чтобы добавить блюда в меню.</p>
-    }*@
 </div>

@@ -145,6 +145,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\RestaurantController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -199,6 +200,7 @@
     <Content Include="Assets\Scripts\libs\equalheights.js" />
     <Content Include="Assets\Scripts\dishform.js" />
     <Content Include="Assets\Scripts\deletemodal.js" />
+    <Content Include="Assets\Scripts\alert_modal.js" />
     <Content Include="Assets\Scripts\toolbar.js" />
     <Content Include="Assets\Scripts\navigation.js" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -307,9 +309,9 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\restoBot - Web Deploy.pubxml" />
-    <Content Include="Views\Manager\RestaurantCardList.cshtml" />
-    <Content Include="Views\Manager\RestaurantCard.cshtml" />
-    <Content Include="Views\Manager\RestaurantCardEdditable.cshtml" />
+    <Content Include="Views\Restaurant\RestaurantCardList.cshtml" />
+    <Content Include="Views\Restaurant\RestaurantCard.cshtml" />
+    <Content Include="Views\Shared\RestaurantCardEdditable.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Configuration\Configuration.cshtml" />

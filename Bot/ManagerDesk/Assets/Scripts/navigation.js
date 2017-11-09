@@ -1,6 +1,6 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
-    $(".navbar-left").on("click", ".menu-section", function (e) {
+    $(".navbar-left").on("click", ".js-tables-section", function (e) {
         e.preventDefault();
 
         $(".menu-section.active").removeClass("active");
@@ -8,20 +8,75 @@ $(document).ready(function () {
 
         var target = $(this).data("target");
         $.get(target).done(function (data) {
+            $(".active-rest").show();
+            $(".js-table-body").html(data);
+            equalHeight($(".info-item"));
+        }).fail(function (ex) {
+            AlertModal.text = "Не получилось обновить столики, возможно отсутствует соединение с сетью!";
+            AlertModal.show();
+        });
+    });
+
+    $(".navbar-left").on("click", ".js-rest-section", function (e) {
+        e.preventDefault();
+
+        $(".menu-section.active").removeClass("active");
+        $(this).addClass("active");
+
+        var target = $(this).data("target");
+        $.get(target).done(function (data) {
+            $(".active-rest").hide();
             $(".js-table-body").html(data);
             equalHeight($(".info-item"));
         });
+    });
+
+    $(".navbar-left").on("click", ".js-menu-section", function (e) {
+        e.preventDefault();
+
+        $(".menu-section.active").removeClass("active");
+        $(this).addClass("active");
+
+        var target = $(this).data("target");
+        $.get(target).done(function (data) {
+            $(".active-rest").hide();
+            $(".js-table-body").html(data);
+            equalHeight($(".info-item"));
+        });
+    });
+
+    $(".navbar-left").on("click", ".js-dish-section", function (e) {
+        e.preventDefault();
+
+        $(".menu-section.active").removeClass("active");
+        $(this).addClass("active");
+
+        var target = $(this).data("target");
+        $.get(target).done(function (data) {
+            $(".active-rest").hide();
+            $(".js-table-body").html(data);
+            equalHeight($(".info-item"));
+        });
+    });
+
+    $(".navbar-left").on("click", ".js-add-plus", function (e) {
+        e.preventDefault();
+
+        $(".menu-section.active").removeClass("active");
+        $(this).parent().find(".menu-section").addClass("active");
     });
 
     $(".navbar-top").on("click", ".js-config-section", function (e) {
         e.preventDefault();
 
         $(".menu-section.active").removeClass("active");
+        $("li.active-item").removeClass("active-item");
 
         var target = $(this).data("target");
         $.get(target).done(function (data) {
+            $(".active-rest").hide();
             $(".js-table-body").html(data);
-            equalHeight($(".info-item"));
+            //equalHeight($(".info-item"));
         });
     });
 

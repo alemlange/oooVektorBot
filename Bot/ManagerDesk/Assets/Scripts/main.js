@@ -198,11 +198,6 @@ $(document).ready(function () {
         e.preventDefault();
 
         var chosenCard = $(this).parents(".info-item");
-
-        //$("#deletemodal").data("itemid", chosenCard.data("itemid"));
-        //$("#deletemodal").data("type", chosenCard.data("type"));
-        //$("#deletemodal").data("target", $(this).data("target"));
-        //$("#deletemodal").modal('show');
         DeleteModal.show(chosenCard.data("itemid"), chosenCard.data("type"), $(this).data("target"))
     });
 

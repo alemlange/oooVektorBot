@@ -1,4 +1,4 @@
-$(document).ready(function () {
+п»ї$(document).ready(function () {
 
     $(".js-table-body").on("submit", "#EditRestForm", function (e) {
         e.preventDefault();
@@ -13,7 +13,7 @@ $(document).ready(function () {
             $.post(target, form).done(function (data) {
                 $(".js-rest-section").trigger("click");
             }).fail(function (data) {
-                AlertModal.text = "Не получилось создать ресторан!";
+                AlertModal.text = "РќРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ СЂРµСЃС‚РѕСЂР°РЅ!";
                 AlertModal.show();
             });
         }

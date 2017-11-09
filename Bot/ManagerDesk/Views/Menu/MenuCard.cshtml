@@ -3,7 +3,7 @@
      var dropdownId = "drop" + Model.Id;
   }
 
-<div class="info-item js-menu-card animated fadeIn" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Manager")"  data-edittarget="@Url.Action("EditMenu","Manager")" data-type="Menu">
+<div class="info-item js-menu-card animated fadeIn" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Menu")"  data-edittarget="@Url.Action("EditMenu","Manager")" data-type="Menu">
 
     <div class="toolbar-mini">
         <div class="toolbar-mini__btn dropdown pull-left">
@@ -12,7 +12,7 @@
             </ul>
         </div>
         <div class="toolbar-mini__btn dropdown pull-left">
-            <span class="dropdown-toggle menu-cat-list" type="button"  data-toggle="dropdown" data-cattarget="@Url.Action("MenuCatList","Manager")"><i class="fa fa-list" aria-hidden="true"></i></span>
+            <span class="dropdown-toggle menu-cat-list" type="button"  data-toggle="dropdown" data-cattarget="@Url.Action("MenuCatList","Menu")"><i class="fa fa-list" aria-hidden="true"></i></span>
             <ul class="dropdown-menu cat-list-dropdown">
             </ul>
         </div>

@@ -1,23 +1,32 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
-    $(".js-table-body").on("click", ".js-save-menu", function (e) {
+    $(".js-table-body").on("submit", "#EditMenuForm", function (e) {
         e.preventDefault();
 
-        var container = $(this).parents(".js-menu-form");
-        var menuId = container.data("itemid");
-        var name = container.find(".js-name").val();
+        var form = $("#EditMenuForm");
+        $.validator.unobtrusive.parse($('#EditMenuForm'));
 
-        var rest = "00000000-0000-0000-0000-000000000000";
-        var chosenRestBtn = container.find(".js-chosen-rest");
+        if (form.valid()) {
+            var target = form.attr("action");
 
-        if (chosenRestBtn.lenth !== 0) {
-            rest = chosenRestBtn.data("value");
+            var container = form.parent();
+            var menuId = container.data("itemid");
+            var name = container.find(".js-name").val();
+
+            var rest = "00000000-0000-0000-0000-000000000000";
+            var chosenRestBtn = container.find(".js-chosen-rest");
+
+            if (chosenRestBtn.lenth !== 0) {
+                rest = chosenRestBtn.data("value");
+            }
+
+            $.post(target, { menuId: menuId, name: name, rest: rest }).done(function (data) {
+                $(".js-menu-section").trigger("click");
+            }).fail(function (data) {
+                AlertModal.text = "Не получилось создать меню!";
+                AlertModal.show();
+            });
         }
-
-        var target = $(this).data("target");
-        $.post(target, { menuId: menuId, name: name, rest: rest}).done(function (data) {
-            $(".js-menu-section").trigger("click");
-        });
     });
 
     $(".js-table-body").on("click", ".js-rest-choose", function (e) {

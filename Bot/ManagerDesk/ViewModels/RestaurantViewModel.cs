@@ -24,6 +24,7 @@ namespace ManagerDesk.ViewModels
 
         public double Longitude { get; set; }
 
+        [Required(ErrorMessage = "Нужно ввести количество столов")]
         [Range(1, 1000, ErrorMessage = "Нужно ввести количество столов")]
         public int TableCount { get; set; }
 

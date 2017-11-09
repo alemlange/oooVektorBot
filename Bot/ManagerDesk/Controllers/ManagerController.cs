@@ -118,17 +118,6 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpGet]
-        public ActionResult AllRestaurants()
-        {
-            var service = ServiceCreator.GetManagerService(User.Identity.Name);
-            var rests = service.GetAllRestaurants();
-
-            var model = Mapper.Map<List<RestaurantViewModel>>(rests);
-
-            return View("RestaurantCardList", model);
-        }
-
-        [HttpGet]
         public ActionResult AllDishes()
         {
             var service = ServiceCreator.GetManagerService(User.Identity.Name);
@@ -505,48 +494,6 @@ namespace ManagerDesk.Controllers
                 }
                 else
                     throw new Exception("Dish not found!");
-            }
-            catch (Exception ex)
-            {
-                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
-            }
-        }
-
-        [HttpGet]
-        public ActionResult EditRest(Guid restId)
-        {
-            try
-            {
-                var service = ServiceCreator.GetManagerService(User.Identity.Name);
-
-                var rest = service.GetRestaurant(restId);
-                if (rest != null)
-                {
-                    var model = Mapper.Map<RestaurantViewModel>(rest);
-
-                    return View("RestaurantCardEdditable", model);
-                }
-                else
-                    throw new Exception("Restaraunt not found!");
-            }
-            catch (Exception ex)
-            {
-                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
-            }
-        }
-
-        [HttpPost]
-        public ActionResult EditRest(Restaurant Rest)
-        {
-            try
-            {
-                var service = ServiceCreator.GetManagerService(User.Identity.Name);
-                if (Rest.Id == Guid.Empty)
-                    service.CreateRestaurant(Rest);
-                else
-                    service.UpdateRestaurant(Rest);
-
-                return Json(new { isAuthorized = true, isSuccess = true });
             }
             catch (Exception ex)
             {

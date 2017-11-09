@@ -9,16 +9,16 @@
 
                 <h3 class="info-item-heading">Ресторан</h3>
 
-                @Html.ValidationMessageFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control js-name", placeholder = "Название" } })
 
-                @Html.ValidationMessageFor(model => model.Address)
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control js-address", placeholder = "Адрес" } })
 
                 @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control js-code", @readonly = "readonly", placeholder = "Код" } })
 
-                @Html.ValidationMessageFor(model => model.TableCount)
-                @Html.EditorFor(model => model.TableCount, new { htmlAttributes = new { @class = "form-control js-table-count", placeholder = "Количество столов" } })
+                @Html.ValidationMessageFor(model => model.TableCount, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.TableCount, new { htmlAttributes = new { @class = "form-control js-table-count", placeholder = "Количество столов", value=26 } })
 
                 @Html.TextAreaFor(model => model.Description, new { @class = "form-control js-description", placeholder = "Описание" })
 

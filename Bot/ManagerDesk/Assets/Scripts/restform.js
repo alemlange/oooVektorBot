@@ -4,21 +4,20 @@ $(document).ready(function () {
         e.preventDefault();
 
         var container = $("#EditRestForm");
-        $.validator.unobtrusive.parse($('#EditRestForm'))
-        //var target = container.attr("action");
-        //var form = container.serialize();
+        $.validator.unobtrusive.parse($('#EditRestForm'));
+
+        var target = container.attr("action");
+        var form = container.serialize();
 
         if (container.valid()) {
-            alert(1);
+            $.post(target, form).done(function (data) {
+                $(".js-rest-section").trigger("click");
+            }).fail(function (data) {
+                AlertModal.text = "Не получилось создать ресторан!";
+                AlertModal.show();
+            });
         }
-        else {
-            alert(2);
-        }
-        return;
-        $.post(target, container.serialize()).done(function (data) {
-            $(".js-rest-section").trigger("click");
-        });
-
+        
         //var id = container.data("itemid");
         //var name = container.find(".js-name").val();
         //var address = container.find(".js-address").val();

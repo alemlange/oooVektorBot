@@ -10,10 +10,10 @@ namespace ManagerDesk.ViewModels
     {
         public Guid Id { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Не заполнено Название")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Не заполнено название ресторана")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Не заполнено Название")]
+        [Required(ErrorMessage = "Нужно ввести адрес ресторана")]
         public string Address { get; set; }
 
         public string Description { get; set; }
@@ -24,7 +24,7 @@ namespace ManagerDesk.ViewModels
 
         public double Longitude { get; set; }
 
-        [Required(ErrorMessage = "Не заполнено")]
+        [Range(1, 1000, ErrorMessage = "Нужно ввести количество столов")]
         public int TableCount { get; set; }
 
         public string TableCountString

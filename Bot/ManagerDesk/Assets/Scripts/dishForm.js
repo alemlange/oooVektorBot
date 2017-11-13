@@ -1,25 +1,22 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
-    $(".js-table-body").on("click", ".js-save-dish", function (e) {
+    $(".js-table-body").on("submit", "#EditDishForm", function (e) {
         e.preventDefault();
 
-        var container = $(this).parents(".js-dish-form");
-        var dishId = container.data("itemid");
-        var name = container.find(".js-name").val();
-        var category = container.find(".js-category").val();
-        var slashName = container.find(".js-slash-name").val();
-        var pictureUrl = container.find(".js-picture-url").val();
-        var price = container.find(".js-price").val();
-        if (price === "" || price === null)
-            price = 0;
-        var description = container.find(".js-description").val();
+        var container = $("#EditDishForm");
+        $.validator.unobtrusive.parse($('#EditDishForm'));
 
-        var dish = { Category: category, Id: dishId, Name: name, Description: description, PictureUrl: pictureUrl, Price: price, SlashName: slashName };
+        if (container.valid()) {
+            var target = container.attr("action");
+            var form = container.serialize();
 
-        var target = $(this).data("target");
-        $.post(target, { Dish: dish }).done(function (data) {
-            $(".js-dish-section").trigger("click");
-        });
+            $.post(target, form).done(function (data) {
+                $(".js-dish-section").trigger("click");
+            }).fail(function (data) {
+                AlertModal.text = "Не получилось создать блюдо";
+                AlertModal.show();
+            });
+        }
     });
 
     $(".js-table-body").on("click", ".js-cat-choose", function (e) {
@@ -33,15 +30,15 @@ $(document).ready(function () {
     });
 
     $(".js-table-body").on("change", ".js-picture-url", function (e) {
-
         var value = $(this).val();
+        var container = $(this).parents(".js-dish-form");
+        var picture = container.find(".js-insta-picture");
+
         if (value.includes("https://www.instagram.com/p/")) {
-            var container = $(this).parents(".js-dish-form");
-
-            var picture = container.find(".js-insta-picture");
-
             picture.attr("src", value + "/media");
         }
+        else {
+            picture.attr("src", "/Assets/Imgs/insta_placeholder.png");
+        }
     });
-
 });

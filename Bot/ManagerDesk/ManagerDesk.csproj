@@ -145,6 +145,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\DishController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RestaurantController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
@@ -296,11 +297,11 @@
     <Content Include="Views\Menu\MenuCard.cshtml" />
     <Content Include="Views\Menu\MenuCardList.cshtml" />
     <Content Include="Views\Manager\Navigation.cshtml" />
-    <Content Include="Views\Manager\DishCardList.cshtml" />
-    <Content Include="Views\Manager\DishCard.cshtml" />
+    <Content Include="Views\Dish\DishCardList.cshtml" />
+    <Content Include="Views\Dish\DishCard.cshtml" />
     <Content Include="Views\Menu\MenuMoreDishes.cshtml" />
     <Content Include="Views\Manager\Toolbar.cshtml" />
-    <Content Include="Views\Manager\DishCardEdditable.cshtml" />
+    <Content Include="Views\Shared\DishCardEdditable.cshtml" />
     <Content Include="Views\Shared\MenuCardEdditable.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

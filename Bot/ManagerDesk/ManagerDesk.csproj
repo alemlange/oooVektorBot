@@ -193,6 +193,7 @@
     <Content Include="Assets\Content\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Assets\Content\main.css" />
     <Content Include="Assets\Content\media.css" />
+    <Content Include="Assets\Imgs\favicon.ico" />
     <Content Include="Assets\Imgs\insta_placeholder.png" />
     <Content Include="Assets\Scripts\cookie_manager.js" />
     <Content Include="Assets\Scripts\libs\jquery-ui.min.js" />
@@ -323,6 +324,7 @@
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Views\Menu\MenuCatList.cshtml" />
+    <Content Include="Views\Manager\RestaurantOptions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -31,13 +31,13 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpGet]
-        public ActionResult Toolbar()
+        public ActionResult RestaurantOptions()
         {
             var service = ServiceCreator.GetManagerService(User.Identity.Name);
             var rests = service.GetAllRestaurants();
             if (rests != null)
             {
-                var model = new ToolbarViewModel { AvailableRests = rests };
+                var model = new RestOptionsViewModel { AvailableRests = rests };
 
                 var restCookie = Request.Cookies.Get("CurRest");
                 if (restCookie != null)
@@ -45,14 +45,25 @@ namespace ManagerDesk.Controllers
                     var curRest = restCookie.Value;
                     var rest = service.GetRestaurant(Guid.Parse(curRest));
 
-                    model.CurrentRest = rest;
+                    if(rest == null)
+                    {
+                        var randRest = rests.FirstOrDefault();
+
+                        restCookie.Value = randRest.Id.ToString();
+                        Response.Cookies.Set(restCookie);
+                        model.CurrentRest = randRest;
+                    }
+                    else
+                    {
+                        model.CurrentRest = rest;
+                    } 
                 }
-                
+
                 return View(model);
             }
             else
             {
-                var model = new ToolbarViewModel { AvailableRests = new List<Restaurant>() };
+                var model = new RestOptionsViewModel { AvailableRests = new List<Restaurant>() };
                 return View(model);
             }
         }
@@ -75,6 +86,11 @@ namespace ManagerDesk.Controllers
                     activeTables = service.GetActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
                     inActiveTables = service.GetInActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
                 }
+            }
+            else
+            {
+                activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
             }
             var model = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };
 
@@ -285,6 +301,32 @@ namespace ManagerDesk.Controllers
                             }
                         case CardTypes.Restaurant:
                             {
+                                //var restCookie = Request.Cookies.Get("CurRest");
+                                //if(restCookie!= null)
+                                //{
+                                //    var curRest = restCookie.Value;
+                                //    if (curRest != null)
+                                //    {
+                                //        var restGuid = Guid.Parse(curRest);
+
+                                //        if(restGuid == itemId)
+                                //        {
+                                //            var rests = service.GetAllRestaurants();
+                                //            if(rests!=null && rests.Any())
+                                //            {
+                                //                var notCurRest = rests.Where(o => o.Id != itemId);
+                                //                if (notCurRest.Any())
+                                //                    restCookie.Value = notCurRest.FirstOrDefault().Id.ToString();
+                                                
+                                //                else
+                                //                    restCookie.Value = null;
+                                                
+                                //                Request.Cookies.Set(restCookie);
+                                //            }  
+                                //        }
+                                //    }
+                                //}
+                                
                                 service.DeleteRestaraunt(itemId);
                                 break;
                             }

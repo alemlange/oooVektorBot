@@ -1,0 +1,7 @@
+﻿@model ManagerDesk.ViewModels.RestOptionsViewModel
+
+@foreach (var rest in Model.AvailableRests)
+{
+    <option class="js-option" @Model.SelectedOptionStyle(rest.Id) data-objid="@rest.Id">@rest.Name</option>
+}
+

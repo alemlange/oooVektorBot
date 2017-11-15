@@ -1,5 +1,4 @@
-﻿@model ManagerDesk.ViewModels.ToolbarViewModel
-<header class="header-top">
+﻿<header class="header-top">
     <nav class="navbar-top">
         <div class="navbar-left-btn-wrap">
             <div class="navbar-left-btn js-opened"><i class="fa fa-bars"></i></div>
@@ -8,11 +7,8 @@
             <li>
                 <div class="active-rest">
                     <label>Текущий ресторан:</label>
-                    <select class="form-control js-rest-select">
-                        @foreach (var rest in Model.AvailableRests)
-                        {
-                            <option @Model.SelectedOptionStyle(rest.Id) data-objid="@rest.Id">@rest.Name</option>
-                        }
+                    <select class="form-control js-rest-select" data-target="@Url.Action("RestaurantOptions","Manager")">
+                        @Html.Action("RestaurantOptions")
                     </select>
                 </div>
             </li>

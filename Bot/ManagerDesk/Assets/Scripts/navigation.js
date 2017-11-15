@@ -14,6 +14,11 @@
         }).fail(function (ex) {
             AlertModal.text = "Не получилось обновить столики, возможно отсутствует соединение с сетью!";
             AlertModal.show();
+            });
+
+        var selectTarget = $(".js-rest-select").data("target");
+        $.get(selectTarget).done(function (data) {
+            $(".js-rest-select").html(data);
         });
     });
 

@@ -6,7 +6,7 @@ using DataModels;
 
 namespace ManagerDesk.ViewModels
 {
-    public class ToolbarViewModel
+    public class RestOptionsViewModel
     {
         public List<Restaurant> AvailableRests { get; set; }
 

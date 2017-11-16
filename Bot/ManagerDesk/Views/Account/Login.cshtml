@@ -13,6 +13,12 @@
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger text-center" })
+                    </div>
+                </div>
+
                 <div class="form-horizontal">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Name, "Логин", htmlAttributes: new { @class = "control-label col-sm-3" })
@@ -38,11 +44,7 @@
                             @Html.ActionLink("Зарегистрироваться", "Register", "Account", new { @class = "login__link" })
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-9 col-sm-offset-3">
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger text-center" })
-                        </div>
-                    </div>
+                    
                 </div>
             }
         </div>

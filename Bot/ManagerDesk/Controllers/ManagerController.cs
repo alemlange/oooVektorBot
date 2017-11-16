@@ -8,6 +8,7 @@ using ManagerDesk.ViewModels;
 using ManagerDesk.ViewModels.Enums;
 using AutoMapper;
 using DataModels;
+using DataModels.Exceptions;
 using ManagerDesk.Services;
 
 namespace ManagerDesk.Controllers
@@ -17,7 +18,17 @@ namespace ManagerDesk.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                var regService = new RegistrationService();
+                var config = regService.FindConfiguration(User.Identity.Name);
+                return View();
+            }
+            catch (AuthException)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            
         }
 
         [HttpGet]
@@ -35,7 +46,7 @@ namespace ManagerDesk.Controllers
         {
             var service = ServiceCreator.GetManagerService(User.Identity.Name);
             var rests = service.GetAllRestaurants();
-            if (rests != null)
+            if (rests != null && rests.Any())
             {
                 var model = new RestOptionsViewModel { AvailableRests = rests };
 

@@ -3,7 +3,7 @@
      var dropdownId = "drop" + Model.Id;
   }
 
-<div class="info-item js-menu-card animated fadeIn" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Menu")"  data-edittarget="@Url.Action("EditMenu","Manager")" data-type="Menu">
+<div class="info-item js-menu-card animated fadeIn" data-itemid="@Model.Id" data-moretarget="@Url.Action("MenuMoreDishes","Menu")"  data-edittarget="@Url.Action("EditMenu","Menu")" data-type="Menu">
 
     <div class="toolbar-mini">
         <div class="toolbar-mini__btn dropdown pull-left">
@@ -42,6 +42,6 @@
     }
     else
     {
-        <p class="text-center error">Нажмите на карандаш, чтобы добавить блюда в меню.</p>
+        <p class="text-center error">Нажмите на <i class="fa fa-cutlery" aria-hidden="true"></i>, чтобы добавить блюда в меню.</p>
     }
 </div>

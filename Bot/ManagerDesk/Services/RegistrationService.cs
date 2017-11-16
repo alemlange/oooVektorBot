@@ -6,6 +6,7 @@ using ManagerDesk.Models;
 using AutoMapper;
 using System.Security.Cryptography;
 using DataModels;
+using DataModels.Exceptions;
 using LiteDbService.Helpers;
 
 namespace ManagerDesk.Services
@@ -58,7 +59,7 @@ namespace ManagerDesk.Services
             if (acc != null)
                 return service.FindConfig(acc.Id);
             else
-                throw new Exception("Account not found");
+                throw new AuthException("Account not found");
 
         }
 

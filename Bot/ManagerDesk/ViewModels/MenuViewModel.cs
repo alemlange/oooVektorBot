@@ -14,7 +14,7 @@ namespace ManagerDesk.ViewModels
         [Required(ErrorMessage = "Нужно ввести название меню")]
         public string MenuName { get; set; }
 
-        public Guid Restaurant { get; set; }
+        //public Guid Restaurant { get; set; }
 
         public List<string> CategoriesSorted { get; set; }
 

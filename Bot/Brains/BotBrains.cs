@@ -80,7 +80,7 @@ namespace Brains
 
             if (table != null)
             {
-                var rest = _service.GetRestaurantByMenu(table.Menu);
+                var rest = _service.GetRestaurantByTable(table.Id);
                 return rest.TableCount == 0 ? 50 : rest.TableCount;
             }
             else
@@ -308,7 +308,7 @@ namespace Brains
         {
             try
             {
-                _service.AssignMenu(chatId, restruntName);
+                _service.AssignRestaurant(chatId, restruntName);
                 _service.UpdateTableState(chatId, SessionState.Queue);
 
                 return new Responce
@@ -353,7 +353,7 @@ namespace Brains
                 string restruntCode = code.Substring(1, 3);
                 int tableNumber = int.Parse(code.Substring(5));
 
-                _service.AssignMenuByCode(chatId, restruntCode);
+                _service.AssignRestaurantByCode(chatId, restruntCode);
                 _service.AssignNumber(chatId, tableNumber);
                 _service.UpdateTableState(chatId, SessionState.Sitted);
 
@@ -391,7 +391,7 @@ namespace Brains
                 else
                 {
                     var rest = restaurants.FirstOrDefault();
-                    _service.AssignMenu(chatId, rest.Name);
+                    _service.AssignRestaurant(chatId, rest.Name);
                     _service.UpdateTableState(chatId, SessionState.Queue);
 
                     return new Responce
@@ -401,7 +401,6 @@ namespace Brains
                         State = SessionState.Queue
                     };
                 }
-
             }
             catch (Exception)
             {

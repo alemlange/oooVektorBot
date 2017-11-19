@@ -107,8 +107,11 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var col = db.GetCollection<Table>("Tables");
-                return col.Find(o => o.State != SessionState.Closed && o.State != SessionState.Deactivated && o.Menu == menuId).ToList();
+                var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
+                var restaurant = restaurantCol.Find(r => r.Menu == menuId).FirstOrDefault();
+
+                var tableCol = db.GetCollection<Table>("Tables");
+                return tableCol.Find(o => o.State != SessionState.Closed && o.State != SessionState.Deactivated && o.Restaurant == restaurant.Id).ToList();
             }
         }
 
@@ -116,8 +119,11 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var col = db.GetCollection<Table>("Tables");
-                return col.Find(o => (o.State == SessionState.Closed || o.State == SessionState.Deactivated) && o.Menu == menuId).ToList();
+                var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
+                var restaurant = restaurantCol.Find(r => r.Menu == menuId).FirstOrDefault();
+
+                var tableCol = db.GetCollection<Table>("Tables");
+                return tableCol.Find(o => (o.State == SessionState.Closed || o.State == SessionState.Deactivated) && o.Restaurant == restaurant.Id).ToList();
             }
         }
 
@@ -312,14 +318,15 @@ namespace LiteDbService
                 var colRests = db.GetCollection<Restaurant>("Restaurants");
                 colRests.Delete(restId);
 
-                var colMenus = db.GetCollection<Menu>("Menus");
-                var menus = colMenus.Find(o => o.Restaurant == restId);
-                if (menus.Any())
+                var colTables = db.GetCollection<Table>("Tables");
+                var tables = colTables.Find(o => o.Restaurant == restId);
+
+                if (tables.Any())
                 {
-                    foreach(var menu in menus)
+                    foreach(var table in tables)
                     {
-                        menu.Restaurant = Guid.Empty;
-                        colMenus.Update(menu);
+                        table.Restaurant = Guid.Empty;
+                        colTables.Update(table);
                     }
                 }
             }

@@ -23,12 +23,14 @@ namespace ManagerDesk.Controllers
             var model = Mapper.Map<List<MenuViewModel>>(menus);
             model.ForEach(o =>
             {
+                /*
                 if (o.Restaurant != Guid.Empty)
                 {
                     var rest = service.GetRestaurant(o.Restaurant);
                     if (rest != null)
                         o.AttachedRestaurantName = rest.Name;
                 }
+                */
 
                 if (o.DishList != null && o.DishList.Any())
                 {
@@ -152,6 +154,7 @@ namespace ManagerDesk.Controllers
                     if (rests != null && rests.Any())
                     {
                         model.AvailableRests = Mapper.Map<List<RestaurantDropDown>>(rests);
+                        /*
                         if (model.Restaurant != Guid.Empty)
                         {
                             var attachedRest = rests.Where(o => o.Id == model.Restaurant).FirstOrDefault();
@@ -160,6 +163,7 @@ namespace ManagerDesk.Controllers
                                 model.AttachedRestaurantName = attachedRest.Name;
                             }
                         }
+                        */
                     }
 
                     return View("MenuCardEdditable", model);
@@ -174,21 +178,21 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditMenu(Guid menuId, string name, Guid rest)
+        public ActionResult EditMenu(Guid menuId, string name)
         {
             try
             {
                 var service = ServiceCreator.GetManagerService(User.Identity.Name);
                 if (menuId == Guid.Empty)
                 {
-                    var menu = new Menu { MenuName = name, DishList = new List<Dish>(), Restaurant = rest, CategoriesSorted = new List<string>() };
+                    var menu = new Menu { MenuName = name, DishList = new List<Dish>(), CategoriesSorted = new List<string>() };
                     service.CreateNewMenu(menu);
                 }
                 else
                 {
                     var curMenu = service.GetMenu(menuId);
                     curMenu.MenuName = name;
-                    curMenu.Restaurant = rest;
+                    //curMenu.Restaurant = rest;
                     service.UpdateMenu(curMenu);
                 }
 

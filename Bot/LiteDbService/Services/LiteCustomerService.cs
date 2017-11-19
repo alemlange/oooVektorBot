@@ -165,12 +165,15 @@ namespace LiteDbService
                     table.TableNumber = tableNumber;
                     tableCol.Update(table);
 
-                    if (table.Menu == Guid.Empty)
+                    if (table.Restaurant == Guid.Empty)
                     {
-                        var menuCol = db.GetCollection<Menu>("Menus");
-                        var menu = menuCol.FindAll().FirstOrDefault();
-                        if(menu != null)
-                            AssignMenu(chatId, menu.Id);
+                        var restCol = db.GetCollection<Restaurant>("Restaurants");
+                        var restaurant = restCol.FindAll().FirstOrDefault();
+
+                        if(restaurant != null)
+                        {
+                            AssignRestaurant(chatId, restaurant.Id);
+                        }
                     }
                 }
             }
@@ -247,49 +250,49 @@ namespace LiteDbService
         #endregion
 
         #region Menu
-        public void AssignMenu(long chatId, string restruntName)
+        public void AssignRestaurant(long chatId, string restruntName)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var restCol = db.GetCollection<Restaurant>("Restaurants");
                 var restaurant = restCol.Find(o => o.Name == restruntName).FirstOrDefault();
 
-                var menuCol = db.GetCollection<Menu>("Menus");
-                var menu = menuCol.Find(o => o.Restaurant == restaurant.Id).FirstOrDefault();
+                //var menuCol = db.GetCollection<Menu>("Menus");
+                //var menu = menuCol.Find(o => o.Restaurant == restaurant.Id).FirstOrDefault();
 
                 var tableCol = db.GetCollection<Table>("Tables");
                 var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {
-                    table.Menu = menu.Id;
+                    table.Restaurant = restaurant.Id;
                     tableCol.Update(table);
                 }
             }
         }
 
-        public void AssignMenuByCode(long chatId, string restruntCode)
+        public void AssignRestaurantByCode(long chatId, string restruntCode)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var restCol = db.GetCollection<Restaurant>("Restaurants");
                 var restaurant = restCol.Find(o => o.Code == restruntCode).FirstOrDefault();
 
-                var menuCol = db.GetCollection<Menu>("Menus");
-                var menu = menuCol.Find(o => o.Restaurant == restaurant.Id).FirstOrDefault();
+                //var menuCol = db.GetCollection<Menu>("Menus");
+                //var menu = menuCol.Find(o => o.Restaurant == restaurant.Id).FirstOrDefault();
 
                 var tableCol = db.GetCollection<Table>("Tables");
                 var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {
-                    table.Menu = menu.Id;
+                    table.Restaurant = restaurant.Id;
                     tableCol.Update(table);
                 }
             }
         }
 
-        public void AssignMenu(long chatId, Guid menuId)
+        public void AssignRestaurant(long chatId, Guid restaurantId)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
@@ -298,7 +301,7 @@ namespace LiteDbService
 
                 if (table != null)
                 {
-                    table.Menu = menuId;
+                    table.Restaurant = restaurantId;
                     tableCol.Update(table);
                 }
             }
@@ -317,7 +320,10 @@ namespace LiteDbService
                 }
                 else
                 {
-                    var menuId = table.Menu;
+                    var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
+                    var restaurant = restaurantCol.Find(r => r.Id == table.Restaurant).FirstOrDefault();
+
+                    var menuId = restaurant.Menu;
                     return menuCol.Find(m => m.Id == menuId).FirstOrDefault();
                 }
             }
@@ -325,19 +331,26 @@ namespace LiteDbService
         #endregion
 
         #region Restaurant
-        public Restaurant GetRestaurantByMenu(Guid menuId)
+        public Restaurant GetRestaurantByTable(Guid tableId)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var menuCol = db.GetCollection<Menu>("Menus");
-                var menu = menuCol.Find(o => o.Id == menuId).FirstOrDefault();
+                //var menuCol = db.GetCollection<Menu>("Menus");
+                //var menu = menuCol.Find(o => o.Id == menuId).FirstOrDefault();
 
-                if(menu != null)
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(t => t.Id == tableId).FirstOrDefault();
+
+                var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
+                var restaurant = restaurantCol.Find(r => r.Id == table.Restaurant).FirstOrDefault();
+
+                if (restaurant != null)
                 {
-                    if(menu.Restaurant != Guid.Empty)
-                        return GetRestaurant(menu.Restaurant);
-                    else
-                        throw new Exception("Menu does not containg restaurant reference");
+                    return restaurant;
+                    //if(menu.Restaurant != Guid.Empty)
+                    //    return GetRestaurant(menu.Restaurant);
+                    //else
+                    //    throw new Exception("Menu does not containg restaurant reference");
                 }
                 else
                 {

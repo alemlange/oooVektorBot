@@ -20,6 +20,8 @@ namespace ManagerDesk.ViewModels
 
         public string Code { get; set; }
 
+        public Guid Menu { get; set; }
+
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }

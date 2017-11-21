@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Configuration;
-using System.Threading.Tasks;
 
 namespace DataModels.Configuration
 {
@@ -19,6 +17,12 @@ namespace DataModels.Configuration
             public const string Mail = "Mail";
             public const string Password = "Password";
             public const string Port = "Port";
+            public const string EmailService = "EmailService";
+        }
+
+        public static string EmailService
+        {
+            get { return ConfigurationManager.AppSettings[AppKeys.EmailService]; }
         }
 
         public static string DbType

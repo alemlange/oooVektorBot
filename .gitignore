@@ -91,7 +91,6 @@ bld/
 *.pidb
 *.log
 *.scc
-*.config
 
 # Visual Studio cache files
 # files ending in .cache can be ignored

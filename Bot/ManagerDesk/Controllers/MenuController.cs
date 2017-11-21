@@ -23,14 +23,12 @@ namespace ManagerDesk.Controllers
             var model = Mapper.Map<List<MenuViewModel>>(menus);
             model.ForEach(o =>
             {
-                /*
-                if (o.Restaurant != Guid.Empty)
+                var rest = service.GetRestaurantByMenu(o.Id);
+
+                if (rest != null)
                 {
-                    var rest = service.GetRestaurant(o.Restaurant);
-                    if (rest != null)
-                        o.AttachedRestaurantName = rest.Name;
+                    o.AttachedRestaurantName = rest.Name;
                 }
-                */
 
                 if (o.DishList != null && o.DishList.Any())
                 {
@@ -154,16 +152,13 @@ namespace ManagerDesk.Controllers
                     if (rests != null && rests.Any())
                     {
                         model.AvailableRests = Mapper.Map<List<RestaurantDropDown>>(rests);
-                        /*
-                        if (model.Restaurant != Guid.Empty)
+
+                        var rest = service.GetRestaurantByMenu(model.Id);
+
+                        if (rest != null)
                         {
-                            var attachedRest = rests.Where(o => o.Id == model.Restaurant).FirstOrDefault();
-                            if (attachedRest != null)
-                            {
-                                model.AttachedRestaurantName = attachedRest.Name;
-                            }
+                            model.AttachedRestaurantName = rest.Name;
                         }
-                        */
                     }
 
                     return View("MenuCardEdditable", model);
@@ -178,15 +173,19 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditMenu(Guid menuId, string name)
+        public ActionResult EditMenu(Guid menuId, string name, Guid rest)
         {
             try
             {
                 var service = ServiceCreator.GetManagerService(User.Identity.Name);
+                var restaurant = service.GetRestaurant(rest);
+
                 if (menuId == Guid.Empty)
                 {
                     var menu = new Menu { MenuName = name, DishList = new List<Dish>(), CategoriesSorted = new List<string>() };
-                    service.CreateNewMenu(menu);
+                    var newMenu = service.CreateNewMenu(menu);
+                    restaurant.Menu = newMenu;
+                    service.UpdateRestaurant(restaurant);
                 }
                 else
                 {
@@ -194,6 +193,8 @@ namespace ManagerDesk.Controllers
                     curMenu.MenuName = name;
                     //curMenu.Restaurant = rest;
                     service.UpdateMenu(curMenu);
+                    restaurant.Menu = curMenu.Id;
+                    service.UpdateRestaurant(restaurant);
                 }
 
                 return Json(new { isAuthorized = true, isSuccess = true });

@@ -20,7 +20,7 @@ namespace ManagerDesk.ViewModels
 
         public List<Dish> DishList { get; set; }
 
-        //public string AttachedRestaurantName { get; set; }
+        public string AttachedRestaurantName { get; set; }
 
         public List<RestaurantDropDown> AvailableRests { get; set; }
 

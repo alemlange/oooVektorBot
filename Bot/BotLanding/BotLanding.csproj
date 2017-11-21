@@ -98,7 +98,21 @@
     <Content Include="Assets\js\main.js" />
     <Content Include="Assets\js\retina-1.1.0.min.js" />
     <Content Include="Assets\js\script.js" />
+    <Content Include="Assets\Content\Slick\ajax-loader.gif" />
+    <Content Include="Assets\Content\Slick\fonts\slick.svg" />
+    <Content Include="Assets\Content\Slick\slick-theme.css" />
+    <Content Include="Assets\Content\Slick\slick.css" />
     <Content Include="Global.asax" />
+    <Content Include="Assets\Content\Slick\slick.scss" />
+    <Content Include="Assets\Content\Slick\slick-theme.scss" />
+    <Content Include="Assets\Content\Slick\fonts\slick.woff" />
+    <Content Include="Assets\Content\Slick\fonts\slick.ttf" />
+    <Content Include="Assets\Content\Slick\fonts\slick.eot" />
+    <None Include="Assets\Scripts\jquery-1.7-vsdoc.js" />
+    <Content Include="Assets\Scripts\jquery-1.7.js" />
+    <Content Include="Assets\Scripts\jquery-1.7.min.js" />
+    <Content Include="Assets\Scripts\Slick\slick.js" />
+    <Content Include="Assets\Scripts\Slick\slick.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

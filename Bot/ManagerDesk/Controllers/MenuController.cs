@@ -23,14 +23,12 @@ namespace ManagerDesk.Controllers
             var model = Mapper.Map<List<MenuViewModel>>(menus);
             model.ForEach(o =>
             {
-                /*
-                if (o.Restaurant != Guid.Empty)
+                var rest = service.GetRestaurantByMenu(o.Id);
+
+                if (rest != null)
                 {
-                    var rest = service.GetRestaurant(o.Restaurant);
-                    if (rest != null)
-                        o.AttachedRestaurantName = rest.Name;
+                    o.AttachedRestaurantName = rest.Name;
                 }
-                */
 
                 if (o.DishList != null && o.DishList.Any())
                 {
@@ -154,16 +152,13 @@ namespace ManagerDesk.Controllers
                     if (rests != null && rests.Any())
                     {
                         model.AvailableRests = Mapper.Map<List<RestaurantDropDown>>(rests);
-                        /*
-                        if (model.Restaurant != Guid.Empty)
+
+                        var rest = service.GetRestaurantByMenu(model.Id);
+
+                        if (rest != null)
                         {
-                            var attachedRest = rests.Where(o => o.Id == model.Restaurant).FirstOrDefault();
-                            if (attachedRest != null)
-                            {
-                                model.AttachedRestaurantName = attachedRest.Name;
-                            }
+                            model.AttachedRestaurantName = rest.Name;
                         }
-                        */
                     }
 
                     return View("MenuCardEdditable", model);

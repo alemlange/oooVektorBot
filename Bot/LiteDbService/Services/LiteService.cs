@@ -135,6 +135,15 @@ namespace LiteDbService
             }
         }
 
+        public Restaurant GetRestaurantByMenu(Guid menuId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Restaurant>("Restaurants");
+                return col.Find(o => o.Menu == menuId).FirstOrDefault();
+            }
+        }
+
         public List<Restaurant> GetAllRestaurants()
         {
             using (var db = new LiteDatabase(CurrentDb))

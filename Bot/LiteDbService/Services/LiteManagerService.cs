@@ -203,15 +203,15 @@ namespace LiteDbService
                 if (rest.Id == Guid.Empty)
                     rest.Id = Guid.NewGuid();
 
-                var code = col.Max(r => r.Code);
+                var restaurants = col.FindAll();
                 
-                if (code != null)
+                if (restaurants.Count() == 0)
                 {
                     rest.Code = (1).ToString();
                 }
                 else
                 {
-                    rest.Code = (code + 1).ToString();
+                    rest.Code = (int.Parse(restaurants.Max(c => c.Code)) + 1).ToString();
                 }
 
                 col.Insert(rest);

@@ -7,13 +7,14 @@ using System.Net.Mail;
 using System.Web.Configuration;
 using System.Web.Http;
 using DataModels.Configuration;
+using DataModels.Email;
 
 namespace EmailService.Controllers
 {
     public class EmailController : ApiController
     {
         [HttpPost]
-        public string SendMail(string subject, string body, string to)
+        public string SendMail([FromBody]EmailRequest request)
         {
             try
             {
@@ -26,9 +27,9 @@ namespace EmailService.Controllers
                 SmtpClient SmtpServer = new SmtpClient(SMTPServer);
 
                 mail.From = new MailAddress(Mail);
-                mail.To.Add(to);
-                mail.Subject = subject;
-                mail.Body = body;
+                mail.To.Add(request.To);
+                mail.Subject = request.Subject;
+                mail.Body = request.Body;
 
                 SmtpServer.Port = Port;
                 SmtpServer.Credentials = new System.Net.NetworkCredential(Mail, Password);

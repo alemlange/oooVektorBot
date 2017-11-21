@@ -104,18 +104,36 @@ jQuery(document).ready(function() {
 
     $('.js-try').on('click', function () {
         $("#MessageModal").show();
+
+        var container = $("#MessageModal");
+        container.find(".js-send-request").show();
+        container.find(".js-spinner").hide();
+        container.find(".request-success").hide();
+        container.find(".fields-request").show();
     });
 
     $('.js-send-request').on('click', function () {
 
-        var orgName = $("#MessageModal").find(".js-org-name").val();
-        var email = $("#MessageModal").find(".js-email").val();
-        var comment = $("#MessageModal").find(".js-comment").val();
+        var container = $("#MessageModal");
+        container.find(".js-send-request").hide();
+        container.find(".js-spinner").show();
+
+        var orgName = container.find(".js-org-name").val();
+        var email = container.find(".js-email").val();
+        var comment = container.find(".js-comment").val();
         var target = $(this).data("target");
 
         $.post(target, { orgName: orgName, email: email, comment: comment }).done(function (data) {
-            alert("ok!");
-            $("#MessageModal").hide();
+
+            container.find(".request-success").show();
+            container.find(".fields-request").hide();
+            
+            container.find(".js-send-request").hide();
+            container.find(".js-spinner").hide();
+
+            setTimeout(function () {
+                container.hide();
+            }, 3000);
         });
     });
 });

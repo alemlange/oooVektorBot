@@ -69,6 +69,44 @@
         </div>
     </div>
 
+    <div id="bot-section" class="features-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 pricing">
+                    <h3>Бот</h3>
+                    <p></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 toLeft">
+                    <p>Очень много текста описание и тд и твавыаыа ываыфавфыаываю ыва.а выа ы.ва ыва ыва ыва</p>
+                </div>
+                <div class="col-md-6 toIn">
+                    <img src="~/Assets/img/app-features-ipad-big.png">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bot-section" class="pricing-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 pricing">
+                    <h3>Админка</h3>
+                    <p></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 toLeft">
+                    <img src="~/Assets/img/iPad-Pro-Horizontal-Split-Screen.png">
+                </div>
+                <div class="col-md-6 toIn">
+                    <p>Админннннннннкакакакакаавфывф</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Features -->
     <div id="features-section" class="features-container">
         <div class="container">
@@ -336,22 +374,28 @@
                 </div>
                 <form class="form-horizontal col-sm-12">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label>Организация</label>
-                            <input class="form-control required js-org-name" placeholder="Название вашей организации" data-placement="top" data-trigger="manual" data-content="Must be at least 3 characters long, and must only contain letters." type="text" />
+                        <div class="fields-request">
+                            <div class="form-group">
+                                <label>Организация</label>
+                                <input class="form-control required js-org-name" placeholder="Название вашей организации" data-placement="top" data-trigger="manual" data-content="Must be at least 3 characters long, and must only contain letters." type="text" />
+                            </div>
+                            <div class="form-group">
+                                <label>E-Mail</label>
+                                <input class="form-control email js-email" placeholder="email@you.com (по которому мы сможем с вами связаться)" data-placement="top" data-trigger="manual" data-content="Must be a valid e-mail address (user@gmail.com)" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label>Коментарий</label>
+                                <textarea class="form-control js-comment" placeholder="Любые ваши пожелания..." data-placement="top" data-trigger="manual"></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>E-Mail</label>
-                            <input class="form-control email js-email" placeholder="email@you.com (по которому мы сможем с вами связаться)" data-placement="top" data-trigger="manual" data-content="Must be a valid e-mail address (user@gmail.com)" type="text">
-                        </div>
-                        <div class="form-group">
-                            <label>Коментарий</label>
-                            <textarea class="form-control js-comment" placeholder="Любые ваши пожелания..." data-placement="top" data-trigger="manual"></textarea>
+                        <div class="request-success">
+                            <h3>Ваша заявка успешно отправлена!</h3>
                         </div>
                     </div>
                 </form>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success pull-right js-send-request" data-target="@Url.Action("NewRequest","Home")">Отправить</button>
+                    <button class="btn btn-success pull-right js-spinner"><i class="fa fa-spinner fa-spin"></i></button>
                 </div>
             </div>
         </div>

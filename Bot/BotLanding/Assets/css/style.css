@@ -300,6 +300,14 @@ color: #888;
 	color: #fff;
 }
 
+.request-success{
+    text-align: center;
+}
+
+.request-success h3{
+    color: black;
+}
+
 /***** Top menu *****/
 
 .navbar-default {

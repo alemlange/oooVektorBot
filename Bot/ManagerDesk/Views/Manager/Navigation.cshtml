@@ -4,11 +4,11 @@
     <div class="profile-item">
         @if (!string.IsNullOrEmpty(Model.UserPicPath))
         {
-            <img alt="image" class="img-circle" src="@Url.Content(Model.UserPicPath)">
+            <img alt="image" class="img-rounded" src="@Url.Content(Model.UserPicPath)">
         }
         else
         {
-            <img alt="image" class="img-circle" src="@Url.Content("empty-profile-img.png")">
+            <img alt="image" class="img-rounded" src="@Url.Content("empty-profile-img.png")">
         }
 
         @if (!string.IsNullOrEmpty(Model.OrgName))

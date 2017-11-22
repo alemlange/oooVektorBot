@@ -7,11 +7,30 @@ body {
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;	
 }
-
+.slick-slide{
+    margin-left: 15px;
+    margin-right: 15px;
+}
 :focus {
     outline: 0 !important
 }
 
+.pad-img {
+    margin-top: 80px;
+}
+.img-hover {
+    overflow: hidden;
+    position: relative;
+    border: 6px solid #323A45;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
+    -webkit-transition: border .2s ease;
+    -moz-transition: border .2s ease;
+    -ms-transition: border .2s ease;
+    -o-transition: border .2s ease;
+    transition: border .2s ease;
+}
 strong { 
 	font-weight: 600; 
 }

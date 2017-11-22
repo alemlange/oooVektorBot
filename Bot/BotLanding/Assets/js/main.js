@@ -136,11 +136,20 @@ jQuery(document).ready(function() {
             }, 3000);
         });
     });
+
     $('.slick-screens').slick({
+        dots: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        autoplay: false,
+        autoplaySpeed: 2000,
+    });
+
+    $('.slick-screens-admin').slick({
         dots: true,
         slidesToShow: 2,
         slidesToScroll: 1,
-        autoplay: true,
+        autoplay: false,
         autoplaySpeed: 2000,
     });
 });

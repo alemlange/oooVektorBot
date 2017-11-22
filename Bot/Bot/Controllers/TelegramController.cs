@@ -28,7 +28,7 @@ namespace Bot.Controllers
     {
         static class Bot
         {
-            public static readonly TelegramBotClient Api = new TelegramBotClient("392797621:AAECgGELrjENABjPvPnorEaE0BjnlHN-qY0");
+            public static readonly TelegramBotClient Api = new TelegramBotClient("498869682:AAH-IwVHEdKM09SjjIHO7D0rx27z7-ZfCbI");
         }
 
         [HttpGet]

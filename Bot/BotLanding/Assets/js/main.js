@@ -143,7 +143,7 @@ jQuery(document).ready(function() {
         dots: true,
         slidesToShow: 4,
         slidesToScroll: 1,
-        autoplay: false,
+        autoplay: true,
         autoplaySpeed: 2000,
     });
 
@@ -151,7 +151,7 @@ jQuery(document).ready(function() {
         dots: true,
         slidesToShow: 2,
         slidesToScroll: 1,
-        autoplay: false,
+        autoplay: true,
         autoplaySpeed: 2000,
     });
 });

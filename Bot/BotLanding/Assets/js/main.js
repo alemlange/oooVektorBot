@@ -106,6 +106,7 @@ jQuery(document).ready(function() {
         $("#MessageModal").show();
 
         var container = $("#MessageModal");
+        container.data("btntp", $(this).data("btntp"));
         container.find(".js-send-request").show();
         container.find(".js-spinner").hide();
         container.find(".request-success").hide();
@@ -117,13 +118,14 @@ jQuery(document).ready(function() {
         var container = $("#MessageModal");
         container.find(".js-send-request").hide();
         container.find(".js-spinner").show();
+        var type = container.data("btntp");
 
         var orgName = container.find(".js-org-name").val();
         var email = container.find(".js-email").val();
         var comment = container.find(".js-comment").val();
         var target = $(this).data("target");
 
-        $.post(target, { orgName: orgName, email: email, comment: comment }).done(function (data) {
+        $.post(target, { orgName: orgName, email: email, comment: comment,type: type }).done(function (data) {
 
             container.find(".request-success").show();
             container.find(".fields-request").hide();

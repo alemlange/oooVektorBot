@@ -144,6 +144,7 @@ jQuery(document).ready(function() {
         slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: true,
+        arrows: false,
         autoplaySpeed: 2000,
     });
 
@@ -152,6 +153,7 @@ jQuery(document).ready(function() {
         slidesToShow: 2,
         slidesToScroll: 1,
         autoplay: true,
+        arrows: false,
         autoplaySpeed: 2000,
     });
 });

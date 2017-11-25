@@ -325,7 +325,7 @@ namespace LiteDbService
                 {
                     foreach(var table in tables)
                     {
-                        table.Restaurant = Guid.Empty;
+                        table.State = SessionState.Closed;
                         colTables.Update(table);
                     }
                 }

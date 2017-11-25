@@ -52,7 +52,7 @@ namespace LiteDbService
                 var restaurant = restaurantCol.Find(r => r.Id == restId).FirstOrDefault();
 
                 var menuCol = db.GetCollection<Menu>("Menus");
-                return menuCol.Find(o => o.Id == restaurant.Id).FirstOrDefault();
+                return menuCol.Find(o => o.Id == restaurant.Menu).FirstOrDefault();
             }
         }
 

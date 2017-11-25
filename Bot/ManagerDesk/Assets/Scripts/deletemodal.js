@@ -13,6 +13,9 @@
             $(this.id).modal('show');
         }
     },
+    setText: function (newText) {
+        $("#deletemodal").find(".modal-text").html(newText);
+    },
     delete: function () {
         $.post(this.target, { itemId: this.itemid, itemType: this.type }).done(function (data) {
             $("#deletemodal").modal('hide');

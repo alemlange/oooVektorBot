@@ -95,13 +95,13 @@ namespace ManagerDesk.Controllers
                 if (curMenu != null)
                 {
                     activeTables = service.GetActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
-                    inActiveTables = service.GetInActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
+                    inActiveTables = service.GetInActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
                 }
             }
             else
             {
                 activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
-                inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
             }
             var model = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };
 

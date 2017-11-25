@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
     $(".navbar-left-btn").on("click", function () {
         if ($(this).hasClass("js-opened")) {
@@ -198,7 +198,15 @@ $(document).ready(function () {
         e.preventDefault();
 
         var chosenCard = $(this).parents(".info-item");
-        DeleteModal.show(chosenCard.data("itemid"), chosenCard.data("type"), $(this).data("target"))
+
+        var type = chosenCard.data("type");
+        if (type == "Restaurant") {
+            DeleteModal.setText("Удалить этот ресторан? При удалении ресторана произойдет удаление всех связанных с ним столиков!");
+        }
+        else {
+            DeleteModal.setText("Удалить этот элемент?");
+        }
+        DeleteModal.show(chosenCard.data("itemid"), type, $(this).data("target"))
     });
 
     $(".js-table-body").on("click", ".js-toolbar-close-table", function (e) {

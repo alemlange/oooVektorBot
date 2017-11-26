@@ -32,6 +32,12 @@ namespace Bot.Controllers
         }
 
         [HttpGet]
+        public string Test()
+        {
+            return "Ok";
+        }
+
+        [HttpGet]
         public string Start(string key) //http://localhost:8443/Telegram/Start?key=
         {
             Bot.Api.SetWebhookAsync().Wait();

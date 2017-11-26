@@ -230,51 +230,6 @@ ul {
   box-shadow: none;
 }
 
-/*input[type="text"],
-textarea {
-    margin: 0;
-    padding: 0 10px;
-    vertical-align: middle;
-  background: rgba(250, 250, 250, 0.08);
-     border: none;
-	width: 100%;
-	color: #FFF;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 50px;
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    -o-transition: all .3s;
-    -moz-transition: all .3s;
-    -webkit-transition: all .3s;
-    -ms-transition: all .3s;
-    transition: all .3s;
-}
-
-input[type="text"]:focus, 
-textarea:focus {
-	outline: 0;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}
-
-input[type="text"]:-moz-placeholder, textarea:-moz-placeholder { color: #888; 
-}
-
-input[type="text"]:-ms-input-placeholder, textarea:-ms-input-placeholder { 
-color: #888; 
-}
-
-input[type="text"]::-webkit-input-placeholder, textarea::-webkit-input-placeholder { 
-color: #888; 
-}*/
-
 .btn-subscribe, 
 .btn-contact {
     margin: 0;

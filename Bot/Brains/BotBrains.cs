@@ -40,11 +40,11 @@ namespace Brains
 
                 var dataConfig = _regService.FindConfig(accountId);
                 Config = new BrainsConfig
-                        {
-                            DishesPerPage = dataConfig.DishesPerPage,
-                            Greetings = dataConfig.BotGreeting,
-                            PicturePath = ConfigurationSettings.FilePath
-                        };
+                {
+                    DishesPerPage = dataConfig.DishesPerPage,
+                    Greetings = dataConfig.BotGreeting,
+                    PicturePath = ConfigurationSettings.FilePath
+                };
 
                 var allDishes = _service.GetAllDishes();
                 DishNames = new List<string>();
@@ -62,6 +62,41 @@ namespace Brains
             }
             else
                 throw new Exception("AccountId setting not found in webconfig.");   
+        }
+
+        public void SystemDiagnostic()
+        {
+            var menus = _service.GetAllMenus();
+            if (!menus.Any())
+            {
+                throw new Exception("В системе нет ни одного активного меню!");
+            }
+            /*
+            else
+            {
+                var noDishesMenus = menus.Where(m => m.DishList == null || !m.DishList.Any());
+                if (noDishesMenus.Any())
+                {
+                    throw new Exception("В системе есть меню, не содержащие ни одного блюда!");
+                }
+            }            
+            */
+            /*
+            var dishes = _service.GetAllDishes();
+            if (!dishes.Any())
+                throw new Exception("В системе нет ни одного Блюда!");
+            */
+            var restaurants = _service.GetAllRestaurants();
+            if (!restaurants.Any())
+            {
+                throw new Exception("В системе нет ни одного ресторана!");
+            }
+            else
+            {
+                var noMenuRestaurants = restaurants.Where(r => r.Menu == Guid.Empty);
+                if (!noMenuRestaurants.Any())
+                    throw new Exception("В системе нет ресторана с привязанным меню!");
+            }
         }
 
         public SessionState GetState(long chatId)

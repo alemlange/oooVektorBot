@@ -34,7 +34,17 @@ namespace Bot.Controllers
         [HttpGet]
         public string Test()
         {
-            return "Ok";
+            try
+            {
+                var bot = new BotBrains();
+                bot.SystemDiagnostic();
+
+                return "Ok";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         [HttpGet]

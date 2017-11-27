@@ -173,7 +173,7 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditMenu(Guid menuId, string name, Guid rest)
+        public ActionResult EditMenu(Guid menuId, string name, bool defaultMenu, Guid rest)
         {
             try
             {
@@ -182,7 +182,7 @@ namespace ManagerDesk.Controllers
 
                 if (menuId == Guid.Empty)
                 {
-                    var menu = new Menu { MenuName = name, DishList = new List<Dish>(), CategoriesSorted = new List<string>() };
+                    var menu = new Menu { MenuName = name, DefaultMenu = defaultMenu, DishList = new List<Dish>(), CategoriesSorted = new List<string>() };
                     var newMenu = service.CreateNewMenu(menu);
                     restaurant.Menu = newMenu;
                     service.UpdateRestaurant(restaurant);
@@ -191,7 +191,7 @@ namespace ManagerDesk.Controllers
                 {
                     var curMenu = service.GetMenu(menuId);
                     curMenu.MenuName = name;
-                    //curMenu.Restaurant = rest;
+                    curMenu.DefaultMenu = defaultMenu;
                     service.UpdateMenu(curMenu);
                     restaurant.Menu = curMenu.Id;
                     service.UpdateRestaurant(restaurant);

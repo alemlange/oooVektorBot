@@ -12,6 +12,7 @@
             var container = form.parent();
             var menuId = container.data("itemid");
             var name = container.find(".js-name").val();
+            var defaultMenu = container.find(".js-defaultMenu").val();
 
             var rest = "00000000-0000-0000-0000-000000000000";
             var chosenRestBtn = container.find(".js-chosen-rest");
@@ -20,7 +21,7 @@
                 rest = chosenRestBtn.data("value");
             }
 
-            $.post(target, { menuId: menuId, name: name, rest: rest }).done(function (data) {
+            $.post(target, { menuId: menuId, name: name, defaultMenu: defaultMenu, rest: rest }).done(function (data) {
                 $(".js-menu-section").trigger("click");
             }).fail(function (data) {
                 AlertModal.text = "Не получилось создать меню!";

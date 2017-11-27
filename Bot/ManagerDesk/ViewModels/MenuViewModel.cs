@@ -22,6 +22,8 @@ namespace ManagerDesk.ViewModels
 
         public string AttachedRestaurantName { get; set; }
 
+        public bool DefaultMenu { get; set; }
+
         public List<RestaurantDropDown> AvailableRests { get; set; }
 
         public List<DishListViewModel> GroupedDishes { get; set; }

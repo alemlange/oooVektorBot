@@ -23,9 +23,12 @@
                         </ul>
                     }
                 </div>
+                <p>
+                    @Html.CheckBoxFor(model => model.DefaultMenu, new { htmlAttributes = new { @class = "form-control js-defaultMenu"} })
+                    Меню для неавторизованных пользователей
+                </p>
 
                 <button class="btn btn-save-dishes js-save-menu" type="submit">Сохранить</button>
-
             }
         </div>
     @*</div>

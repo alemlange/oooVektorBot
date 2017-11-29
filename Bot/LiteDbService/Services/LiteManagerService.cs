@@ -181,6 +181,29 @@ namespace LiteDbService
             }
         }
 
+        public void SetDefaultMenu(Guid menuId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Menu>("Menus");
+                var munus = col.FindAll();
+
+                foreach (var menu in munus)
+                {
+                    if (menu.Id == menuId)
+                    {
+                        menu.DefaultMenu = true;
+                    }
+                    else
+                    {
+                        menu.DefaultMenu = false;
+                    }
+                }
+
+                col.Update(munus);
+            }
+        }
+
         public Guid CreateNewDish(Dish dish)
         {
             using (var db = new LiteDatabase(CurrentDb))

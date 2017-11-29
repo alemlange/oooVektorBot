@@ -197,6 +197,9 @@ namespace ManagerDesk.Controllers
                     service.UpdateRestaurant(restaurant);
                 }
 
+                if (defaultMenu == true)
+                    service.SetDefaultMenu(menuId);
+
                 return Json(new { isAuthorized = true, isSuccess = true });
             }
             catch (Exception ex)

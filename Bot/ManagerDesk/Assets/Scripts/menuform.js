@@ -12,7 +12,11 @@
             var container = form.parent();
             var menuId = container.data("itemid");
             var name = container.find(".js-name").val();
-            var defaultMenu = container.find(".js-defaultMenu").val();
+
+            var defaultMenu = false;
+            if (container.find(".js-defaultMenu").is(":checked")) {
+                var defaultMenu = true;
+            }
 
             var rest = "00000000-0000-0000-0000-000000000000";
             var chosenRestBtn = container.find(".js-chosen-rest");

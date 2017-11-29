@@ -23,11 +23,17 @@
                         </ul>
                     }
                 </div>
-                <p>
-                    @Html.CheckBoxFor(model => model.DefaultMenu, new { htmlAttributes = new { @class = "form-control js-defaultMenu"} })
-                    Меню для неавторизованных пользователей
-                </p>
 
+                <div class="form-check">
+                    <label class="form-check-label">
+                        Показывать это меню тех кто еще не выбрал ресторан.
+                        <input type="checkbox" class="form-check-input js-defaultMenu" @Model.DefaultMenuStyle>
+                    </label>
+                </div>
+
+                @*@Html.CheckBoxFor(model => model.DefaultMenu, new { htmlAttributes = new { @class = "form-control js-defaultMenu" } })
+                @Html.LabelFor(model => model.DefaultMenu, "Показывать это меню тех кто еще не выбрал ресторан.", htmlAttributes: new { @class = "control-label" })*@
+                
                 <button class="btn btn-save-dishes js-save-menu" type="submit">Сохранить</button>
             }
         </div>

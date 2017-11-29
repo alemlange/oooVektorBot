@@ -339,6 +339,10 @@
     <Content Include="Assets\Scripts\libs\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Clients\Clients.csproj">
+      <Project>{5ca5c36e-b820-4f07-bc53-ee4f51a02713}</Project>
+      <Name>Clients</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataModels\DataModels.csproj">
       <Project>{41b649f7-1207-4e00-92b2-8c051ce91424}</Project>
       <Name>DataModels</Name>

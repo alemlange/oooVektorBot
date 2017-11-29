@@ -50,17 +50,23 @@ namespace Bot.Controllers
         [HttpGet]
         public string Start(string key) //http://localhost:8443/Telegram/Start?key=
         {
-            Bot.Api.SetWebhookAsync().Wait();
-            Bot.Api.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
+            var testResult = Test();
+            if (testResult == "Ok")
+            {
+                Bot.Api.SetWebhookAsync().Wait();
+                Bot.Api.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
 
-            // remove all tables
-            //var accountId = ConfigurationSettings.AccountId;
-            //var regService = ServiceCreator.GetRegistrationService();
-            //var account = regService.FindAccount(accountId);
-            //var service = ServiceCreator.GetCustomerService(account.Login);
-            //service.RemoveAllTables();
+                // remove all tables
+                //var accountId = ConfigurationSettings.AccountId;
+                //var regService = ServiceCreator.GetRegistrationService();
+                //var account = regService.FindAccount(accountId);
+                //var service = ServiceCreator.GetCustomerService(account.Login);
+                //service.RemoveAllTables();
 
-            return "Ok" ;
+                return "Ok";
+            }
+            else
+                return testResult;
         }
 
         [HttpPost]

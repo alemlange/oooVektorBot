@@ -24,6 +24,14 @@ namespace ManagerDesk.ViewModels
 
         public bool DefaultMenu { get; set; }
 
+        public string DefaultMenuStyle
+        {
+            get
+            {
+                return DefaultMenu ? "checked='checked'" : "";
+            }
+        }
+
         public List<RestaurantDropDown> AvailableRests { get; set; }
 
         public List<DishListViewModel> GroupedDishes { get; set; }

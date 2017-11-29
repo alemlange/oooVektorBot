@@ -10,6 +10,7 @@ using AutoMapper;
 using DataModels;
 using DataModels.Exceptions;
 using ManagerDesk.Services;
+using Clients;
 
 namespace ManagerDesk.Controllers
 {
@@ -37,8 +38,34 @@ namespace ManagerDesk.Controllers
             var regService = new RegistrationService();
             var config = regService.FindConfiguration(User.Identity.Name);
 
-            var model = new NavigationViewModel { UserPicPath = config.ProfilePicturePath, OrgName= config.OrgName };
+            var model = new NavigationViewModel { UserPicPath = config.ProfilePicturePath, OrgName = config.OrgName };
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult BotStatus()
+        {
+            var regService = new RegistrationService();
+            var config = regService.FindConfiguration(User.Identity.Name);
+
+            try
+            {
+                var status = new BotClient(config.TelegramBotLocation).GetStatus();
+
+                if (status == "Ok")
+                {
+                    return Json(new { isAuthorized = true, isSuccess = true, okStatus = true }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { isAuthorized = true, isSuccess = true, okStatus = false, msg = status }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch
+            {
+                return Json(new { isAuthorized = true, isSuccess = true, okStatus = false, msg = "Не получилось связаться с ботом" }, JsonRequestBehavior.AllowGet);
+            }
+ 
         }
 
         [HttpGet]
@@ -48,6 +75,7 @@ namespace ManagerDesk.Controllers
             var rests = service.GetAllRestaurants();
             if (rests != null && rests.Any())
             {
+                rests.Add( new Restaurant { Name="Все", Id = Guid.Empty});
                 var model = new RestOptionsViewModel { AvailableRests = rests };
 
                 var restCookie = Request.Cookies.Get("CurRest");
@@ -58,15 +86,13 @@ namespace ManagerDesk.Controllers
 
                     if(rest == null)
                     {
-                        var randRest = rests.FirstOrDefault();
-
-                        restCookie.Value = randRest.Id.ToString();
+                        restCookie.Value = Guid.Empty.ToString();
                         Response.Cookies.Set(restCookie);
-                        model.CurrentRest = randRest;
+                        model.CurrentRest = Guid.Empty;
                     }
                     else
                     {
-                        model.CurrentRest = rest;
+                        model.CurrentRest = rest.Id;
                     } 
                 }
 
@@ -74,7 +100,7 @@ namespace ManagerDesk.Controllers
             }
             else
             {
-                var model = new RestOptionsViewModel { AvailableRests = new List<Restaurant>() };
+                var model = new RestOptionsViewModel { AvailableRests = new List<Restaurant> { new Restaurant { Name = "Все", Id = Guid.Empty } } };
                 return View(model);
             }
         }
@@ -90,13 +116,19 @@ namespace ManagerDesk.Controllers
             var restCookie = Request.Cookies.Get("CurRest");
             if (restCookie != null)
             {
-                var curRest = restCookie.Value;
-                var curMenu = service.GetMenuByRestaurant(Guid.Parse(curRest));           
+                var curRest = Guid.Parse(restCookie.Value);
+                var curMenu = service.GetMenuByRestaurant(curRest);           
                 if (curMenu != null)
                 {
                     activeTables = service.GetActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
                     inActiveTables = service.GetInActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
                 }
+                else if(curRest == Guid.Empty)
+                {
+                    activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                    inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
+                }    
+                
             }
             else
             {

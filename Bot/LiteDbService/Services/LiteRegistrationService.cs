@@ -39,7 +39,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Config>("Configs");
-                var config = new Config { Id = Guid.NewGuid(), AccountId = accountId };
+                var config = new Config { Id = Guid.NewGuid(), AccountId = accountId, TelegramBotLocation = "http://localhost:8086/" };
 
                 col.Insert(config);
                 return config;

@@ -10,11 +10,11 @@ namespace ManagerDesk.ViewModels
     {
         public List<Restaurant> AvailableRests { get; set; }
 
-        public Restaurant CurrentRest { get; set; }
+        public Guid CurrentRest { get; set; }
 
         public string SelectedOptionStyle(Guid restId)
         {
-            return CurrentRest != null && restId == CurrentRest.Id ? "selected": "";
+            return restId == CurrentRest ? "selected": "";
         }
     }
 }

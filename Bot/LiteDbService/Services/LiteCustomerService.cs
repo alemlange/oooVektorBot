@@ -316,16 +316,34 @@ namespace LiteDbService
 
                 if (table == null)
                 {
-                    return GetAllMenus().FirstOrDefault();
+                    return null;
                 }
                 else
                 {
                     var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
                     var restaurant = restaurantCol.Find(r => r.Id == table.Restaurant).FirstOrDefault();
 
-                    var menuId = restaurant.Menu;
-                    return menuCol.Find(m => m.Id == menuId).FirstOrDefault();
+                    if(restaurant != null)
+                    {
+                        var menuId = restaurant.Menu;
+                        return menuCol.Find(m => m.Id == menuId).FirstOrDefault();
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
+
+            }
+        }
+
+        public Menu GetStandartMenu(long chatId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var menuCol = db.GetCollection<Menu>("Menus");
+
+                return menuCol.Find(m => m.DefaultMenu).FirstOrDefault() ?? menuCol.FindAll().FirstOrDefault();
             }
         }
         #endregion

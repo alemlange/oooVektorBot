@@ -268,7 +268,7 @@ namespace Brains
                     _service.UpdateTableState(chatId, SessionState.Sitted);
                 }
 
-                var menu = _service.GetMenuByTable(chatId);
+                var menu = _service.GetMenuByTable(chatId) ?? _service.GetStandartMenu(chatId);
 
                 var respText = "<b>" + menu.MenuName + "</b>" + Environment.NewLine;
 

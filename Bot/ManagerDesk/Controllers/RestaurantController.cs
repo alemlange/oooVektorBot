@@ -67,6 +67,7 @@ namespace ManagerDesk.Controllers
                         Latitude = RestModel.Latitude,
                         Longitude = RestModel.Longitude,
                         Name = RestModel.Name,
+                        Menu = RestModel.Menu,
                         TableCount = RestModel.TableCount
                     };
 

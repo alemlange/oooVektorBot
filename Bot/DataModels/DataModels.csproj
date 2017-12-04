@@ -47,6 +47,7 @@
     <Compile Include="Configuration\ConfigurationSettings.cs" />
     <Compile Include="Email\EmailRequest.cs" />
     <Compile Include="Enums\SessionState.cs" />
+    <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\AuthException.cs" />
     <Compile Include="Exceptions\TableNotFoundException.cs" />
     <Compile Include="Models\Dish.cs" />

@@ -11,6 +11,7 @@ namespace DataModels.Enums
         Unknown,
         Restaurant,
         Queue,
+        MenuCategory,
         Sitted,
         Remark,
         OrderingDish,

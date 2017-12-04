@@ -247,7 +247,7 @@ namespace Brains
             {
                 ChatId = chatId,
                 ResponceText = respText,
-                State = SessionState.Sitted
+                //State = SessionState.Sitted
             };
         }
 
@@ -350,14 +350,31 @@ namespace Brains
                 {
                     ChatId = chatId,
                     ResponceText = "Отлично! Выберите столик!",
-                    State = SessionState.Queue
+                    //State = SessionState.Queue
                 };
-
             }
             catch (Exception)
             {
                 return Responce.UnknownResponce(chatId);
             }  
+        }
+
+        public Responce ShowMenuCategories(long chatId)
+        {
+            try
+            {
+                _service.UpdateTableState(chatId, SessionState.MenuCategory);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Выберите раздел меню!",
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
         }
 
         public Responce Number(long chatId, int tableNumber)
@@ -371,7 +388,7 @@ namespace Brains
                 {
                     ChatId = chatId,
                     ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
-                    State = SessionState.Sitted
+                    //State = SessionState.Sitted
                 };
 
             }
@@ -396,7 +413,7 @@ namespace Brains
                 {
                     ChatId = chatId,
                     ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
-                    State = SessionState.Sitted
+                    //State = SessionState.Sitted
                 };
 
             }
@@ -420,7 +437,7 @@ namespace Brains
                     {
                         ChatId = chatId,
                         ResponceText = "Привет! В каком вы ресторане?",
-                        State = SessionState.Restaurant
+                        //State = SessionState.Restaurant
                     };
                 }
                 else
@@ -433,7 +450,7 @@ namespace Brains
                     {
                         ChatId = chatId,
                         ResponceText = "Напишите номер столика, за которым вы сидите",
-                        State = SessionState.Queue
+                        //State = SessionState.Queue
                     };
                 }
             }
@@ -453,7 +470,7 @@ namespace Brains
                 {
                     ChatId = chatId,
                     ResponceText = "Привет! За каким столиком вы сидите?",
-                    State = SessionState.Queue
+                    //State = SessionState.Queue
                 };
             }
             catch (Exception)
@@ -473,7 +490,7 @@ namespace Brains
                 {
                     ChatId = chatId,
                     ResponceText = "Официант уже идет",
-                    State = SessionState.Sitted
+                    //State = SessionState.Sitted
                 };
             }
             catch (Exception)
@@ -505,7 +522,7 @@ namespace Brains
                 {
                     ChatId = chatId,
                     ResponceText = respText,
-                    State = SessionState.Sitted
+                    //State = SessionState.Sitted
                 };
             }
             catch (Exception)

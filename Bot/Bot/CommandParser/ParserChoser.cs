@@ -14,6 +14,11 @@ namespace Bot.CommandParser
             var state = bot.GetState(chatId);
             switch (state)
             {
+                case SessionState.MenuCategory:
+                    {
+                        return new RestruntSessionParser(bot.RestaurantNames);
+                        //return new MenuCategorySessionParser();
+                    }
                 case SessionState.Restaurant:
                     {
                         return new RestruntSessionParser(bot.RestaurantNames);

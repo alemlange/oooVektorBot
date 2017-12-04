@@ -13,7 +13,7 @@ namespace Brains.Responces
 
         public string ResponceText { get; set; }
 
-        public SessionState State { get; set; }
+        //public SessionState State { get; set; }
 
         public static Responce UnknownResponce(long chatId)
         {

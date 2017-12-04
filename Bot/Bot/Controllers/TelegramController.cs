@@ -157,6 +157,16 @@ namespace Bot.Controllers
                                 }
                             case CmdTypes.Menu:
                                 {
+                                    var responce = bot.ShowMenuCategories(chatId);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;                                }
+                            case CmdTypes.Dishes:
+                                {
                                     var response = bot.ShowMenuOnPage(chatId);
 
                                     if (response.PageCount > 1)
@@ -167,7 +177,7 @@ namespace Bot.Controllers
                                     }
                                     else
                                         await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html);
-                                    
+
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
                                         "Хотите увидеть блюдо подробнее? Просто кликните по слэш-ссылке рядом с блюдом.",

@@ -18,7 +18,7 @@ namespace Bot.CommandParser
         CustomKeyboard,
         Picture,
         PictureLink,
-        MenuCategories,
+        Dishes,
         Slash,
         Waiter,
         MyOrder,

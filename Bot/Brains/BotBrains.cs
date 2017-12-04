@@ -93,9 +93,9 @@ namespace Brains
             }
             else
             {
-                var noMenuRestaurants = restaurants.Where(r => r.Menu == Guid.Empty);
-                if (!noMenuRestaurants.Any())
-                    throw new Exception("В системе нет ресторана с привязанным меню!");
+                //var noMenuRestaurants = restaurants.Where(r => r.Menu == Guid.Empty);
+                //if (!noMenuRestaurants.Any())
+                //    throw new Exception("В системе нет ресторана с привязанным меню!");
             }
         }
 

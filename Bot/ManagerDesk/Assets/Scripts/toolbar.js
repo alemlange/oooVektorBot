@@ -23,7 +23,7 @@
                             content: data.msg,
                             title: "Статус бота",
                             placement: "bottom",
-                            trigger: "manual",
+                            trigger: "click",
                             template: '<div class="popover status-popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
                         });
                         $(".bot-status").popover("show");

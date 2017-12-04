@@ -5,8 +5,10 @@
         </div>
         <ul class="toolbar-top">
             <li>
+                <label class="active-rest-label">Текущий ресторан:</label>
+            </li>
+            <li>
                 <div class="active-rest">
-                    <label>Текущий ресторан:</label>
                     <select class="form-control js-rest-select" data-target="@Url.Action("RestaurantOptions","Manager")">
                         @Html.Action("RestaurantOptions")
                     </select>

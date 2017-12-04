@@ -52,7 +52,7 @@ namespace ManagerDesk.Controllers
             {
                 var status = new BotClient(config.TelegramBotLocation).GetStatus();
 
-                if (status == "Ok")
+                if (status.Contains("Ok"))
                 {
                     return Json(new { isAuthorized = true, isSuccess = true, okStatus = true }, JsonRequestBehavior.AllowGet);
                 }

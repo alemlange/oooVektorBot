@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.IO;
@@ -380,11 +381,23 @@ namespace Bot.Controllers
 
                 if(chatId != 0)
                 {
-                    var excResponce = Responce.UnknownResponce(chatId);
-                    await Bot.Api.SendTextMessageAsync(
-                    chatId,
-                    excResponce.ResponceText,
-                    parseMode: ParseMode.Html);
+                    if (ex.Message.Contains("429"))
+                    {
+                        var excResponce = Responce.UnknownResponce(chatId);
+                        await Bot.Api.SendTextMessageAsync(
+                        chatId,
+                        "К сожалению Телеграм не позволяет нам так часто вам отвечать 😔, подождите пару минут пожалуйста.",
+                        parseMode: ParseMode.Html);
+                    }
+                    else
+                    {
+                        var excResponce = Responce.UnknownResponce(chatId);
+                        await Bot.Api.SendTextMessageAsync(
+                        chatId,
+                        excResponce.ResponceText,
+                        parseMode: ParseMode.Html);
+                    }
+                    
                 }
             }
 

@@ -9,6 +9,7 @@
         var target = $(this).data("target");
         $.get(target).done(function (data) {
             $(".active-rest").show();
+            $(".active-rest-label").show();
             $(".js-table-body").html(data);
             equalHeight($(".info-item"));
         }).fail(function (ex) {
@@ -31,6 +32,7 @@
         var target = $(this).data("target");
         $.get(target).done(function (data) {
             $(".active-rest").hide();
+            $(".active-rest-label").hide();
             $(".js-table-body").html(data);
             equalHeight($(".info-item"));
         });
@@ -45,6 +47,7 @@
         var target = $(this).data("target");
         $.get(target).done(function (data) {
             $(".active-rest").hide();
+            $(".active-rest-label").hide();
             $(".js-table-body").html(data);
             equalHeight($(".info-item"));
         });
@@ -59,6 +62,7 @@
         var target = $(this).data("target");
         $.get(target).done(function (data) {
             $(".active-rest").hide();
+            $(".active-rest-label").hide();
             $(".js-table-body").html(data);
             equalHeight($(".info-item"));
         });
@@ -80,6 +84,7 @@
         var target = $(this).data("target");
         $.get(target).done(function (data) {
             $(".active-rest").hide();
+            $(".active-rest-label").hide();
             $(".js-table-body").html(data);
             //equalHeight($(".info-item"));
         });

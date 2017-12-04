@@ -39,29 +39,35 @@ namespace Brains
                 _service = ServiceCreator.GetCustomerService(account.Login);
 
                 var dataConfig = _regService.FindConfig(accountId);
-                Config = new BrainsConfig
+                if (dataConfig != null)
                 {
-                    DishesPerPage = dataConfig.DishesPerPage,
-                    Greetings = dataConfig.BotGreeting,
-                    PicturePath = ConfigurationSettings.FilePath
-                };
+                    Config = new BrainsConfig
+                    {
+                        DishesPerPage = dataConfig.DishesPerPage,
+                        Greetings = dataConfig.BotGreeting,
+                        PicturePath = ConfigurationSettings.FilePath
+                    };
 
-                var allDishes = _service.GetAllDishes();
-                DishNames = new List<string>();
-                foreach (var dish in allDishes)
-                {
-                    DishNames.Add(dish.Name.ToLower());
-                }
+                    var allDishes = _service.GetAllDishes();
+                    DishNames = new List<string>();
+                    foreach (var dish in allDishes)
+                    {
+                        DishNames.Add(dish.Name.ToLower());
+                    }
 
-                var allRestaurants = _service.GetAllRestaurants();
-                RestaurantNames = new List<string>();
-                foreach (var restrunt in allRestaurants)
-                {
-                    RestaurantNames.Add(restrunt.Name);
+                    var allRestaurants = _service.GetAllRestaurants();
+                    RestaurantNames = new List<string>();
+                    foreach (var restrunt in allRestaurants)
+                    {
+                        RestaurantNames.Add(restrunt.Name);
+                    }
                 }
+                else
+                    throw new ConfigurationException("Настройки для аккаунта не найдены!");
+
             }
             else
-                throw new Exception("AccountId setting not found in webconfig.");   
+                throw new ConfigurationException("Не заполнено поле AccountId в боте!");   
         }
 
         public void SystemDiagnostic()
@@ -69,33 +75,18 @@ namespace Brains
             var menus = _service.GetAllMenus();
             if (!menus.Any())
             {
-                throw new Exception("В системе нет ни одного активного меню!");
+                throw new ConfigurationException("В системе нет ни одного активного меню!");
             }
-            /*
-            else
-            {
-                var noDishesMenus = menus.Where(m => m.DishList == null || !m.DishList.Any());
-                if (noDishesMenus.Any())
-                {
-                    throw new Exception("В системе есть меню, не содержащие ни одного блюда!");
-                }
-            }            
-            */
-            /*
-            var dishes = _service.GetAllDishes();
-            if (!dishes.Any())
-                throw new Exception("В системе нет ни одного Блюда!");
-            */
             var restaurants = _service.GetAllRestaurants();
             if (!restaurants.Any())
             {
-                throw new Exception("В системе нет ни одного ресторана!");
+                throw new ConfigurationException("В системе нет ни одного ресторана!");
             }
             else
             {
-                //var noMenuRestaurants = restaurants.Where(r => r.Menu == Guid.Empty);
-                //if (!noMenuRestaurants.Any())
-                //    throw new Exception("В системе нет ресторана с привязанным меню!");
+                var restsWithMenu = restaurants.Where(r => r.Menu != Guid.Empty);
+                if (!restsWithMenu.Any())
+                    throw new ConfigurationException("В системе нет ресторана с привязанным меню!");
             }
         }
 

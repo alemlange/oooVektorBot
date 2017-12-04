@@ -19,7 +19,10 @@
 
     $(".js-table-body").on("click", ".menu-more-dishes", function (e) {
 
+        $(".js-menu-card").removeClass("on-top");
         var menuHeader = $(this).parents(".js-menu-card");
+        menuHeader.addClass("on-top");
+
         var menuid = menuHeader.data("itemid");
         var target = menuHeader.data("moretarget");
         $.get(target, { menuid: menuid }).done(function (data) {
@@ -28,7 +31,6 @@
     });
 
     $(".js-table-body").on("click", ".menu-cat-list", function (e) {
-
         var menuCard = $(this).parents(".js-menu-card");
         var menuid = menuCard.data("itemid");
         var target = $(this).data("cattarget");

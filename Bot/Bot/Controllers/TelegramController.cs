@@ -57,13 +57,6 @@ namespace Bot.Controllers
                 Bot.Api.SetWebhookAsync().Wait();
                 Bot.Api.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
 
-                // remove all tables
-                //var accountId = ConfigurationSettings.AccountId;
-                //var regService = ServiceCreator.GetRegistrationService();
-                //var account = regService.FindAccount(accountId);
-                //var service = ServiceCreator.GetCustomerService(account.Login);
-                //service.RemoveAllTables();
-
                 return "Ok";
             }
             else

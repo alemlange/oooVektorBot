@@ -22,6 +22,7 @@ namespace Bot.CommandParser
             get
             {
                 var keys = new List<KeyboardButton[]>();
+                keys.Add(new KeyboardButton[] { "Закрыть меню ↩" });
 
                 foreach (var cat in Categories)
                 {
@@ -33,20 +34,6 @@ namespace Bot.CommandParser
                     Keyboard = keys.ToArray()
                 };
             }
-            /*
-            get
-            {
-                return new ReplyKeyboardMarkup
-                {
-                    Keyboard = new KeyboardButton[][]
-                    {
-                        new KeyboardButton[] { "Меню 📓" },
-                        new KeyboardButton[] { "Мой заказ 🍴", "Убрать из заказа ❌" },
-                        new KeyboardButton[] { "Попросить счет 💳", "Официант 🔔" }
-                    }
-                };
-            }
-            */
         }
 
         public CmdTypes ParseForCommand(Update update)
@@ -56,9 +43,9 @@ namespace Bot.CommandParser
                 var msgText = update.Message.Text;
 
                 if (Categories.Contains(msgText))
-                    return CmdTypes.Restrunt;
-                else if (msgText.ToLower() == "назад ↩") // todo
-                    return CmdTypes.Menu;
+                    return CmdTypes.MenuCategory;
+                else if (msgText.ToLower().Contains("закрыть меню"))
+                    return CmdTypes.CloseMenu;
                 else
                     return CmdTypes.Unknown;
             }

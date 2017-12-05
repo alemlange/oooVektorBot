@@ -22,6 +22,7 @@ using Brains.Responces;
 using DataModels.Enums;
 using DataModels.Configuration;
 using LiteDbService.Helpers;
+using DataModels.Enums;
 
 namespace Bot.Controllers
 {
@@ -156,8 +157,9 @@ namespace Bot.Controllers
                                         chatId,
                                         responce.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    break;                                }
+                                        replyMarkup: new MenuCategorySessionParser(bot.MenuCategories).Keyboard);
+                                    break;
+                                }
                             case CmdTypes.Dishes:
                                 {
                                     var response = bot.ShowMenuOnPage(chatId);

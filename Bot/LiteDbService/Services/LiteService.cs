@@ -50,7 +50,8 @@ namespace LiteDbService
             {
                 var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
                 var restaurant = restaurantCol.Find(r => r.Id == restId).FirstOrDefault();
-                if(restaurant != null)
+
+                if (restaurant != null)
                 {
                     var menuCol = db.GetCollection<Menu>("Menus");
                     return menuCol.Find(o => o.Id == restaurant.Menu).FirstOrDefault();
@@ -156,6 +157,23 @@ namespace LiteDbService
             {
                 var col = db.GetCollection<Restaurant>("Restaurants");
                 return col.FindAll().ToList();
+            }
+        }
+
+        public List<string> GetMenuCategories()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var dishCol = db.GetCollection<Dish>("Dishes");
+                var dishes = dishCol.FindAll().ToList();
+                List<string> menuCategories = new List<string>();
+
+                foreach (var dish in dishes)
+                {
+                    menuCategories.Add(dish.Category);
+                }
+
+                return menuCategories;
             }
         }
 

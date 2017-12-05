@@ -337,7 +337,7 @@ namespace LiteDbService
             }
         }
 
-        public Menu GetStandartMenu(long chatId)
+        public Menu GetStandartMenu()
         {
             using (var db = new LiteDatabase(CurrentDb))
             {

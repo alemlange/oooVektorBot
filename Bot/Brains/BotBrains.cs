@@ -26,7 +26,9 @@ namespace Brains
 
         public List<string> RestaurantNames { get; set; }
 
-        public BrainsConfig Config {get;set;}
+        public List<string> MenuCategories { get; set; }
+
+        public BrainsConfig Config { get; set; }
 
         public BotBrains()
         {
@@ -61,10 +63,16 @@ namespace Brains
                     {
                         RestaurantNames.Add(restrunt.Name);
                     }
+
+                    var defaultMenu = _service.GetStandartMenu();
+                    MenuCategories = new List<string>();
+                    foreach (var category in defaultMenu.CategoriesSorted)
+                    {
+                        MenuCategories.Add(category);
+                    }
                 }
                 else
                     throw new ConfigurationException("Настройки для аккаунта не найдены!");
-
             }
             else
                 throw new ConfigurationException("Не заполнено поле AccountId в боте!");   
@@ -259,7 +267,7 @@ namespace Brains
                     _service.UpdateTableState(chatId, SessionState.Sitted);
                 }
 
-                var menu = _service.GetMenuByTable(chatId) ?? _service.GetStandartMenu(chatId);
+                var menu = _service.GetMenuByTable(chatId) ?? _service.GetStandartMenu();
 
                 var respText = "<b>" + menu.MenuName + "</b>" + Environment.NewLine;
 
@@ -354,7 +362,7 @@ namespace Brains
         {
             try
             {
-                _service.UpdateTableState(chatId, SessionState.MenuCategory);
+                //_service.UpdateTableState(chatId, SessionState.MenuCategory);
 
                 return new Responce
                 {

@@ -16,8 +16,7 @@ namespace Bot.CommandParser
             {
                 case SessionState.MenuCategory:
                     {
-                        return new RestruntSessionParser(bot.RestaurantNames);
-                        //return new MenuCategorySessionParser();
+                        return new MenuCategorySessionParser(bot.MenuCategories);
                     }
                 case SessionState.Restaurant:
                     {

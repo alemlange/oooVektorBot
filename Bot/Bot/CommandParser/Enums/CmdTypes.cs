@@ -12,6 +12,8 @@ namespace Bot.CommandParser
         Greetings,
         Restrunt,
         Menu,
+        MenuCategory,
+        CloseMenu,
         TableNumber,
         Check,
         InlineKeyboard,

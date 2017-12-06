@@ -241,4 +241,35 @@
         }
     });
 
+    $(".js-table-body").on("change", ".picture-input", function (e) {
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.settings-profile-img').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    $(".js-table-body").on("click", function (e) {
+        if (e.target.className == "row") {
+            var activeSection = $(".menu-section.active");
+
+            if (activeSection.hasClass("js-dish-section")) {
+                $(".js-table-body").find(".js-dish-form").replaceWith("");
+                $(".js-dish-card.hidden").removeClass("hidden");
+            }
+            else if (activeSection.hasClass("js-menu-section")){
+                $(".js-table-body").find(".js-menu-form").replaceWith("");
+                $(".js-menu-card.hidden").removeClass("hidden");
+            }
+            else if (activeSection.hasClass("js-rest-section")){
+                $(".js-table-body").find(".js-rest-form").replaceWith("");
+                $(".js-rest-card.hidden").removeClass("hidden");
+            }
+            
+        }
+    });
 });

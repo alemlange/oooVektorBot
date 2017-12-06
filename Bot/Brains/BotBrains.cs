@@ -26,8 +26,6 @@ namespace Brains
 
         public List<string> RestaurantNames { get; set; }
 
-        public List<string> MenuCategories { get; set; }
-
         public BrainsConfig Config { get; set; }
 
         public BotBrains()
@@ -63,13 +61,6 @@ namespace Brains
                     {
                         RestaurantNames.Add(restrunt.Name);
                     }
-
-                    var defaultMenu = _service.GetStandartMenu();
-                    MenuCategories = new List<string>();
-                    foreach (var category in defaultMenu.CategoriesSorted)
-                    {
-                        MenuCategories.Add(category);
-                    }
                 }
                 else
                     throw new ConfigurationException("Настройки для аккаунта не найдены!");
@@ -96,6 +87,32 @@ namespace Brains
                 if (!restsWithMenu.Any())
                     throw new ConfigurationException("В системе нет ресторана с привязанным меню!");
             }
+        }
+
+        public List<string> GetMenuCategoriesByChatId(long chatId)
+        {
+            var state = GetState(chatId);
+            var categories = new List<string>();
+
+            if (state == SessionState.Unknown)
+            {
+                var defaultMenu = _service.GetStandartMenu();
+
+                foreach (var category in defaultMenu.CategoriesSorted)
+                {
+                    categories.Add(category);
+                }
+            }
+            else
+            {
+                var menu = _service.GetMenuByTable(chatId);
+
+                foreach (var category in menu.CategoriesSorted)
+                {
+                    categories.Add(category);
+                }
+            }
+            return categories;
         }
 
         public SessionState GetState(long chatId)
@@ -169,7 +186,7 @@ namespace Brains
                 }
                 else
                 {
-                    return new Responce { ChatId = chatId, ResponceText = "Вы не выбрали стол! Нажмите 'Начать' в главном меню, чтобы сделать заказ!" };
+                    return new Responce { ChatId = chatId, ResponceText = "Вы не выбрали стол! Нажмите \"Начать\" в главном меню, чтобы сделать заказ!" };
                 }
             }
             catch (Exception)
@@ -239,7 +256,7 @@ namespace Brains
             }
             else
             {
-                respText = "Вы пока еще ничего не заказали.";
+                respText = "Вы пока еще ничего не заказали :(";
             }
                 
             return new Responce
@@ -338,6 +355,44 @@ namespace Brains
             }
         }
 
+        public Responce SnowMenuByCategory(long chatId, string category)
+        {
+            try
+            {
+                var table = _service.GetActiveTable(chatId);
+
+                if (table != null && (table.State == SessionState.Remark || table.State == SessionState.MenuCategory))
+                {
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
+                }
+
+                var menu = _service.GetMenuByTable(chatId) ?? _service.GetStandartMenu();
+
+                var respText = "<b>" + menu.MenuName + "</b>" + Environment.NewLine + Environment.NewLine;
+
+                var dishes = menu.DishList.Where(m => m.Category == category);
+
+                var dishNum = 0;
+
+                foreach (var dish in dishes)
+                {
+                    respText += (dishNum += 1) + ". " + dish.Name + " <b>" +
+                        dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
+                }
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = respText + Environment.NewLine +
+                        "Хотите узнать про блюдо подробнее? Просто кликните по слэш-ссылке рядом с блюдом."
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
         public Responce Restrunt(long chatId, string restruntName)
         {
             try
@@ -362,13 +417,44 @@ namespace Brains
         {
             try
             {
-                //_service.UpdateTableState(chatId, SessionState.MenuCategory);
+                _service.UpdateTableState(chatId, SessionState.MenuCategory);
 
                 return new Responce
                 {
                     ChatId = chatId,
                     ResponceText = "Выберите раздел меню!",
                 };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce CloseMenu(long chatId)
+        {
+            try
+            {
+                var table = _service.GetActiveTable(chatId);
+
+                if (table != null)
+                {
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
+
+                    return new Responce
+                    {
+                        ChatId = chatId,
+                        ResponceText = "Напишите \"Меню\" в чат и я принесу его вам.",
+                    };
+                }
+                else
+                {
+                    return new Responce
+                    {
+                        ChatId = chatId,
+                        ResponceText = "Нажмите \"Начать\", чтобы сделать заказ!",
+                    };
+                }
             }
             catch (Exception)
             {
@@ -514,7 +600,7 @@ namespace Brains
                 }
                 else
                 {
-                    respText = "Вы пока еще ничего не заказали.";
+                    respText = "Вы пока еще ничего не заказали :(";
                 }
 
                 return new Responce

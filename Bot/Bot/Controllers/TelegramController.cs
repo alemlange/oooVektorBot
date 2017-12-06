@@ -22,7 +22,6 @@ using Brains.Responces;
 using DataModels.Enums;
 using DataModels.Configuration;
 using LiteDbService.Helpers;
-using DataModels.Enums;
 
 namespace Bot.Controllers
 {
@@ -157,11 +156,12 @@ namespace Bot.Controllers
                                         chatId,
                                         responce.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: new MenuCategorySessionParser(bot.MenuCategories).Keyboard);
+                                        replyMarkup: new MenuCategorySessionParser(bot.GetMenuCategoriesByChatId(chatId)).Keyboard);
                                     break;
                                 }
-                            case CmdTypes.Dishes:
+                            case CmdTypes.Category:
                                 {
+                                    /*
                                     var response = bot.ShowMenuOnPage(chatId);
 
                                     if (response.PageCount > 1)
@@ -172,10 +172,23 @@ namespace Bot.Controllers
                                     }
                                     else
                                         await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html);
+                                    */
+                                    var response = bot.SnowMenuByCategory(chatId, message.Text);
 
                                     await Bot.Api.SendTextMessageAsync(
                                         chatId,
-                                        "Хотите увидеть блюдо подробнее? Просто кликните по слэш-ссылке рядом с блюдом.",
+                                        response.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.CloseMenu:
+                                {
+                                    var response = bot.CloseMenu(chatId);
+
+                                    await Bot.Api.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
                                         parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
@@ -361,6 +374,15 @@ namespace Bot.Controllers
                     }
                     else if (update.CallbackQuery.Data.ToLower().Contains("вернуться к меню"))
                     {
+                        var responce = bot.ShowMenuCategories(chatId);
+
+                        await Bot.Api.SendTextMessageAsync(
+                            chatId,
+                            responce.ResponceText,
+                            parseMode: ParseMode.Html,
+                            replyMarkup: new MenuCategorySessionParser(bot.GetMenuCategoriesByChatId(chatId)).Keyboard);
+
+                        /*
                         var response = bot.ShowMenuOnPage(chatId);
 
                         if (response.PageCount > 1)
@@ -377,6 +399,7 @@ namespace Bot.Controllers
                             "Хотите увидеть блюдо подробнее? Просто кликните по слэш-ссылке рядом с блюдом.",
                             parseMode: ParseMode.Html,
                             replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                        */
                     }
                 }
             }

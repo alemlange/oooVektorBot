@@ -22,7 +22,7 @@ namespace Bot.CommandParser
             get
             {
                 var keys = new List<KeyboardButton[]>();
-                keys.Add(new KeyboardButton[] { "Закрыть меню ↩" });
+                keys.Add(new KeyboardButton[] { "Назад ↩" });
 
                 foreach (var cat in Categories)
                 {
@@ -42,10 +42,10 @@ namespace Bot.CommandParser
             {
                 var msgText = update.Message.Text;
 
-                if (Categories.Contains(msgText))
-                    return CmdTypes.MenuCategory;
-                else if (msgText.ToLower().Contains("закрыть меню"))
+                if (msgText.ToLower().Contains("назад"))
                     return CmdTypes.CloseMenu;
+                else if (Categories.Contains(msgText))
+                    return CmdTypes.Category;
                 else
                     return CmdTypes.Unknown;
             }

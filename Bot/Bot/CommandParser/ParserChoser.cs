@@ -12,11 +12,13 @@ namespace Bot.CommandParser
         public static IParser GetParser(long chatId, BotBrains bot)
         {
             var state = bot.GetState(chatId);
+            var categories = bot.GetMenuCategoriesByChatId(chatId);
+
             switch (state)
             {
                 case SessionState.MenuCategory:
                     {
-                        return new MenuCategorySessionParser(bot.MenuCategories);
+                        return new MenuCategorySessionParser(categories);
                     }
                 case SessionState.Restaurant:
                     {
@@ -32,9 +34,9 @@ namespace Bot.CommandParser
                 case SessionState.Remark:
                     return new RemarkSessionParser();
                 case SessionState.Unknown:
-                    return new UnknownSessionParser();
+                    return new UnknownSessionParser(categories);
                 default:
-                    return new UnknownSessionParser();
+                    return new UnknownSessionParser(categories);
             }
         }
     }

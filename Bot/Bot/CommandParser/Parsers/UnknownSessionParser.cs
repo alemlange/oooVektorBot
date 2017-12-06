@@ -2,11 +2,19 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using System.Collections.Generic;
 
 namespace Bot.CommandParser
 {
     public class UnknownSessionParser : IParser
     {
+        protected List<string> Categories { get; set; }
+
+        public UnknownSessionParser(List<string> categoryNames)
+        {
+            Categories = categoryNames;
+        }
+
         public IReplyMarkup Keyboard
         {
             get
@@ -32,6 +40,10 @@ namespace Bot.CommandParser
                     return CmdTypes.Menu;
                 else if (msgText == "начать")
                     return CmdTypes.Greetings;
+                else if (msgText.Contains("назад"))
+                    return CmdTypes.CloseMenu;
+                else if (Categories.Contains(msgText))
+                    return CmdTypes.Category;
                 else if (msgText == "/start")
                     return CmdTypes.Start;
                 else if (msgText != "/start" && msgText.StartsWith("/"))

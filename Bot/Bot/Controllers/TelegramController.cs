@@ -362,7 +362,7 @@ namespace Bot.Controllers
                     //        parseMode: ParseMode.Html,
                     //        replyMarkup: keyboard);
                     //}
-                    else if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
+                    if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
                     {
                         var response = bot.OrderMeal(chatId);
 

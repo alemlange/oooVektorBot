@@ -40,11 +40,11 @@ namespace Bot.CommandParser
         {
             if (update.Message.Type == MessageType.TextMessage)
             {
-                var msgText = update.Message.Text;
+                var msgText = update.Message.Text.ToLower();
 
-                if (msgText.ToLower().Contains("назад"))
+                if (msgText.Contains("назад"))
                     return CmdTypes.CloseMenu;
-                else if (Categories.Contains(msgText))
+                else if (Categories.Select(o => o.ToLower()).Contains(msgText))
                     return CmdTypes.Category;
                 else
                     return CmdTypes.Unknown;

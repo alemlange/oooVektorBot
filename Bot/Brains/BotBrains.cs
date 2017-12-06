@@ -22,7 +22,7 @@ namespace Brains
 
         private LiteRegistrationService _regService = ServiceCreator.GetRegistrationService();
 
-        public List<string> DishNames { get; set; }
+        //public List<string> DishNames { get; set; }
 
         public List<string> RestaurantNames { get; set; }
 
@@ -48,12 +48,12 @@ namespace Brains
                         PicturePath = ConfigurationSettings.FilePath
                     };
 
-                    var allDishes = _service.GetAllDishes();
-                    DishNames = new List<string>();
-                    foreach (var dish in allDishes)
-                    {
-                        DishNames.Add(dish.Name.ToLower());
-                    }
+                    //var allDishes = _service.GetAllDishes();
+                    //DishNames = new List<string>();
+                    //foreach (var dish in allDishes)
+                    //{
+                    //    DishNames.Add(dish.Name.ToLower());
+                    //}
 
                     var allRestaurants = _service.GetAllRestaurants();
                     RestaurantNames = new List<string>();
@@ -155,7 +155,7 @@ namespace Brains
                     var dish = _service.FindDish(dishName);
                     var dishNum = table.Orders.Count + 1;
 
-                    _service.OrderDish(table.Id, new DataModels.OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now });
+                    _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now });
                     _service.UpdateTableState(chatId, SessionState.Remark);
 
                     return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у вас есть какие то пожелания к блюду, просто отправьте их сообщением!" };

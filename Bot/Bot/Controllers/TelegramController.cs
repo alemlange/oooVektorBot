@@ -333,35 +333,35 @@ namespace Bot.Controllers
                     chatId = update.CallbackQuery.From.Id;
                     var messageId = update.CallbackQuery.Message.MessageId;
 
-                    if (update.CallbackQuery.Data.ToLower().Contains("  ⬅ "))
-                    {
-                        var page = int.Parse(update.CallbackQuery.Data.Trim('⬅', ' ', 'с', 'т', 'р', '.'));
-                        var response = bot.ShowMenuOnPage(chatId, page);
+                    //if (update.CallbackQuery.Data.ToLower().Contains("  ⬅ "))
+                    //{
+                    //    var page = int.Parse(update.CallbackQuery.Data.Trim('⬅', ' ', 'с', 'т', 'р', '.'));
+                    //    var response = bot.ShowMenuOnPage(chatId, page);
 
-                        var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
+                    //    var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
 
-                        await Bot.Api.EditMessageTextAsync(
-                            chatId,
-                            messageId,
-                            response.ResponceText,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: keyboard);
-                    }
-                    else if (update.CallbackQuery.Data.ToLower().Contains(" ➡  "))
-                    {
-                        var page = int.Parse(update.CallbackQuery.Data.Trim('➡', ' ', 'с', 'т', 'р', '.'));
+                    //    await Bot.Api.EditMessageTextAsync(
+                    //        chatId,
+                    //        messageId,
+                    //        response.ResponceText,
+                    //        parseMode: ParseMode.Html,
+                    //        replyMarkup: keyboard);
+                    //}
+                    //else if (update.CallbackQuery.Data.ToLower().Contains(" ➡  "))
+                    //{
+                    //    var page = int.Parse(update.CallbackQuery.Data.Trim('➡', ' ', 'с', 'т', 'р', '.'));
 
-                        var response = bot.ShowMenuOnPage(chatId, page);
+                    //    var response = bot.ShowMenuOnPage(chatId, page);
 
-                        var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
+                    //    var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
 
-                        await Bot.Api.EditMessageTextAsync(
-                            chatId,
-                            messageId,
-                            response.ResponceText,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: keyboard);
-                    }
+                    //    await Bot.Api.EditMessageTextAsync(
+                    //        chatId,
+                    //        messageId,
+                    //        response.ResponceText,
+                    //        parseMode: ParseMode.Html,
+                    //        replyMarkup: keyboard);
+                    //}
                     else if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
                     {
                         var response = bot.OrderMeal(chatId);

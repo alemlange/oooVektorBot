@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -42,7 +43,7 @@ namespace Bot.CommandParser
                     return CmdTypes.Greetings;
                 else if (msgText.Contains("назад"))
                     return CmdTypes.CloseMenu;
-                else if (Categories.Contains(msgText))
+                else if (Categories.Select(o => o.ToLower()).Contains(msgText))
                     return CmdTypes.Category;
                 else if (msgText == "/start")
                     return CmdTypes.Start;

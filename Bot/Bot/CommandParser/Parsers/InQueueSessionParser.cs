@@ -21,7 +21,7 @@ namespace Bot.CommandParser
             get
             {
                 var keys = new List<KeyboardButton[]>();
-                keys.Add(new KeyboardButton[] { "Меню 📓" });
+                //keys.Add(new KeyboardButton[] { "Меню 📓" });
 
                 if (TablesCount > 0)
                 {

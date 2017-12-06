@@ -161,18 +161,6 @@ namespace Bot.Controllers
                                 }
                             case CmdTypes.Category:
                                 {
-                                    /*
-                                    var response = bot.ShowMenuOnPage(chatId);
-
-                                    if (response.PageCount > 1)
-                                    {
-                                        var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
-
-                                        await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
-                                    }
-                                    else
-                                        await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html);
-                                    */
                                     var response = bot.SnowMenuByCategory(chatId, message.Text);
 
                                     await Bot.Api.SendTextMessageAsync(
@@ -333,35 +321,6 @@ namespace Bot.Controllers
                     chatId = update.CallbackQuery.From.Id;
                     var messageId = update.CallbackQuery.Message.MessageId;
 
-                    //if (update.CallbackQuery.Data.ToLower().Contains("  ⬅ "))
-                    //{
-                    //    var page = int.Parse(update.CallbackQuery.Data.Trim('⬅', ' ', 'с', 'т', 'р', '.'));
-                    //    var response = bot.ShowMenuOnPage(chatId, page);
-
-                    //    var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
-
-                    //    await Bot.Api.EditMessageTextAsync(
-                    //        chatId,
-                    //        messageId,
-                    //        response.ResponceText,
-                    //        parseMode: ParseMode.Html,
-                    //        replyMarkup: keyboard);
-                    //}
-                    //else if (update.CallbackQuery.Data.ToLower().Contains(" ➡  "))
-                    //{
-                    //    var page = int.Parse(update.CallbackQuery.Data.Trim('➡', ' ', 'с', 'т', 'р', '.'));
-
-                    //    var response = bot.ShowMenuOnPage(chatId, page);
-
-                    //    var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
-
-                    //    await Bot.Api.EditMessageTextAsync(
-                    //        chatId,
-                    //        messageId,
-                    //        response.ResponceText,
-                    //        parseMode: ParseMode.Html,
-                    //        replyMarkup: keyboard);
-                    //}
                     if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
                     {
                         var response = bot.OrderMeal(chatId);
@@ -382,24 +341,6 @@ namespace Bot.Controllers
                             parseMode: ParseMode.Html,
                             replyMarkup: new MenuCategorySessionParser(bot.GetMenuCategoriesByChatId(chatId)).Keyboard);
 
-                        /*
-                        var response = bot.ShowMenuOnPage(chatId);
-
-                        if (response.PageCount > 1)
-                        {
-                            var keyboard = InlineKeyBoardManager.MenuNavKeyBoard(response.PageCount, response.Page);
-
-                            await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
-                        }
-                        else
-                            await Bot.Api.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html);
-
-                        await Bot.Api.SendTextMessageAsync(
-                            chatId,
-                            "Хотите увидеть блюдо подробнее? Просто кликните по слэш-ссылке рядом с блюдом.",
-                            parseMode: ParseMode.Html,
-                            replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                        */
                     }
                 }
             }

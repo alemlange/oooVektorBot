@@ -368,7 +368,7 @@ namespace Brains
 
                 var menu = _service.GetMenuByTable(chatId) ?? _service.GetStandartMenu();
 
-                var respText = "<b>" + menu.MenuName + "</b>" + Environment.NewLine + Environment.NewLine;
+                var respText = "<b>" + category + "</b>" + Environment.NewLine + Environment.NewLine;
 
                 var dishes = menu.DishList.Where(m => m.Category == category);
 
@@ -387,7 +387,7 @@ namespace Brains
                         "Хотите узнать про блюдо подробнее? Просто кликните по слэш-ссылке рядом с блюдом."
                 };
             }
-            catch (Exception)
+            catch
             {
                 return Responce.UnknownResponce(chatId);
             }

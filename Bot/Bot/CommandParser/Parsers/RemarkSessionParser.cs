@@ -10,11 +10,15 @@ namespace Bot.CommandParser
         {
             get
             {
-                return new InlineKeyboardMarkup(
-                    new[]
-                    {
-                        new[] { new InlineKeyboardButton("Вернуться к меню 📓") }
-                    });
+                return new ReplyKeyboardMarkup
+                {
+                    Keyboard = new KeyboardButton[][]
+                     {
+                        new KeyboardButton[] { "Меню 📓" },
+                        new KeyboardButton[] { "Мой заказ 🍴", "Убрать из заказа ❌" },
+                        new KeyboardButton[] { "Попросить счет 💳", "Официант 🔔" }
+                     }
+                };
             }
         }
 

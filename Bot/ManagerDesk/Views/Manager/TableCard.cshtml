@@ -11,19 +11,19 @@
                     <div class="toolbar-mini__btn @Model.HelpNeededStyle js-set-table-action" data-target="@Url.Action("TableSetHelp","Manager")"><i class="fa fa-child" aria-hidden="true"></i></div>
                     <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger js-toolbar-close-table" data-target="@Url.Action("CloseTable","Manager")"><i class="fa fa-lock" aria-hidden="true"></i></div>
                 </div>
+
+                <div class="table-labels">
+                    @if (Model.CheckNeeded)
+                    {
+                        <span class="label label-danger">Счет</span>
+                    }
+                    @if (Model.HelpNeeded)
+                    {
+                        <span class="label label-warning">Нужна помощь</span>
+                    }
+                </div>
             }
 
-            <div class="table-labels">
-                @if (Model.CheckNeeded)
-                {
-                    <span class="label label-danger">Счет</span>
-                }
-                @if (Model.HelpNeeded)
-                {
-                    <span class="label label-warning">Нужна помощь</span>
-                }
-            </div>
-            
             <div>
                 @if (Model.TableNumber == 0)
                 {

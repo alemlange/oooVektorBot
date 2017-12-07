@@ -187,11 +187,18 @@ namespace ManagerDesk.Controllers
             try
             {
                 var service = ServiceCreator.GetManagerService(User.Identity.Name);
+                var config = new RegistrationService().FindConfiguration(User.Identity.Name);
+
                 var table = service.GetTable(tableId);
                 if (table != null)
                 {
                     table.OrderProcessed = value;
                     service.UpdateTable(table);
+
+                    if (value)
+                    {
+                        new BotClient(config.TelegramBotLocation).SendNotification(table.ChatId, "Ваш заказ уже готовится!");
+                    }
                 }
                 else
                     throw new ArgumentNullException("Table not found!");

@@ -16,57 +16,111 @@ namespace Brains
 {
     public class BotBrains : IMainTasks
     {
-        //public static readonly Lazy<BotBrains> Instance = new Lazy<BotBrains>(() => new BotBrains());
-
         private LiteCustomerService _service { get; set; }
 
         private LiteRegistrationService _regService = ServiceCreator.GetRegistrationService();
 
-        //public List<string> DishNames { get; set; }
-
-        public List<string> RestaurantNames { get; set; }
-
-        public BrainsConfig Config { get; set; }
-
-        public BotBrains()
+        public Guid AccountId
         {
-            var accountId = ConfigurationSettings.AccountId;
-
-            if (accountId != Guid.Empty)
+            get
             {
-                var account = _regService.FindAccount(accountId);
+                return ConfigurationSettings.AccountId;
+            }
+        }
 
-                _service = ServiceCreator.GetCustomerService(account.Login);
-
-                var dataConfig = _regService.FindConfig(accountId);
+        public string BotToken
+        {
+            get
+            {
+                var dataConfig = _regService.FindConfig(AccountId);
                 if (dataConfig != null)
                 {
-                    Config = new BrainsConfig
-                    {
-                        DishesPerPage = dataConfig.DishesPerPage,
-                        Greetings = dataConfig.BotGreeting,
-                        PicturePath = ConfigurationSettings.FilePath
-                    };
-
-                    //var allDishes = _service.GetAllDishes();
-                    //DishNames = new List<string>();
-                    //foreach (var dish in allDishes)
-                    //{
-                    //    DishNames.Add(dish.Name.ToLower());
-                    //}
-
-                    var allRestaurants = _service.GetAllRestaurants();
-                    RestaurantNames = new List<string>();
-                    foreach (var restrunt in allRestaurants)
-                    {
-                        RestaurantNames.Add(restrunt.Name);
-                    }
+                    if (dataConfig.BotToken != null)
+                        return dataConfig.BotToken;
+                    else
+                        throw new ConfigurationException("Не найден токен бота.");
                 }
                 else
+                {
                     throw new ConfigurationException("Настройки для аккаунта не найдены!");
+                }
+
+            }
+        }
+
+        public string PaymentToken
+        {
+            get
+            {
+                var dataConfig = _regService.FindConfig(AccountId);
+                if (dataConfig != null)
+                {
+                    return dataConfig.PaymentToken;
+                }
+                else
+                {
+                    throw new ConfigurationException("Настройки для аккаунта не найдены!");
+                }
+
+            }
+        }
+
+        public string GreetingsText
+        {
+            get
+            {
+                var dataConfig = _regService.FindConfig(AccountId);
+                if(dataConfig != null)
+                {
+                    return dataConfig.BotGreeting;
+                }
+                else
+                {
+                    throw new ConfigurationException("Настройки для аккаунта не найдены!");
+                }
+
+            }
+        }
+
+        public string PicturePath
+        {
+            get
+            {
+                return ConfigurationSettings.FilePath;
+            }
+        }
+
+        public List<string> RestaurantNames
+        {
+            get
+            {
+                var account = _regService.FindAccount(AccountId);
+
+                if (account != null)
+                {
+                    var allRestaurants = _service.GetAllRestaurants();
+
+                    if(allRestaurants!= null & allRestaurants.Any())
+                        return allRestaurants.Select(o => o.Name).ToList();
+                    else
+                        throw new ConfigurationException("В системе нет ни одного ресторана!");
+
+                }
+                else
+                    throw new ConfigurationException("Аккаунт в системе не найден!");
+            }
+        }
+        
+        public BotBrains()
+        {
+            var account = _regService.FindAccount(AccountId);
+
+            if (account != null)
+            {
+                _service = ServiceCreator.GetCustomerService(account.Login);
             }
             else
-                throw new ConfigurationException("Не заполнено поле AccountId в боте!");   
+                throw new ConfigurationException("Аккаунт в системе не найден!");   
         }
 
         public void SystemDiagnostic()
@@ -76,6 +130,7 @@ namespace Brains
             {
                 throw new ConfigurationException("В системе нет ни одного активного меню!");
             }
+
             var restaurants = _service.GetAllRestaurants();
             if (!restaurants.Any())
             {
@@ -86,6 +141,11 @@ namespace Brains
                 var restsWithMenu = restaurants.Where(r => r.Menu != Guid.Empty);
                 if (!restsWithMenu.Any())
                     throw new ConfigurationException("В системе нет ресторана с привязанным меню!");
+            }
+
+            if (BotToken == null)
+            {
+                throw new ConfigurationException("Не найден токен бота.");
             }
         }
 
@@ -265,94 +325,6 @@ namespace Brains
                 ResponceText = respText,
                 //State = SessionState.Sitted
             };
-        }
-
-        public MenuResponce ShowMenuOnPage(long chatId, int? showPage = null) // todo
-        {
-            try
-            {
-                var table = _service.GetActiveTable(chatId);
-                int dishesOnPage = 8;
-
-                if (Config.DishesPerPage > 0)
-                {
-                    dishesOnPage = Config.DishesPerPage;
-                }
-
-                if (table != null && table.State == SessionState.Remark)
-                {
-                    _service.UpdateTableState(chatId, SessionState.Sitted);
-                }
-
-                var menu = _service.GetMenuByTable(chatId) ?? _service.GetStandartMenu();
-
-                var respText = "<b>" + menu.MenuName + "</b>" + Environment.NewLine;
-
-                int page = 1;
-                int pageCount = 0;
-
-                if (showPage != null)
-                {
-                    page = (int)showPage;
-                    _service.UpdateLastPage(chatId, (int)showPage);
-                }
-                else
-                {
-
-                    if (table != null)
-                    {
-                        // todo move to LiteService
-                        var lastPage = table.StateVaribles.Where(t => t.Key == "LastPage").FirstOrDefault();
-
-                        if (lastPage != null && (int)lastPage.Value > 0)
-                        {
-                            page = (int)lastPage.Value;
-                        }
-                    }
-                }
-
-                int dishNum = (page-1)*dishesOnPage;
-
-                decimal d = Math.Ceiling((decimal)menu.DishList.Count / dishesOnPage);
-                pageCount = (int)d;
-
-                var dishlist = menu.DishList.Where(m => m.Category != null).OrderBy(m => m.Category).Concat(menu.DishList.Where(m => m.Category == null));
-
-                foreach (var dish in dishlist)
-                {
-                    if (dish.Category == null)
-                    {
-                        dish.Category = "Другое";
-                    }
-                }
-
-                var dishes = dishlist.Skip((page-1)*dishesOnPage).Take(dishesOnPage);
-
-                string category = "";
-
-                foreach (var dish in dishes)
-                {
-                    if (dish.Category != null && category != dish.Category)
-                    {
-                        respText += Environment.NewLine + "<i>" + dish.Category + "</i>" + Environment.NewLine +
-                            (dishNum += 1) + ". " + dish.Name + " <b>" +
-                            dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
-
-                        category = dish.Category;
-                    }
-                    else
-                    {
-                        respText += (dishNum += 1) + ". " + dish.Name + " <b>" +
-                            dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
-                    }
-                }
-
-                return new MenuResponce { ResponceText = respText, Page = page, PageCount = pageCount };
-            }
-            catch (Exception ex)
-            {
-                throw ex; // разобраться с эксепшенами и что возвращать
-            }
         }
 
         public Responce SnowMenuByCategory(long chatId, string category)

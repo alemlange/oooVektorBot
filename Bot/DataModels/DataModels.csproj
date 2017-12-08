@@ -58,6 +58,7 @@
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Table.cs" />
     <Compile Include="Models\OrderedDish.cs" />
+    <Compile Include="Notifications\Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

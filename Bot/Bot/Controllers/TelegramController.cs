@@ -20,6 +20,7 @@ using Bot.CommandParser.KeyBoards;
 using Brains;
 using Brains.Responces;
 using DataModels.Enums;
+using DataModels.Notifications;
 using DataModels.Configuration;
 using LiteDbService.Helpers;
 
@@ -64,21 +65,19 @@ namespace Bot.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> SendMessage(long chatId, string message)
+        public void SendMessage([FromBody]Notification msg)
         {
             try
             {
-                await Bot.Api.SendTextMessageAsync(
-                    chatId,
-                    message,
+                Bot.Api.SendTextMessageAsync(
+                    msg.ChatId,
+                    msg.Message,
                     parseMode: ParseMode.Html);
             }
             catch (Exception ex)
             {
                 var error = ex.Message;
             }
-
-            return Ok();
         }
 
         [HttpPost]

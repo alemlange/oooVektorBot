@@ -27,6 +27,7 @@ namespace Bot.CommandParser
         Remark,
         Remove,
         RemoveByNum,
-        QRCode
+        QRCode,
+        Pay
     }
 }

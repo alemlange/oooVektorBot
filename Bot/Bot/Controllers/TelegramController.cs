@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.IO;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -191,6 +192,18 @@ namespace Bot.Controllers
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
                                         replyMarkup: keyboard);
+                                    break;
+                                }
+                            case CmdTypes.Pay:
+                                {
+                                    var responce = bot.ShowCart(chatId);
+
+                                    var prices = new LabeledPrice[1];
+                                    prices[0] = new LabeledPrice { Amount = 10000, Label = "Товар" };
+
+                                    await Bot.Api.SendInvoiceAsync(
+                                        chatId, "Title", "Description", "payload", "401643678:TEST:4e6bc4df-f9c2-4935-a81d-7649d848571a", "startP", "RUB", prices);
+
                                     break;
                                 }
                             case CmdTypes.MyOrder:

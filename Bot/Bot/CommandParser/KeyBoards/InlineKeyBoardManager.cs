@@ -6,6 +6,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.InlineKeyboardButtons;
 using Bot.CommandParser;
 
 namespace Bot.CommandParser.KeyBoards
@@ -17,8 +18,8 @@ namespace Bot.CommandParser.KeyBoards
             return new InlineKeyboardMarkup(
                 new[]
                 {
-                    new[] { new InlineKeyboardButton("Добавить в заказ 🍴") },
-                    new[] { new InlineKeyboardButton("Вернуться к меню 📓") }
+                    new[] { new InlineKeyboardCallbackButton("Добавить в заказ 🍴", "Добавить в заказ 🍴") },
+                    new[] { new InlineKeyboardCallbackButton("Вернуться к меню 📓", "Вернуться к меню 📓") }
                 });
         }
 
@@ -28,14 +29,14 @@ namespace Bot.CommandParser.KeyBoards
 
             if (pageCount > 1)
             {
-                InlineKeyboardButton prev = new InlineKeyboardButton("");
-                InlineKeyboardButton next = new InlineKeyboardButton("");
+                InlineKeyboardButton prev = new InlineKeyboardCallbackButton("", "");
+                InlineKeyboardButton next = new InlineKeyboardCallbackButton("", "");
 
                 if (curPage > 1)
-                    prev = new InlineKeyboardButton((curPage - 1) + " стр.  ⬅ ");
+                    prev = new InlineKeyboardCallbackButton((curPage - 1) + " стр.  ⬅ ", (curPage - 1) + " стр.  ⬅ ");
 
                 if (curPage < pageCount)
-                    next = new InlineKeyboardButton(" ➡  " + (curPage + 1) + " стр.");
+                    next = new InlineKeyboardCallbackButton(" ➡  " + (curPage + 1) + " стр.", " ➡  " + (curPage + 1) + " стр.");
 
                 if (prev.Text != "" && next.Text != "")
                     keyboard = new InlineKeyboardMarkup(new[] { prev, next });

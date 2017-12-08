@@ -155,7 +155,7 @@ namespace Brains
                     var dish = _service.FindDish(dishName);
                     var dishNum = table.Orders.Count + 1;
 
-                    _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now });
+                    _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.UtcNow.AddHours(3) });
                     _service.UpdateTableState(chatId, SessionState.Remark);
 
                     return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у вас есть какие то пожелания к блюду, просто отправьте их сообщением!" };

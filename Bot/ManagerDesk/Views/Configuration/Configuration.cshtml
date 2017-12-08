@@ -35,6 +35,7 @@
                 <button class="btn btn-save-dishes" type="submit">Сохранить</button>
                 @Html.HiddenFor(o => o.Config.Id)
                 @Html.HiddenFor(o => o.Config.AccountId)
+                @Html.HiddenFor(o => o.Config.TelegramBotLocation)
                 @Html.HiddenFor(o => o.Config.ProfilePicturePath)
             }
         </div>

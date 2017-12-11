@@ -295,6 +295,21 @@ namespace Brains
             }
         }
 
+        public Responce GenerateCheque(long chatId)
+        {
+            var table = _service.GetActiveTable(chatId);
+
+            if (table != null && table.OrderProcessed && table.Orders != null && table.Orders.Any())
+            {
+
+            }
+
+            return new Responce
+            {
+                ChatId = chatId
+            };
+        }
+
         public Responce ShowCart(long chatId)
         {
             _service.UpdateTableState(chatId, SessionState.Sitted);

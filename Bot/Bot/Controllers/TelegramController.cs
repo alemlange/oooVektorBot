@@ -205,8 +205,8 @@ namespace Bot.Controllers
                                     var prices = new LabeledPrice[1];
                                     prices[0] = new LabeledPrice { Amount = 10000, Label = "Товар" };
 
-                                    await Bot.Api.SendInvoiceAsync(
-                                        chatId, "Title", "Description", "payload", "401643678:TEST:4e6bc4df-f9c2-4935-a81d-7649d848571a", "startP", "RUB", prices);
+                                    await Telegram.SendInvoiceAsync(
+                                        chatId, "Title", "Description", "payload", bot.PaymentToken, "startP", "RUB", prices);
 
                                     break;
                                 }

@@ -19,6 +19,8 @@
                 @Html.LabelFor(model => model.Config.PaymentToken, "Токен оплаты", htmlAttributes: new { @class = "control-label" })
                 @Html.EditorFor(model => model.Config.PaymentToken, new { htmlAttributes = new { @class = "form-control" } })
 
+                <button class="btn btn-default js-start-bot" data-target="@Url.Action("BotStart","Manager")">Запуск бота</button>
+
                 if (!string.IsNullOrEmpty(Model.Config.ProfilePicturePath))
                 {
                     <img class="settings-profile-img" src="@Url.Content(Model.Config.ProfilePicturePath)" alt="pic" />
@@ -40,6 +42,7 @@
                 @Html.HiddenFor(o => o.Config.TelegramBotLocation)
                 @Html.HiddenFor(o => o.Config.ProfilePicturePath)
                 @Html.HiddenFor(o => o.Config.DishesPerPage)
+                @Html.HiddenFor(o => o.Config.BotKey)
             }
         </div>
     </div>

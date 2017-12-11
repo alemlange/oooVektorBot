@@ -45,6 +45,5 @@ namespace ManagerDesk.Controllers
 
             return RedirectToAction("Index", "Manager");
         }
-
     }
 }

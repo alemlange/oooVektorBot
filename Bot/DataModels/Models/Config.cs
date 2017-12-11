@@ -26,6 +26,8 @@ namespace DataModels
 
         public bool UseQR { get; set; }
 
+        public string BotKey { get; set; }
+
         public string BotToken { get; set; }
 
         public string PaymentToken { get; set; }

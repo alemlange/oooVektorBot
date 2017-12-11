@@ -25,5 +25,9 @@ namespace DataModels
         public int DishesPerPage { get; set; }
 
         public bool UseQR { get; set; }
+
+        public string BotToken { get; set; }
+
+        public string PaymentToken { get; set; }
     }
 }

@@ -29,10 +29,7 @@ namespace Bot.Controllers
 {
     public class TelegramController : ApiController
     {
-        static class Bot
-        {
-            public static readonly TelegramBotClient Api = new TelegramBotClient("498869682:AAH-IwVHEdKM09SjjIHO7D0rx27z7-ZfCbI");
-        }
+        private TelegramBotClient Telegram;
 
         [HttpGet]
         public string Test()
@@ -56,8 +53,11 @@ namespace Bot.Controllers
             var testResult = Test();
             if (testResult == "Ok")
             {
-                Bot.Api.SetWebhookAsync().Wait();
-                Bot.Api.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
+                var bot = new BotBrains();
+                Telegram = new TelegramBotClient(bot.BotToken);
+
+                Telegram.SetWebhookAsync().Wait();
+                Telegram.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
 
                 return "Ok";
             }
@@ -70,7 +70,10 @@ namespace Bot.Controllers
         {
             try
             {
-                Bot.Api.SendTextMessageAsync(
+                var bot = new BotBrains();
+                Telegram = new TelegramBotClient(bot.BotToken);
+
+                Telegram.SendTextMessageAsync(
                     msg.ChatId,
                     msg.Message,
                     parseMode: ParseMode.Html);
@@ -87,7 +90,8 @@ namespace Bot.Controllers
             long chatId = 0;
             try
             {
-                var bot = new BotBrains(); //.Instance.Value;
+                var bot = new BotBrains();
+                Telegram = new TelegramBotClient(bot.BotToken);
 
                 if (update.Type == UpdateType.MessageUpdate)
                 {
@@ -108,9 +112,9 @@ namespace Bot.Controllers
                                         "в любых вопросах! Для того, чтобы ознакомиться с меню напишите \"меню\", чтобы " +
                                         "сделать заказ напишите \"начать\". Приятного отдыха!";
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
-                                        bot.Config.Greetings ?? greetings,
+                                        bot.GreetingsText ?? greetings,
                                         parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
@@ -119,7 +123,7 @@ namespace Bot.Controllers
                                 {
                                     var responce = bot.Greetings(chatId);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -130,7 +134,7 @@ namespace Bot.Controllers
                                 {
                                     var responce = bot.Restrunt(chatId, message.Text);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -141,7 +145,7 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.Number(chatId, Convert.ToInt32(message.Text));
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -152,7 +156,7 @@ namespace Bot.Controllers
                                 {
                                     var responce = bot.ShowMenuCategories(chatId);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -163,7 +167,7 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.SnowMenuByCategory(chatId, message.Text);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -174,7 +178,7 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.CloseMenu(chatId);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -187,7 +191,7 @@ namespace Bot.Controllers
 
                                     var response = bot.GetMenuItem(chatId, update.Message.Text);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -210,7 +214,7 @@ namespace Bot.Controllers
                                 {
                                     var responce = bot.ShowCart(chatId);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         responce.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -221,7 +225,7 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.GiveACheck(chatId);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -232,7 +236,7 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.CallWaiter(chatId);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -243,7 +247,7 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.AddRemark(chatId, message.Text);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -254,7 +258,7 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.RemoveFromOrder(chatId);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -265,7 +269,7 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.RemoveFromOrderByNum(chatId, message.Text);
 
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -274,7 +278,7 @@ namespace Bot.Controllers
                                 }
                             case CmdTypes.Unknown:
                                 {
-                                    await Bot.Api.SendTextMessageAsync(
+                                    await Telegram.SendTextMessageAsync(
                                         chatId,
                                         "Извините, не понял вашей просьбы.",
                                         parseMode: ParseMode.Html,
@@ -284,8 +288,8 @@ namespace Bot.Controllers
                             case CmdTypes.QRCode:
                                 {
                                     var code = "";
-                                    var file = await Bot.Api.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
-                                    var filename = bot.Config.PicturePath + chatId + "." + file.FilePath.Split('.').Last();
+                                    var file = await Telegram.GetFileAsync(message.Photo.LastOrDefault()?.FileId);
+                                    var filename = bot.PicturePath + chatId + "." + file.FilePath.Split('.').Last();
 
                                     using (var saveImageStream = System.IO.File.Open(filename, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
                                     {
@@ -309,7 +313,7 @@ namespace Bot.Controllers
                                     {
                                         var response = bot.QRCode(chatId, code);
 
-                                        await Bot.Api.SendTextMessageAsync(
+                                        await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
@@ -317,7 +321,7 @@ namespace Bot.Controllers
                                     }
                                     else
                                     {
-                                        await Bot.Api.SendTextMessageAsync(
+                                        await Telegram.SendTextMessageAsync(
                                         chatId,
                                         "Не удалось распознать код! Попробуйте еще раз или выберите ресторан и номер стола через меню!",
                                         parseMode: ParseMode.Html,
@@ -337,7 +341,7 @@ namespace Bot.Controllers
                     {
                         var response = bot.OrderMeal(chatId);
 
-                        await Bot.Api.SendTextMessageAsync(
+                        await Telegram.SendTextMessageAsync(
                             chatId,
                             response.ResponceText,
                             parseMode: ParseMode.Html,
@@ -347,7 +351,7 @@ namespace Bot.Controllers
                     {
                         var responce = bot.ShowMenuCategories(chatId);
 
-                        await Bot.Api.SendTextMessageAsync(
+                        await Telegram.SendTextMessageAsync(
                             chatId,
                             responce.ResponceText,
                             parseMode: ParseMode.Html,
@@ -360,12 +364,12 @@ namespace Bot.Controllers
             {
                 new LogWriter().WriteException(ex.Message);
 
-                if(chatId != 0)
+                if(chatId != 0 && Telegram != null)
                 {
                     if (ex.Message.Contains("429"))
                     {
                         var excResponce = Responce.UnknownResponce(chatId);
-                        await Bot.Api.SendTextMessageAsync(
+                        await Telegram.SendTextMessageAsync(
                         chatId,
                         "К сожалению Телеграм не позволяет нам так часто вам отвечать 😔, подождите пару минут пожалуйста.",
                         parseMode: ParseMode.Html);
@@ -373,7 +377,7 @@ namespace Bot.Controllers
                     else
                     {
                         var excResponce = Responce.UnknownResponce(chatId);
-                        await Bot.Api.SendTextMessageAsync(
+                        await Telegram.SendTextMessageAsync(
                         chatId,
                         excResponce.ResponceText,
                         parseMode: ParseMode.Html);

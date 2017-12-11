@@ -56,7 +56,8 @@ namespace Bot.Controllers
                 Telegram = new TelegramBotClient(bot.BotToken);
 
                 Telegram.SetWebhookAsync().Wait();
-                Telegram.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
+                Telegram.SetWebhookAsync("https://" + key + "/Telegram/WebHook").Wait();
+                //Telegram.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
 
                 return "Ok";
             }

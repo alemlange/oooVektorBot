@@ -20,13 +20,7 @@ namespace Brains
 
         private LiteRegistrationService _regService = ServiceCreator.GetRegistrationService();
 
-        public Guid AccountId
-        {
-            get
-            {
-                return ConfigurationSettings.AccountId;
-            }
-        }
+        public Guid AccountId { get; set; }
 
         public string BotToken
         {
@@ -111,16 +105,24 @@ namespace Brains
             }
         }
         
-        public BotBrains()
+        public BotBrains(string requestHost)
         {
-            var account = _regService.FindAccount(AccountId);
+            var accId = _regService.AccountIdByHost(requestHost);
 
-            if (account != null)
+            if(accId != null)
             {
-                _service = ServiceCreator.GetCustomerService(account.Login);
+                AccountId = accId.Value;
+                var account = _regService.FindAccount(AccountId);
+
+                if (account != null)
+                {
+                    _service = ServiceCreator.GetCustomerService(account.Login);
+                }
+                else
+                    throw new ConfigurationException("Аккаунт в системе не найден!");
             }
             else
-                throw new ConfigurationException("Аккаунт в системе не найден!");   
+                throw new ConfigurationException("Бот в системе не зарегистрирован!");
         }
 
         public void SystemDiagnostic()

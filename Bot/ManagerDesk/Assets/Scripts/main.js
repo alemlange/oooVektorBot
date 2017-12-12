@@ -272,4 +272,16 @@
             
         }
     });
+
+    $(".js-table-body").on("click", ".js-start-bot", function (e) {
+        e.preventDefault();
+        var target = $(this).data("target");
+
+        $.get(target).done(function (data) {
+            if (data.okStatus != null) {
+                alert(data.msg);
+            }
+        });
+    });
+
 });

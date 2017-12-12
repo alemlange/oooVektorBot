@@ -15,6 +15,17 @@ namespace Clients
         {
             BotLocation = botUrl;
         }
+
+        public string StartBot(string botKey)
+        {
+            var client = new WebClient();
+
+            client.Headers["Content-type"] = "application/json";
+            client.Encoding = Encoding.UTF8;
+
+            return client.DownloadString(BotLocation + "Telegram/Start?key=" + botKey);
+        }
+
         public string GetStatus()
         {
             var client = new WebClient();

@@ -1,4 +1,8 @@
 ﻿@model ManagerDesk.ViewModels.TableCardViewModel
+@{
+    string TimeFormat = "HH:mm";
+}
+
 <div class="col-md-6 col-lg-3">
     <div class="info-item js-table-card @Model.TableStyles" data-actionstarget="@Url.Action("TableActions","Manager")" data-itemid="@Model.Id" data-type="Table">
         <div class="table-wrap">
@@ -35,7 +39,7 @@
                     if (Model.OrderPlaced != DateTime.MinValue)
                     {
                         <h5 class="info-item-heading">
-                            Последний заказ: @Model.OrderPlaced.ToShortTimeString()
+                            Последний заказ: @Model.OrderPlaced.ToString(TimeFormat)
                         </h5>
                     }
                 }

@@ -36,7 +36,7 @@ namespace Bot.Controllers
         {
             try
             {
-                var bot = new BotBrains();
+                var bot = new BotBrains(Request.Headers.Host);
                 bot.SystemDiagnostic();
 
                 return "Ok";
@@ -53,11 +53,11 @@ namespace Bot.Controllers
             var testResult = Test();
             if (testResult == "Ok")
             {
-                var bot = new BotBrains();
+                var bot = new BotBrains(Request.Headers.Host);
                 Telegram = new TelegramBotClient(bot.BotToken);
 
                 Telegram.SetWebhookAsync().Wait();
-                Telegram.SetWebhookAsync("https://" + key + ".ngrok.io/Telegram/WebHook").Wait();
+                Telegram.SetWebhookAsync("https://" + key + "/Telegram/WebHook").Wait();
 
                 return "Ok";
             }
@@ -70,7 +70,7 @@ namespace Bot.Controllers
         {
             try
             {
-                var bot = new BotBrains();
+                var bot = new BotBrains(Request.Headers.Host);
                 Telegram = new TelegramBotClient(bot.BotToken);
 
                 Telegram.SendTextMessageAsync(
@@ -90,7 +90,7 @@ namespace Bot.Controllers
             long chatId = 0;
             try
             {
-                var bot = new BotBrains();
+                var bot = new BotBrains(Request.Headers.Host);
                 Telegram = new TelegramBotClient(bot.BotToken);
 
                 if (update.Type == UpdateType.MessageUpdate)
@@ -385,9 +385,7 @@ namespace Bot.Controllers
                     
                 }
             }
-
             return Ok();
         }
-
     }
 }

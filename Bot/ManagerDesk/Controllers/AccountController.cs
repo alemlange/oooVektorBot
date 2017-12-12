@@ -59,11 +59,9 @@ namespace ManagerDesk.Controllers
 
                 if (Validate(model))
                 {
-                    // создаем нового пользователя
                     var regService = new RegistrationService();
                     regService.Register(model.Name, model.Password);
 
-                    // если пользователь удачно добавлен в бд
                     FormsAuthentication.SetAuthCookie(model.Name, true);
                     return RedirectToAction("Index", "Manager");
                     

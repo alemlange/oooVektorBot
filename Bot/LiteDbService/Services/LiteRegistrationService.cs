@@ -38,8 +38,23 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
+                var keyNotGenerated = true;
+                var botRndPart = "";
                 var col = db.GetCollection<Config>("Configs");
-                var config = new Config { Id = Guid.NewGuid(), AccountId = accountId, TelegramBotLocation = "http://localhost:8443/" };
+
+                while (keyNotGenerated)
+                {
+                    var random = new Random();
+                    var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+                    botRndPart = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
+
+                    var matches = col.Find(o => o.TelegramBotLocation.Contains(botRndPart));
+
+                    if (!matches.Any())
+                        keyNotGenerated = false;
+                }
+
+                var config = new Config { Id = Guid.NewGuid(), AccountId = accountId, TelegramBotLocation = "https://" + botRndPart + ".karhouse.org/", BotKey = botRndPart + ".karhouse.org" };
 
                 col.Insert(config);
                 return config;
@@ -61,6 +76,20 @@ namespace LiteDbService
             {
                 var col = db.GetCollection<ManagerAccount>("ManagerAccounts");
                 return col.Find(o => o.Id == accountId).FirstOrDefault();
+            }
+        }
+
+        public Guid? AccountIdByHost(string uri)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Config>("Configs");
+                var config = col.Find(o => o.TelegramBotLocation.Contains(uri)).FirstOrDefault();
+
+                if(config != null)
+                    return config.AccountId;
+                else
+                    return null;
             }
         }
 

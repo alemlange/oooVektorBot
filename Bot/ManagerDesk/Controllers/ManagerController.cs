@@ -69,6 +69,31 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpGet]
+        public ActionResult BotStart()
+        {
+            var regService = new RegistrationService();
+            var config = regService.FindConfiguration(User.Identity.Name);
+
+            try
+            {
+                var status = new BotClient(config.TelegramBotLocation).StartBot(config.BotKey);
+
+                if (status.Contains("Ok"))
+                {
+                    return Json(new { isAuthorized = true, isSuccess = true, okStatus = true, msg = "Бот зарегистрирован" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { isAuthorized = true, isSuccess = true, okStatus = false, msg = status }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch
+            {
+                return Json(new { isAuthorized = true, isSuccess = true, okStatus = false, msg = "Не получилось стартовать бота" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
         public ActionResult RestaurantOptions()
         {
             var service = ServiceCreator.GetManagerService(User.Identity.Name);

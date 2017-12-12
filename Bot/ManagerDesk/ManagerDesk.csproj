@@ -196,6 +196,7 @@
     <Content Include="Assets\Content\media.css" />
     <Content Include="Assets\Imgs\favicon.ico" />
     <Content Include="Assets\Imgs\insta_placeholder.png" />
+    <Content Include="Assets\Imgs\UserPics\1.txt" />
     <Content Include="Assets\Scripts\cookie_manager.js" />
     <Content Include="Assets\Scripts\libs\jquery-ui.min.js" />
     <Content Include="Assets\Scripts\libs\Sortable.min.js" />
@@ -284,7 +285,9 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -329,7 +332,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Assets\Imgs\UserPics\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>

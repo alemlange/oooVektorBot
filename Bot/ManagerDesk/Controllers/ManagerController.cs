@@ -80,7 +80,7 @@ namespace ManagerDesk.Controllers
 
                 if (status.Contains("Ok"))
                 {
-                    return Json(new { isAuthorized = true, isSuccess = true, okStatus = true }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isAuthorized = true, isSuccess = true, okStatus = true, msg = "Бот зарегистрирован" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {

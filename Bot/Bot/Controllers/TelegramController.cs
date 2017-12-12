@@ -372,9 +372,7 @@ namespace Bot.Controllers
                     
                 }
             }
-
             return Ok();
         }
-
     }
 }

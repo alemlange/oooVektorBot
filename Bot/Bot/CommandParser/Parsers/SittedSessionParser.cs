@@ -43,7 +43,7 @@ namespace Bot.CommandParser
                 else if (msgText.Contains("мой заказ"))
                     return CmdTypes.MyOrder;
                 else if (msgText.Contains("оплатить"))
-                    return CmdTypes.Pay;
+                    return CmdTypes.CreateInvoice;
                 else if (msgText.Contains("убрать из заказа"))
                     return CmdTypes.Remove;
                 else if (msgText.StartsWith("/"))
@@ -52,6 +52,10 @@ namespace Bot.CommandParser
                     return CmdTypes.RemoveByNum;
                 else
                     return CmdTypes.Unknown;
+            }
+            else if (update.Message.Type == MessageType.SuccessfulPayment)
+            {
+                return CmdTypes.SuccessfulPayment;
             }
             else
                 return CmdTypes.Unknown;

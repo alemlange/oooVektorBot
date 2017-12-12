@@ -10,6 +10,8 @@ namespace DataModels
     {
         public Guid Id { get; set; }
 
+        public string TelegramInvoiceId { get; set; }
+
         public long ChatId { get; set; }
 
         public DateTime Date { get; set; }
@@ -18,11 +20,11 @@ namespace DataModels
 
         public decimal Summ { get; set; }
 
-        public decimal SummInCents
+        public int SummInCents
         {
             get
             {
-                return Summ * 100;
+                return Convert.ToInt32(Summ * 100);
             }
         }
 
@@ -31,5 +33,7 @@ namespace DataModels
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public bool PaymentRecieved { get; set; }
     }
 }

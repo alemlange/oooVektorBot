@@ -28,6 +28,7 @@ namespace Bot.CommandParser
         Remove,
         RemoveByNum,
         QRCode,
-        Pay
+        CreateInvoice,
+        SuccessfulPayment
     }
 }

@@ -297,19 +297,77 @@ namespace Brains
             }
         }
 
-        public Responce GenerateCheque(long chatId)
+        public GenChequeResponce CreateInvoice(long chatId)
         {
-            var table = _service.GetActiveTable(chatId);
-
-            if (table != null && table.OrderProcessed && table.Orders != null && table.Orders.Any())
+            try
             {
+                var table = _service.GetActiveTable(chatId);
 
+                if (table != null && table.OrderProcessed && table.Orders != null && table.Orders.Any())
+                {
+                    var cheque = new Cheque { ChatId = chatId, Currency = "RUB", Date = DateTime.Now, OrderedDishes = table.Orders, Id = Guid.NewGuid(), PaymentRecieved = false };
+
+                    decimal summ = 0;
+
+                    foreach (var order in table.Orders)
+                    {
+                        summ += order.DishFromMenu.Price;
+                    }
+
+                    if (summ <= 60)
+                        throw new PaymentException("Сумма слишком маленькая для оплаты.");
+
+                    cheque.Summ = summ;
+                    cheque.Title = "Ваш заказ: ";
+                    cheque.Description = "";
+
+                    foreach (var dish in table.Orders)
+                    {
+                        cheque.Description += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р." + Environment.NewLine;
+                    }
+
+                    _service.AssignCheque(table.Id, cheque);
+
+                    return new GenChequeResponce { ChatId = chatId, Invoice = cheque, InvoiceReady = true };
+                }
+                else
+                {
+                    return new GenChequeResponce { ChatId = chatId, InvoiceReady = false, ResponceText = "Пока еще нельзя оплачивать." };
+                }
             }
-
-            return new Responce
+            catch(PaymentException ex)
             {
-                ChatId = chatId
-            };
+                return new GenChequeResponce { ChatId = chatId, InvoiceReady = false, ResponceText = ex.Message };
+            } 
+        }
+
+        public PreCheckResponce PreCheckout(long chatId, int preSumm, string preCur)
+        {
+            try
+            {
+                var table = _service.GetActiveTable(chatId);
+
+                if (table != null && table.Cheque != null)
+                {
+                    if(table.Cheque.SummInCents == preSumm && table.Cheque.Currency == preCur)
+                    {
+                        return new PreCheckResponce { ChatId = chatId, IsError = false };
+                    }
+                    else
+                    {
+                        return new PreCheckResponce { ChatId = chatId, IsError = true, ResponceText = "Произошла ошибка оплаты, суммы не совпадают." };
+                    }
+                    
+                }
+                else
+                {
+                    return new PreCheckResponce { ChatId = chatId, IsError = true, ResponceText = "Столик не найден." };
+                }
+            }
+            catch
+            {
+                return new PreCheckResponce { ChatId = chatId, IsError = true, ResponceText = "Произошла ошибка при подтверждении чека." };
+            }
         }
 
         public Responce ShowCart(long chatId)

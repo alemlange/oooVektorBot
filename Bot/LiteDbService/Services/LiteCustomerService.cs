@@ -247,6 +247,25 @@ namespace LiteDbService
             }
         }
 
+        public void AssignCheque(Guid tableId, Cheque cheque)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.Id == tableId).FirstOrDefault();
+
+                if(table != null)
+                {
+                    table.Cheque = cheque;
+                    col.Update(table);
+                }
+                else
+                {
+                    throw new Exception("Стол не найден");
+                }
+            }
+        }
+
         #endregion
 
         #region Menu

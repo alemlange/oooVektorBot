@@ -10,7 +10,7 @@ namespace DataModels
     {
         public Guid Id { get; set; }
 
-        public string TelegramInvoiceId { get; set; }
+        public string TelegramPaymentId { get; set; }
 
         public long ChatId { get; set; }
 

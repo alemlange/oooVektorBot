@@ -20,8 +20,7 @@ namespace Bot.CommandParser
                     {
                         new KeyboardButton[] { "Меню 📓" },
                         new KeyboardButton[] { "Мой заказ 🍴", "Убрать из заказа ❌" },
-                        new KeyboardButton[] { "Попросить счет 💳", "Официант 🔔" },
-                        new KeyboardButton[] { "Оплатить" }
+                        new KeyboardButton[] { "Оплатить заказ💳", "Официант 🔔" },
                     }
                 };
             }
@@ -42,7 +41,7 @@ namespace Bot.CommandParser
                     return CmdTypes.Waiter;
                 else if (msgText.Contains("мой заказ"))
                     return CmdTypes.MyOrder;
-                else if (msgText.Contains("оплатить"))
+                else if (msgText.Contains("оплатить заказ"))
                     return CmdTypes.CreateInvoice;
                 else if (msgText.Contains("убрать из заказа"))
                     return CmdTypes.Remove;

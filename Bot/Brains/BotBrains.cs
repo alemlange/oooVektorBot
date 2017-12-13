@@ -208,6 +208,9 @@ namespace Brains
 
                 if (table != null)
                 {
+                    if(table.Cheque != null && table.Cheque.PaymentRecieved)
+                        return new Responce { ChatId = chatId, ResponceText = "Извините, но заказ уже оплачен!" };
+
                     if (string.IsNullOrWhiteSpace(dishName))
                     {
                         var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
@@ -265,6 +268,9 @@ namespace Brains
 
                 if (table.Orders.Any())
                 {
+                    if(table.Cheque != null &&table.Cheque.PaymentRecieved)
+                        return new Responce { ResponceText = "Извините, но заказ уже оплачен!" };
+
                     var resp = ShowCart(chatId);
                     resp.ResponceText += Environment.NewLine + "Отправьте сообщением номер блюда, которое вы хотите убрать из заказа";
                     
@@ -303,8 +309,17 @@ namespace Brains
             {
                 var table = _service.GetActiveTable(chatId);
 
-                if (table != null && table.OrderProcessed && table.Orders != null && table.Orders.Any())
+                if (table != null)
                 {
+                    if (table.Orders == null || !table.Orders.Any())
+                        throw new PaymentException("Извините, еще нельзя оплачивать, вы пока ничего не заказали.");
+
+                    if (!table.OrderProcessed)
+                        throw new PaymentException("Извините, еще нельзя оплачивать, ваш заказ пока проверяют.");
+
+                    if (table.Cheque != null && table.Cheque.PaymentRecieved == true)
+                        throw new PaymentException("Вы уже оплатили заказ.");
+
                     var cheque = new Cheque { ChatId = chatId, Currency = "RUB", Date = DateTime.Now, OrderedDishes = table.Orders, Id = Guid.NewGuid(), PaymentRecieved = false };
 
                     decimal summ = 0;
@@ -318,7 +333,7 @@ namespace Brains
                         throw new PaymentException("Сумма слишком маленькая для оплаты.");
 
                     cheque.Summ = summ;
-                    cheque.Title = "Ваш заказ: ";
+                    cheque.Title = "Ваш заказ";
                     cheque.Description = "";
 
                     foreach (var dish in table.Orders)
@@ -332,7 +347,7 @@ namespace Brains
                 }
                 else
                 {
-                    return new GenChequeResponce { ChatId = chatId, InvoiceReady = false, ResponceText = "Пока еще нельзя оплачивать." };
+                    return new GenChequeResponce { ChatId = chatId, InvoiceReady = false, ResponceText = "Ошибка оплаты, столик не найден." };
                 }
             }
             catch(PaymentException ex)
@@ -341,32 +356,82 @@ namespace Brains
             } 
         }
 
-        public PreCheckResponce PreCheckout(long chatId, int preSumm, string preCur)
+        public PreCheckResponce PreCheckout(long chatId, int preSumm, string preCur, string payload)
         {
             try
             {
                 var table = _service.GetActiveTable(chatId);
 
-                if (table != null && table.Cheque != null)
+                if (table != null)
                 {
-                    if(table.Cheque.SummInCents == preSumm && table.Cheque.Currency == preCur)
+                    if (table.Orders == null || !table.Orders.Any())
+                        throw new PaymentException("Произошла ошибка оплаты, вы пока ничего не заказали.");
+
+                    if (!table.OrderProcessed)
+                        throw new PaymentException("Произошла ошибка оплаты, ваш заказ пока проверяют.");
+
+                    decimal summ = 0;
+                    foreach (var order in table.Orders)
                     {
-                        return new PreCheckResponce { ChatId = chatId, IsError = false };
+                        summ += order.DishFromMenu.Price;
                     }
-                    else
-                    {
-                        return new PreCheckResponce { ChatId = chatId, IsError = true, ResponceText = "Произошла ошибка оплаты, суммы не совпадают." };
-                    }
-                    
+                    int summInCents = Convert.ToInt32(summ * 100);
+
+                    if (table.Cheque == null)
+                        throw new PaymentException("Произошла ошибка оплаты, не найден чек!");
+
+                    if (table.Cheque.SummInCents != preSumm || table.Cheque.Currency != preCur || preSumm != summInCents)
+                        throw new PaymentException("Произошла ошибка оплаты, суммы не совпадают." );    
+
+                    if (table.Cheque.Id.ToString() != payload)
+                        throw new PaymentException("Произошла ошибка оплаты, номера чеков не совпадают." );
+
+                    return new PreCheckResponce { ChatId = chatId, IsError = false };
                 }
                 else
-                {
                     return new PreCheckResponce { ChatId = chatId, IsError = true, ResponceText = "Столик не найден." };
+            }
+            catch(PaymentException ex)
+            {
+                return new PreCheckResponce { ChatId = chatId, IsError = true, ResponceText = ex.Message };
+            }
+            catch(Exception)
+            {
+                return new PreCheckResponce { ChatId = chatId, IsError = true, ResponceText = "Произошла ошибка при подтверждении чека." };
+            }
+        }
+
+        public Responce SuccessPayment(long chatId, string payload, int totalAmount, string telegramPaymentId, string curr)
+        {
+            try
+            {
+                var table = _service.GetActiveTable(chatId);
+
+                if (table != null)
+                {
+                    if (table.Cheque == null)
+                        throw new PaymentException("Произошла ошибка подтверждения оплаты, не найден чек!");
+
+                    if (table.Cheque.SummInCents != totalAmount || table.Cheque.Currency != curr)
+                        throw new PaymentException("Произошла ошибка подтверждения оплаты, суммы не совпадают.");
+
+                    if (table.Cheque.Id.ToString() != payload)
+                        throw new PaymentException("Произошла ошибка оплаты, номера чеков не совпадают.");
+
+                    _service.ChequeMarkPayed(table.Id, telegramPaymentId);
+
+                    return new Responce { ChatId = chatId, ResponceText = "Ваш заказ успешно оплачен!" };
                 }
+                else
+                    throw new PaymentException("Столик не найден.");
+            }
+            catch (PaymentException ex)
+            {
+                return new Responce { ChatId = chatId, ResponceText = ex.Message };
             }
             catch
             {
-                return new PreCheckResponce { ChatId = chatId, IsError = true, ResponceText = "Произошла ошибка при подтверждении чека." };
+                return new Responce { ChatId = chatId, ResponceText = "Произошла ошибка при подтверждении оплаты." };
             }
         }
 

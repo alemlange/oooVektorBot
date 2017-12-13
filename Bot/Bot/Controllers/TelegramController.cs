@@ -222,7 +222,15 @@ namespace Bot.Controllers
                                 }
                             case CmdTypes.SuccessfulPayment:
                                 {
-                                    var sucpayment = message.SuccessfulPayment;
+                                    var payment = message.SuccessfulPayment;
+
+                                    var responce = bot.SuccessPayment(chatId, payment.InvoicePayload, payment.TotalAmount, payment.TelegramPaymentChargeId, payment.Currency);
+
+                                    await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.MyOrder:
@@ -378,7 +386,7 @@ namespace Bot.Controllers
                     chatId = update.PreCheckoutQuery.From.Id;
                     var preCheck = update.PreCheckoutQuery;
 
-                    var response = bot.PreCheckout(chatId, preCheck.TotalAmount, preCheck.Currency);
+                    var response = bot.PreCheckout(chatId, preCheck.TotalAmount, preCheck.Currency, preCheck.InvoicePayload);
 
                     if (!response.IsError)
                     {

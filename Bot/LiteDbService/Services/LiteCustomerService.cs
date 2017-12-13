@@ -62,6 +62,7 @@ namespace LiteDbService
                     table.Orders.Add(dish);
                     table.OrderPlaced = DateTime.Now;
                     table.OrderProcessed = false;
+                    table.Cheque = null;
                     tableCol.Update(table);
                 }
             }
@@ -78,12 +79,14 @@ namespace LiteDbService
                     table.Orders.RemoveAll(o => o.Num == dishNum);
 
                     int num = 1;
-
                     foreach (var order in table.Orders)
                     {
                         order.Num = num;
                         num += 1;
                     }
+
+                    table.OrderProcessed = false;
+                    table.Cheque = null;
 
                     UpdateTable(table);
                 }
@@ -244,6 +247,45 @@ namespace LiteDbService
 
                 table.HelpNeeded = true;
                 col.Update(table);
+            }
+        }
+
+        public void AssignCheque(Guid tableId, Cheque cheque)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.Id == tableId).FirstOrDefault();
+
+                if(table != null)
+                {
+                    table.Cheque = cheque;
+                    col.Update(table);
+                }
+                else
+                {
+                    throw new Exception("Стол не найден");
+                }
+            }
+        }
+
+        public void ChequeMarkPayed(Guid tableId, string paymentId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.Id == tableId).FirstOrDefault();
+
+                if (table != null && table.Cheque != null)
+                {
+                    table.Cheque.TelegramPaymentId = paymentId;
+                    table.Cheque.PaymentRecieved = true;
+                    col.Update(table);
+                }
+                else
+                {
+                    throw new Exception("Стол либо чек не найдены.");
+                }
             }
         }
 

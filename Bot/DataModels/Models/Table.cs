@@ -12,7 +12,6 @@ namespace DataModels
         public Guid Id { get; set; }
         public long ChatId { get; set; }
         public int TableNumber { get; set; }
-        //public Guid Menu { get; set; }
         public Guid Restaurant { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime OrderPlaced { get; set; }
@@ -22,5 +21,6 @@ namespace DataModels
         public bool HelpNeeded { get; set; }
         public bool CheckNeeded { get; set; }
         public bool OrderProcessed { get; set; }
+        public Cheque Cheque { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.IO;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -98,7 +99,7 @@ namespace Bot.Controllers
                     chatId = message.Chat.Id;
                     var parser = ParserChoser.GetParser(chatId, bot);
 
-                    if (message.Type == MessageType.TextMessage || message.Type == MessageType.PhotoMessage)
+                    if (message.Type == MessageType.TextMessage || message.Type == MessageType.PhotoMessage || message.Type == MessageType.SuccessfulPayment)
                     {
                         var cmd = parser.ParseForCommand(update);
 
@@ -195,6 +196,41 @@ namespace Bot.Controllers
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
                                         replyMarkup: keyboard);
+                                    break;
+                                }
+                            case CmdTypes.CreateInvoice:
+                                {
+                                    var response = bot.CreateInvoice(chatId);
+
+                                    if (response.InvoiceReady)
+                                    {
+                                        var prices = new LabeledPrice[1];
+                                        prices[0] = new LabeledPrice { Amount = response.Invoice.SummInCents, Label = "Итого" };
+
+                                        await Telegram.SendInvoiceAsync(
+                                            chatId, response.Invoice.Title, response.Invoice.Description, response.Invoice.Id.ToString(), bot.PaymentToken, "startP", response.Invoice.Currency, prices);
+                                    }
+                                    else
+                                    {
+                                        await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    }
+                                    break;
+                                }
+                            case CmdTypes.SuccessfulPayment:
+                                {
+                                    var payment = message.SuccessfulPayment;
+
+                                    var responce = bot.SuccessPayment(chatId, payment.InvoicePayload, payment.TotalAmount, payment.TelegramPaymentChargeId, payment.Currency);
+
+                                    await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.MyOrder:
@@ -322,7 +358,6 @@ namespace Bot.Controllers
                 else if (update.Type == UpdateType.CallbackQueryUpdate)
                 {
                     chatId = update.CallbackQuery.From.Id;
-                    var messageId = update.CallbackQuery.Message.MessageId;
 
                     if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
                     {
@@ -344,6 +379,22 @@ namespace Bot.Controllers
                             parseMode: ParseMode.Html,
                             replyMarkup: new MenuCategorySessionParser(bot.GetMenuCategoriesByChatId(chatId)).Keyboard);
 
+                    }
+                }
+                else if (update.Type == UpdateType.PreCheckoutQueryUpdate)
+                {
+                    chatId = update.PreCheckoutQuery.From.Id;
+                    var preCheck = update.PreCheckoutQuery;
+
+                    var response = bot.PreCheckout(chatId, preCheck.TotalAmount, preCheck.Currency, preCheck.InvoicePayload);
+
+                    if (!response.IsError)
+                    {
+                        await Telegram.AnswerPreCheckoutQueryAsync(preCheck.Id, true);
+                    }
+                    else
+                    {
+                        await Telegram.AnswerPreCheckoutQueryAsync(preCheck.Id, false, errorMessage: response.ResponceText);
                     }
                 }
             }

@@ -1,2 +1,7 @@
+mainTokens
 test_bot - 498869682:AAH-IwVHEdKM09SjjIHO7D0rx27z7-ZfCbI
 papaellatest - 503639085:AAH519In-j2Vzto-uiA9Mcs6j-5lE-Lcos0
+
+PayToken
+
+test_bot,SberbankTest - 401643678:TEST:4e6bc4df-f9c2-4935-a81d-7649d848571a

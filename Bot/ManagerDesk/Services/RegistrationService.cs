@@ -13,12 +13,13 @@ namespace ManagerDesk.Services
 {
     public class RegistrationService
     {
-        protected SHA512 Provider = new SHA512CryptoServiceProvider();
+        //protected SHA512 Provider = new SHA512CryptoServiceProvider();
 
         private string Encrypt(string s)
         {
+            var provider = new SHA512CryptoServiceProvider();
             var bytes = Encoding.Default.GetBytes(s);
-            var encryptedBytes = Provider.ComputeHash(bytes);
+            var encryptedBytes = provider.ComputeHash(bytes);
             var hash = BitConverter.ToString(encryptedBytes);
             return hash.Where(t => t != '-').Aggregate("", (current, t) => current + t);
         }

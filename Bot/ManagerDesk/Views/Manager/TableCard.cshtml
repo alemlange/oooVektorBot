@@ -11,24 +11,12 @@
             {
                 <div class="toolbar-mini">
                     <div class="toolbar-mini__btn @Model.OrderProcessedStyle js-set-table-action" data-target="@Url.Action("TableSetProccesed","Manager")"><i class="fa fa-check" aria-hidden="true"></i></div>
-                    @*<div class="toolbar-mini__btn @Model.CheckNeededStyle js-set-table-action" data-target="@Url.Action("TableSetCheck","Manager")"><i class="fa fa-file-text" aria-hidden="true"></i></div>*@
                     <div class="toolbar-mini__btn @Model.HelpNeededStyle js-set-table-action" data-target="@Url.Action("TableSetHelp","Manager")"><i class="fa fa-child" aria-hidden="true"></i></div>
                     <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger js-toolbar-close-table" data-target="@Url.Action("CloseTable","Manager")"><i class="fa fa-lock" aria-hidden="true"></i></div>
                 </div>
             }
 
             <div class="table-labels">
-                @if (Model.TableActive)
-                {
-                    @*if (Model.CheckNeeded)
-                    {
-                        <span class="label label-danger">Счет</span>
-                    }*@
-                    if (Model.HelpNeeded)
-                    {
-                        <span class="label label-warning">Нужна помощь</span>
-                    }
-                }
                 @if (Model.Cheque != null && Model.Cheque.PaymentRecieved)
                 {
                     <span class="label label-default">Оплачено</span>
@@ -39,15 +27,15 @@
             <div>
                 @if (Model.TableNumber == 0)
                 {
-                    <h3 class="info-item-heading">Новый стол</h3>
+                    <h3 class="info-item-heading">Новый заказ</h3>
                 }
                 else
                 {
-                    <h3 class="info-item-heading">Стол <span class="table-number">@Model.TableNumber </span></h3>
+                    <h3 class="info-item-heading">Заказ <span class="table-number">@Model.TableNumber </span></h3>
                     if (Model.OrderPlaced != DateTime.MinValue)
                     {
                         <h5 class="info-item-heading">
-                            Последний заказ: @Model.OrderPlaced.ToString(TimeFormat)
+                            Время заказа: @Model.OrderPlaced.ToString(TimeFormat)
                         </h5>
                     }
                 }

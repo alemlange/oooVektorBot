@@ -462,8 +462,7 @@ namespace Brains
             return new Responce
             {
                 ChatId = chatId,
-                ResponceText = respText,
-                //State = SessionState.Sitted
+                ResponceText = respText
             };
         }
 
@@ -515,8 +514,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Отлично! Выберите столик!",
-                    //State = SessionState.Queue
+                    ResponceText = "Отлично! Выберите столик!"
                 };
             }
             catch (Exception)
@@ -584,8 +582,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
-                    //State = SessionState.Sitted
+                    ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам."
                 };
 
             }
@@ -609,8 +606,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
-                    //State = SessionState.Sitted
+                    ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам."
                 };
 
             }
@@ -633,8 +629,7 @@ namespace Brains
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Привет! В каком вы ресторане?",
-                        //State = SessionState.Restaurant
+                        ResponceText = "Привет! В каком вы ресторане?"
                     };
                 }
                 else
@@ -646,8 +641,7 @@ namespace Brains
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Напишите номер столика, за которым вы сидите",
-                        //State = SessionState.Queue
+                        ResponceText = "Напишите номер столика, за которым вы сидите"
                     };
                 }
             }
@@ -655,25 +649,6 @@ namespace Brains
             {
                 return Responce.UnknownResponce(chatId);
             }  
-        }
-
-        public Responce TableChoose(long chatId)
-        {
-            try
-            {
-                _service.UpdateTableState(chatId, SessionState.Sitted);
-
-                return new Responce
-                {
-                    ChatId = chatId,
-                    ResponceText = "Привет! За каким столиком вы сидите?",
-                    //State = SessionState.Queue
-                };
-            }
-            catch (Exception)
-            {
-                return Responce.UnknownResponce(chatId);
-            }
         }
 
         public Responce CallWaiter(long chatId)
@@ -686,8 +661,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Официант уже идет",
-                    //State = SessionState.Sitted
+                    ResponceText = "Официант уже идет"
                 };
             }
             catch (Exception)
@@ -718,8 +692,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = respText,
-                    //State = SessionState.Sitted
+                    ResponceText = respText
                 };
             }
             catch (Exception)

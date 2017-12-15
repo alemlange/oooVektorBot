@@ -71,13 +71,13 @@ namespace ManagerDesk.Controllers
                     {
                         Address = RestModel.Address,
                         Code = RestModel.Code,
+                        QueueNumber = RestModel.QueueNumber,
                         Description = RestModel.Description,
                         Id = RestModel.Id,
                         Latitude = RestModel.Latitude,
                         Longitude = RestModel.Longitude,
                         Name = RestModel.Name,
-                        Menu = RestModel.Menu,
-                        TableCount = RestModel.TableCount
+                        Menu = RestModel.Menu
                     };
 
                     if (rest.Id == Guid.Empty)

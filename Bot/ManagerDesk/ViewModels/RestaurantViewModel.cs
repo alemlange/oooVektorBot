@@ -20,22 +20,13 @@ namespace ManagerDesk.ViewModels
 
         public string Code { get; set; }
 
+        public int QueueNumber { get; set; }
+
         public Guid Menu { get; set; }
 
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
 
-        [Required(ErrorMessage = "Нужно ввести количество столов")]
-        [Range(1, 1000, ErrorMessage = "Столов должно быть больше 0")]
-        public int TableCount { get; set; }
-
-        public string TableCountString
-        {
-            get
-            {
-                return TableCount == 0 ? "" : TableCount.ToString();
-            }
-        }
     }
 }

@@ -24,11 +24,6 @@ namespace Bot.CommandParser
                     {
                         return new RestruntSessionParser(bot.RestaurantNames);
                     }
-                case SessionState.Queue:
-                    {
-                        var tableCount = bot.RestTableCount(chatId);
-                        return new InQueueSessionParser(tableCount);
-                    }
                 case SessionState.Sitted:
                     return new SittedSessionParser();
                 case SessionState.Remark:

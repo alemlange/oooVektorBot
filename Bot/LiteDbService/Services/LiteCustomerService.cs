@@ -182,6 +182,34 @@ namespace LiteDbService
             }
         }
 
+        public void AssignNextQueueNumber(long chatId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+
+                if (table != null)
+                {
+                    var restCol = db.GetCollection<Restaurant>("Restaurants");
+                    var restaurant = restCol.Find(o => o.Id == table.Restaurant).FirstOrDefault();
+                    
+                    if(restaurant != null)
+                    {
+                        var nextNumber = restaurant.QueueNumber + 1;
+                        if (nextNumber >= 1000)
+                            nextNumber = 0;
+
+                        table.TableNumber = "T"+ nextNumber.ToString("000");
+
+                        restaurant.QueueNumber += 1;
+                        tableCol.Update(table);
+                        restCol.Update(restaurant);
+                    }
+                }
+            }
+        }
+
         public Guid CreateTable(long chatId)
         {
             using (var db = new LiteDatabase(CurrentDb))

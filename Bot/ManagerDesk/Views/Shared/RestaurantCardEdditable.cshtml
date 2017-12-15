@@ -2,8 +2,8 @@
 
 @*<div class="row">
     <div class="col-md-6 col-lg-3">*@
-        <div class="info-item animated fadeIn" data-itemid="@Model.Id">
-            @using (Html.BeginForm("EditRest", "Restaurant", FormMethod.Post, new { enctype = "multipart/form-data", @class = "js-rest-form", id="EditRestForm" }))
+        <div class="info-item animated fadeIn js-rest-form" data-itemid="@Model.Id">
+            @using (Html.BeginForm("EditRest", "Restaurant", FormMethod.Post, new { enctype = "multipart/form-data", id="EditRestForm" }))
             {
                 @Html.AntiForgeryToken()
 
@@ -14,9 +14,6 @@
 
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control js-address", placeholder = "Адрес" } })
-
-                @Html.ValidationMessageFor(model => model.TableCount, "", new { @class = "text-danger" })
-                @Html.EditorFor(model => model.TableCount, new { htmlAttributes = new { @class = "form-control js-table-count", placeholder = "Количество столов", @Value = Model.TableCountString } })
 
                 @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control js-code", @readonly = "readonly", placeholder = "Код" } })
 

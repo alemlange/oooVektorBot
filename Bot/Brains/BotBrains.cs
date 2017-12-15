@@ -187,19 +187,6 @@ namespace Brains
                 return SessionState.Unknown;
         }
 
-        public int RestTableCount(long chatId)
-        {
-            var table = _service.GetActiveTable(chatId);
-
-            if (table != null)
-            {
-                var rest = _service.GetRestaurantByTable(table.Id);
-                return rest.TableCount == 0 ? 50 : rest.TableCount;
-            }
-            else
-                throw new TableNotFoundException("Table not found!");
-        }
-
         public Responce OrderMeal(long chatId, string dishName = "")
         {
             try
@@ -340,7 +327,7 @@ namespace Brains
                     {
                         cheque.Description += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р." + Environment.NewLine;
                     }
-                    cheque.Description += "<b>Номер вашего заказа: " + table.TableNumber + "р.</b>" + Environment.NewLine;
+                    cheque.Description += "Номер вашего заказа: " + table.TableNumber + Environment.NewLine;
                     _service.AssignCheque(table.Id, cheque);
 
                     return new GenChequeResponce { ChatId = chatId, Invoice = cheque, InvoiceReady = true };
@@ -454,7 +441,7 @@ namespace Brains
                 }
                 respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
 
-                respText +="<b>Номер вашего заказа: " + table.TableNumber+ "р.</b>" + Environment.NewLine;
+                respText +="<b>Номер вашего заказа: " + table.TableNumber+ "</b>" + Environment.NewLine;
             }
             else
             {
@@ -512,7 +499,7 @@ namespace Brains
             try
             {
                 _service.AssignRestaurant(chatId, restruntName);
-                _service.AssignNumber(chatId, 1);
+                _service.AssignNextQueueNumber(chatId);
                 _service.UpdateTableState(chatId, SessionState.Sitted);
 
                 return new Responce
@@ -580,7 +567,7 @@ namespace Brains
         {
             try
             {
-                _service.AssignNumber(chatId, tableNumber);
+                _service.AssignNextQueueNumber(chatId);
                 _service.UpdateTableState(chatId, SessionState.Sitted);
 
                 return new Responce
@@ -605,7 +592,7 @@ namespace Brains
                 int tableNumber = int.Parse(code.Substring(5));
 
                 _service.AssignRestaurantByCode(chatId, restruntCode);
-                _service.AssignNumber(chatId, tableNumber);
+                _service.AssignNextQueueNumber(chatId);
                 _service.UpdateTableState(chatId, SessionState.Sitted);
 
                 return new Responce
@@ -642,6 +629,7 @@ namespace Brains
                 {
                     var rest = restaurants.FirstOrDefault();
                     _service.AssignRestaurant(chatId, rest.Name);
+                    _service.AssignNextQueueNumber(chatId);
                     _service.UpdateTableState(chatId, SessionState.Sitted);
 
                     return new Responce

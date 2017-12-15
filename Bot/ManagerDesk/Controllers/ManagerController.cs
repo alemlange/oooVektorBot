@@ -165,47 +165,6 @@ namespace ManagerDesk.Controllers
             return View("TableCardList", model);
         }
 
-        [HttpGet]
-        public ActionResult TableActions(Guid tableid)
-        {
-            var service = ServiceCreator.GetManagerService(User.Identity.Name);
-
-            var table = service.GetTable(tableid);
-            if (table != null)
-            {
-                var tableActions = Mapper.Map<TableActionsViewModel>(table);
-
-                return View(tableActions);
-            }
-            else
-                return Json(new { isAuthorized = true, isSuccess = false});
-        }
-
-        [HttpPost]
-        public ActionResult TableActions(Guid tableId, bool orderProc, bool helpNeeded, bool checkPlease)
-        {
-            try
-            {
-                var service = ServiceCreator.GetManagerService(User.Identity.Name);
-                var table = service.GetTable(tableId);
-                if (table != null)
-                {
-                    table.HelpNeeded = helpNeeded;
-                    table.CheckNeeded = checkPlease;
-                    table.OrderProcessed = orderProc;
-                    service.UpdateTable(table);
-                }
-                else
-                    throw new ArgumentNullException("Table not found!");
-
-                return Json(new { isAuthorized = true, isSuccess = true });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
-            }
-        }
-
         [HttpPost]
         public ActionResult TableSetProccesed(Guid tableId, bool value)
         {

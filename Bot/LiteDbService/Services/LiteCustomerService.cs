@@ -21,7 +21,7 @@ namespace LiteDbService
             {
                 if (string.IsNullOrEmpty(_currentDb))
                 {
-                    _currentDb = @"C:\db\" + _userDb + ".db";
+                    _currentDb = @"C:\db\takeaway\" + _userDb + ".db";
                 }
                 return _currentDb;
             }
@@ -165,7 +165,7 @@ namespace LiteDbService
 
                 if (table != null)
                 {
-                    table.TableNumber = tableNumber;
+                    table.TableNumber = "T001";
                     tableCol.Update(table);
 
                     if (table.Restaurant == Guid.Empty)

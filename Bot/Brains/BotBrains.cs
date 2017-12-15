@@ -340,7 +340,7 @@ namespace Brains
                     {
                         cheque.Description += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р." + Environment.NewLine;
                     }
-
+                    cheque.Description += "<b>Номер вашего заказа: " + table.TableNumber + "р.</b>" + Environment.NewLine;
                     _service.AssignCheque(table.Id, cheque);
 
                     return new GenChequeResponce { ChatId = chatId, Invoice = cheque, InvoiceReady = true };
@@ -453,6 +453,8 @@ namespace Brains
                     respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
                 }
                 respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
+
+                respText +="<b>Номер вашего заказа: " + table.TableNumber+ "р.</b>" + Environment.NewLine;
             }
             else
             {
@@ -510,13 +512,13 @@ namespace Brains
             try
             {
                 _service.AssignRestaurant(chatId, restruntName);
-                _service.UpdateTableState(chatId, SessionState.Queue);
+                _service.AssignNumber(chatId, 1);
+                _service.UpdateTableState(chatId, SessionState.Sitted);
 
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Отлично! Выберите столик!",
-                    //State = SessionState.Queue
+                    ResponceText = "Отлично! Теперь вы можете сделать заказ"
                 };
             }
             catch (Exception)
@@ -633,21 +635,19 @@ namespace Brains
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Привет! В каком вы ресторане?",
-                        //State = SessionState.Restaurant
+                        ResponceText = "Привет! В каком вы ресторане?"
                     };
                 }
                 else
                 {
                     var rest = restaurants.FirstOrDefault();
                     _service.AssignRestaurant(chatId, rest.Name);
-                    _service.UpdateTableState(chatId, SessionState.Queue);
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
 
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Напишите номер столика, за которым вы сидите",
-                        //State = SessionState.Queue
+                        ResponceText = "Отлично! Теперь вы можете сделать заказ"
                     };
                 }
             }

@@ -43,16 +43,6 @@
         });
     });
 
-    $(".js-table-body").on("click", ".table-actions", function (e) {
-
-        var table = $(this).parents(".js-table-card");
-        var tableid = table.data("itemid");
-        var target = table.data("actionstarget");
-        $.get(target, { tableid: tableid }).done(function (data) {
-            table.find(".dropdown-menu").html(data);
-        });
-    });
-
     $(".js-table-body").on("click", ".js-renew-menu", function (e) {
 
         e.preventDefault();

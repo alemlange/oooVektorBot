@@ -217,7 +217,7 @@ namespace Brains
                         dishName = lastDishName.Value.ToString();
                     }
 
-                    var dish = _service.FindDish(dishName);
+                    var dish = _service.GetMenuByRestaurant(table.Restaurant).DishList.Where(o => o.SlashName == dishName).FirstOrDefault();
                     var dishNum = table.Orders.Count + 1;
 
                     _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.UtcNow.AddHours(3) });
@@ -705,7 +705,7 @@ namespace Brains
         {
             try
             {
-                var dish = _service.GetDish(dishName); // to do get dish from memory
+                var dish = _service.GetDish(dishName);
                 _service.AddLastDishToTable(chatId, dishName);
 
                 return new Responce

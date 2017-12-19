@@ -11,7 +11,7 @@
                 @Html.EditorFor(model => model.MenuName, new { htmlAttributes = new { @class = "form-control js-name", placeholder = "Название" } })
 
                 <div class="dropdown">
-                    <input readonly="readonly" class="form-control dropdown-toggle js-chosen-rest" value="@Model.AttachedRestaurantName" id="rest-drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-value="@Guid.Empty" placeholder="Ресторан" />
+                    <input readonly="readonly" class="form-control dropdown-toggle hide-readonly js-chosen-rest" value="@Model.AttachedRestaurantName" id="rest-drop-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-value="@Guid.Empty" placeholder="Ресторан" />
 
                     @if (Model.AvailableRests != null && Model.AvailableRests.Any())
                     {
@@ -30,9 +30,6 @@
                         <input type="checkbox" class="form-check-input js-defaultMenu" @Model.DefaultMenuStyle>
                     </label>
                 </div>
-
-                @*@Html.CheckBoxFor(model => model.DefaultMenu, new { htmlAttributes = new { @class = "form-control js-defaultMenu" } })
-                @Html.LabelFor(model => model.DefaultMenu, "Показывать это меню тех кто еще не выбрал ресторан.", htmlAttributes: new { @class = "control-label" })*@
                 
                 <button class="btn btn-save-dishes js-save-menu" type="submit">Сохранить</button>
             }

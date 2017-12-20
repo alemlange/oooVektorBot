@@ -35,8 +35,6 @@ namespace Bot.CommandParser
 
                 if (msgText.Contains("меню"))
                     return CmdTypes.Menu;
-                else if (msgText.Contains("попросить счет"))
-                    return CmdTypes.Check;
                 else if (msgText.Contains("мой заказ"))
                     return CmdTypes.MyOrder;
                 else if (msgText.Contains("оплатить заказ"))

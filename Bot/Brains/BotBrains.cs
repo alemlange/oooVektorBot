@@ -301,8 +301,8 @@ namespace Brains
                     if (table.Orders == null || !table.Orders.Any())
                         throw new PaymentException("Извините, еще нельзя оплачивать, вы пока ничего не заказали.");
 
-                    if (!table.OrderProcessed)
-                        throw new PaymentException("Извините, еще нельзя оплачивать, ваш заказ пока проверяют.");
+                    //if (!table.OrderProcessed)
+                    //    throw new PaymentException("Извините, еще нельзя оплачивать, ваш заказ пока проверяют.");
 
                     if (table.Cheque != null && table.Cheque.PaymentRecieved == true)
                         throw new PaymentException("Вы уже оплатили заказ.");
@@ -354,8 +354,8 @@ namespace Brains
                     if (table.Orders == null || !table.Orders.Any())
                         throw new PaymentException("Произошла ошибка оплаты, вы пока ничего не заказали.");
 
-                    if (!table.OrderProcessed)
-                        throw new PaymentException("Произошла ошибка оплаты, ваш заказ пока проверяют.");
+                    //if (!table.OrderProcessed)
+                    //    throw new PaymentException("Произошла ошибка оплаты, ваш заказ пока проверяют.");
 
                     decimal summ = 0;
                     foreach (var order in table.Orders)
@@ -675,38 +675,6 @@ namespace Brains
                 {
                     ChatId = chatId,
                     ResponceText = "Официант уже идет",
-                    //State = SessionState.Sitted
-                };
-            }
-            catch (Exception)
-            {
-                return Responce.UnknownResponce(chatId);
-            }
-        }
-
-        public Responce GiveACheck(long chatId)
-        {
-            try
-            {
-                var table = _service.GetActiveTable(chatId);
-                var respText = "";
-
-                if (table.Orders.Any())
-                {
-                    _service.SetCheckNeeded(chatId);
-                    _service.UpdateTableState(chatId, SessionState.Sitted);
-
-                    respText = "Счет сейчас принесут";
-                }
-                else
-                {
-                    respText = "Вы пока еще ничего не заказали :(";
-                }
-
-                return new Responce
-                {
-                    ChatId = chatId,
-                    ResponceText = respText,
                     //State = SessionState.Sitted
                 };
             }

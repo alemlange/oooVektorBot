@@ -244,28 +244,6 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
-                            case CmdTypes.Check:
-                                {
-                                    var response = bot.GiveACheck(chatId);
-
-                                    await Telegram.SendTextMessageAsync(
-                                        chatId,
-                                        response.ResponceText,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    break;
-                                }
-                            case CmdTypes.Waiter:
-                                {
-                                    var response = bot.CallWaiter(chatId);
-
-                                    await Telegram.SendTextMessageAsync(
-                                        chatId,
-                                        response.ResponceText,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    break;
-                                }
                             case CmdTypes.Remark:
                                 {
                                     var response = bot.AddRemark(chatId, message.Text);

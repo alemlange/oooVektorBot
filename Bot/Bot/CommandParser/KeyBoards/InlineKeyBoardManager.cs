@@ -23,6 +23,15 @@ namespace Bot.CommandParser.KeyBoards
                 });
         }
 
+        public static InlineKeyboardMarkup OrderKeyBoard()
+        {
+            return new InlineKeyboardMarkup(
+                new[]
+                {
+                    new[] { new InlineKeyboardCallbackButton("Оплата картой", "Оплата наличными") }
+                });
+        }
+
         public static InlineKeyboardMarkup MenuNavKeyBoard(int pageCount, int curPage)
         {
             var keyboard = new InlineKeyboardMarkup();
@@ -54,6 +63,8 @@ namespace Bot.CommandParser.KeyBoards
             {
                 case CmdTypes.Slash:
                     return DescriptionKeyBoard();
+                case CmdTypes.MyOrder:
+                    return OrderKeyBoard();
                 default:
                     throw new Exception("Unknown command"); 
             }

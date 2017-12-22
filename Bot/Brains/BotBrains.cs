@@ -622,7 +622,7 @@ namespace Brains
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Привет! В каком вы ресторане?"
+                        ResponceText = "Откуда вы хотите сделать заказ?"
                     };
                 }
                 else

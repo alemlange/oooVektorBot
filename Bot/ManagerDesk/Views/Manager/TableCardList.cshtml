@@ -4,22 +4,34 @@
 {
     if (Model.ActiveTables.Any())
     {
-        <div class="row">
-            @foreach (var table in Model.ActiveTables)
-            {
-                @Html.Partial("TableCard", table)
-            }
-        </div>
+        for (var i = 0; i < Model.ActiveTables.Count(); i += 4)
+        {
+            <div class="row">
+                @{
+                    var ta = Model.ActiveTables.Skip(i).Take(4);
+                }
+                @foreach (var table in ta)
+                {
+                    @Html.Partial("TableCard", table)
+                }
+            </div>
+        }
     }
     <hr />
     if (Model.InActiveTables.Any())
     {
-        <div class="row">
-            @foreach (var table in Model.InActiveTables)
-            {
-                @Html.Partial("TableCard", table)
-            }
-        </div>
+        for (var i = 0; i < Model.InActiveTables.Count(); i += 4)
+        {
+            <div class="row">
+                @{
+                    var ti = Model.InActiveTables.Skip(i).Take(4);
+                }
+                @foreach (var table in ti)
+                {
+                    @Html.Partial("TableCard", table)
+                }
+            </div>
+        }
     }
 }
 else

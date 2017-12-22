@@ -11,7 +11,7 @@
             $(".active-rest").show();
             $(".active-rest-label").show();
             $(".js-table-body").html(data);
-            equalHeight($(".info-item"));
+            //equalHeight($(".info-item"));
         }).fail(function (ex) {
             AlertModal.text = "Не получилось обновить столики, возможно отсутствует соединение с сетью!";
             AlertModal.show();

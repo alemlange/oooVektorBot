@@ -9,5 +9,5 @@
     group.height(tallest);
 }
 $(document).ready(function () {
-    equalHeight($(".info-item"));
+    //equalHeight($(".info-item"));
 });

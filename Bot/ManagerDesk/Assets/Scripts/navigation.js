@@ -5,6 +5,7 @@
 
         $(".menu-section.active").removeClass("active");
         $(this).addClass("active");
+        $(".navbar-left").slideUp("slow");
 
         var target = $(this).data("target");
         $.get(target).done(function (data) {
@@ -28,6 +29,7 @@
 
         $(".menu-section.active").removeClass("active");
         $(this).addClass("active");
+        $(".navbar-left").slideUp("slow");
 
         var target = $(this).data("target");
         $.get(target).done(function (data) {
@@ -43,6 +45,7 @@
 
         $(".menu-section.active").removeClass("active");
         $(this).addClass("active");
+        $(".navbar-left").slideUp("slow");
 
         var target = $(this).data("target");
         $.get(target).done(function (data) {
@@ -58,6 +61,7 @@
 
         $(".menu-section.active").removeClass("active");
         $(this).addClass("active");
+        $(".navbar-left").slideUp("slow");
 
         var target = $(this).data("target");
         $.get(target).done(function (data) {
@@ -93,6 +97,7 @@
     $(".navbar-left").on("click", ".toolbar-add", function (e) {
         e.preventDefault();
         var activeSection = $(this).data("type");
+        $(".navbar-left").slideUp("slow");
 
         var target = $(this).data("target");
         $.get(target, { activeSection: activeSection }).done(function (data) {

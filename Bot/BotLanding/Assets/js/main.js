@@ -73,7 +73,7 @@ jQuery(document).ready(function() {
 
     $('.slick-screens').slick({
         dots: true,
-        slidesToShow: 4,
+        slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
         arrows: false,

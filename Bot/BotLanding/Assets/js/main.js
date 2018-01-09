@@ -28,8 +28,7 @@ jQuery(document).ready(function() {
 			$(this).collapse('hide');
 		}
 	});
-
-	    
+    
     $('.js-close-modal').on('click', function () {
         $("#MessageModal").hide();
     });
@@ -77,7 +76,7 @@ jQuery(document).ready(function() {
         slidesToScroll: 1,
         autoplay: true,
         arrows: false,
-        autoplaySpeed: 2000,
+        autoplaySpeed: 2000
     });
 
     $('.slick-screens-admin').slick({
@@ -86,7 +85,7 @@ jQuery(document).ready(function() {
         slidesToScroll: 1,
         autoplay: true,
         arrows: false,
-        autoplaySpeed: 2000,
+        autoplaySpeed: 2000
     });
 });
 

@@ -76,7 +76,7 @@ jQuery(document).ready(function() {
         slidesToScroll: 1,
         autoplay: true,
         arrows: false,
-        autoplaySpeed: 2000
+        autoplaySpeed: 3000
     });
 
     $('.slick-screens-admin').slick({
@@ -85,7 +85,7 @@ jQuery(document).ready(function() {
         slidesToScroll: 1,
         autoplay: true,
         arrows: false,
-        autoplaySpeed: 2000
+        autoplaySpeed: 3000
     });
 });
 

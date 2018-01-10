@@ -534,6 +534,14 @@ ul {
     transition: all .3s;
 }
 
+.features-box .icon .small{
+    font-size: 40px;
+}
+
+.features-box li{
+    display:grid;
+}
+
 .features-box:hover .icon{
     -o-transition: all .3s;
     -moz-transition: all .3s;

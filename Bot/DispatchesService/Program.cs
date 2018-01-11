@@ -9,6 +9,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using LiteDbService;
 using LiteDbService.Helpers;
+using Clients;
 
 namespace DispatchesService
 {
@@ -50,13 +51,8 @@ namespace DispatchesService
         {
             try
             {
-                var bot = new BotBrains(host);
-                Telegram = new TelegramBotClient(bot.BotToken);
-
-                Telegram.SendTextMessageAsync(
-                    chatId,
-                    message,
-                    parseMode: ParseMode.Html);
+                var botClient = new BotClient(host);
+                botClient.SendNotification(chatId, message);
             }
             catch (Exception ex)
             {

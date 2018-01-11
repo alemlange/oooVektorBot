@@ -60,6 +60,10 @@
       <Project>{84095F49-26DB-4E92-A26F-3394609EFB08}</Project>
       <Name>Brains</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Clients\Clients.csproj">
+      <Project>{5CA5C36E-B820-4F07-BC53-EE4F51A02713}</Project>
+      <Name>Clients</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataModels\DataModels.csproj">
       <Project>{41b649f7-1207-4e00-92b2-8c051ce91424}</Project>
       <Name>DataModels</Name>

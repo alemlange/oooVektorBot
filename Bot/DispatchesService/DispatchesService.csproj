@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{41B649F7-1207-4E00-92B2-8C051CE91424}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataModels</RootNamespace>
-    <AssemblyName>DataModels</AssemblyName>
+    <ProjectGuid>{2A0D509C-6B04-41ED-BFE7-8ADE2E19F605}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>DispatchesService</RootNamespace>
+    <AssemblyName>DispatchesService</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,11 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,32 +43,31 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Telegram.Bot, Version=13.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telegram.Bot.13.4.0\lib\net45\Telegram.Bot.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ConfigurationSettings.cs" />
-    <Compile Include="Email\EmailRequest.cs" />
-    <Compile Include="Enums\SessionState.cs" />
-    <Compile Include="Exceptions\PaymentException.cs" />
-    <Compile Include="Exceptions\ConfigurationException.cs" />
-    <Compile Include="Exceptions\AuthException.cs" />
-    <Compile Include="Exceptions\TableNotFoundException.cs" />
-    <Compile Include="Models\Dish.cs" />
-    <Compile Include="Models\Config.cs" />
-    <Compile Include="Models\DispatchMessage.cs" />
-    <Compile Include="Models\Dispatch.cs" />
-    <Compile Include="Models\ManagerAccount.cs" />
-    <Compile Include="Models\Cheque.cs" />
-    <Compile Include="Models\Restaurant.cs" />
-    <Compile Include="Models\StateVarible.cs" />
-    <Compile Include="Models\Menu.cs" />
-    <Compile Include="Models\Table.cs" />
-    <Compile Include="Models\OrderedDish.cs" />
-    <Compile Include="Notifications\Notification.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Brains\Brains.csproj">
+      <Project>{84095F49-26DB-4E92-A26F-3394609EFB08}</Project>
+      <Name>Brains</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModels\DataModels.csproj">
+      <Project>{41b649f7-1207-4e00-92b2-8c051ce91424}</Project>
+      <Name>DataModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LiteDbService\LiteDbService.csproj">
+      <Project>{0C315705-4323-4B12-BAA3-12973CF853A6}</Project>
+      <Name>LiteDbService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

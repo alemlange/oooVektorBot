@@ -50,6 +50,7 @@
     <Compile Include="Interfaces\IDb.cs" />
     <Compile Include="Interfaces\IManagerDb.cs" />
     <Compile Include="Services\LiteCustomerService.cs" />
+    <Compile Include="Services\LiteDispatchesService.cs" />
     <Compile Include="Services\LiteManagerService.cs" />
     <Compile Include="Services\LiteRegistrationService.cs" />
     <Compile Include="Services\LiteService.cs" />

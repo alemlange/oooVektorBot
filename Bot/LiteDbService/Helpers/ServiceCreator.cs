@@ -32,5 +32,10 @@ namespace LiteDbService.Helpers
         {
             return new LiteRegistrationService();
         }
+
+        public static LiteDispatchesService GetDispatchesService()
+        {
+            return new LiteDispatchesService();
+        }
     }
 }

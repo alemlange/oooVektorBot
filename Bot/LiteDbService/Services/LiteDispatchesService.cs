@@ -25,7 +25,7 @@ namespace LiteDbService
             }
         }
 
-        public void CreatDispatch(Dispatch dispatch)
+        public void CreateDispatch(Dispatch dispatch)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
@@ -43,7 +43,7 @@ namespace LiteDbService
             }
         }
 
-        public List<DispatchMessage> GetDispatcheMessages(Guid dispatchId)
+        public List<DispatchMessage> GetDispatchMessages(Guid dispatchId)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {

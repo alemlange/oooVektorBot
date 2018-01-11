@@ -35,7 +35,7 @@ namespace DispatchesService
 
         public static void PrepareDispatch(Guid dispatchId, string host, string message)
         {
-            var messages = _dispService.GetDispatcheMessages(dispatchId);
+            var messages = _dispService.GetDispatchMessages(dispatchId);
 
             foreach (var msg in messages)
             {

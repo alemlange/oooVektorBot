@@ -210,6 +210,21 @@ namespace LiteDbService
             }
         }
 
+        public void SetArrivingTime(long chatId, int time)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+
+                if (table != null)
+                {
+                    table.TimeArriving = time;
+                    tableCol.Update(table);
+                }
+            }
+        }
+
         public Guid CreateTable(long chatId)
         {
             using (var db = new LiteDatabase(CurrentDb))

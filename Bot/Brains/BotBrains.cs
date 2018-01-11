@@ -431,17 +431,18 @@ namespace Brains
 
             if (table.Orders.Any())
             {
+                respText += "<b>Номер вашего заказа: " + table.TableNumber + "</b>" + Environment.NewLine;
+
                 var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
 
-                respText = "Вы заказали:" + Environment.NewLine + Environment.NewLine;
+                respText += "Вы заказали:" + Environment.NewLine + Environment.NewLine;
 
                 foreach (var dish in table.Orders)
                 {
                     respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
                 }
                 respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
-
-                respText +="<b>Номер вашего заказа: " + table.TableNumber+ "</b>" + Environment.NewLine;
+ 
             }
             else
             {
@@ -451,8 +452,7 @@ namespace Brains
             return new Responce
             {
                 ChatId = chatId,
-                ResponceText = respText,
-                //State = SessionState.Sitted
+                ResponceText = respText
             };
         }
 
@@ -556,6 +556,100 @@ namespace Brains
                         ResponceText = "Нажмите \"Начать\", чтобы сделать заказ!",
                     };
                 }
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce ArrivingTime(long chatId)
+        {
+            try
+            {
+                var table = _service.GetActiveTable(chatId);
+
+                if (table != null)
+                {
+                    _service.UpdateTableState(chatId, SessionState.TimeChoosing);
+
+                    var curTimeArriving = "";
+                    if (table.TimeArriving == 0)
+                        curTimeArriving = "Сейчас";
+                    else
+                        curTimeArriving = "Через " + table.TimeArriving + " минут"; 
+
+                    return new Responce
+                    {
+                        ChatId = chatId,
+                        ResponceText = "Через сколько вы заберете заказ? " +curTimeArriving,
+                    };
+                }
+                else
+                    return Responce.UnknownResponce(chatId);
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce ChangeArrivingTime(long chatId, string message)
+        {
+            try
+            {
+                var table = _service.GetActiveTable(chatId);
+
+                if (table != null)
+                {
+                    var timeString = message.Split(new string[] { "минут" },StringSplitOptions.RemoveEmptyEntries)[0];
+
+                    Int32.TryParse(timeString, out int time);
+
+                    if(time != 0 && time <=60 && time > 0)
+                    {
+                        _service.SetArrivingTime(chatId, time);
+                        _service.UpdateTableState(chatId, SessionState.Sitted);
+
+                        return new Responce
+                        {
+                            ChatId = chatId,
+                            ResponceText = "Окей, ждем вас через " + time.ToString()+" минут",
+                        };
+                    }
+                    else
+                    {
+                        return Responce.UnknownResponce(chatId);
+                    }
+                    
+                }
+                else
+                    return Responce.UnknownResponce(chatId);
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce CloseTimeArriving(long chatId)
+        {
+            try
+            {
+                var table = _service.GetActiveTable(chatId);
+
+                if (table != null)
+                {
+                    _service.UpdateTableState(chatId, SessionState.Sitted);
+
+                    return new Responce
+                    {
+                        ChatId = chatId,
+                        ResponceText = "Напишите \"Меню\" в чат и я принесу его вам.",
+                    };
+                }
+                else
+                    return Responce.UnknownResponce(chatId);
             }
             catch (Exception)
             {

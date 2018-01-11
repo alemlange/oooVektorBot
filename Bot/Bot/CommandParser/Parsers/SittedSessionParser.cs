@@ -19,8 +19,7 @@ namespace Bot.CommandParser
                     Keyboard = new KeyboardButton[][]
                     {
                         new KeyboardButton[] { "Меню 📓" },
-                        new KeyboardButton[] { "Мой заказ 🍴", "Убрать из заказа ❌" },
-                        new KeyboardButton[] { "Оплатить заказ💳" },
+                        new KeyboardButton[] { "Мой заказ 🍴", "Убрать из заказа ❌" }
                     }
                 };
             }
@@ -41,6 +40,8 @@ namespace Bot.CommandParser
                     return CmdTypes.CreateInvoice;
                 else if (msgText.Contains("убрать из заказа"))
                     return CmdTypes.Remove;
+                else if (msgText.Contains("заберу через"))
+                    return CmdTypes.ArrivingTime;
                 else if (msgText.StartsWith("/"))
                     return CmdTypes.Slash;
                 else if (Int32.TryParse(msgText, out result))

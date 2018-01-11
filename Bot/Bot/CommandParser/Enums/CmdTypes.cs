@@ -20,7 +20,6 @@ namespace Bot.CommandParser
         CustomKeyboard,
         Picture,
         PictureLink,
-        //Dishes,
         Slash,
         Waiter,
         MyOrder,
@@ -29,6 +28,9 @@ namespace Bot.CommandParser
         RemoveByNum,
         QRCode,
         CreateInvoice,
-        SuccessfulPayment
+        SuccessfulPayment,
+        ArrivingTime,
+        TimeInput,
+        CloseTimeArriving
     }
 }

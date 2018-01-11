@@ -21,6 +21,7 @@ namespace DataModels
         public bool HelpNeeded { get; set; }
         public bool CheckNeeded { get; set; }
         public bool OrderProcessed { get; set; }
+        public int TimeArriving { get; set; }
         public Cheque Cheque { get; set; }
     }
 }

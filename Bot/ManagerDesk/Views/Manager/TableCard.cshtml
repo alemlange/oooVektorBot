@@ -35,7 +35,7 @@
                     if (Model.OrderPlaced != DateTime.MinValue)
                     {
                         <h5 class="info-item-heading">
-                            Время заказа: @Model.OrderPlaced.ToString(TimeFormat)
+                            Время заказа: @Model.OrderPlaced.ToString(TimeFormat), заберут через @Model.TimeArriving.ToString() минут
                         </h5>
                     }
                 }

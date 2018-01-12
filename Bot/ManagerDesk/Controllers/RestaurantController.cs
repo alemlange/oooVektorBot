@@ -21,14 +21,23 @@ namespace ManagerDesk.Controllers
             var service = ServiceCreator.GetManagerService(User.Identity.Name);
             var rests = service.GetAllRestaurants();
 
-            //for(var i = 0; i<100; i++)
-            //{
-            //    service.CreateNewDish(new Dish { Category= "Закуски", Description ="Заебато пиздато", Id = Guid.NewGuid(), Price =123, Name ="Закуска"+i.ToString(), SlashName = "/disha"+i.ToString()});
-            //    service.CreateNewDish(new Dish { Category = "Основные", Description = "Заебато пиздато", Id = Guid.NewGuid(), Price = 123, Name = "Стейк" + i.ToString(), SlashName = "/dishm" + i.ToString() });
-            //    service.CreateNewDish(new Dish { Category = "Десерты", Description = "Заебато пиздато", Id = Guid.NewGuid(), Price = 123, Name = "Пирог" + i.ToString(), SlashName = "/dishd" + i.ToString() });
-            //    service.CreateNewDish(new Dish { Category = "Напитки", Description = "Заебато пиздато", Id = Guid.NewGuid(), Price = 123, Name = "Колла" + i.ToString(), SlashName = "/dishdr" + i.ToString() });
-            //    service.CreateNewDish(new Dish { Category = "Супы", Description = "Заебато пиздато", Id = Guid.NewGuid(), Price = 123, Name = "Борщ" + i.ToString(), SlashName = "/dishso" + i.ToString() });
-            //}
+            var regService = new RegistrationService();
+            var config = regService.FindConfiguration(User.Identity.Name);
+            var dispService = ServiceCreator.GetDispatchesService();
+            
+
+            var dispId = Guid.NewGuid();
+            var disp = new Dispatch { Host = config.TelegramBotLocation, Id = dispId, Message = "Привет это тестовая рассылка", Name = "Тест" };
+            dispService.CreateDispatch(disp);
+
+            var allTables = service.GetInActiveTables();
+            var allChats = new List<long>();
+            allTables.ForEach(o => { if (!allChats.Contains(o.ChatId)) { allChats.Add(o.ChatId); } });
+            foreach(var chat in allChats)
+            {
+                var dispMes = new DispatchMessage { DispatchId = dispId, ChatId = chat, Id = Guid.NewGuid() };
+                dispService.CreateDispatchMessage(dispMes);
+            }
 
             var model = Mapper.Map<List<RestaurantViewModel>>(rests);
 

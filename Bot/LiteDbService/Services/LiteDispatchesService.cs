@@ -34,6 +34,15 @@ namespace LiteDbService
             }
         }
 
+        public void CreateDispatchMessage(DispatchMessage dispatchMessage)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<DispatchMessage>("DispatcheMessages");
+                col.Insert(dispatchMessage);
+            }
+        }
+
         public List<Dispatch> GetAllActiveDispatches()
         {
             using (var db = new LiteDatabase(CurrentDb))

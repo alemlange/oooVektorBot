@@ -15,7 +15,6 @@ namespace DispatchesService
 {
     class Program
     {
-        private static TelegramBotClient Telegram;
         private static LiteDispatchesService _dispService = ServiceCreator.GetDispatchesService();
 
         static void Main(string[] args)

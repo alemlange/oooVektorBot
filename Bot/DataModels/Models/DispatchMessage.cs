@@ -14,6 +14,6 @@ namespace DataModels
 
         public long ChatId { get; set; }
 
-        public int Send { get; set; }
+        public bool Send { get; set; }
     }
 }

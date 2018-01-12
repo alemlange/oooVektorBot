@@ -16,6 +16,6 @@ namespace DataModels
 
         public string Message { get; set; }
 
-        public int Done { get; set; }
+        public bool Done { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Dispatch>("Dispatches");
-                return col.Find(d => d.Done == 0).ToList();
+                return col.Find(d => d.Done == false).ToList();
             }
         }
 
@@ -48,7 +48,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<DispatchMessage>("DispatchMessages");
-                return col.Find(d => d.DispatchId == dispatchId && d.Send == 0).ToList();
+                return col.Find(d => d.DispatchId == dispatchId && d.Send == false).ToList();
             }
         }
 
@@ -61,7 +61,7 @@ namespace LiteDbService
 
                 if (msg != null)
                 {
-                    msg.Send = 1;
+                    msg.Send = true;
                     col.Update(msg);
                 }
             }
@@ -76,7 +76,7 @@ namespace LiteDbService
 
                 if (disp != null)
                 {
-                    disp.Done = 1;
+                    disp.Done = true;
                     col.Update(disp);
                 }
             }

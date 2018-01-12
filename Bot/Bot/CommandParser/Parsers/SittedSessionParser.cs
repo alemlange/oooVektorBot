@@ -27,7 +27,37 @@ namespace Bot.CommandParser
 
         public CmdTypes ParseForCommand(Update update)
         {
-            if (update.Message.Type == MessageType.TextMessage)
+            if (update.Type == UpdateType.CallbackQueryUpdate)
+            {
+                var data = update.CallbackQuery.Data;
+
+                switch (data)
+                {
+                    case ("arrTime"):
+                        {
+                            return CmdTypes.ArrivingTime;
+                        }
+                    case ("payCard"):
+                        {
+                            return CmdTypes.CreateInvoice;
+                        }
+                    case ("payCash"):
+                        {
+                            return CmdTypes.PayCash;
+                        }
+                    case ("addOrder"):
+                        {
+                            return CmdTypes.AddToOrder;
+                        }
+                    case ("backMenu"):
+                        {
+                            return CmdTypes.BackToMenu;
+                        }
+                    default:
+                        return CmdTypes.Unknown;
+                }
+            }
+            else if (update.Message.Type == MessageType.TextMessage)
             {
                 var msgText = update.Message.Text.ToLower();
                 int result;
@@ -36,12 +66,8 @@ namespace Bot.CommandParser
                     return CmdTypes.Menu;
                 else if (msgText.Contains("мой заказ"))
                     return CmdTypes.MyOrder;
-                else if (msgText.Contains("оплатить заказ"))
-                    return CmdTypes.CreateInvoice;
                 else if (msgText.Contains("убрать из заказа"))
                     return CmdTypes.Remove;
-                else if (msgText.Contains("заберу через"))
-                    return CmdTypes.ArrivingTime;
                 else if (msgText.StartsWith("/"))
                     return CmdTypes.Slash;
                 else if (Int32.TryParse(msgText, out result))

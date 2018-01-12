@@ -140,17 +140,6 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
-                            case CmdTypes.TableNumber:
-                                {
-                                    var response = bot.Number(chatId, Convert.ToInt32(message.Text));
-
-                                    await Telegram.SendTextMessageAsync(
-                                        chatId,
-                                        response.ResponceText,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    break;
-                                }
                             case CmdTypes.Menu:
                                 {
                                     var responce = bot.ShowMenuCategories(chatId);
@@ -197,28 +186,6 @@ namespace Bot.Controllers
                                         replyMarkup: keyboard);
                                     break;
                                 }
-                            case CmdTypes.CreateInvoice:
-                                {
-                                    //var response = bot.CreateInvoice(chatId);
-
-                                    //if (response.InvoiceReady)
-                                    //{
-                                    //    var prices = new LabeledPrice[1];
-                                    //    prices[0] = new LabeledPrice { Amount = response.Invoice.SummInCents, Label = "Итого" };
-
-                                    //    await Telegram.SendInvoiceAsync(
-                                    //        chatId, response.Invoice.Title, response.Invoice.Description, response.Invoice.Id.ToString(), bot.PaymentToken, "startP", response.Invoice.Currency, prices);
-                                    //}
-                                    //else
-                                    //{
-                                    //    await Telegram.SendTextMessageAsync(
-                                    //    chatId,
-                                    //    response.ResponceText,
-                                    //    parseMode: ParseMode.Html,
-                                    //    replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    //}
-                                    break;
-                                }
                             case CmdTypes.SuccessfulPayment:
                                 {
                                     var payment = message.SuccessfulPayment;
@@ -244,6 +211,17 @@ namespace Bot.Controllers
                                         replyMarkup: keyboard);
                                     break;
                                 }
+                            case CmdTypes.MyOrderComplete:
+                                {
+                                    var responce = bot.ShowCartComplete(chatId);
+
+                                    await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
                             case CmdTypes.Remark:
                                 {
                                     var response = bot.AddRemark(chatId, message.Text);
@@ -253,17 +231,6 @@ namespace Bot.Controllers
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    break;
-                                }
-                            case CmdTypes.ArrivingTime:
-                                {
-                                    //var response = bot.ArrivingTime(chatId);
-
-                                    //await Telegram.SendTextMessageAsync(
-                                    //    chatId,
-                                    //    response.ResponceText,
-                                    //    parseMode: ParseMode.Html,
-                                    //    replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
                             case CmdTypes.CloseTimeArriving:
@@ -369,69 +336,69 @@ namespace Bot.Controllers
                 else if (update.Type == UpdateType.CallbackQueryUpdate)
                 {
                     chatId = update.CallbackQuery.From.Id;
+                    var parser = ParserChoser.GetParser(chatId, bot);
 
-                    if (update.CallbackQuery.Data.ToLower().Contains("добавить в заказ"))
+                    var cmd = parser.ParseForCommand(update);
+
+                    switch (cmd)
                     {
-                        var response = bot.OrderMeal(chatId);
-
-                        await Telegram.SendTextMessageAsync(
-                            chatId,
-                            response.ResponceText,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                    }
-                    else if (update.CallbackQuery.Data.ToLower().Contains("вернуться к меню"))
-                    {
-                        var responce = bot.ShowMenuCategories(chatId);
-
-                        await Telegram.SendTextMessageAsync(
-                            chatId,
-                            responce.ResponceText,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: new MenuCategorySessionParser(bot.GetMenuCategoriesByChatId(chatId)).Keyboard);
-
-                    }
-                    else if (update.CallbackQuery.Data == "arrTime")
-                    {
-                        var response = bot.ArrivingTime(chatId);
-
-                        await Telegram.SendTextMessageAsync(
-                            chatId,
-                            response.ResponceText,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                    }
-                    else if (update.CallbackQuery.Data == "payCard")
-                    {
-                        var response = bot.CreateInvoice(chatId);
-
-                        if (response.InvoiceReady)
+                        case CmdTypes.AddToOrder:
                         {
-                            var prices = new LabeledPrice[1];
-                            prices[0] = new LabeledPrice { Amount = response.Invoice.SummInCents, Label = "Итого" };
+                            var response = bot.OrderMeal(chatId);
 
-                            await Telegram.SendInvoiceAsync(
-                                chatId, response.Invoice.Title, response.Invoice.Description, response.Invoice.Id.ToString(), bot.PaymentToken, "startP", response.Invoice.Currency, prices);
+                            await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                            break;
                         }
-                        else
+                        case CmdTypes.BackToMenu:
+                        {
+                            var response = bot.ShowMenuCategories(chatId);
+
+                            await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: new MenuCategorySessionParser(bot.GetMenuCategoriesByChatId(chatId)).Keyboard);
+                            break;
+                        }
+                        case CmdTypes.ArrivingTime:
+                        {
+                            var response = bot.ArrivingTime(chatId);
+
+                            await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                            break;
+                        }
+                        case CmdTypes.CreateInvoice:
+                        {
+                            var response = bot.CreateInvoice(chatId);
+
+                            if (response.InvoiceReady)
+                            {
+                                var prices = new LabeledPrice[1];
+                                prices[0] = new LabeledPrice { Amount = response.Invoice.SummInCents, Label = "Итого" };
+
+                                await Telegram.SendInvoiceAsync(
+                                    chatId, response.Invoice.Title, response.Invoice.Description, response.Invoice.Id.ToString(), bot.PaymentToken, "startP", response.Invoice.Currency, prices);
+                            }
+                            else
+                            {
+                                await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                            }
+                            break;
+                        }
+                        case CmdTypes.PayCash:
+                        {
+                            var response = bot.PayCash(chatId);
+
+                            await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                            break;
+                        }
+                        case CmdTypes.Unknown:
                         {
                             await Telegram.SendTextMessageAsync(
-                            chatId,
-                            response.ResponceText,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                chatId,
+                                "Извините, не понял вашей просьбы.",
+                                parseMode: ParseMode.Html,
+                                replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                            break;
                         }
                     }
-                    else if (update.CallbackQuery.Data == "payCash")
-                    {
-                        var response = bot.PayCash(chatId);
 
-                        await Telegram.SendTextMessageAsync(
-                            chatId,
-                            response.ResponceText,
-                            parseMode: ParseMode.Html,
-                            replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                    }
                 }
                 else if (update.Type == UpdateType.PreCheckoutQueryUpdate)
                 {

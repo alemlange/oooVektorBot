@@ -27,7 +27,37 @@ namespace Bot.CommandParser
 
         public CmdTypes ParseForCommand(Update update)
         {
-            if (update.Message.Type == MessageType.TextMessage)
+            if (update.Type == UpdateType.CallbackQueryUpdate)
+            {
+                var data = update.CallbackQuery.Data;
+
+                switch (data)
+                {
+                    case ("arrTime"):
+                        {
+                            return CmdTypes.ArrivingTime;
+                        }
+                    case ("payCard"):
+                        {
+                            return CmdTypes.CreateInvoice;
+                        }
+                    case ("payCash"):
+                        {
+                            return CmdTypes.PayCash;
+                        }
+                    case ("addOrder"):
+                        {
+                            return CmdTypes.AddToOrder;
+                        }
+                    case ("backMenu"):
+                        {
+                            return CmdTypes.BackToMenu;
+                        }
+                    default:
+                        return CmdTypes.Unknown;
+                }
+            }
+            else if (update.Message.Type == MessageType.TextMessage)
             {
                 var msgText = update.Message.Text.ToLower();
 

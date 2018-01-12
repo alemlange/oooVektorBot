@@ -214,7 +214,7 @@ namespace Brains
                 }
                 else
                 {
-                    return new Responce { ChatId = chatId, ResponceText = "Вы не выбрали стол! Нажмите \"Начать\" в главном меню, чтобы сделать заказ!" };
+                    return new Responce { ChatId = chatId, ResponceText = "Нажмите \"Начать\" в главном меню, чтобы сделать заказ!" };
                 }
             }
             catch (Exception)
@@ -406,7 +406,7 @@ namespace Brains
                         throw new PaymentException("Произошла ошибка оплаты, номера чеков не совпадают.");
 
                     _service.ChequeMarkPayed(table.Id, telegramPaymentId);
-                    _service.UpdateTableState(chatId, SessionState.OrderedPosted);
+                    _service.UpdateTableState(chatId, SessionState.OrderPosted);
 
                     return new Responce { ChatId = chatId, ResponceText = "Ваш заказ успешно оплачен!" };
                 }
@@ -450,6 +450,34 @@ namespace Brains
                 respText = "Вы пока еще ничего не заказали :(";
             }
                 
+            return new Responce
+            {
+                ChatId = chatId,
+                ResponceText = respText
+            };
+        }
+
+        public Responce ShowCartComplete(long chatId)
+        {
+            var table = _service.GetActiveTable(chatId);
+            var respText = "";
+
+            if (table.Orders.Any())
+            {
+                respText += "<b>Номер вашего заказа: " + table.TableNumber + "</b>" + Environment.NewLine;
+
+                var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
+
+                respText += "Вы заказали:" + Environment.NewLine + Environment.NewLine;
+
+                foreach (var dish in table.Orders)
+                {
+                    respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
+                }
+                respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
+
+            }
+
             return new Responce
             {
                 ChatId = chatId,
@@ -519,7 +547,12 @@ namespace Brains
         {
             try
             {
-                _service.UpdateTableState(chatId, SessionState.MenuCategory);
+                var table = _service.GetActiveTable(chatId);
+
+                if (table != null && table.State != SessionState.OrderPosted)
+                {
+                    _service.UpdateTableState(chatId, SessionState.MenuCategory);
+                }
 
                 return new Responce
                 {
@@ -658,27 +691,6 @@ namespace Brains
             }
         }
 
-        public Responce Number(long chatId, int tableNumber)
-        {
-            try
-            {
-                _service.AssignNextQueueNumber(chatId);
-                _service.UpdateTableState(chatId, SessionState.Sitted);
-
-                return new Responce
-                {
-                    ChatId = chatId,
-                    ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
-                    //State = SessionState.Sitted
-                };
-
-            }
-            catch (Exception)
-            {
-                return Responce.UnknownResponce(chatId);
-            }
-        }
-
         public Responce QRCode(long chatId, string code)
         {
             try
@@ -740,51 +752,13 @@ namespace Brains
             }  
         }
 
-        public Responce TableChoose(long chatId)
-        {
-            try
-            {
-                _service.UpdateTableState(chatId, SessionState.Sitted);
-
-                return new Responce
-                {
-                    ChatId = chatId,
-                    ResponceText = "Привет! За каким столиком вы сидите?",
-                    //State = SessionState.Queue
-                };
-            }
-            catch (Exception)
-            {
-                return Responce.UnknownResponce(chatId);
-            }
-        }
-
-        public Responce CallWaiter(long chatId)
-        {
-            try
-            {
-                _service.SetHelpNeeded(chatId);
-                _service.UpdateTableState(chatId, SessionState.Sitted);
-
-                return new Responce
-                {
-                    ChatId = chatId,
-                    ResponceText = "Официант уже идет"
-                };
-            }
-            catch (Exception)
-            {
-                return Responce.UnknownResponce(chatId);
-            }
-        }
-
         public Responce PayCash(long chatId)
         {
             try
             {
                 _service.SetCashPayment(chatId);
 
-                _service.UpdateTableState(chatId, SessionState.OrderedPosted);
+                _service.UpdateTableState(chatId, SessionState.OrderPosted);
 
                 return new Responce
                 {

@@ -23,6 +23,7 @@ namespace Bot.CommandParser
         Slash,
         Waiter,
         MyOrder,
+        MyOrderComplete,
         Remark,
         Remove,
         RemoveByNum,
@@ -31,6 +32,9 @@ namespace Bot.CommandParser
         SuccessfulPayment,
         ArrivingTime,
         TimeInput,
-        CloseTimeArriving
+        CloseTimeArriving,
+        PayCash,
+        AddToOrder,
+        BackToMenu
     }
 }

@@ -103,6 +103,16 @@ namespace LiteDbService
             }
         }
 
+        public List<Table> GetOrderPostedTables()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+
+                return tableCol.Find(o => o.State == SessionState.OrderPosted).ToList();
+            }
+        }
+
         public List<Table> GetActiveTables(Guid restId)
         {
             using (var db = new LiteDatabase(CurrentDb))
@@ -110,6 +120,16 @@ namespace LiteDbService
                 var tableCol = db.GetCollection<Table>("Tables");
 
                 return tableCol.Find(o => o.State != SessionState.Closed && o.Restaurant == restId).ToList();
+            }
+        }
+
+        public List<Table> GetOrderPostedTables(Guid restId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+
+                return tableCol.Find(o => o.State == SessionState.OrderPosted && o.Restaurant == restId).ToList();
             }
         }
 

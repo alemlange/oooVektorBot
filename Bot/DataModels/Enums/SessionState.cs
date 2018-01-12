@@ -8,7 +8,7 @@
         Sitted,
         Remark,
         TimeChoosing,
-        OrderedPosted,
+        OrderPosted,
         Closed
     }
 }

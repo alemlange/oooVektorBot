@@ -38,7 +38,11 @@ namespace Bot.CommandParser
 
         public CmdTypes ParseForCommand(Update update)
         {
-            if (update.Message.Type == MessageType.TextMessage)
+            if (update.Type == UpdateType.CallbackQueryUpdate)
+            {
+                return CmdTypes.Unknown;
+            }
+            else if (update.Message.Type == MessageType.TextMessage)
             {
                 var msgText = update.Message.Text;
 

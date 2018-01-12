@@ -103,27 +103,23 @@ namespace LiteDbService
             }
         }
 
-        public List<Table> GetActiveTables(Guid menuId)
+        public List<Table> GetActiveTables(Guid restId)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
-                var restaurant = restaurantCol.Find(r => r.Menu == menuId).FirstOrDefault();
-
                 var tableCol = db.GetCollection<Table>("Tables");
-                return tableCol.Find(o => o.State != SessionState.Closed && o.Restaurant == restaurant.Id).ToList();
+
+                return tableCol.Find(o => o.State != SessionState.Closed && o.Restaurant == restId).ToList();
             }
         }
 
-        public List<Table> GetInActiveTables(Guid menuId)
+        public List<Table> GetInActiveTables(Guid restId)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
-                var restaurant = restaurantCol.Find(r => r.Menu == menuId).FirstOrDefault();
-
                 var tableCol = db.GetCollection<Table>("Tables");
-                return tableCol.Find(o => o.State == SessionState.Closed && o.Restaurant == restaurant.Id).ToList();
+
+                return tableCol.Find(o => o.State == SessionState.Closed  && o.Restaurant == restId).ToList();
             }
         }
 

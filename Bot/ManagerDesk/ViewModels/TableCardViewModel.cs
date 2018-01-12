@@ -13,7 +13,7 @@ namespace ManagerDesk.ViewModels
         {
             get
             {
-                if (State == SessionState.Closed || State == SessionState.Deactivated)
+                if (State == SessionState.Closed)
                     return "table-inactive";
                 else
                     return (OrderProcessed) ? "table-processed" : "";
@@ -24,7 +24,7 @@ namespace ManagerDesk.ViewModels
         {
             get
             {
-                return (State != SessionState.Closed && State != SessionState.Deactivated);
+                return (State != SessionState.Closed);
             }
         }
 

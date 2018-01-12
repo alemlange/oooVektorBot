@@ -28,7 +28,9 @@ namespace Bot.CommandParser.KeyBoards
             return new InlineKeyboardMarkup(
                 new[]
                 {
-                    new[] { new InlineKeyboardCallbackButton("Оплата картой", "payCard"), new InlineKeyboardCallbackButton("Заберу через...", "arrTime") }
+                    new[] { new InlineKeyboardCallbackButton("Заберу через...", "arrTime") },
+                    new[] { new InlineKeyboardCallbackButton("Оплатить картой и отправить заказ", "payCard") },
+                    new[] { new InlineKeyboardCallbackButton("Отправить заказ, а оплачу наличными", "payCash") }
                 });
         }
 

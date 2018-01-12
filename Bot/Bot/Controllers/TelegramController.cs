@@ -422,6 +422,16 @@ namespace Bot.Controllers
                             replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                         }
                     }
+                    else if (update.CallbackQuery.Data == "payCash")
+                    {
+                        var response = bot.PayCash(chatId);
+
+                        await Telegram.SendTextMessageAsync(
+                            chatId,
+                            response.ResponceText,
+                            parseMode: ParseMode.Html,
+                            replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                    }
                 }
                 else if (update.Type == UpdateType.PreCheckoutQueryUpdate)
                 {

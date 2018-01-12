@@ -406,6 +406,7 @@ namespace Brains
                         throw new PaymentException("Произошла ошибка оплаты, номера чеков не совпадают.");
 
                     _service.ChequeMarkPayed(table.Id, telegramPaymentId);
+                    _service.UpdateTableState(chatId, SessionState.OrderedPosted);
 
                     return new Responce { ChatId = chatId, ResponceText = "Ваш заказ успешно оплачен!" };
                 }
@@ -768,8 +769,27 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Официант уже идет",
-                    //State = SessionState.Sitted
+                    ResponceText = "Официант уже идет"
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce PayCash(long chatId)
+        {
+            try
+            {
+                _service.SetCashPayment(chatId);
+
+                _service.UpdateTableState(chatId, SessionState.OrderedPosted);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Вы выбрали оплату наличными в заведении."
                 };
             }
             catch (Exception)

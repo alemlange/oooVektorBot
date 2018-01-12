@@ -4,13 +4,11 @@
     {
         Unknown,
         Restaurant,
-        Queue,
         MenuCategory,
         Sitted,
         Remark,
         TimeChoosing,
-        OrderingDish,
-        Closed,
-        Deactivated
+        OrderedPosted,
+        Closed
     }
 }

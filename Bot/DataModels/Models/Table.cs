@@ -17,11 +17,10 @@ namespace DataModels
         public DateTime OrderPlaced { get; set; }
         public List<OrderedDish> Orders { get;  set; }
         public SessionState State { get; set; }
-        public List<StateVarible> StateVaribles { get; set; } 
-        public bool HelpNeeded { get; set; }
-        public bool CheckNeeded { get; set; }
+        public List<StateVarible> StateVaribles { get; set; }
         public bool OrderProcessed { get; set; }
         public int TimeArriving { get; set; }
+        public bool CashPayment { get; set; }
         public Cheque Cheque { get; set; }
     }
 }

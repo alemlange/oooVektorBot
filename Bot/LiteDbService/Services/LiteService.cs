@@ -88,7 +88,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
-                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.Deactivated).FirstOrDefault();
+                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {

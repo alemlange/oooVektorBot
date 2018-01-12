@@ -123,7 +123,7 @@ namespace LiteDbService
                 if (dish != null)
                 {
                     var tableCol = db.GetCollection<Table>("Tables");
-                    var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.Deactivated).FirstOrDefault();
+                    var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                     if (table != null)
                     {
@@ -152,7 +152,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
-                return col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.Deactivated).FirstOrDefault();
+                return col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
             }
         }
 
@@ -161,7 +161,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var tableCol = db.GetCollection<Table>("Tables");
-                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {
@@ -187,7 +187,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var tableCol = db.GetCollection<Table>("Tables");
-                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {
@@ -215,7 +215,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var tableCol = db.GetCollection<Table>("Tables");
-                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {
@@ -253,7 +253,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
-                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 table.CheckNeeded = true;
                 col.Update(table);
@@ -265,7 +265,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var tableCol = db.GetCollection<Table>("Tables");
-                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {
@@ -286,9 +286,21 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
-                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.Deactivated).FirstOrDefault();
+                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 table.HelpNeeded = true;
+                col.Update(table);
+            }
+        }
+
+        public void SetCashPayment(long chatId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
+
+                table.CashPayment = true;
                 col.Update(table);
             }
         }
@@ -346,7 +358,7 @@ namespace LiteDbService
                 //var menu = menuCol.Find(o => o.Restaurant == restaurant.Id).FirstOrDefault();
 
                 var tableCol = db.GetCollection<Table>("Tables");
-                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {
@@ -367,7 +379,7 @@ namespace LiteDbService
                 //var menu = menuCol.Find(o => o.Restaurant == restaurant.Id).FirstOrDefault();
 
                 var tableCol = db.GetCollection<Table>("Tables");
-                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {
@@ -382,7 +394,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var tableCol = db.GetCollection<Table>("Tables");
-                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Deactivated && o.State != SessionState.Closed).FirstOrDefault();
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
 
                 if (table != null)
                 {

@@ -11,18 +11,10 @@
             {
                 <div class="toolbar-mini">
                     <div class="toolbar-mini__btn @Model.OrderProcessedStyle js-set-table-action" data-target="@Url.Action("TableSetProccesed","Manager")"><i class="fa fa-check" aria-hidden="true"></i></div>
-                    <div class="toolbar-mini__btn @Model.HelpNeededStyle js-set-table-action" data-target="@Url.Action("TableSetHelp","Manager")"><i class="fa fa-child" aria-hidden="true"></i></div>
+                    @*<div class="toolbar-mini__btn @Model.HelpNeededStyle js-set-table-action" data-target="@Url.Action("TableSetHelp","Manager")"><i class="fa fa-child" aria-hidden="true"></i></div>*@
                     <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger js-toolbar-close-table" data-target="@Url.Action("CloseTable","Manager")"><i class="fa fa-lock" aria-hidden="true"></i></div>
                 </div>
             }
-
-            <div class="table-labels">
-                @if (Model.Cheque != null && Model.Cheque.PaymentRecieved)
-                {
-                    <span class="label label-default">Оплачено</span>
-                }
-                
-            </div>
 
             <div>
                 @if (Model.TableNumber == "f")
@@ -38,6 +30,18 @@
                             Время заказа: @Model.OrderPlaced.ToString(TimeFormat), заберут через @Model.TimeArriving.ToString() минут
                         </h5>
                     }
+                }
+            </div>
+
+            <div class="table-labels">
+                @if (Model.Cheque != null && Model.Cheque.PaymentRecieved)
+                {
+                    <span class="label label-default">Оплачено</span>
+                }
+
+                @if (Model.CashPayment)
+                {
+                    <span class="label label-default">Оплата наличными</span>
                 }
             </div>
 

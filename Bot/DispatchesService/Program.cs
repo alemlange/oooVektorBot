@@ -49,9 +49,10 @@ namespace DispatchesService
 
         public static void SendMessage(string host, long chatId, string message)
         {
+            var botClient = new BotClient(host);
+
             try
             {
-                var botClient = new BotClient(host);
                 botClient.SendNotification(chatId, message);
             }
             catch (Exception ex)

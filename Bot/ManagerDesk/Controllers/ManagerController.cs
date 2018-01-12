@@ -141,14 +141,13 @@ namespace ManagerDesk.Controllers
             var restCookie = Request.Cookies.Get("CurRest");
             if (restCookie != null)
             {
-                var curRest = Guid.Parse(restCookie.Value);
-                var curMenu = service.GetMenuByRestaurant(curRest);           
-                if (curMenu != null)
+                var curRest = Guid.Parse(restCookie.Value);         
+                if (curRest != Guid.Empty)
                 {
-                    activeTables = service.GetActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).ToList();
-                    inActiveTables = service.GetInActiveTables(curMenu.Id).OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
+                    activeTables = service.GetActiveTables(curRest).OrderByDescending(o => o.OrderPlaced).ToList();
+                    inActiveTables = service.GetInActiveTables(curRest).OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
                 }
-                else if(curRest == Guid.Empty)
+                else
                 {
                     activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
                     inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();

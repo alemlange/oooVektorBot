@@ -38,7 +38,7 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var col = db.GetCollection<DispatchMessage>("DispatcheMessages");
+                var col = db.GetCollection<DispatchMessage>("DispatchMessages");
                 col.Insert(dispatchMessage);
             }
         }

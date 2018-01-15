@@ -202,13 +202,17 @@ namespace Bot.Controllers
                             case CmdTypes.MyOrder:
                                 {
                                     var responce = bot.ShowCart(chatId);
-                                    var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.MyOrder);
 
-                                    await Telegram.SendTextMessageAsync(
-                                        chatId,
-                                        responce.ResponceText,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: keyboard);
+                                    if (responce.NeedInlineKeeyboard)
+                                    {
+                                        var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.MyOrder);
+
+                                        await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
+                                    }
+                                    else
+                                    {
+                                        await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    }
                                     break;
                                 }
                             case CmdTypes.MyOrderComplete:

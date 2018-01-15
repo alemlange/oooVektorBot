@@ -225,6 +225,22 @@ namespace LiteDbService
             }
         }
 
+        public void SendOrderToDesk(long chatId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
+
+                if (table != null)
+                {
+                    table.OrderPlaced = DateTime.Now;
+                    table.State = SessionState.OrderPosted;
+                    tableCol.Update(table);
+                }
+            }
+        }
+
         public Guid CreateTable(long chatId)
         {
             using (var db = new LiteDatabase(CurrentDb))

@@ -44,6 +44,10 @@ namespace Bot.CommandParser
                         {
                             return CmdTypes.BackToMenu;
                         }
+                    case ("addOrder"):
+                        {
+                            return CmdTypes.AddToOrder;
+                        }
                     default:
                         return CmdTypes.Unknown;
                 }
@@ -56,6 +60,8 @@ namespace Bot.CommandParser
                     return CmdTypes.Menu;
                 else if (msgText.Contains("мой заказ"))
                     return CmdTypes.MyOrderComplete;
+                else if (msgText.Contains("назад"))
+                    return CmdTypes.CloseMenu;
                 else if (Categories.Select(o => o.ToLower()).Contains(msgText))
                     return CmdTypes.Category;
                 else if (msgText != "/start" && msgText.StartsWith("/"))

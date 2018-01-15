@@ -198,6 +198,9 @@ namespace Brains
                     if(table.Cheque != null && table.Cheque.PaymentRecieved)
                         return new Responce { ChatId = chatId, ResponceText = "Извините, но заказ уже оплачен!" };
 
+                    if (table.State == SessionState.OrderPosted)
+                        return new Responce { ChatId = chatId, ResponceText = "Извините, но заказ уже отправлен!" };
+
                     if (string.IsNullOrWhiteSpace(dishName))
                     {
                         var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
@@ -207,7 +210,7 @@ namespace Brains
                     var dish = _service.GetMenuByRestaurant(table.Restaurant).DishList.Where(o => o.SlashName == dishName).FirstOrDefault();
                     var dishNum = table.Orders.Count + 1;
 
-                    _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.UtcNow.AddHours(3) });
+                    _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now });
                     _service.UpdateTableState(chatId, SessionState.Remark);
 
                     return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у вас есть какие то пожелания к блюду, просто отправьте их сообщением!" };
@@ -406,9 +409,9 @@ namespace Brains
                         throw new PaymentException("Произошла ошибка оплаты, номера чеков не совпадают.");
 
                     _service.ChequeMarkPayed(table.Id, telegramPaymentId);
-                    _service.UpdateTableState(chatId, SessionState.OrderPosted);
+                    _service.SendOrderToDesk(chatId);
 
-                    return new Responce { ChatId = chatId, ResponceText = "Ваш заказ успешно оплачен!" };
+                    return new Responce { ChatId = chatId, ResponceText = "Ваш заказ успешно оплачен! Заказ отправлен в заведение." };
                 }
                 else
                     throw new PaymentException("Столик не найден.");
@@ -423,7 +426,7 @@ namespace Brains
             }
         }
 
-        public Responce ShowCart(long chatId)
+        public OrderResponce ShowCart(long chatId)
         {
             _service.UpdateTableState(chatId, SessionState.Sitted);
 
@@ -434,6 +437,15 @@ namespace Brains
             {
                 respText += "<b>Номер вашего заказа: " + table.TableNumber + "</b>" + Environment.NewLine;
 
+                if(table.TimeArriving != 0)
+                {
+                    respText += "<b>Заказ на время: </b>" + "через " + table.TimeArriving + "минут." + Environment.NewLine;
+                }
+                else
+                {
+                    respText += "<b>Заказ на время: </b>" + "Как можно скорее." + Environment.NewLine;
+                }
+
                 var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
 
                 respText += "Вы заказали:" + Environment.NewLine + Environment.NewLine;
@@ -443,18 +455,14 @@ namespace Brains
                     respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
                 }
                 respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
- 
+
+                return new OrderResponce { ChatId = chatId, ResponceText = respText, NeedInlineKeeyboard = true};
             }
             else
             {
                 respText = "Вы пока еще ничего не заказали :(";
+                return new OrderResponce { ChatId = chatId, ResponceText = respText, NeedInlineKeeyboard = false };
             }
-                
-            return new Responce
-            {
-                ChatId = chatId,
-                ResponceText = respText
-            };
         }
 
         public Responce ShowCartComplete(long chatId)
@@ -465,6 +473,16 @@ namespace Brains
             if (table.Orders.Any())
             {
                 respText += "<b>Номер вашего заказа: " + table.TableNumber + "</b>" + Environment.NewLine;
+                respText += "<b>Время заказа: </b>" +table.OrderPlaced.ToString("HH:mm") + Environment.NewLine;
+
+                if (table.TimeArriving != 0)
+                {
+                    respText += "<b>Заказ на время: </b>" + "через " + table.TimeArriving + "минут." + Environment.NewLine;
+                }
+                else
+                {
+                    respText += "<b>Заказ на время: </b>" + "Как можно скорее." + Environment.NewLine;
+                }
 
                 var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
 
@@ -574,12 +592,15 @@ namespace Brains
 
                 if (table != null)
                 {
-                    _service.UpdateTableState(chatId, SessionState.Sitted);
-
+                    if (table.State != SessionState.OrderPosted)
+                    {
+                        _service.UpdateTableState(chatId, SessionState.Sitted);
+                    }
+                    
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Напишите \"Меню\" в чат и я принесу его вам.",
+                        ResponceText = "Нажмите \"Меню\" и я принесу его вам.",
                     };
                 }
                 else
@@ -758,12 +779,12 @@ namespace Brains
             {
                 _service.SetCashPayment(chatId);
 
-                _service.UpdateTableState(chatId, SessionState.OrderPosted);
+                _service.SendOrderToDesk(chatId);
 
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Вы выбрали оплату наличными в заведении."
+                    ResponceText = "Вы выбрали оплату наличными в заведении. Заказ отправлен в заведение!"
                 };
             }
             catch (Exception)

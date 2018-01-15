@@ -36,28 +36,23 @@ namespace DispatchesService
         public static void PrepareDispatch(Guid dispatchId, string host, string message)
         {
             var messages = _dispService.GetDispatchMessages(dispatchId);
+            var botClient = new BotClient(host);
 
             foreach (var msg in messages)
             {
-                SendMessage(host, msg.ChatId, message);
+                try
+                {
+                    botClient.SendNotification(msg.ChatId, message);
+                }
+                catch (Exception ex)
+                {
+                    var error = ex.Message;
+                }
+
                 _dispService.SetDispatchMessageDone(msg.Id);
                 Thread.Sleep(2000);
             }
             _dispService.SetDispatchDone(dispatchId);
-        }
-
-        public static void SendMessage(string host, long chatId, string message)
-        {
-            var botClient = new BotClient(host);
-
-            try
-            {
-                botClient.SendNotification(chatId, message);
-            }
-            catch (Exception ex)
-            {
-                var error = ex.Message;
-            }
         }
     }
 }

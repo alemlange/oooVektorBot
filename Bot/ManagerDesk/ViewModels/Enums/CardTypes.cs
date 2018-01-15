@@ -10,6 +10,7 @@ namespace ManagerDesk.ViewModels.Enums
         Dish,
         Table,
         Menu,
-        Restaurant
+        Restaurant,
+        Dispatch
     }
 }

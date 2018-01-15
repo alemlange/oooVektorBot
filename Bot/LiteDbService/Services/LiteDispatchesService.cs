@@ -38,7 +38,7 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var col = db.GetCollection<DispatchMessage>("DispatcheMessages");
+                var col = db.GetCollection<DispatchMessage>("DispatchMessages");
                 col.Insert(dispatchMessage);
             }
         }
@@ -52,12 +52,21 @@ namespace LiteDbService
             }
         }
 
-        public List<Dispatch> GetDispatchesByAccount(Guid accountId)
+        public List<Dispatch> GetActiveDispatches(Guid accountId)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Dispatch>("Dispatches");
-                return col.Find(d => d.AccountId == accountId).ToList();
+                return col.Find(d => d.AccountId == accountId && d.Done == false).ToList();
+            }
+        }
+
+        public List<Dispatch> GetInActiveDispatches(Guid accountId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Dispatch>("Dispatches");
+                return col.Find(d => d.AccountId == accountId && d.Done).ToList();
             }
         }
 

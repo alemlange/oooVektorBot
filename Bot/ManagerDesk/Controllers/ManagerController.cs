@@ -296,6 +296,10 @@ namespace ManagerDesk.Controllers
                         {
                             return View("RestaurantCardEdditable", new RestaurantViewModel());
                         }
+                    case CardTypes.Dispatch:
+                        {
+                            return View("DispatchCardEdditable", new DispatchViewModel());
+                        }
                     default:
                         throw new Exception("No active section");
                 }

@@ -17,53 +17,83 @@ namespace ManagerDesk.Controllers
         [HttpGet]
         public ActionResult AllDispatches()
         {
-            var service = ServiceCreator.GetDispatchesService();
-            var dispatches = service.GetAllActiveDispatches();
+            var regService = ServiceCreator.GetRegistrationService();
+            var account = regService.FindAccount(User.Identity.Name);
 
-            var model = Mapper.Map<List<DispatchViewModel>>(dispatches);
-            return View("DispatchCardList", model);
-        }
-
-        [HttpGet]
-        public ActionResult EditDish(Guid dishId)
-        {
-            try
+            if(account != null)
             {
-                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+                var service = ServiceCreator.GetDispatchesService();
+                var activeDispatches = service.GetActiveDispatches(account.Id);
+                var oldDispatches = service.GetInActiveDispatches(account.Id);
 
-                var dish = service.GetDish(dishId);
-                if (dish != null)
-                {
-                    var model = Mapper.Map<DishViewModel>(dish);
+                var model = new DispatchListViewModel();
+                model.ActiveDispatches = Mapper.Map<List<DispatchViewModel>>(activeDispatches);
+                model.InActiveDispatches = Mapper.Map<List<DispatchViewModel>>(oldDispatches);
 
-                    var allDishes = service.GetAllDishes();
-                    if (allDishes != null && allDishes.Any())
-                    {
-                        model.AvailableCategories = allDishes.Where(o => !string.IsNullOrEmpty(o.Category)).Select(o => o.Category).Distinct().ToList();
-                    }
-
-                    return View("DishCardEdditable", model);
-                }
-                else
-                    throw new Exception("Dish not found!");
+                return View("DispatchCardList", model);
             }
-            catch (Exception ex)
+            else
             {
-                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+                var model = new DispatchListViewModel();
+                model.ActiveDispatches = new List<DispatchViewModel>();
+                model.InActiveDispatches = new List<DispatchViewModel>();
+
+                return View("DispatchCardList", model);
             }
         }
+
+        //[HttpGet]
+        //public ActionResult EditDish(Guid dishId)
+        //{
+        //    try
+        //    {
+        //        var service = ServiceCreator.GetManagerService(User.Identity.Name);
+
+        //        var dish = service.GetDish(dishId);
+        //        if (dish != null)
+        //        {
+        //            var model = Mapper.Map<DishViewModel>(dish);
+
+        //            var allDishes = service.GetAllDishes();
+        //            if (allDishes != null && allDishes.Any())
+        //            {
+        //                model.AvailableCategories = allDishes.Where(o => !string.IsNullOrEmpty(o.Category)).Select(o => o.Category).Distinct().ToList();
+        //            }
+
+        //            return View("DishCardEdditable", model);
+        //        }
+        //        else
+        //            throw new Exception("Dish not found!");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+        //    }
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditDish(Dish dish)
+        public ActionResult EditDisp(DispatchViewModel dispatchModel)
         {
             try
             {
+                var regService = new RegistrationService() ;
                 var service = ServiceCreator.GetManagerService(User.Identity.Name);
-                if (dish.Id == Guid.Empty)
-                    service.CreateNewDish(dish);
-                else
-                    service.UpdateDish(dish);
+                var dispService = ServiceCreator.GetDispatchesService();
+
+                var config = regService.FindConfiguration(User.Identity.Name);
+                var dispId = Guid.NewGuid();
+                var disp = new Dispatch { Host = config.TelegramBotLocation, Id = dispId, Message = dispatchModel.Message, Name = dispatchModel.Name, AccountId = config.AccountId, Done = false };
+                dispService.CreateDispatch(disp);
+
+                var allTables = service.GetInActiveTables();
+                var allChats = new List<long>();
+                allTables.ForEach(o => { if (!allChats.Contains(o.ChatId)) { allChats.Add(o.ChatId); } });
+                foreach (var chat in allChats)
+                {
+                    var dispMes = new DispatchMessage { DispatchId = dispId, ChatId = chat, Id = Guid.NewGuid(), Send = false };
+                    dispService.CreateDispatchMessage(dispMes);
+                }
 
                 return Json(new { isAuthorized = true, isSuccess = true });
             }

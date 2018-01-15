@@ -52,6 +52,15 @@ namespace LiteDbService
             }
         }
 
+        public List<Dispatch> GetDispatchesByAccount(Guid accountId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Dispatch>("Dispatches");
+                return col.Find(d => d.AccountId == accountId).ToList();
+            }
+        }
+
         public List<DispatchMessage> GetDispatchMessages(Guid dispatchId)
         {
             using (var db = new LiteDatabase(CurrentDb))

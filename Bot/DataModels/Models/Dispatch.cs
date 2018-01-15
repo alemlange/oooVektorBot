@@ -10,6 +10,8 @@ namespace DataModels
     {
         public Guid Id { get; set; }
 
+        public Guid AccountId { get; set; }
+
         public string Host { get; set; }
 
         public string Name { get; set; }

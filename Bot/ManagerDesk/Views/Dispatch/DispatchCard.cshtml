@@ -1,0 +1,10 @@
+﻿@model ManagerDesk.ViewModels.DispatchViewModel
+<div class="info-item js-dispatch-card animated fadeIn" data-edittarget="@Url.Action("EditDispatch","Dispatch")" data-itemid="@Model.Id" data-type="Dispatch">
+
+    <div class="toolbar-mini">
+        @*<div class="toolbar-mini__btn toolbar-mini__btn_theme_danger toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")"><i class="fa fa-trash-o" aria-hidden="true"></i></div>*@
+    </div>
+
+    <h3 class="info-item-heading">@Model.Name</h3>
+    <div class="dish-description">@Model.Message</div>
+</div>

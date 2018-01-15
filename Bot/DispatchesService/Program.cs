@@ -35,28 +35,33 @@ namespace DispatchesService
 
         public static void PrepareDispatch(Guid dispatchId, string host, string message)
         {
+            var botClient = new BotClient(host);
             var messages = _dispService.GetDispatchMessages(dispatchId);
 
-            foreach (var msg in messages)
+            if (messages.Count > 0)
             {
-                SendMessage(host, msg.ChatId, message);
-                _dispService.SetDispatchMessageDone(msg.Id);
-                Thread.Sleep(2000);
-            }
-            _dispService.SetDispatchDone(dispatchId);
-        }
+                foreach (var msg in messages)
+                {
+                    string res = "";
+                    try
+                    {
+                        res = botClient.SendNotification(msg.ChatId, message);
+                        _dispService.SetDispatchMessageDone(msg.Id, true, res);
+                    }
+                    catch (Exception ex)
+                    {
+                        res = ex.Message;
+                        _dispService.SetDispatchMessageDone(msg.Id, false, res);
+                    }
 
-        public static void SendMessage(string host, long chatId, string message)
-        {
-            var botClient = new BotClient(host);
+                    Thread.Sleep(2000);
+                }
 
-            try
-            {
-                botClient.SendNotification(chatId, message);
+                _dispService.SetDispatchDone(dispatchId, true, "Ok");
             }
-            catch (Exception ex)
+            else
             {
-                var error = ex.Message;
+                _dispService.SetDispatchDone(dispatchId, false, "В рассылке отсутствуют сообщения!");
             }
         }
     }

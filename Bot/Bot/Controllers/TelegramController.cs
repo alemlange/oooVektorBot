@@ -66,7 +66,7 @@ namespace Bot.Controllers
         }
 
         [HttpPost]
-        public void SendMessage([FromBody]Notification msg)
+        public string SendMessage([FromBody]Notification msg)
         {
             try
             {
@@ -77,10 +77,12 @@ namespace Bot.Controllers
                     msg.ChatId,
                     msg.Message,
                     parseMode: ParseMode.Html);
+
+                return "Ok";
             }
             catch (Exception ex)
             {
-                var error = ex.Message;
+                return ex.Message;
             }
         }
 

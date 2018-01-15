@@ -1,0 +1,47 @@
+﻿@model ManagerDesk.ViewModels.DispatchListViewModel
+
+@if (Model.ActiveDispatches.Any() || Model.InActiveDispatches.Any())
+{
+    if (Model.ActiveDispatches.Any())
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="login__heading">Активные рассылки</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            @foreach (var dispatch in Model.ActiveDispatches)
+            {
+                <div class="col-md-6 col-lg-3">
+                    @Html.Partial("DispatchCard", dispatch)
+                </div>
+            }
+        </div>
+    }
+    if (Model.InActiveDispatches.Any())
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="login__heading">Завершенные рассылки</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            @foreach (var dispatch in Model.InActiveDispatches)
+            {
+                <div class="col-md-6 col-lg-3">
+                    @Html.Partial("DispatchCard", dispatch)
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="login__heading">Нет созданных рассылок</h1>
+        </div>
+    </div>
+}

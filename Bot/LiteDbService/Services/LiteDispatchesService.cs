@@ -38,7 +38,7 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                var col = db.GetCollection<DispatchMessage>("DispatcheMessages");
+                var col = db.GetCollection<DispatchMessage>("DispatchMessages");
                 col.Insert(dispatchMessage);
             }
         }
@@ -52,6 +52,24 @@ namespace LiteDbService
             }
         }
 
+        public List<Dispatch> GetActiveDispatches(Guid accountId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Dispatch>("Dispatches");
+                return col.Find(d => d.AccountId == accountId && d.Done == false).ToList();
+            }
+        }
+
+        public List<Dispatch> GetInActiveDispatches(Guid accountId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Dispatch>("Dispatches");
+                return col.Find(d => d.AccountId == accountId && d.Done).ToList();
+            }
+        }
+
         public List<DispatchMessage> GetDispatchMessages(Guid dispatchId)
         {
             using (var db = new LiteDatabase(CurrentDb))
@@ -61,7 +79,7 @@ namespace LiteDbService
             }
         }
 
-        public void SetDispatchMessageDone(Guid messageId)
+        public void SetDispatchMessageDone(Guid messageId, bool done, string execResult)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
@@ -70,13 +88,14 @@ namespace LiteDbService
 
                 if (msg != null)
                 {
-                    msg.Send = true;
+                    msg.Send = done;
+                    msg.ExecutionResult = execResult;
                     col.Update(msg);
                 }
             }
         }
 
-        public void SetDispatchDone(Guid dispatchId)
+        public void SetDispatchDone(Guid dispatchId, bool done, string execResult)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
@@ -85,7 +104,8 @@ namespace LiteDbService
 
                 if (disp != null)
                 {
-                    disp.Done = true;
+                    disp.Done = done;
+                    disp.ExecutionResult = execResult;
                     col.Update(disp);
                 }
             }

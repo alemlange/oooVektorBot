@@ -36,7 +36,7 @@ namespace Clients
             return client.DownloadString(BotLocation + "Telegram/Test/");
         }
 
-        public void SendNotification(long chatId, string notification)
+        public string SendNotification(long chatId, string notification)
         {
             var client = new WebClient();
 
@@ -52,6 +52,8 @@ namespace Clients
             var data = Encoding.UTF8.GetString(mem.ToArray(), 0, (int)mem.Length);
 
             var responce = client.UploadString(BotLocation + "Telegram/SendMessage/", "POST", data);
+
+            return responce;
         }
     }
 }

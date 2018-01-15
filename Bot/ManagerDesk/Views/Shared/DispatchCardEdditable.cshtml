@@ -1,0 +1,26 @@
+﻿@model ManagerDesk.ViewModels.DispatchViewModel
+
+@*<div class="row">
+    <div class="col-md-6 col-lg-3">*@
+        <div class="info-item animated fadeIn js-disp-form" data-itemid="@Model.Id">
+            @using (Html.BeginForm("EditDisp", "Dispatch", FormMethod.Post, new { enctype = "multipart/form-data", id="EditDispForm" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <h3 class="info-item-heading">Рассылка</h3>
+
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control js-name", placeholder = "Название" } })
+
+                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(model => model.Message, new { @class = "form-control js-description", placeholder = "Текст рассылки" })
+
+                <button class="btn btn-save-dishes js-save-disp" type="submit">Сохранить</button>
+
+                @Html.HiddenFor(o => o.Id)
+                @Html.HiddenFor(o => o.Done)
+                @Html.HiddenFor(o => o.Host)
+            }
+        </div>
+    @*</div>
+</div>*@

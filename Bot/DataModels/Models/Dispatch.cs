@@ -18,6 +18,8 @@ namespace DataModels
 
         public string Message { get; set; }
 
+        public string ExecutionResult { get; set; }
+
         public bool Done { get; set; }
     }
 }

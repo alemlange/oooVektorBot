@@ -70,7 +70,7 @@ namespace LiteDbService
             }
         }
 
-        public void SetDispatchMessageDone(Guid messageId)
+        public void SetDispatchMessageDone(Guid messageId, bool done, string execResult)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
@@ -79,13 +79,14 @@ namespace LiteDbService
 
                 if (msg != null)
                 {
-                    msg.Send = true;
+                    msg.Send = done;
+                    msg.ExecutionResult = execResult;
                     col.Update(msg);
                 }
             }
         }
 
-        public void SetDispatchDone(Guid dispatchId)
+        public void SetDispatchDone(Guid dispatchId, bool done, string execResult)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
@@ -94,7 +95,8 @@ namespace LiteDbService
 
                 if (disp != null)
                 {
-                    disp.Done = true;
+                    disp.Done = done;
+                    disp.ExecutionResult = execResult;
                     col.Update(disp);
                 }
             }

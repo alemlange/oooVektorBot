@@ -90,7 +90,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
-                return col.Find(o => o.State != SessionState.Closed && o.State != SessionState.Deactivated).ToList();
+                return col.Find(o => o.State != SessionState.Closed).ToList();
             }
         }
 
@@ -99,7 +99,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
-                return col.Find(o => o.State == SessionState.Closed || o.State == SessionState.Deactivated).ToList();
+                return col.Find(o => o.State == SessionState.Closed).ToList();
             }
         }
 
@@ -108,7 +108,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var tableCol = db.GetCollection<Table>("Tables");
-                return tableCol.Find(o => o.State != SessionState.Closed && o.State != SessionState.Deactivated && o.Restaurant == restId).ToList();
+                return tableCol.Find(o => o.State != SessionState.Closed && o.Restaurant == restId).ToList();
             }
         }
 
@@ -117,7 +117,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var tableCol = db.GetCollection<Table>("Tables");
-                return tableCol.Find(o => (o.State == SessionState.Closed || o.State == SessionState.Deactivated) && o.Restaurant == restId).ToList();
+                return tableCol.Find(o => (o.State == SessionState.Closed) && o.Restaurant == restId).ToList();
             }
         }
 

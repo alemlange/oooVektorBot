@@ -15,7 +15,6 @@ namespace DataModels.Enums
         Sitted,
         Remark,
         OrderingDish,
-        Closed,
-        Deactivated
+        Closed
     }
 }

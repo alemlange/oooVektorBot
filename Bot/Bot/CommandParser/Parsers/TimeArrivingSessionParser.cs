@@ -14,7 +14,7 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                      {
-                        new KeyboardButton[] { "Назад ↩" },
+                        new KeyboardButton[] { "↩ Назад" },
                         new KeyboardButton[] { "5 минут" },
                         new KeyboardButton[] { "10 минут" },
                         new KeyboardButton[] { "15 минут" },

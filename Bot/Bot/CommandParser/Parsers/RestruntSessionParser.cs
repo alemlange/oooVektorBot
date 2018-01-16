@@ -48,7 +48,7 @@ namespace Bot.CommandParser
 
                 if (Restaurants.Contains(msgText))
                     return CmdTypes.Restrunt;
-                else if (msgText.ToLower() == "назад ↩") // todo
+                else if (msgText.ToLower() == "↩ назад") // todo
                     return CmdTypes.Menu;
                 else
                     return CmdTypes.Unknown;

@@ -22,7 +22,7 @@ namespace Bot.CommandParser
             get
             {
                 var keys = new List<KeyboardButton[]>();
-                keys.Add(new KeyboardButton[] { "Назад ↩" });
+                keys.Add(new KeyboardButton[] { "↩ Назад" });
 
                 foreach (var cat in Categories)
                 {

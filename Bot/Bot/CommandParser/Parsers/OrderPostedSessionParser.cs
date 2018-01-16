@@ -25,8 +25,8 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "Меню 📓" },
-                        new KeyboardButton[] { "Мой заказ 🍴" }
+                        new KeyboardButton[] { "📓 Меню" },
+                        new KeyboardButton[] { "🍴 Мой заказ" }
                     }
                 };
             }

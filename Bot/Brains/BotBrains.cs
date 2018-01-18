@@ -628,16 +628,16 @@ namespace Brains
                 {
                     _service.UpdateTableState(chatId, SessionState.TimeChoosing);
 
-                    var curTimeArriving = "";
-                    if (table.TimeArriving == 0)
-                        curTimeArriving = "Сейчас";
-                    else
-                        curTimeArriving = "Через " + table.TimeArriving + " минут"; 
+                    //var curTimeArriving = "";
+                    //if (table.TimeArriving == 0)
+                    //    curTimeArriving = "Сейчас";
+                    //else
+                    //    curTimeArriving = "Через " + table.TimeArriving + " минут"; 
 
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Через сколько вы заберете заказ? " +curTimeArriving,
+                        ResponceText = "Через сколько вы заберете заказ? ", //+curTimeArriving,
                     };
                 }
                 else

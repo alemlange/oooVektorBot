@@ -214,7 +214,6 @@
     });
 
     function UpdateTables() {
-        e.preventDefault();
 
         var target = $(".js-tables-section").data("updatetarget");
         $.get(target).done(function (data) {

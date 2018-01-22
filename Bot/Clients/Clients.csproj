@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="BotClient.cs" />
     <Compile Include="EmailClient.cs" />
+    <Compile Include="IikoClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

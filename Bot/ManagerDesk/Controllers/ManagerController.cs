@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using LiteDbService.Helpers;
@@ -162,6 +163,71 @@ namespace ManagerDesk.Controllers
             var model = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };
 
             return View("TableCardList", model);
+        }
+
+        [HttpGet]
+        public ActionResult UpdateTables()
+        {
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
+            var rests = service.GetAllRestaurants();
+            var restCookie = Request.Cookies.Get("CurRest");
+
+            string restOptionsView = "";
+            string tablesView = "";
+
+            var restsModel = new RestOptionsViewModel { AvailableRests = new List<Restaurant> { new Restaurant { Name = "Все", Id = Guid.Empty } } };
+
+            if (rests != null && rests.Any())
+            {
+                restsModel.AvailableRests.AddRange(rests);
+
+                if (restCookie != null)
+                {
+                    var curRest = restCookie.Value;
+                    var rest = service.GetRestaurant(Guid.Parse(curRest));
+
+                    if (rest == null)
+                    {
+                        restCookie.Value = Guid.Empty.ToString();
+                        Response.Cookies.Set(restCookie);
+                        restsModel.CurrentRest = Guid.Empty;
+                    }
+                    else
+                    {
+                        restsModel.CurrentRest = rest.Id;
+                    }
+                }
+            }
+            restOptionsView = RenderPartialViewToString("RestaurantOptions", restsModel);
+
+            var activeTables = new List<Table>();
+            var inActiveTables = new List<Table>();
+
+            if (restCookie != null)
+            {
+                var curRest = Guid.Parse(restCookie.Value);
+                if (curRest != Guid.Empty)
+                {
+                    activeTables = service.GetActiveTables(curRest).OrderByDescending(o => o.OrderPlaced).ToList();
+                    inActiveTables = service.GetInActiveTables(curRest).OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
+                }
+                else
+                {
+                    activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                    inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
+                }
+
+            }
+            else
+            {
+                activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
+            }
+            var tablesModel = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };
+
+            tablesView = RenderPartialViewToString("TableCardList", tablesModel);
+
+            return Json(new { isAuthorized = true, isSuccess = true, tablesView = tablesView, restOptionsView = restOptionsView }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -380,6 +446,22 @@ namespace ManagerDesk.Controllers
             catch (Exception ex)
             {
                 return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
+
+        protected string RenderPartialViewToString(string viewName, object model = null)
+        {
+            if (string.IsNullOrEmpty(viewName))
+            {
+                viewName = ControllerContext.RouteData.GetRequiredString("action");
+            }
+            ViewData.Model = model;
+            using (var stringWriter = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, stringWriter);
+                viewResult.View.Render(viewContext, stringWriter);
+                return stringWriter.GetStringBuilder().ToString();
             }
         }
 

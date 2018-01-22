@@ -208,19 +208,19 @@ namespace ManagerDesk.Controllers
                 var curRest = Guid.Parse(restCookie.Value);
                 if (curRest != Guid.Empty)
                 {
-                    activeTables = service.GetActiveTables(curRest).OrderByDescending(o => o.OrderPlaced).ToList();
+                    activeTables = service.GetOrderPostedTables(curRest).OrderByDescending(o => o.OrderPlaced).ToList();
                     inActiveTables = service.GetInActiveTables(curRest).OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
                 }
                 else
                 {
-                    activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                    activeTables = service.GetOrderPostedTables().OrderByDescending(o => o.OrderPlaced).ToList();
                     inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
                 }
 
             }
             else
             {
-                activeTables = service.GetActiveTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                activeTables = service.GetOrderPostedTables().OrderByDescending(o => o.OrderPlaced).ToList();
                 inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
             }
             var tablesModel = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };

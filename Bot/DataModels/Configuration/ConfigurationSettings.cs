@@ -18,6 +18,8 @@ namespace DataModels.Configuration
             public const string Password = "Password";
             public const string Port = "Port";
             public const string EmailService = "EmailService";
+            public const string TestLogin = "TestLogin";
+            public const string TestPassword = "TestPassword";
         }
 
         public static string EmailService
@@ -71,6 +73,16 @@ namespace DataModels.Configuration
         public static string Password
         {
             get { return ConfigurationManager.AppSettings[AppKeys.Password]; }
+        }
+
+        public static string TestLogin
+        {
+            get { return ConfigurationManager.AppSettings[AppKeys.TestLogin]; }
+        }
+
+        public static string TestPassword
+        {
+            get { return ConfigurationManager.AppSettings[AppKeys.TestPassword]; }
         }
 
         public static int Port

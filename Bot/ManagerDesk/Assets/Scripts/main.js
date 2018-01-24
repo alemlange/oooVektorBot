@@ -213,9 +213,30 @@
         
     });
 
+    function UpdateTables() {
+
+        var target = $(".js-tables-section").data("updatetarget");
+        $.get(target).done(function (data) {
+
+            if (data.tablesView != null) {
+                $(".active-rest").show();
+                $(".active-rest-label").show();
+                $(".js-table-body").html(data.tablesView);
+            }
+
+            if (data.restOptionsView != null) {
+                $(".js-rest-select").html(data.restOptionsView);
+            }
+
+        }).fail(function (ex) {
+            AlertModal.text = "Не получилось обновить столики, возможно отсутствует соединение с сетью!";
+            AlertModal.show();
+        });
+    }
+
     setInterval(function () {
         if ($(".js-tables-section.active").length !== 0)
-            $(".js-tables-section").trigger("click");
+            UpdateTables();
     }, 10000);
 
 

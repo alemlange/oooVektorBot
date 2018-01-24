@@ -8,7 +8,7 @@ using ManagerDesk.Models;
 using ManagerDesk.Services;
 using AutoMapper;
 using DataModels;
-
+using DataModels.Configuration;
 
 namespace ManagerDesk.Controllers
 {
@@ -42,6 +42,24 @@ namespace ManagerDesk.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult TestAccount()
+        {
+            var regService = new RegistrationService();
+
+            if (regService.Login(ConfigurationSettings.TestLogin, ConfigurationSettings.TestPassword))
+            {
+                FormsAuthentication.SetAuthCookie(ConfigurationSettings.TestLogin, true);
+                return RedirectToAction("Index", "Manager");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            
         }
 
         [HttpGet]

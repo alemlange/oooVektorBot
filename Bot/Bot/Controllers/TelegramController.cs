@@ -189,15 +189,18 @@ namespace Bot.Controllers
                                 }
                             case CmdTypes.Slash:
                                 {
-                                    var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.Slash);
-
                                     var response = bot.GetMenuItem(chatId, update.Message.Text);
 
-                                    await Telegram.SendTextMessageAsync(
-                                        chatId,
-                                        response.ResponceText,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: keyboard);
+                                    if (response.NeedInlineKeyboard)
+                                    {
+                                        var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.Slash);
+
+                                        await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
+                                    }
+                                    else
+                                    {
+                                        await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    }
                                     break;
                                 }
                             case CmdTypes.CreateInvoice:

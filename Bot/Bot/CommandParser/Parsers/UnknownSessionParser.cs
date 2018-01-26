@@ -35,7 +35,14 @@ namespace Bot.CommandParser
         {
             if (update.Type == UpdateType.CallbackQueryUpdate)
             {
-                return CmdTypes.Unknown;  
+                var data = update.CallbackQuery.Data;
+
+                if(data == "addOrder")
+                {
+                    return CmdTypes.AddToOrder;
+                }
+                else
+                    return CmdTypes.Unknown;  
             }
             if (update.Message.Type == MessageType.TextMessage)
             {

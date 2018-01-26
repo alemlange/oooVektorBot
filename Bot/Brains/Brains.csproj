@@ -45,6 +45,7 @@
     <Compile Include="Interfaces\IMainTasks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responces\OrderResponce.cs" />
+    <Compile Include="Responces\MenuItemResponce.cs" />
     <Compile Include="Responces\PreCheckResponce.cs" />
     <Compile Include="Responces\GenChequeResponce.cs" />
     <Compile Include="Responces\MenuResponce.cs" />

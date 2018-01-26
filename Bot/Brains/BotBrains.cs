@@ -793,22 +793,23 @@ namespace Brains
             }
         }
 
-        public Responce GetMenuItem(long chatId, string dishName)
+        public MenuItemResponce GetMenuItem(long chatId, string dishName)
         {
             try
             {
                 var dish = _service.GetDish(dishName);
                 _service.AddLastDishToTable(chatId, dishName);
 
-                return new Responce
+                return new MenuItemResponce
                 {
                     ChatId = chatId,
-                    ResponceText = "<a href=\"" + dish.PictureUrl + "\">"+ dish.Name + "</a>" + Environment.NewLine + dish.Description + Environment.NewLine
+                    ResponceText = "<a href=\"" + dish.PictureUrl + "\">"+ dish.Name + "</a>" + Environment.NewLine + dish.Description + Environment.NewLine,
+                    NeedInlineKeyboard = true
                 };
             }
             catch (Exception)
             {
-                return Responce.UnknownResponce(chatId);
+                return new MenuItemResponce {ChatId = chatId, NeedInlineKeyboard = false, ResponceText="Упс, что-то пошло не так." };
             }
         }
     }

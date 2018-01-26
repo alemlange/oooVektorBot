@@ -711,8 +711,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = dish.Name + Environment.NewLine + dish.Description + Environment.NewLine +
-                    dish.PictureUrl
+                    ResponceText = "<a href=\"" + dish.PictureUrl + "\">"+ dish.Name + "</a>" + Environment.NewLine + dish.Description + Environment.NewLine
                 };
             }
             catch (Exception)

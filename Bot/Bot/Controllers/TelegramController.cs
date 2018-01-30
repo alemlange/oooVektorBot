@@ -344,7 +344,7 @@ namespace Bot.Controllers
                 }
                 else if (update.Type == UpdateType.CallbackQueryUpdate)
                 {
-                    chatId = update.CallbackQuery.From.Id;
+                    chatId = update.CallbackQuery.Message.Chat.Id;
                     var parser = ParserChoser.GetParser(chatId, bot);
 
                     var cmd = parser.ParseForCommand(update);

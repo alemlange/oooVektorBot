@@ -797,6 +797,8 @@ namespace Brains
         {
             try
             {
+                if (dishName.Contains('@'))
+                    dishName = dishName.Split('@')[0];
                 var dish = _service.GetDish(dishName);
                 _service.AddLastDishToTable(chatId, dishName);
 

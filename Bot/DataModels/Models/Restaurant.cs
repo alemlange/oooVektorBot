@@ -16,6 +16,7 @@ namespace DataModels
         public double Latitude { get; set; }
         public double Longitude { get; set; } 
         public int TableCount { get; set; }
+        public string TimeZoneId { get; set; }
         public Guid Menu { get; set; }
     }
 }

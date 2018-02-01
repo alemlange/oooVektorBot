@@ -1,4 +1,11 @@
 ﻿@model ManagerDesk.ViewModels.RestaurantViewModel
+@{
+    var selectTimeZones = new List<SelectListItem>();
+    foreach(var timezone in TimeZoneInfo.GetSystemTimeZones())
+    {
+        selectTimeZones.Add(new SelectListItem { Text = timezone.DisplayName, Value = timezone.Id });
+    }
+}
 
 @*<div class="row">
     <div class="col-md-6 col-lg-3">*@
@@ -17,6 +24,8 @@
 
                 @Html.ValidationMessageFor(model => model.TableCount, "", new { @class = "text-danger" })
                 @Html.EditorFor(model => model.TableCount, new { htmlAttributes = new { @class = "form-control js-table-count", placeholder = "Количество столов", @Value = Model.TableCountString } })
+
+                @Html.DropDownListFor(o => o.TimeZoneId, selectTimeZones,  new { @class = "form-control "})
 
                 @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control js-code", @readonly = "readonly", placeholder = "Код" } })
 

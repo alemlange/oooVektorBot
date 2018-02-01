@@ -307,6 +307,7 @@ namespace LiteDbService
 
                 if (table != null)
                 {
+                    table.TimeZoneId = restaurant.TimeZoneId;
                     table.Restaurant = restaurant.Id;
                     tableCol.Update(table);
                 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerDesk.ViewModels
@@ -21,6 +22,8 @@ namespace ManagerDesk.ViewModels
         public string Code { get; set; }
 
         public Guid Menu { get; set; }
+
+        public string TimeZoneId { get; set; }
 
         public double Latitude { get; set; }
 

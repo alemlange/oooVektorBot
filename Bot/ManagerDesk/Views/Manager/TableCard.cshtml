@@ -1,6 +1,13 @@
 ﻿@model ManagerDesk.ViewModels.TableCardViewModel
 @{
     string TimeFormat = "HH:mm";
+
+    var orderTimeLocal = Model.OrderPlaced;
+
+    if (!string.IsNullOrEmpty(Model.TimeZoneId))
+    {
+        orderTimeLocal = TimeZoneInfo.ConvertTime(Model.OrderPlaced, TimeZoneInfo.FindSystemTimeZoneById(Model.TimeZoneId));
+    }
 }
 
 <div class="col-md-6 col-lg-3">
@@ -27,7 +34,7 @@
                     if (Model.OrderPlaced != DateTime.MinValue)
                     {
                         <h5 class="info-item-heading">
-                            Время заказа: @Model.OrderPlaced.ToString(TimeFormat), заберут через @Model.TimeArriving.ToString() минут
+                            Время заказа: @orderTimeLocal.ToString(TimeFormat), заберут через @Model.TimeArriving.ToString() минут
                         </h5>
                     }
                 }

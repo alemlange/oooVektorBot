@@ -15,7 +15,8 @@ namespace DataModels
         public string Code { get; set; }
         public int QueueNumber { get; set; }
         public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public double Longitude { get; set; } 
+        public string TimeZoneId { get; set; }
         public Guid Menu { get; set; }
     }
 }

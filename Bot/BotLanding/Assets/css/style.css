@@ -515,7 +515,7 @@ ul {
 
 .features-box .icon{
 	position: relative;
-	text-align: center;
+	text-align: left;
 	display: inline-block;
     -o-transition: all .3s;
     -moz-transition: all .3s;
@@ -525,7 +525,7 @@ ul {
 }
 
 .features-box .icon i{
-	color: #009ca8;
+	color: #1ec9a7;
 	font-size: 60px;
     -o-transition: all .3s;
     -moz-transition: all .3s;
@@ -723,12 +723,21 @@ line-height: 24px;}
 
 /***** Pricing *****/
 
+.list-features h3 {
+    color: #323A45
+}
+
 .pricing-container {
-	margin: 0 auto;
-	padding-bottom: 50px !important;
-	background: #f4f4f4;
-	color: #888;
+    margin: 0 auto;
+    padding-bottom: 50px !important;
+    padding-top: 50px !important;
+    background: #f4f4f4;
+    color: #888;
     text-align: center;
+}
+
+.pricing-container-features {
+    background: #fded62;
 }
 
 .pricing {

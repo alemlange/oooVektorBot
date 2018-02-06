@@ -459,6 +459,7 @@ ul {
 .features-container {
     margin: 0 auto;
     padding-bottom: 60px;
+    padding-top: 60px;
     color: #888;
     text-align: center;
 }
@@ -722,6 +723,10 @@ line-height: 24px;}
 
 
 /***** Pricing *****/
+
+.list-features {
+    background: #47e6e6 !important;
+}
 
 .list-features h3 {
     color: #323A45

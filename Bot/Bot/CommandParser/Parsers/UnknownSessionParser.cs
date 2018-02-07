@@ -41,6 +41,10 @@ namespace Bot.CommandParser
                 {
                     return CmdTypes.AddToOrder;
                 }
+                else if (data.Contains("dish"))
+                {
+                    return CmdTypes.DishDetails;
+                }
                 else
                     return CmdTypes.Unknown;  
             }
@@ -60,8 +64,6 @@ namespace Bot.CommandParser
                     return CmdTypes.Category;
                 else if (msgText == "/start")
                     return CmdTypes.Start;
-                else if (msgText != "/start" && msgText.StartsWith("/"))
-                    return CmdTypes.Slash;
                 else
                     return CmdTypes.Unknown;
             }

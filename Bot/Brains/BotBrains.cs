@@ -545,7 +545,7 @@ namespace Brains
             };
         }
 
-        public Responce SnowMenuByCategory(long chatId, string category)
+        public MenuResponce SnowMenuByCategory(long chatId, string category)
         {
             try
             {
@@ -562,24 +562,16 @@ namespace Brains
 
                 var dishes = menu.DishList.Where(m => m.Category == category);
 
-                var dishNum = 0;
+                var response = new MenuResponce() { ResponceText = "<b>" + category + ": </b>" + Environment.NewLine + Environment.NewLine};
 
-                foreach (var dish in dishes)
-                {
-                    respText += (dishNum += 1) + ". " + dish.Name + " <b>" +
-                        dish.Price + "р.</b> " + dish.SlashName + Environment.NewLine;
-                }
+                response.Dishes = dishes.Select(o => new Models.Item { Id = o.Id.ToString(), Name = o.Name + " " + o.Price + "р." });
 
-                return new Responce
-                {
-                    ChatId = chatId,
-                    ResponceText = respText + Environment.NewLine +
-                        "Хотите узнать про блюдо подробнее? Просто кликните по слэш-ссылке рядом с блюдом."
-                };
+                return response;
+
             }
             catch
             {
-                return Responce.UnknownResponce(chatId);
+                return new MenuResponce() { ChatId = chatId, ResponceText = "Упс, что-то пошло не так." };
             }
         }
 
@@ -818,21 +810,29 @@ namespace Brains
             }
         }
 
-        public MenuItemResponce GetMenuItem(long chatId, string dishName)
+        public MenuItemResponce GetMenuItem(long chatId, string message)
         {
             try
             {
-                if (dishName.Contains('@'))
-                    dishName = dishName.Split('@')[0];
-                var dish = _service.GetDish(dishName);
-                _service.AddLastDishToTable(chatId, dishName);
+                var dishGuid = message.Split(new string[] { "dish" }, StringSplitOptions.RemoveEmptyEntries)[0];
 
-                return new MenuItemResponce
+                var dish = _service.GetDish(Guid.Parse(dishGuid));
+
+                if(dish != null)
                 {
-                    ChatId = chatId,
-                    ResponceText = "<a href=\"" + dish.PictureUrl + "\">"+ dish.Name + "</a>" + Environment.NewLine + dish.Description + Environment.NewLine,
-                    NeedInlineKeyboard = true
-                };
+                    _service.AddLastDishToTable(chatId, dish.SlashName);
+
+                    return new MenuItemResponce
+                    {
+                        ChatId = chatId,
+                        ResponceText = "<a href=\"" + dish.PictureUrl + "\">" + dish.Name + "</a>" + Environment.NewLine + dish.Description + Environment.NewLine,
+                        NeedInlineKeyboard = true
+                    };
+                }
+                else
+                {
+                    return new MenuItemResponce { ChatId = chatId, NeedInlineKeyboard = false, ResponceText = "Упс, что-то пошло не так." };
+                }
             }
             catch (Exception)
             {

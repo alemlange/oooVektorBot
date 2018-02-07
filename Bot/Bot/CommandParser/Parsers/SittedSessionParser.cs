@@ -35,6 +35,10 @@ namespace Bot.CommandParser
                 {
                     return CmdTypes.TimeInput;
                 }
+                else if (data.Contains("dish"))
+                {
+                    return CmdTypes.DishDetails;
+                }
                 else
                 {
                     switch (data)
@@ -75,8 +79,6 @@ namespace Bot.CommandParser
                     return CmdTypes.Cart;
                 else if (msgText.Contains("убрать из заказа"))
                     return CmdTypes.Remove;
-                else if (msgText.StartsWith("/"))
-                    return CmdTypes.Slash;
                 else if (Int32.TryParse(msgText, out result))
                     return CmdTypes.RemoveByNum;
                 else

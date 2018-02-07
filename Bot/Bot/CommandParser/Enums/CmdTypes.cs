@@ -20,7 +20,7 @@ namespace Bot.CommandParser
         CustomKeyboard,
         Picture,
         PictureLink,
-        Slash,
+        DishDetails,
         Waiter,
         Cart,
         OrderComplete,

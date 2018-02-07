@@ -8,11 +8,25 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.InlineKeyboardButtons;
 using Bot.CommandParser;
+using Brains.Models;
 
 namespace Bot.CommandParser.KeyBoards
 {
     public static class InlineKeyBoardManager
     {
+        public static InlineKeyboardMarkup MenuKeyBoard(IEnumerable<Item> Dishes)
+        {
+            var arrayDishes = Dishes.ToArray();
+            var inKeyboardRows = new InlineKeyboardCallbackButton[arrayDishes.Length][];
+
+            for (var i= 0; i < arrayDishes.Length; i++)
+            {
+                inKeyboardRows[i] = new[] { new InlineKeyboardCallbackButton(arrayDishes[i].Name, "dish "+ arrayDishes[i].Id) };
+            }
+
+            return new InlineKeyboardMarkup(inKeyboardRows);
+        }
+
         public static InlineKeyboardMarkup DescriptionKeyBoard()
         {
             return new InlineKeyboardMarkup(
@@ -51,7 +65,7 @@ namespace Bot.CommandParser.KeyBoards
         {
             switch (command)
             {
-                case CmdTypes.Slash:
+                case CmdTypes.DishDetails:
                     return DescriptionKeyBoard();
                 case CmdTypes.Cart:
                     return OrderKeyBoard();

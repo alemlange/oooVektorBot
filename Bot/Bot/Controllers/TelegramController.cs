@@ -157,11 +157,23 @@ namespace Bot.Controllers
                                 {
                                     var response = bot.SnowMenuByCategory(chatId, message.Text);
 
-                                    await Telegram.SendTextMessageAsync(
+                                    if(response.Dishes != null)
+                                    {
+                                        await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        response.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: InlineKeyBoardManager.MenuKeyBoard(response.Dishes));
+                                    }
+                                    else
+                                    {
+                                        await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    }
+
                                     break;
                                 }
                             case CmdTypes.CloseMenu:
@@ -173,22 +185,6 @@ namespace Bot.Controllers
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    break;
-                                }
-                            case CmdTypes.Slash:
-                                {
-                                    var response = bot.GetMenuItem(chatId, update.Message.Text);
-
-                                    if (response.NeedInlineKeyboard)
-                                    {
-                                        var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.Slash);
-
-                                        await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
-                                    }
-                                    else
-                                    {
-                                        await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    }
                                     break;
                                 }
                             case CmdTypes.SuccessfulPayment:
@@ -362,6 +358,22 @@ namespace Bot.Controllers
                             await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: new MenuCategorySessionParser(bot.GetMenuCategoriesByChatId(chatId)).Keyboard);
                             break;
                         }
+                        case CmdTypes.DishDetails:
+                            {
+                                var response = bot.GetMenuItem(chatId, update.CallbackQuery.Data);
+
+                                if (response.NeedInlineKeyboard)
+                                {
+                                    var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.DishDetails);
+
+                                    await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
+                                }
+                                else
+                                {
+                                    await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                }
+                                break;
+                            }
                         case CmdTypes.ArrivingTime:
                         {
                             var response = bot.ArrivingTime(chatId);

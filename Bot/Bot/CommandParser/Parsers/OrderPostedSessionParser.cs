@@ -65,7 +65,7 @@ namespace Bot.CommandParser
                 else if (Categories.Select(o => o.ToLower()).Contains(msgText))
                     return CmdTypes.Category;
                 else if (msgText != "/start" && msgText.StartsWith("/"))
-                    return CmdTypes.Slash;
+                    return CmdTypes.DishDetails;
                 else
                     return CmdTypes.Unknown;
             }

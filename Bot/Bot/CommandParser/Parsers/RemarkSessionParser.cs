@@ -26,32 +26,43 @@ namespace Bot.CommandParser
             if (update.Type == UpdateType.CallbackQueryUpdate)
             {
                 var data = update.CallbackQuery.Data;
-
-                switch (data)
+                if (data.Contains("time"))
                 {
-                    case ("arrTime"):
-                        {
-                            return CmdTypes.ArrivingTime;
-                        }
-                    case ("payCard"):
-                        {
-                            return CmdTypes.CreateInvoice;
-                        }
-                    case ("payCash"):
-                        {
-                            return CmdTypes.PayCash;
-                        }
-                    case ("addOrder"):
-                        {
-                            return CmdTypes.AddToOrder;
-                        }
-                    case ("backMenu"):
-                        {
-                            return CmdTypes.BackToMenu;
-                        }
-                    default:
-                        return CmdTypes.Unknown;
+                    return CmdTypes.TimeInput;
                 }
+                else if (data.Contains("dish"))
+                {
+                    return CmdTypes.DishDetails;
+                }
+                else
+                {
+                    switch (data)
+                    {
+                        case ("arrTime"):
+                            {
+                                return CmdTypes.ArrivingTime;
+                            }
+                        case ("payCard"):
+                            {
+                                return CmdTypes.CreateInvoice;
+                            }
+                        case ("payCash"):
+                            {
+                                return CmdTypes.PayCash;
+                            }
+                        case ("addOrder"):
+                            {
+                                return CmdTypes.AddToOrder;
+                            }
+                        case ("backMenu"):
+                            {
+                                return CmdTypes.BackToMenu;
+                            }
+                        default:
+                            return CmdTypes.Unknown;
+                    }
+                }
+                
             }
             else if (update.Message.Type == MessageType.TextMessage)
             {
@@ -65,8 +76,6 @@ namespace Bot.CommandParser
                     return CmdTypes.Cart;
                 else if (msgText.Contains("убрать из заказа"))
                     return CmdTypes.Remove;
-                if (msgText.StartsWith("/"))
-                    return CmdTypes.Slash;
                 else
                     return CmdTypes.Remark;
             }

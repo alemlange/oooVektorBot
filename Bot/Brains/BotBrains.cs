@@ -217,7 +217,7 @@ namespace Brains
                 }
                 else
                 {
-                    return new Responce { ChatId = chatId, ResponceText = "Нажмите \"Начать\" в главном меню, чтобы сделать заказ!" };
+                    return new Responce { ChatId = chatId, ResponceText = "Нажмите \"Заказать\" в главном меню, чтобы сделать заказ!" };
                 }
             }
             catch (Exception)

@@ -15,7 +15,7 @@ namespace Bot.CommandParser
                     Keyboard = new KeyboardButton[][]
                      {
                         new KeyboardButton[] { "📓 Меню" },
-                        new KeyboardButton[] { "🍴 Мой заказ", "❌ Убрать из заказа" }
+                        new KeyboardButton[] { "🛒 Корзина", "❌ Убрать из заказа" }
                      }
                 };
             }
@@ -61,8 +61,8 @@ namespace Bot.CommandParser
                     return CmdTypes.Menu;
                 else if (msgText.Contains("меню"))
                     return CmdTypes.Menu;
-                else if (msgText.Contains("мой заказ"))
-                    return CmdTypes.MyOrder;
+                else if (msgText.Contains("корзина"))
+                    return CmdTypes.Cart;
                 else if (msgText.Contains("убрать из заказа"))
                     return CmdTypes.Remove;
                 if (msgText.StartsWith("/"))

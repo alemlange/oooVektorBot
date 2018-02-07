@@ -22,8 +22,8 @@ namespace Bot.CommandParser
         PictureLink,
         Slash,
         Waiter,
-        MyOrder,
-        MyOrderComplete,
+        Cart,
+        OrderComplete,
         Remark,
         Remove,
         RemoveByNum,
@@ -35,6 +35,7 @@ namespace Bot.CommandParser
         CloseTimeArriving,
         PayCash,
         AddToOrder,
-        BackToMenu
+        BackToMenu,
+        MyOrders
     }
 }

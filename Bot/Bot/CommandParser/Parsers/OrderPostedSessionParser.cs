@@ -59,7 +59,7 @@ namespace Bot.CommandParser
                 if (msgText.Contains("меню"))
                     return CmdTypes.Menu;
                 else if (msgText.Contains("мой заказ"))
-                    return CmdTypes.MyOrderComplete;
+                    return CmdTypes.OrderComplete;
                 else if (msgText.Contains("назад"))
                     return CmdTypes.CloseMenu;
                 else if (Categories.Select(o => o.ToLower()).Contains(msgText))

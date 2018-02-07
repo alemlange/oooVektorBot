@@ -111,7 +111,7 @@ namespace Bot.Controllers
                                 {
                                     var greetings = "Здравствуйте, меня зовут ДайнерБот! Я помогу вам сделать заказ. " +
                                         "Для того, чтобы ознакомиться с меню нажмите \"Меню\", чтобы " +
-                                        "сделать заказ нажмите \"Начать\".";
+                                        "сделать заказ нажмите \"Заказать\".";
 
                                     await Telegram.SendTextMessageAsync(
                                         chatId,
@@ -204,13 +204,13 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
-                            case CmdTypes.MyOrder:
+                            case CmdTypes.Cart:
                                 {
                                     var responce = bot.ShowCart(chatId);
 
                                     if (responce.NeedInlineKeeyboard)
                                     {
-                                        var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.MyOrder);
+                                        var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.Cart);
 
                                         await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
                                     }
@@ -220,7 +220,15 @@ namespace Bot.Controllers
                                     }
                                     break;
                                 }
-                            case CmdTypes.MyOrderComplete:
+                            case CmdTypes.MyOrders:
+                                {
+                                    var responce = bot.ShowAllOrders(chatId);
+
+                                    await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    
+                                    break;
+                                }
+                            case CmdTypes.OrderComplete:
                                 {
                                     var responce = bot.ShowCartComplete(chatId);
 
@@ -255,13 +263,14 @@ namespace Bot.Controllers
                                 }
                             case CmdTypes.TimeInput:
                                 {
-                                    var response = bot.ChangeArrivingTime(chatId, message.Text);
+                                    bot.ChangeArrivingTime(chatId, message.Text);
+                                    var response = bot.ShowCart(chatId);
 
                                     await Telegram.SendTextMessageAsync(
                                         chatId,
                                         response.ResponceText,
                                         parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                        replyMarkup: InlineKeyBoardManager.GetByCmnd(CmdTypes.Cart));
                                     break;
                                 }
                             case CmdTypes.Remove:

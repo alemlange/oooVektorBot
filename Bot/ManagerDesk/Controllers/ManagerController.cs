@@ -404,32 +404,6 @@ namespace ManagerDesk.Controllers
                             }
                         case CardTypes.Restaurant:
                             {
-                                //var restCookie = Request.Cookies.Get("CurRest");
-                                //if(restCookie!= null)
-                                //{
-                                //    var curRest = restCookie.Value;
-                                //    if (curRest != null)
-                                //    {
-                                //        var restGuid = Guid.Parse(curRest);
-
-                                //        if(restGuid == itemId)
-                                //        {
-                                //            var rests = service.GetAllRestaurants();
-                                //            if(rests!=null && rests.Any())
-                                //            {
-                                //                var notCurRest = rests.Where(o => o.Id != itemId);
-                                //                if (notCurRest.Any())
-                                //                    restCookie.Value = notCurRest.FirstOrDefault().Id.ToString();
-                                                
-                                //                else
-                                //                    restCookie.Value = null;
-                                                
-                                //                Request.Cookies.Set(restCookie);
-                                //            }  
-                                //        }
-                                //    }
-                                //}
-                                
                                 service.DeleteRestaraunt(itemId);
                                 break;
                             }

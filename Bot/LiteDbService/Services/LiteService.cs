@@ -88,7 +88,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
-                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed).FirstOrDefault();
+                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.OrderPosted).FirstOrDefault();
 
                 if (table != null)
                 {
@@ -181,14 +181,6 @@ namespace LiteDbService
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
-                /*
-                var menuCol = db.GetCollection<Menu>("Menus");
-                var menus = menuCol.Find(m => m.Restaurant != Guid.Empty).ToList();
-
-                var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
-                var restaurants = restaurantCol.FindAll().ToList();
-                return restaurants.Where(r => menus.Select(m => m.Restaurant).Contains(r.Id)).ToList();
-                */
                 var restaurantCol = db.GetCollection<Restaurant>("Restaurants");
                 return restaurantCol.Find(r => r.Menu != Guid.Empty).ToList();
             }

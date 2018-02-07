@@ -465,6 +465,48 @@ namespace Brains
             }
         }
 
+        public Responce ShowAllOrders(long chatId)
+        {
+            var orders = _service.AllOrders(chatId).OrderByDescending(o => o.OrderPlaced).Take(3);
+            var respText = "Ваши последние заказы:" + Environment.NewLine;
+
+            if (orders != null && orders.Any())
+            {
+                foreach(var order in orders)
+                {
+                    if (order.Orders.Any())
+                    {
+                        respText += "<b>Дата заказа: " + order.OrderPlaced.ToString("dd.MM.yyyy") + ". Номер заказа: " + order.TableNumber + "</b>" + Environment.NewLine;
+
+                        if (order.TimeArriving != 0)
+                        {
+                            respText += "<b>Заказ на время: </b>" + "через " + order.TimeArriving + "минут." + Environment.NewLine;
+                        }
+                        else
+                        {
+                            respText += "<b>Заказ на время: </b>" + "Как можно скорее." + Environment.NewLine;
+                        }
+
+                        respText += "Вы заказали:" + Environment.NewLine ;
+
+                        var tableSumm = order.Orders.Sum(o => o.DishFromMenu.Price);
+                        foreach (var dish in order.Orders)
+                        {
+                            respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
+                        }
+
+                        respText += "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine + Environment.NewLine;
+                    }
+                }
+                return new OrderResponce { ChatId = chatId, ResponceText = respText, NeedInlineKeeyboard = true };
+            }
+            else
+            {
+                respText = "Вы пока еще ничего не заказали :(";
+                return new Responce { ChatId = chatId, ResponceText = respText};
+            }
+        }
+
         public Responce ShowCartComplete(long chatId)
         {
             var table = _service.GetActiveTable(chatId);
@@ -669,7 +711,7 @@ namespace Brains
                         return new Responce
                         {
                             ChatId = chatId,
-                            ResponceText = "Окей, ждем вас через " + time.ToString()+" минут",
+                            ResponceText = "Окей, вы подойдете через " + time.ToString()+" минут.",
                         };
                     }
                     else

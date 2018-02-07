@@ -90,7 +90,7 @@ namespace LiteDbService
             using (var db = new LiteDatabase(CurrentDb))
             {
                 var col = db.GetCollection<Table>("Tables");
-                return col.Find(o => o.State != SessionState.Closed).ToList();
+                return col.Find(o => o.State != SessionState.Closed && o.State != SessionState.OrderPosted).ToList();
             }
         }
 
@@ -119,7 +119,7 @@ namespace LiteDbService
             {
                 var tableCol = db.GetCollection<Table>("Tables");
 
-                return tableCol.Find(o => o.State != SessionState.Closed && o.Restaurant == restId).ToList();
+                return tableCol.Find(o => o.State != SessionState.Closed && o.State != SessionState.OrderPosted && o.Restaurant == restId).ToList();
             }
         }
 

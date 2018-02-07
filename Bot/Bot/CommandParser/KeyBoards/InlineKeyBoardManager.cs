@@ -30,7 +30,7 @@ namespace Bot.CommandParser.KeyBoards
                 {
                     new[] { new InlineKeyboardCallbackButton("⌚ Заберу через...", "arrTime") },
                     new[] { new InlineKeyboardCallbackButton("💳 Оплатить картой и отправить заказ", "payCard") },
-                    new[] { new InlineKeyboardCallbackButton("💰 Отправить заказ, а оплачу наличными", "payCash") }
+                    new[] { new InlineKeyboardCallbackButton("💰 Отправить заказ, оплачу наличными", "payCash") }
                 });
         }
 
@@ -65,7 +65,7 @@ namespace Bot.CommandParser.KeyBoards
             {
                 case CmdTypes.Slash:
                     return DescriptionKeyBoard();
-                case CmdTypes.MyOrder:
+                case CmdTypes.Cart:
                     return OrderKeyBoard();
                 default:
                     throw new Exception("Unknown command"); 

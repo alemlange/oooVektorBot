@@ -660,7 +660,7 @@ namespace Brains
             }
         }
 
-        public Responce ArrivingTime(long chatId)
+        public TimeInlineResponce ArrivingTime(long chatId)
         {
             try
             {
@@ -668,30 +668,18 @@ namespace Brains
 
                 if (table != null)
                 {
-                    _service.UpdateTableState(chatId, SessionState.TimeChoosing);
-
-                    //var curTimeArriving = "";
-                    //if (table.TimeArriving == 0)
-                    //    curTimeArriving = "Сейчас";
-                    //else
-                    //    curTimeArriving = "Через " + table.TimeArriving + " минут"; 
-
-                    return new Responce
-                    {
-                        ChatId = chatId,
-                        ResponceText = "Через сколько вы заберете заказ? ", //+curTimeArriving,
-                    };
+                    return new TimeInlineResponce { ChatId = chatId, ResponceText = "Через сколько вы заберете заказ?", OkToChangeTime = true };
                 }
                 else
-                    return Responce.UnknownResponce(chatId);
+                    return new TimeInlineResponce { ChatId = chatId, ResponceText = "Упс, что-то пошло не так.", OkToChangeTime = false };
             }
             catch (Exception)
             {
-                return Responce.UnknownResponce(chatId);
+                return new TimeInlineResponce { ChatId = chatId, ResponceText = "Упс, что-то пошло не так.", OkToChangeTime = false };
             }
         }
 
-        public Responce ChangeArrivingTime(long chatId, string message)
+        public TimeInlineResponce ChangeArrivingTime(long chatId, string message)
         {
             try
             {
@@ -699,33 +687,28 @@ namespace Brains
 
                 if (table != null)
                 {
-                    var timeString = message.Split(new string[] { "минут" },StringSplitOptions.RemoveEmptyEntries)[0];
+                    var timeString = message.Split(new string[] { "time" },StringSplitOptions.RemoveEmptyEntries)[0];
 
                     Int32.TryParse(timeString, out int time);
 
-                    if(time != 0 && time <=60 && time > 0)
+                    if(time <=60 && time >= 0)
                     {
                         _service.SetArrivingTime(chatId, time);
-                        _service.UpdateTableState(chatId, SessionState.Sitted);
 
-                        return new Responce
-                        {
-                            ChatId = chatId,
-                            ResponceText = "Окей, вы подойдете через " + time.ToString()+" минут.",
-                        };
+                        return new TimeInlineResponce { ChatId = chatId, OkToChangeTime = true };
                     }
                     else
                     {
-                        return Responce.UnknownResponce(chatId);
+                        return new TimeInlineResponce { ChatId = chatId, ResponceText = "Упс, что-то пошло не так.", OkToChangeTime = false };
                     }
                     
                 }
                 else
-                    return Responce.UnknownResponce(chatId);
+                    return new TimeInlineResponce { ChatId = chatId, ResponceText = "Упс, что-то пошло не так.", OkToChangeTime = false };
             }
             catch (Exception)
             {
-                return Responce.UnknownResponce(chatId);
+                return new TimeInlineResponce { ChatId = chatId, ResponceText = "Упс, что-то пошло не так.", OkToChangeTime = false };
             }
         }
 

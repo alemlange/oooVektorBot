@@ -261,18 +261,6 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
-                            case CmdTypes.TimeInput:
-                                {
-                                    bot.ChangeArrivingTime(chatId, message.Text);
-                                    var response = bot.ShowCart(chatId);
-
-                                    await Telegram.SendTextMessageAsync(
-                                        chatId,
-                                        response.ResponceText,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: InlineKeyBoardManager.GetByCmnd(CmdTypes.Cart));
-                                    break;
-                                }
                             case CmdTypes.Remove:
                                 {
                                     var response = bot.RemoveFromOrder(chatId);
@@ -378,9 +366,41 @@ namespace Bot.Controllers
                         {
                             var response = bot.ArrivingTime(chatId);
 
-                            await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                            if (response.OkToChangeTime)
+                            {
+                                await Telegram.EditMessageTextAsync(chatId, update.CallbackQuery.Message.MessageId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: InlineKeyBoardManager.GetByCmnd(CmdTypes.ArrivingTime));
+                            }
+                            else
+                            {
+                                await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                            }
                             break;
                         }
+                        case CmdTypes.TimeInput:
+                            {
+                                var timeResp = bot.ChangeArrivingTime(chatId, update.CallbackQuery.Data);
+
+                                if (!timeResp.OkToChangeTime)
+                                {
+                                    await Telegram.SendTextMessageAsync(chatId, timeResp.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                }
+                                else
+                                {
+                                    var orderResp = bot.ShowCart(chatId);
+                                    if (orderResp.NeedInlineKeeyboard)
+                                    {
+                                        var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.Cart);
+
+                                        await Telegram.EditMessageTextAsync(chatId, update.CallbackQuery.Message.MessageId, orderResp.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
+                                    }
+                                    else
+                                    {
+                                        await Telegram.SendTextMessageAsync(chatId, orderResp.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    }
+                                }
+
+                                break;
+                            }
                         case CmdTypes.CreateInvoice:
                         {
                             var response = bot.CreateInvoice(chatId);

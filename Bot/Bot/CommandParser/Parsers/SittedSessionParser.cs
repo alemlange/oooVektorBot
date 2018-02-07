@@ -31,30 +31,37 @@ namespace Bot.CommandParser
             {
                 var data = update.CallbackQuery.Data;
 
-                switch (data)
+                if (data.Contains("time"))
                 {
-                    case ("arrTime"):
-                        {
-                            return CmdTypes.ArrivingTime;
-                        }
-                    case ("payCard"):
-                        {
-                            return CmdTypes.CreateInvoice;
-                        }
-                    case ("payCash"):
-                        {
-                            return CmdTypes.PayCash;
-                        }
-                    case ("addOrder"):
-                        {
-                            return CmdTypes.AddToOrder;
-                        }
-                    case ("backMenu"):
-                        {
-                            return CmdTypes.BackToMenu;
-                        }
-                    default:
-                        return CmdTypes.Unknown;
+                    return CmdTypes.TimeInput;
+                }
+                else
+                {
+                    switch (data)
+                    {
+                        case ("arrTime"):
+                            {
+                                return CmdTypes.ArrivingTime;
+                            }
+                        case ("payCard"):
+                            {
+                                return CmdTypes.CreateInvoice;
+                            }
+                        case ("payCash"):
+                            {
+                                return CmdTypes.PayCash;
+                            }
+                        case ("addOrder"):
+                            {
+                                return CmdTypes.AddToOrder;
+                            }
+                        case ("backMenu"):
+                            {
+                                return CmdTypes.BackToMenu;
+                            }
+                        default:
+                            return CmdTypes.Unknown;
+                    }
                 }
             }
             else if (update.Message.Type == MessageType.TextMessage)

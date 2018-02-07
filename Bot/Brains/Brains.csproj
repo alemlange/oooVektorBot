@@ -44,6 +44,7 @@
     <Compile Include="BrainsConfig.cs" />
     <Compile Include="Interfaces\IMainTasks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responces\TimeInlineResponce.cs" />
     <Compile Include="Responces\OrderResponce.cs" />
     <Compile Include="Responces\MenuItemResponce.cs" />
     <Compile Include="Responces\PreCheckResponce.cs" />

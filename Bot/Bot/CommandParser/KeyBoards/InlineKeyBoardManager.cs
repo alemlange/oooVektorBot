@@ -18,8 +18,7 @@ namespace Bot.CommandParser.KeyBoards
             return new InlineKeyboardMarkup(
                 new[]
                 {
-                    new[] { new InlineKeyboardCallbackButton("Добавить в заказ 🍴", "addOrder") },
-                    //new[] { new InlineKeyboardCallbackButton("Вернуться к меню 📓", "backMenu") }
+                    new[] { new InlineKeyboardCallbackButton("Добавить в заказ 🍴", "addOrder") }
                 });
         }
 
@@ -34,29 +33,18 @@ namespace Bot.CommandParser.KeyBoards
                 });
         }
 
-        public static InlineKeyboardMarkup MenuNavKeyBoard(int pageCount, int curPage)
+        public static InlineKeyboardMarkup TimeKeyBoard()
         {
-            var keyboard = new InlineKeyboardMarkup();
-
-            if (pageCount > 1)
-            {
-                InlineKeyboardButton prev = new InlineKeyboardCallbackButton("", "");
-                InlineKeyboardButton next = new InlineKeyboardCallbackButton("", "");
-
-                if (curPage > 1)
-                    prev = new InlineKeyboardCallbackButton((curPage - 1) + " стр.  ⬅ ", (curPage - 1) + " стр.  ⬅ ");
-
-                if (curPage < pageCount)
-                    next = new InlineKeyboardCallbackButton(" ➡  " + (curPage + 1) + " стр.", " ➡  " + (curPage + 1) + " стр.");
-
-                if (prev.Text != "" && next.Text != "")
-                    keyboard = new InlineKeyboardMarkup(new[] { prev, next });
-                else if (prev.Text == "" && next.Text != "")
-                    keyboard = new InlineKeyboardMarkup(new[] { next });
-                else if (prev.Text != "" && next.Text == "")
-                    keyboard = new InlineKeyboardMarkup(new[] { prev });
-            }
-            return keyboard;
+            return new InlineKeyboardMarkup(
+                new[]
+                {
+                    new[] { new InlineKeyboardCallbackButton("Сейчас", "time 0") },
+                    new[] { new InlineKeyboardCallbackButton("5 минут.", "time 5") },
+                    new[] { new InlineKeyboardCallbackButton("10 минут.", "time 10") },
+                    new[] { new InlineKeyboardCallbackButton("15 минут.", "time 15") },
+                    new[] { new InlineKeyboardCallbackButton("20 минут.", "time 20") },
+                    new[] { new InlineKeyboardCallbackButton("30 минут.", "time 30") }
+                });
         }
 
         public static InlineKeyboardMarkup GetByCmnd(CmdTypes command)
@@ -67,6 +55,8 @@ namespace Bot.CommandParser.KeyBoards
                     return DescriptionKeyBoard();
                 case CmdTypes.Cart:
                     return OrderKeyBoard();
+                case CmdTypes.ArrivingTime:
+                    return TimeKeyBoard();
                 default:
                     throw new Exception("Unknown command"); 
             }

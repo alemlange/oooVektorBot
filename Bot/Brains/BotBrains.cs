@@ -232,7 +232,7 @@ namespace Brains
                     _service.UpdateDishRemark(table.Id, message);
                     _service.UpdateTableState(chatId, SessionState.Sitted);
 
-                    return new Responce { ChatId = chatId, ResponceText = "Отношу заказ на кухню, чтонибудь еще?" };
+                    return new Responce { ChatId = chatId, ResponceText = "Хорошо, чтобы оформить заказ перейдите в корзину." };
                 }
                 else
                 {
@@ -434,6 +434,10 @@ namespace Brains
                 {
                     respText += "<b>Заказ на время: </b>" + "Как можно скорее." + Environment.NewLine;
                 }
+
+                var rest = _service.GetRestaurant(table.Restaurant);
+                if(rest!= null)
+                    respText += "<b>Заберете из: </b>" + rest.Name + Environment.NewLine;
 
                 var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
 

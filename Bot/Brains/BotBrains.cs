@@ -825,7 +825,7 @@ namespace Brains
                     return new MenuItemResponce
                     {
                         ChatId = chatId,
-                        ResponceText = "<a href=\"" + dish.PictureUrl + "\">" + dish.Name + "</a>" + Environment.NewLine + dish.Description + Environment.NewLine,
+                        ResponceText = "<a href=\"" + dish.PictureUrl + "\">" + dish.Name + "</a>" + Environment.NewLine + dish.Description + Environment.NewLine + "<b>Стоимость: " + dish.Price + "р.</b>" + Environment.NewLine,
                         NeedInlineKeyboard = true
                     };
                 }

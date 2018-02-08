@@ -34,6 +34,10 @@ namespace Bot.CommandParser
                 {
                     return CmdTypes.DishDetails;
                 }
+                else if (data.Contains("addOrder"))
+                {
+                    return CmdTypes.AddToOrder;
+                }
                 else
                 {
                     switch (data)
@@ -49,10 +53,6 @@ namespace Bot.CommandParser
                         case ("payCash"):
                             {
                                 return CmdTypes.PayCash;
-                            }
-                        case ("addOrder"):
-                            {
-                                return CmdTypes.AddToOrder;
                             }
                         case ("backMenu"):
                             {

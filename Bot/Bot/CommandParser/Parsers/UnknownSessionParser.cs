@@ -45,6 +45,10 @@ namespace Bot.CommandParser
                 {
                     return CmdTypes.DishDetails;
                 }
+                else if (data.Contains("addOrder"))
+                {
+                    return CmdTypes.AddToOrder;
+                }
                 else
                     return CmdTypes.Unknown;  
             }

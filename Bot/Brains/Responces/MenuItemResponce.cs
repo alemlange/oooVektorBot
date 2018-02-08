@@ -9,6 +9,7 @@ namespace Brains.Responces
 {
     public class MenuItemResponce: Responce
     {
+        public string DishId { get; set; }
         public bool NeedInlineKeyboard { get; set; }
     }
 }

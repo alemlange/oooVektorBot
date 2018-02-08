@@ -63,16 +63,6 @@ namespace LiteDbService
             }
         }
 
-        public Dish GetDish(string dishSlashName)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var col = db.GetCollection<Dish>("Dishes");
-
-                return col.Find(o => o.SlashName == dishSlashName).FirstOrDefault();
-            }
-        }
-
         public Dish GetDish(Guid dishId)
         {
             using (var db = new LiteDatabase(CurrentDb))

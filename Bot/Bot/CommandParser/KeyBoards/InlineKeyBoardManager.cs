@@ -27,12 +27,12 @@ namespace Bot.CommandParser.KeyBoards
             return new InlineKeyboardMarkup(inKeyboardRows);
         }
 
-        public static InlineKeyboardMarkup DescriptionKeyBoard()
+        public static InlineKeyboardMarkup DescriptionKeyBoard(string dishId)
         {
             return new InlineKeyboardMarkup(
                 new[]
                 {
-                    new[] { new InlineKeyboardCallbackButton("Добавить в заказ 🍴", "addOrder") }
+                    new[] { new InlineKeyboardCallbackButton("Добавить в заказ 🍴", "addOrder "+ dishId) }
                 });
         }
 
@@ -65,8 +65,6 @@ namespace Bot.CommandParser.KeyBoards
         {
             switch (command)
             {
-                case CmdTypes.DishDetails:
-                    return DescriptionKeyBoard();
                 case CmdTypes.Cart:
                     return OrderKeyBoard();
                 case CmdTypes.ArrivingTime:

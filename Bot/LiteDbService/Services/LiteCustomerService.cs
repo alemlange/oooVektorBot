@@ -33,21 +33,6 @@ namespace LiteDbService
         }
 
         #region Dish
-        public Dish FindDish(string dishSlashName)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var col = db.GetCollection<Menu>("Menus");
-                var dishList = col.FindAll().First().DishList.Where(o => o.SlashName == dishSlashName);
-
-                if (dishList.Any())
-                {
-                    return dishList.First();
-                }
-                else
-                    throw new Exception("Блюдо не найдено");
-            }
-        }
 
         public void OrderDish(Guid tableId, OrderedDish dish)
         {
@@ -111,37 +96,6 @@ namespace LiteDbService
                     table.OrderProcessed = false;
                     tableCol.Update(table);
                 }
-            }
-        }
-
-        public void AddLastDishToTable(long chatId, string dishName)
-        {
-            using (var db = new LiteDatabase(CurrentDb))
-            {
-                var dishCol = db.GetCollection<Dish>("Dishes");
-                var dish = dishCol.Find(o => o.SlashName == dishName).FirstOrDefault();
-                if (dish != null)
-                {
-                    var tableCol = db.GetCollection<Table>("Tables");
-                    var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.OrderPosted).FirstOrDefault();
-
-                    if (table != null)
-                    {
-                        var stateVarible = new StateVarible();
-                        stateVarible.Key = "LastDish";
-                        stateVarible.Value = dish.SlashName;
-
-                        if (table.StateVaribles != null)
-                        {
-                            table.StateVaribles.RemoveAll(s => s.Key == "LastDish");
-                        }
-                        table.StateVaribles.Add(stateVarible);
-
-                        tableCol.Update(table);
-                    }
-                }
-                else
-                    throw new Exception("Dish not found");
             }
         }
         #endregion

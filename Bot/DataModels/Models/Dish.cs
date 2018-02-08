@@ -10,7 +10,6 @@ namespace DataModels
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string SlashName { get; set; }
         public string PictureUrl { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }

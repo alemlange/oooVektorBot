@@ -187,10 +187,11 @@ namespace Brains
                 return SessionState.Unknown;
         }
 
-        public Responce OrderMeal(long chatId, string dishName = "")
+        public Responce OrderMeal(long chatId, string message)
         {
             try
             {
+                var dishGuid = message.Split(new string[] { "addOrder" }, StringSplitOptions.RemoveEmptyEntries)[0];
                 var table = _service.GetActiveTable(chatId);
 
                 if (table != null)
@@ -201,13 +202,7 @@ namespace Brains
                     if (table.State == SessionState.OrderPosted)
                         return new Responce { ChatId = chatId, ResponceText = "Извините, но заказ уже отправлен!" };
 
-                    if (string.IsNullOrWhiteSpace(dishName))
-                    {
-                        var lastDishName = table.StateVaribles.Where(t => t.Key == "LastDish").FirstOrDefault();
-                        dishName = lastDishName.Value.ToString();
-                    }
-
-                    var dish = _service.GetMenuByRestaurant(table.Restaurant).DishList.Where(o => o.SlashName == dishName).FirstOrDefault();
+                    var dish = _service.GetMenuByRestaurant(table.Restaurant).DishList.Where(o => o.Id == Guid.Parse(dishGuid)).FirstOrDefault();
                     var dishNum = table.Orders.Count + 1;
 
                     _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now });
@@ -304,9 +299,6 @@ namespace Brains
                     if (table.Orders == null || !table.Orders.Any())
                         throw new PaymentException("Извините, еще нельзя оплачивать, вы пока ничего не заказали.");
 
-                    //if (!table.OrderProcessed)
-                    //    throw new PaymentException("Извините, еще нельзя оплачивать, ваш заказ пока проверяют.");
-
                     if (table.Cheque != null && table.Cheque.PaymentRecieved == true)
                         throw new PaymentException("Вы уже оплатили заказ.");
 
@@ -356,9 +348,6 @@ namespace Brains
                 {
                     if (table.Orders == null || !table.Orders.Any())
                         throw new PaymentException("Произошла ошибка оплаты, вы пока ничего не заказали.");
-
-                    //if (!table.OrderProcessed)
-                    //    throw new PaymentException("Произошла ошибка оплаты, ваш заказ пока проверяют.");
 
                     decimal summ = 0;
                     foreach (var order in table.Orders)
@@ -609,7 +598,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Выберите раздел меню!",
+                    ResponceText = "Выберите раздел меню!"
                 };
             }
             catch (Exception)
@@ -743,8 +732,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам.",
-                    //State = SessionState.Sitted
+                    ResponceText = "Отлично! Напишите \"меню\" в чат и я принесу его вам."
                 };
 
             }
@@ -820,11 +808,10 @@ namespace Brains
 
                 if(dish != null)
                 {
-                    _service.AddLastDishToTable(chatId, dish.SlashName);
-
                     return new MenuItemResponce
                     {
                         ChatId = chatId,
+                        DishId = dish.Id.ToString(),
                         ResponceText = "<a href=\"" + dish.PictureUrl + "\">" + dish.Name + "</a>" + Environment.NewLine + dish.Description + Environment.NewLine + "<b>Стоимость: " + dish.Price + "р.</b>" + Environment.NewLine,
                         NeedInlineKeyboard = true
                     };

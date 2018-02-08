@@ -346,7 +346,7 @@ namespace Bot.Controllers
                     {
                         case CmdTypes.AddToOrder:
                         {
-                            var response = bot.OrderMeal(chatId);
+                            var response = bot.OrderMeal(chatId, update.CallbackQuery.Data);
 
                             await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                             break;
@@ -364,7 +364,7 @@ namespace Bot.Controllers
 
                                 if (response.NeedInlineKeyboard)
                                 {
-                                    var keyboard = InlineKeyBoardManager.GetByCmnd(CmdTypes.DishDetails);
+                                    var keyboard = InlineKeyBoardManager.DescriptionKeyBoard(response.DishId);
 
                                     await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
                                 }

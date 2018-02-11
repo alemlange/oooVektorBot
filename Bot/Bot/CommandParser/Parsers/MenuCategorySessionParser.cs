@@ -42,30 +42,41 @@ namespace Bot.CommandParser
             {
                 var data = update.CallbackQuery.Data;
 
-                switch(data)
+                if (data.Contains("time"))
                 {
-                    case ("arrTime"):
+                    return CmdTypes.TimeInput;
+                }
+                else if (data.Contains("dish"))
+                {
+                    return CmdTypes.DishDetails;
+                }
+                else if (data.Contains("addOrder"))
+                {
+                    return CmdTypes.AddToOrder;
+                }
+                else
+                {
+                    switch (data)
                     {
-                        return CmdTypes.ArrivingTime;
+                        case ("arrTime"):
+                            {
+                                return CmdTypes.ArrivingTime;
+                            }
+                        case ("payCard"):
+                            {
+                                return CmdTypes.CreateInvoice;
+                            }
+                        case ("payCash"):
+                            {
+                                return CmdTypes.PayCash;
+                            }
+                        case ("backMenu"):
+                            {
+                                return CmdTypes.BackToMenu;
+                            }
+                        default:
+                            return CmdTypes.Unknown;
                     }
-                    case ("payCard"):
-                    {
-                        return CmdTypes.CreateInvoice;
-                    }
-                    case ("payCash"):
-                    {
-                        return CmdTypes.PayCash;
-                    }
-                    case ("addOrder"):
-                    {
-                        return CmdTypes.AddToOrder;
-                    }
-                    case ("backMenu"):
-                    {
-                        return CmdTypes.BackToMenu;
-                    }
-                    default:
-                        return CmdTypes.Unknown;
                 }
             }
             else if (update.Message.Type == MessageType.TextMessage)
@@ -78,6 +89,10 @@ namespace Bot.CommandParser
                     return CmdTypes.Category;
                 else
                     return CmdTypes.Unknown;
+            }
+            else if (update.Message.Type == MessageType.SuccessfulPayment)
+            {
+                return CmdTypes.SuccessfulPayment;
             }
             else
                 return CmdTypes.Unknown;

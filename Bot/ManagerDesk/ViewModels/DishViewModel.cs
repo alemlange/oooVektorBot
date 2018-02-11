@@ -14,6 +14,8 @@ namespace ManagerDesk.ViewModels
         [Required(ErrorMessage = "Нужно ввести название блюда")]
         public string Name { get; set; }
 
+        public string ShortName { get; set; }
+
         public string PictureUrl { get; set; }
 
         public string Category { get; set; }

@@ -59,6 +59,8 @@ namespace ManagerDesk.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(dish.ShortName))
+                    dish.ShortName = dish.Name;
                 var service = ServiceCreator.GetManagerService(User.Identity.Name);
                 if (dish.Id == Guid.Empty)
                     service.CreateNewDish(dish);

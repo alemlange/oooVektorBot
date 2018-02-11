@@ -54,22 +54,16 @@
     <div class="navbar navbar-default navbar-fixed-top menu-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+                <a href="https://telegram.me/dinercafe_bot" target="_blank" class="menu-button navbar-toggle">Протестировать бота</a>
                 <a class="navbar-brand" href="#home">DinerBot</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#bot">Бот</a></li>
-                    <li><a href="#classic-tables">Классический ресторан</a></li>
-                    <li><a href="#takeaway">Еда и напитки с собой</a></li>
-                    <li><a href="#ctrlpan">Панель управления</a></li>
+                    <li><a href="#takeaway">Как работает</a></li>
+                    <li><a href="#tryout">Как подключить</a></li>
                     <li><a href="#pricing-section">Цены</a></li>
                     <li><a href="#contact-section">Контакты</a></li>
+                    <li><a href="https://telegram.me/dinercafe_bot" target="_blank" class="menu-button">Протестировать бота</a><li>
                 </ul>
             </div>
         </div>
@@ -82,150 +76,65 @@
                 <div class="row">
                     <div class="col-md-8 top-description">
                         <h2 class="text-center">
-                            DinerBot - бот, который изменит ваш ресторан
+                            Запусти чат-бота для приема заказов из своего заведения за один день! 
                         </h2>
-                        <p>
-                            Наша система поможет вашему заведению оптимизировать затраты на обслуживание, повысить качество
-                            работы с посетителями и сократить время заказа. Подходит для разных типов заведений:
-                        </p>
-                        <div class="top-button">
-                            <a class="btn btn-top btn-lg" href="#classic-tables">Классический ресторан</a>
-                            <a class="btn btn-top btn-lg" href="#takeaway">Еда и напитки с собой</a>
+                        <div class="col-md-6 features-box">
+                            <div class="icon">
+                                <i class="icon ion-android-phone-portrait"></i>
+                            </div>
+                            <h3>Круче чем приложение</h3>
+                            <p>
+                                Клиентам не надо ничего скачивать, а пользоваться вашим ботом можно будет с любого устройства.
+                            </p>
+                        </div>
+                        <div class="col-md-6 features-box">
+                            <div class="icon">
+                                <i class="icon ion-android-happy"></i>
+                            </div>
+                            <h3>Очень прост в обращении</h3>
+                            <p>
+                                Обновляйте меню, запускайте рассылки в пару кликов.
+                            </p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <img src="~/Assets/img/iphone_1.png">
+                        <img src="~/Assets/img/iphone_3.png">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="bot" class="features-container">
+    <div id="features-section" class="pricing-container ">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 pricing">
-                    <h3>Телеграм-бот</h3>
-                    <p>Бот принимает заказы в чате и передает их сразу вам.</p>
+                <div class="col-sm-4 features-box">
+                    <div class="icon">
+                        <i class="icon ion-paper-airplane"></i>
+                    </div>
+                    <h4>Заказ прямо в Telegram</h4>
+                    <p>
+                        Теперь вашим клиентам не надо стоять в очереди, заказы оформляет бот в чате и отсылает вам.
+                    </p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 toLeft">
-                    <div class="features-box">
-                        <ul>
-                            <li>
-                                <div class="icon">
-                                    <i class="icon ion-clipboard small"></i>
-                                </div>
-                                Меню имеет подробное описание и изображение каждого блюда.
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <i class="icon ion-ios-people small"></i>
-                                </div>
-                                Разгрузит очередь и увеличит проходимость в пиковые часы.
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <i class="icon ion-iphone small"></i>
-                                </div>
-                                Не требуется установка сторонних приложений.
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <i class="icon ion-chatbubble-working small"></i>
-                                </div>
-                                Лучший канал для оповещения клиентов о новых блюдах, акциях и предложениях.
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <i class="icon ion-clipboard small"></i>
-                                </div>
-                                Добавляйте блюда в стоп-лист и актуализируйте меню в пару кликов.
-                            </li>
-                        </ul>
+                <div class="col-sm-4 features-box">
+                    <div class="icon">
+                        <i class="icon ion-android-happy"></i>
                     </div>
+                    <h4>Общайтесь с клиентами</h4>
+                    <p>
+                        Используйте бота как Telegram-канал и увеличьте охват
+                        ваших рекламных акций.
+                    </p>
                 </div>
-                <div class="col-lg-6 toIn">
-                    <img src="~/Assets/img/iphone_2.png">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="classic-tables" class="pricing-container">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 pricing">
-                    <h3>Классический ресторан</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-8">
-                    <div class="col-sm-6 features-box">
-                        <div class="icon">
-                            <i class="icon ion-ios-bolt"></i>
-                        </div>
-                        <h4>Супер официант</h4>
-                        <p>
-                            Бот быстрее официанта, не забудет заказ и всегда под рукой.
-                        </p>
+                <div class="col-sm-4 features-box">
+                    <div class="icon">
+                        <i class="icon ion-social-instagram-outline"></i>
                     </div>
-                    <div class="col-sm-6 features-box">
-                        <div class="icon">
-                            <i class="icon ion-android-contacts"></i>
-                        </div>
-                        <h4>Работает за всех</h4>
-                        <p>
-                            Для обслуживания посетителей требуется меньше персонала. Также бот может заменить собой кнопку вызова официанта.
-                        </p>
-                    </div>
-                    <div class="col-sm-6 features-box">
-                        <div class="icon">
-                            <i class="icon ion-android-happy"></i>
-                        </div>
-                        <h4>Повышает уровень обслуживания</h4>
-                        <p>
-                            Может запомнить заказ даже очень большой компании и никогда не ошибется.
-                        </p>
-                    </div>
-                    <div class="col-sm-6 features-box">
-                        <div class="icon">
-                            <i class="icon ion-cash"></i>
-                        </div>
-                        <h4>Поможет рассчитать</h4>
-                        <p>
-                            Бот поможет оплатить счет с помощью карты или ApplePay, а также принять чаевые.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="slick-screens">
-                        <figure class="img-hover">
-                            <img src="~/Assets/img/p1.png">
-                        </figure>
-                        <figure class="img-hover">
-                            <img src="~/Assets/img/p2.png">
-                        </figure>
-                        <figure class="img-hover">
-                            <img src="~/Assets/img/p3.png">
-                        </figure>
-                        <figure class="img-hover">
-                            <img src="~/Assets/img/p4.png">
-                        </figure>
-                        <figure class="img-hover">
-                            <img src="~/Assets/img/p5.png">
-                        </figure>
-                        <figure class="img-hover">
-                            <img src="~/Assets/img/p6.png">
-                        </figure>
-                        <figure class="img-hover">
-                            <img src="~/Assets/img/p7.png">
-                        </figure>
-                        <figure class="img-hover">
-                            <img src="~/Assets/img/p8.png">
-                        </figure>
-                    </div>
+                    <h4>Интеграция с Instagram</h4>
+                    <p>
+                        Добавляйте картинки к вашим блюдам и делайте Instagram вашего ресторана более популярным.
+                    </p>
                 </div>
             </div>
         </div>
@@ -234,9 +143,6 @@
     <div id="takeaway" class="features-container">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 pricing">
-                    <h3>Еда и напитки с собой</h3>
-                </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
@@ -276,29 +182,29 @@
                     </div>
                     <div class="col-sm-6 features-box">
                         <div class="icon">
-                            <i class="icon ion-ios-color-wand"></i>
+                            <i class="icon ion-card"></i>
                         </div>
-                        <h4>Предугадывает желания</h4>
+                        <h4>Плати как угодно</h4>
                         <p>
-                            Бот умеет предлагать сопутствующие товары и блюда, которые могут понравиться клиенту.
+                            Умеет принимать к оплате карты, ApplePay, AndroidPay.
                         </p>
                     </div>
                     <div class="col-sm-6 features-box">
                         <div class="icon">
                             <i class="icon ion-person-stalker"></i>
                         </div>
-                        <h4>Сокращает время заказа</h4>
+                        <h4>Слушает всех</h4>
                         <p>
-                            Система избавит вас от очереди, клиенты будут довольны.
+                            Бот может принимать заказы даже у группы людей в одном чате.
                         </p>
                     </div>
                     <div class="col-sm-6 features-box">
                         <div class="icon">
-                            <i class="icon ion-speakerphone"></i>
+                            <i class="icon ion-flash"></i>
                         </div>
-                        <h4>Промо и акции</h4>
+                        <h4>Запуск за 1 день</h4>
                         <p>
-                            Оповещайте ваших клиентов о готовящихся акциях, новых блюдах и мероприятиях.
+                            Поможем настроить и заполнить меню, начните продавать меньше чем за день!
                         </p>
                     </div>
                 </div>
@@ -306,94 +212,31 @@
         </div>
     </div>
 
-    <div id="features-section" class="pricing-container">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 features">
-                        <h3>А так же</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4 features-box">
-                        <div class="icon">
-                            <i class="icon ion-android-star"></i>
-                        </div>
-                        <h4>Один бот для всех ресторанов</h4>
-                        <p>
-                            Используя чат-бота, посетители смогут совершать заказы во всех ваших ресторанах.
-                        </p>
-                    </div>
-                    <div class="col-sm-4 features-box">
-                        <div class="icon">
-                            <i class="icon ion-android-happy"></i>
-                        </div>
-                        <h4>Обратная связь</h4>
-                        <p>
-                            Система поможет установить обраную связь с вашими клиентами, собрать их отзывы и предложения и опубликовать лучшие из них.
-                        </p>
-                    </div>
-                    <div class="col-sm-4 features-box">
-                        <div class="icon">
-                            <i class="icon ion-social-instagram-outline"></i>
-                        </div>
-                        <h4>Интеграция с Instagram</h4>
-                        <p>
-                            Добавляйте картинки к вашим блюдам и делайте Instagram вашего ресторана более популярным.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    <div id="ctrlpan" class="features-container">
+    <div id="tryout" class="pricing-container list-features">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 pricing">
-                    <h3>Панель управления</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 toLeft">
-                    <img class="pad-img" src="~/Assets/img/ipad_1.jpg">
-                </div>
-                <div class="col-lg-6 toIn">
-                    <div class="col-sm-6 features-box">
+                <ul>
+                    <li>
                         <div class="icon">
-                            <i class="icon ion-android-checkbox-outline"></i>
+                            <h3> 1) Опробуйте тестового бота по ссылке выше.</h3>
                         </div>
-                        <h4>Контролируйте заказы</h4>
-                        <p>
-                            Все заказы, сделанные с помощью чат-бота будут моментально попадать на панель управления.
-                        </p>
-                    </div>
-                    <div class="col-sm-6 features-box">
+                    </li>
+                    <li>
                         <div class="icon">
-                            <i class="icon ion-compose"></i>
+                            <h3> 2) Обратитесь к нам и мы поможем завести вашего собственного бота.</h3>
                         </div>
-                        <h4>Редактируйте меню</h4>
-                        <p>
-                            Создавайте и редактируйте блюда, добавляйте к ним подробное описание и фото, формируйте из них меню в несколько кликов.
-                        </p>
-                    </div>
-                    <div class="col-sm-6 features-box">
+                    </li>
+                    <li>
                         <div class="icon">
-                            <i class="icon ion-android-contacts"></i>
+                            <h3> 3) Заполните свое меню, прикрепите картинки к блюдам.</h3>
                         </div>
-                        <h4>Подходит для всех</h4>
-                        <p>
-                            Наша система позволит эффективно управлять как маленьким кафе, так и целой сетью ресторанов.
-                        </p>
-                    </div>
-                    <div class="col-sm-6 features-box">
+                    </li>
+                    <li>
                         <div class="icon">
-                            <i class="icon ion-checkmark-circled"></i>
+                            <h3> 4) Выберите оператора эквайринга и начните принимать заказы! </h3>
                         </div>
-                        <h4>Работает везде</h4>
-                        <p>
-                            Панель управления работает на всех устройствах и на любых ОС.
-                        </p>
-                    </div>
-                </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -401,39 +244,28 @@
     <div id="pricing-section" class="pricing-container">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 pricing">
-                    <h3>Пакеты услуг</h3>
-                    <p></p>
-                </div>
+                <p></p>
             </div>
             <div class="row">
-                <div class="col-md-6 toLeft">
-                    <div class="price-column">
-                        <h2>Lite</h2>
-                        <h3><span>Бесплатно</span></h3>
-                        <ul>
-                            <li>Помощь в настройке</li>
-                            <li>Доступ ко всему основному функционалу</li>
-                            <li>Возможность оплаты заказов</li>
-                            <li>
-                                <button type="button" class="btn btn-top btn-lg js-try" data-btntp="Попробовать">Подключить</button>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="col-md-3">
                 </div>
                 <div class="col-md-6 toIn">
                     <div class="price-column large">
-                        <h2>Стандартный</h2>
-                        <h3><span>От</span> 4 990 руб.<span> в месяц</span></h3>
+                        <h2>DinerBot</h2>
+                        <h3><span>От</span> 3 500 руб.<span> в месяц</span></h3>
                         <ul>
-                            <li>Весь функционал без ограничений</li>
+                            <li>Персональный бот заведения</li>
+                            <li>Оплата прямо в Telegram</li>
+                            <li>Личная панель приема заказов</li>
                             <li>Массовые рассылки</li>
-                            <li>Техподдержка 24/7</li>
+                            <li>Техподдержка</li>
                             <li>
                                 <button type="button" class="btn btn-top btn-lg js-try" data-btntp="Купить">Купить</button>
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div class="col-md-3">
                 </div>
             </div>
         </div>
@@ -451,9 +283,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-8 contact-address contact-about">
-                        <p><i class="fa fa-at"></i>info@karhouse.org</p>
-                        <p><i class="fa fa-phone"></i>+7 (965) 433 62 31</p>
-                        <p><i class="fa fa-phone"></i>+7 (977) 811 50 20</p>
+                        <h3><i class="fa fa-at"></i> info@karhouse.org</h3>
+                        <h3><i class="fa fa-phone"></i> +7 (965) 433 62 31</h3>
+                        <h3><i class="fa fa-phone"></i> +7 (977) 811 50 20</h3>
                     </div>
                     <div class="col-sm-4">
                         <button type="button" class="btn btn-top btn-lg js-try" data-btntp="Связаться">Связаться с нами</button>

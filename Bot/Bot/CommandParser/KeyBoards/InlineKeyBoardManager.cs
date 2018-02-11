@@ -32,7 +32,7 @@ namespace Bot.CommandParser.KeyBoards
             return new InlineKeyboardMarkup(
                 new[]
                 {
-                    new[] { new InlineKeyboardCallbackButton("Добавить в заказ 🍴", "addOrder "+ dishId) }
+                    new[] { new InlineKeyboardCallbackButton("🍴 Добавить в корзину", "addOrder "+ dishId) }
                 });
         }
 

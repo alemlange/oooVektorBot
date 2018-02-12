@@ -117,7 +117,8 @@ namespace ManagerDesk.Controllers
                 {
                     if (allActiveDishes != null)
                     {
-                        var dishesForCurmenu = allDishes.Where(o => allActiveDishes.Contains(o.Id)).ToList();
+                        var dishesForCurmenu = allActiveDishes.Select(o => allDishes.Where(a => a.Id == o).FirstOrDefault()).ToList();
+                        //var dishesForCurmenu = allDishes.Where(o => allActiveDishes.Contains(o.Id)).ToList();
                         curMenu.DishList = dishesForCurmenu;
                     }
                     else

@@ -20,13 +20,17 @@
     $(".js-table-body").on("click", ".menu-more-dishes", function (e) {
 
         $(".js-menu-card").removeClass("on-top");
-        var menuHeader = $(this).parents(".js-menu-card");
-        menuHeader.addClass("on-top");
+        var menuCard = $(this).parents(".js-menu-card");
+        menuCard.addClass("on-top");
 
-        var menuid = menuHeader.data("itemid");
-        var target = menuHeader.data("moretarget");
+        var menuid = menuCard.data("itemid");
+        var target = menuCard.data("moretarget");
         $.get(target, { menuid: menuid }).done(function (data) {
-            menuHeader.find(".dish-dropdown").html(data);
+            menuCard.find(".dish-dropdown").html(data);
+
+            menuCard.find(".ul-dishes").each(function (ul) {
+                var sortable = Sortable.create(this);
+            })
         });
     });
 

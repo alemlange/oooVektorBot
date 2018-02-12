@@ -74,5 +74,58 @@ namespace ManagerDesk.Controllers
                 return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
             }
         }
+
+        [HttpGet]
+        public ActionResult EditMods(string dishid)
+        {
+            var service = ServiceCreator.GetManagerService(User.Identity.Name);
+
+            var allMods = service.GetAllModificators();
+            var selectedMods = Mapper.Map<List<SelectedModViewModel>>(allMods);
+
+            var currentDishMods = service.GetDish(Guid.Parse(dishid)).ModIds;
+
+            if (currentDishMods == null)
+                currentDishMods = new List<int>();
+
+            foreach (var mod in selectedMods)
+            {
+                if (currentDishMods.Contains(mod.Id))
+                    mod.Selected = true;
+            }
+
+            return View(selectedMods);
+        }
+
+        [HttpPost]
+        public ActionResult EditMods(Guid dishId, List<int> allActiveMods)
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+                var curDish = service.GetDish(dishId);
+                var allMods = service.GetAllModificators();
+                if (curDish != null && allMods != null)
+                {
+                    if (allActiveMods != null)
+                    {
+                        var modsForCurDish = allMods.Where(o => allActiveMods.Contains(o.Id)).Select(o => o.Id).ToList();
+                        curDish.ModIds = modsForCurDish;
+                    }
+                    else
+                        curDish.ModIds = new List<int>();
+
+                    service.UpdateDish(curDish);
+                }
+                else
+                    throw new ArgumentNullException("Dish or list of dishes not found!");
+
+                return Json(new { isAuthorized = true, isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
     }
 }

@@ -73,6 +73,16 @@ namespace LiteDbService
             }
         }
 
+        public Modificator GetModificator(int modId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Modificator>("Modificators");
+
+                return col.Find(o => o.Id == modId).FirstOrDefault();
+            }
+        }
+
         public void UpdateTableState(long chatId, SessionState state)
         {
             using (var db = new LiteDatabase(CurrentDb))
@@ -123,6 +133,14 @@ namespace LiteDbService
             }
         }
 
+        public List<Modificator> GetAllModificators()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Modificator>("Modificators");
+                return col.FindAll().ToList();
+            }
+        }
         public Restaurant GetRestaurant(Guid restId)
         {
             using (var db = new LiteDatabase(CurrentDb))

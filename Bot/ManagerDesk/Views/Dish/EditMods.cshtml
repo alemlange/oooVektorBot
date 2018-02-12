@@ -1,0 +1,10 @@
+﻿@model List<ManagerDesk.ViewModels.SelectedModViewModel>
+
+<h3 class="info-item-heading"> Модификаторы: </h3>
+
+@foreach (var mod in Model)
+{
+    <li><a href="#" class="@mod.SelectedStyle js-mod-drop" data-id="@mod.Id"><i class="fa fa-check" aria-hidden="true" @mod.SelectedIcoStyle></i> @mod.Name </a></li>
+}
+    
+<li><span href="#" class="btn btn-save-dishes js-renew-mods" data-target="@Url.Action("EditMods","Dish")">Сохранить</span></li>

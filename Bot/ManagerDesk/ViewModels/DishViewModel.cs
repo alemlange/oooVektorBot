@@ -22,6 +22,8 @@ namespace ManagerDesk.ViewModels
 
         public string Description { get; set; }
 
+        public List<int> ModIds { get; set; }
+
         [Required(ErrorMessage = "Нужно ввести цену блюда")]
         [Range(1, int.MaxValue, ErrorMessage = "Цена должна быть больше 0")]
         public decimal Price { get; set; }

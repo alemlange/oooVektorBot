@@ -11,6 +11,7 @@ namespace ManagerDesk.ViewModels.Enums
         Table,
         Menu,
         Restaurant,
-        Dispatch
+        Dispatch,
+        Mod
     }
 }

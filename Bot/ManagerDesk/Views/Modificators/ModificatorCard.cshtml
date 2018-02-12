@@ -1,0 +1,13 @@
+﻿@model ManagerDesk.ViewModels.ModificatorViewModel
+
+<div class="info-item js-mod-card animated fadeIn" data-edittarget="@Url.Action("EditModificator","Modificators")" data-itemid="@Model.Id" data-type="Mod">
+
+    <div class="toolbar-mini">
+        <div class="toolbar-mini__btn js-edit-mod"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+        <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+    </div>
+
+    <h3 class="info-item-heading">@Model.Name</h3>
+    <h4 class="price-heading">@Model.Price р.</h4>
+    <div class="dish-description">Максимальное количество: @Model.MaxCount</div>
+</div>

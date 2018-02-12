@@ -145,6 +145,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\ModificatorsController.cs" />
     <Compile Include="Controllers\DispatchController.cs" />
     <Compile Include="Controllers\DishController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -158,8 +159,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RegistrationService.cs" />
     <Compile Include="Translations\Ru.cs" />
+    <Compile Include="ViewModels\ModificatorViewModel.cs" />
     <Compile Include="ViewModels\DispatchListViewModel.cs" />
     <Compile Include="ViewModels\DispatchViewModel.cs" />
+    <Compile Include="ViewModels\SelectedModViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\NavigationViewModel.cs" />
     <Compile Include="ViewModels\ConfigViewModel.cs" />
@@ -203,6 +206,7 @@
     <Content Include="Assets\Scripts\libs\jquery-ui.min.js" />
     <Content Include="Assets\Scripts\libs\Sortable.min.js" />
     <Content Include="Assets\Scripts\dispform.js" />
+    <Content Include="Assets\Scripts\modform.js" />
     <Content Include="Assets\Scripts\restform.js" />
     <Content Include="Assets\Scripts\menuform.js" />
     <Content Include="Assets\Scripts\libs\equalheights.js" />
@@ -303,7 +307,7 @@
     <Content Include="Views\Manager\TableCard.cshtml" />
     <Content Include="Views\Manager\TableCardList.cshtml" />
     <Content Include="Views\Menu\MenuCard.cshtml" />
-    <Content Include="Views\Menu\MenuCardList.cshtml" />
+    <Content Include="Views\Modificators\ModificatorCardList.cshtml" />
     <Content Include="Views\Manager\Navigation.cshtml" />
     <Content Include="Views\Dish\DishCardList.cshtml" />
     <Content Include="Views\Dish\DishCard.cshtml" />
@@ -334,6 +338,10 @@
     <Content Include="Views\Dispatch\DispatchCardList.cshtml" />
     <Content Include="Views\Dispatch\DispatchCard.cshtml" />
     <Content Include="Views\Shared\DispatchCardEdditable.cshtml" />
+    <Content Include="Views\Modificators\ModificatorCard.cshtml" />
+    <Content Include="Views\Shared\ModificatorsCardEdditable.cshtml" />
+    <Content Include="Views\Menu\MenuCardList.cshtml" />
+    <Content Include="Views\Dish\EditMods.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

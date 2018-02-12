@@ -1,0 +1,28 @@
+﻿@model ManagerDesk.ViewModels.ModificatorViewModel
+
+@*<div class="row">
+    <div class="col-md-6 col-lg-3">*@
+        <div class="info-item js-mod-form animated fadeIn" data-itemid="@Model.Id">
+            @using (Html.BeginForm("EditModificator", "Modificators", FormMethod.Post, new { enctype = "multipart/form-data", id = "EditModificatorForm", @class = "js-mod-form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <h3 class="info-item-heading">Модификатор:</h3>
+
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control js-name", placeholder = "Название" } })
+
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control js-price", placeholder = "Цена", @Value = Model.PriceString } })
+
+                @Html.ValidationMessageFor(model => model.MaxCount, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.MaxCount, new { htmlAttributes = new { @class = "form-control js-maxcount", placeholder = "Максимальное колчество", @Value = Model.MaxCountString } })
+
+                <button class="btn btn-save-dishes js-save-mod" type="submit">Сохранить</button>
+
+                @Html.HiddenFor(o => o.Id)
+            }
+        </div>
+    @*</div>
+</div>*@
+ 

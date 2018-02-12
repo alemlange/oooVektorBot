@@ -34,6 +34,52 @@
         });
     });
 
+    $(".js-table-body").on("click", ".dish-edit-mods", function (e) {
+
+        $(".js-dish-card").removeClass("on-top");
+        var dishCard = $(this).parents(".js-dish-card");
+        dishCard.addClass("on-top");
+
+        var dishid = dishCard.data("itemid");
+        var target = dishCard.data("modstarget");
+        $.get(target, { dishid: dishid }).done(function (data) {
+            dishCard.find(".dish-dropdown").html(data);
+        });
+    });
+
+    $(".js-table-body").on("click", ".js-mod-drop", function (e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+        var curMod = $(this);
+        var active = curMod.hasClass("menu-selected");
+        if (active) {
+            curMod.find(".fa-check").hide();
+            curMod.removeClass("menu-selected");
+        }
+        else {
+            curMod.find(".fa-check").show();
+            curMod.addClass("menu-selected");
+        }
+
+    });
+
+    $(".js-table-body").on("click", ".js-renew-mods", function (e) {
+
+        e.preventDefault();
+        var dishCard = $(this).parents(".js-dish-card");
+        var dishId = dishCard.data("itemid");
+        var allActiveMods = [];
+        dishCard.find(".js-mod-drop.menu-selected").each(function (i, e) {
+            allActiveMods.push($(e).data("id"));
+        });
+
+        var target = $(this).data("target");
+        $.post(target, { dishId: dishId, allActiveMods: allActiveMods }).done(function (data) {
+            $(".js-dish-section").trigger("click");
+        });
+    });
+
     $(".js-table-body").on("click", ".menu-cat-list", function (e) {
         var menuCard = $(this).parents(".js-menu-card");
         var menuid = menuCard.data("itemid");
@@ -151,6 +197,23 @@
         var dishId = container.data("itemid");
 
         $.get(edittarget, { dishId: dishId }).done(function (data) {
+            container.addClass("hidden");
+            container.parent().append(data);
+        });
+    });
+
+    $(".js-table-body").on("click", ".js-edit-mod", function (e) {
+
+        e.preventDefault();
+
+        $(".js-table-body").find(".js-mod-form").replaceWith("");
+        $(".js-mod-card.hidden").removeClass("hidden");
+
+        var container = $(this).parents(".js-mod-card");
+        var edittarget = container.data("edittarget");
+        var modId = container.data("itemid");
+
+        $.get(edittarget, { modId: modId }).done(function (data) {
             container.addClass("hidden");
             container.parent().append(data);
         });

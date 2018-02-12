@@ -1,8 +1,17 @@
 ﻿@model ManagerDesk.ViewModels.DishViewModel
-<div class="info-item js-dish-card animated fadeIn" data-edittarget="@Url.Action("EditDish","Dish")" data-itemid="@Model.Id" data-type="Dish">
+@{
+    var dropdownId = "drop" + Model.Id;
+}
+
+<div class="info-item js-dish-card animated fadeIn" data-edittarget="@Url.Action("EditDish","Dish")" data-modstarget="@Url.Action("EditMods","Dish")" data-itemid="@Model.Id" data-type="Dish">
 
     <div class="toolbar-mini">
         <div class="toolbar-mini__btn js-edit-dish"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+        <div class="toolbar-mini__btn dropdown pull-left">
+            <span class="dropdown-toggle dish-edit-mods" type="button" id="@dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-star" aria-hidden="true"></i></span>
+            <ul class="dropdown-menu dish-dropdown" aria-labelledby="@dropdownId">
+            </ul>
+        </div>
         <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger toolbar-delete" data-target="@Url.Action("DeleteItem","Manager")"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
     </div>
 

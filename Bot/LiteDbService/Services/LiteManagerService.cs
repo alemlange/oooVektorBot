@@ -227,9 +227,23 @@ namespace LiteDbService
                 var col = db.GetCollection<Dish>("Dishes");
                 if (dish.Id == Guid.Empty)
                     dish.Id = Guid.NewGuid();
+                if (dish.ModIds == null)
+                    dish.ModIds = new List<int>();
                 col.Insert(dish);
 
                 return dish.Id;
+            }
+        }
+
+        public int CreateNewModificator(Modificator mod)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Modificator>("Modificators");
+
+                col.Insert(mod);
+
+                return mod.Id;
             }
         }
 
@@ -311,6 +325,15 @@ namespace LiteDbService
             }
         }
 
+        public void UpdateModificator(Modificator mod)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var colDish = db.GetCollection<Modificator>("Modificators");
+                colDish.Update(mod);
+            }
+        }
+
         public void UpdateRestaurant(Restaurant rest)
         {
             using (var db = new LiteDatabase(CurrentDb))
@@ -346,6 +369,16 @@ namespace LiteDbService
             {
                 var colMenus = db.GetCollection<Menu>("Menus");
                 colMenus.Delete(menuId);
+
+            }
+        }
+
+        public void DeleteModificator(int modId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var colMenus = db.GetCollection<Modificator>("Modificators");
+                colMenus.Delete(modId);
 
             }
         }

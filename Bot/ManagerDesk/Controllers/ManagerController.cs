@@ -366,6 +366,10 @@ namespace ManagerDesk.Controllers
                         {
                             return View("DispatchCardEdditable", new DispatchViewModel());
                         }
+                    case CardTypes.Mod:
+                        {
+                            return View("ModificatorsCardEdditable", new ModificatorViewModel());
+                        }
                     default:
                         throw new Exception("No active section");
                 }
@@ -377,43 +381,43 @@ namespace ManagerDesk.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteItem(Guid itemId, CardTypes itemType)
+        public ActionResult DeleteItem(string itemId, CardTypes itemType)
         {
             try
             {
                 var service = ServiceCreator.GetManagerService(User.Identity.Name);
 
-                if (itemId != Guid.Empty)
+                switch (itemType)
                 {
-                    switch (itemType)
-                    {
-                        case CardTypes.Dish:
-                            {
-                                service.DeleteDish(itemId);
-                                break;
-                            }
-                        case CardTypes.Menu:
-                            {
-                                service.DeleteMenu(itemId);
-                                break;
-                            }
-                        case CardTypes.Table:
-                            {
-                                service.DeleteTable(itemId);
-                                break;
-                            }
-                        case CardTypes.Restaurant:
-                            {
-                                service.DeleteRestaraunt(itemId);
-                                break;
-                            }
-                        default:
+                    case CardTypes.Dish:
+                        {
+                            service.DeleteDish(Guid.Parse(itemId));
                             break;
-                    }
-                    
+                        }
+                    case CardTypes.Menu:
+                        {
+                            service.DeleteMenu(Guid.Parse(itemId));
+                            break;
+                        }
+                    case CardTypes.Table:
+                        {
+                            service.DeleteTable(Guid.Parse(itemId));
+                            break;
+                        }
+                    case CardTypes.Restaurant:
+                        {
+                            service.DeleteRestaraunt(Guid.Parse(itemId));
+                            break;
+                        }
+                    case CardTypes.Mod:
+                        {
+                            service.DeleteModificator(Int32.Parse(itemId));
+                            break;
+                        }
+                    default:
+                        break;
                 }
-                else
-                    throw new Exception("Object id not specified!");
+
                 return Json(new { isAuthorized = true, isSuccess = true });
 
             }

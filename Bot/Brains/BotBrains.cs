@@ -544,10 +544,10 @@ namespace Brains
             {
                 var table = _service.GetActiveTable(chatId);
 
-                if (table != null && (table.State == SessionState.Remark || table.State == SessionState.MenuCategory))
-                {
-                    _service.UpdateTableState(chatId, SessionState.Sitted);
-                }
+                //if (table != null && (table.State == SessionState.Remark || table.State == SessionState.MenuCategory))
+                //{
+                //    _service.UpdateTableState(chatId, SessionState.Sitted);
+                //}
 
                 var menu = _service.GetMenuByTable(chatId) ?? _service.GetStandartMenu();
 
@@ -557,7 +557,7 @@ namespace Brains
 
                 var response = new MenuResponce() { ResponceText = "<b>" + category + ": </b>" + Environment.NewLine + Environment.NewLine};
 
-                response.Dishes = dishes.Select(o => new Models.Item { Id = o.Id.ToString(), Name = o.Name + " " + o.Price + "р." });
+                response.Dishes = dishes.Select(o => new Models.Item { Id = o.Id.ToString(), Name = o.ShortName + " " + o.Price + "р." });
 
                 return response;
 

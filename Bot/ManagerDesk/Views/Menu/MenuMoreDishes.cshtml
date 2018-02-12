@@ -11,9 +11,12 @@
         <h3 class="info-item-heading">@cat.Category</h3>
     }
 
-    foreach (var dish in cat.Dishes)
-    {
+    <ul class="ul-dishes">
+        @foreach (var dish in cat.Dishes)
+        {
         <li><a href="#" class="@dish.SelectedStyle js-dish-drop" data-id="@dish.Id"><i class="fa fa-check" aria-hidden="true" @dish.SelectedIcoStyle></i> @dish.Name </a></li>
-    }
+        }
+    </ul>
+    
 }
 <li><span href="#" class="btn btn-save-dishes js-renew-menu" data-target="@Url.Action("EditMenuDishes","Menu")">Сохранить</span></li>

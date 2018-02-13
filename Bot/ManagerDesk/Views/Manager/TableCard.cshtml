@@ -56,8 +56,12 @@
             {
                 <div class="dish-item">
                     <div class="dish-name-item">
-                        <span class="dish-name">@dish.DishFromMenu.Name</span><span class="dish-price">@dish.DishFromMenu.Price р.</span>
+                        <span class="dish-name">@dish.DishFromMenu.Name</span><span class="dish-price">@Model.DishPrice(dish)р.</span>
                     </div>
+                    @if (dish.OrderedMods.Where(o => o.Count > 0).Any())
+                    {
+                        <span class="dish-item-remarks">@Model.DishMods(dish)</span>
+                    }
                     @if (!string.IsNullOrEmpty(dish.Remarks))
                     {
                     <span class="dish-item-remarks">@dish.Remarks</span>

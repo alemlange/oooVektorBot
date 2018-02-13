@@ -43,6 +43,10 @@ namespace Bot.CommandParser
                 {
                     return CmdTypes.AddToOrder;
                 }
+                else if (data.Contains("mod"))
+                {
+                    return CmdTypes.AddMod;
+                }
                 else
                 {
                     switch (data)

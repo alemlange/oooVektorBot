@@ -8,6 +8,8 @@ namespace DataModels
 {
     public class OrderedDish
     {
+        public Guid Id { get; set; }
+
         public int Num { get; set; }
 
         public DateTime DateOfOrdering { get; set; }
@@ -15,5 +17,7 @@ namespace DataModels
         public Dish DishFromMenu { get; set; }
 
         public string Remarks { get; set; }
+
+        public List<OrderedModificator> OrderedMods { get; set; }
     }
 }

@@ -83,6 +83,17 @@ namespace LiteDbService
             }
         }
 
+        public List<Modificator> GetDishModificators(List<int> modIds)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Modificator>("Modificators");
+
+                var dishMods = col.FindAll();
+                return dishMods.Where(o => modIds.Contains(o.Id)).ToList();
+            }
+        }
+
         public void UpdateTableState(long chatId, SessionState state)
         {
             using (var db = new LiteDatabase(CurrentDb))

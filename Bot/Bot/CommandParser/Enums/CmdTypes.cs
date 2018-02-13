@@ -36,6 +36,7 @@ namespace Bot.CommandParser
         PayCash,
         AddToOrder,
         BackToMenu,
-        MyOrders
+        MyOrders,
+        AddMod
     }
 }

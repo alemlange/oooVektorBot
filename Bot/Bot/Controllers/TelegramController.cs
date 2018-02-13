@@ -224,17 +224,17 @@ namespace Bot.Controllers
                                     
                                     break;
                                 }
-                            case CmdTypes.OrderComplete:
-                                {
-                                    var responce = bot.ShowCartComplete(chatId);
+                            //case CmdTypes.OrderComplete:
+                            //    {
+                            //        var responce = bot.ShowCartComplete(chatId);
 
-                                    await Telegram.SendTextMessageAsync(
-                                        chatId,
-                                        responce.ResponceText,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    break;
-                                }
+                            //        await Telegram.SendTextMessageAsync(
+                            //            chatId,
+                            //            responce.ResponceText,
+                            //            parseMode: ParseMode.Html,
+                            //            replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                            //        break;
+                            //    }
                             case CmdTypes.Remark:
                                 {
                                     var response = bot.AddRemark(chatId, message.Text);
@@ -345,12 +345,42 @@ namespace Bot.Controllers
                     switch (cmd)
                     {
                         case CmdTypes.AddToOrder:
-                        {
-                            var response = bot.OrderMeal(chatId, update.CallbackQuery.Data);
+                            {
+                                var response = bot.OrderMeal(chatId, update.CallbackQuery.Data);
 
-                            await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                            break;
-                        }
+                                if (response.IsOk)
+                                {
+                                    var keyboard = InlineKeyBoardManager.RemarkKeyBoard(response.Modificators);
+                                    await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
+                                }
+                                else
+                                {
+                                    await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                }
+                                break;
+                            }
+                        case CmdTypes.AddMod:
+                            {
+                                var response = bot.AddModificator(chatId, update.CallbackQuery.Data);
+
+                                if (response.IsOk)
+                                {
+                                    if (response.Modificators.Any())
+                                    {
+                                        var keyboard = InlineKeyBoardManager.RemarkKeyBoard(response.Modificators);
+                                        await Telegram.EditMessageTextAsync(chatId, update.CallbackQuery.Message.MessageId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: keyboard);
+                                    }
+                                    else
+                                    {
+                                        await Telegram.EditMessageTextAsync(chatId, update.CallbackQuery.Message.MessageId, response.ResponceText, parseMode: ParseMode.Html);
+                                    }
+                                }
+                                else
+                                {
+                                    await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                }
+                                break;
+                            }
                         case CmdTypes.BackToMenu:
                         {
                             var response = bot.ShowMenuCategories(chatId);

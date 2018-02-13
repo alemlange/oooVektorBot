@@ -11,10 +11,11 @@ using DataModels;
 using DataModels.Enums;
 using DataModels.Exceptions;
 using DataModels.Configuration;
+using Brains.Models;
 
 namespace Brains
 {
-    public class BotBrains : IMainTasks
+    public class BotBrains 
     {
         private LiteCustomerService _service { get; set; }
 
@@ -187,7 +188,7 @@ namespace Brains
                 return SessionState.Unknown;
         }
 
-        public Responce OrderMeal(long chatId, string message)
+        public RemarkResponce OrderMeal(long chatId, string message)
         {
             try
             {
@@ -197,27 +198,43 @@ namespace Brains
                 if (table != null)
                 {
                     if(table.Cheque != null && table.Cheque.PaymentRecieved)
-                        return new Responce { ChatId = chatId, ResponceText = "Извините, но заказ уже оплачен!" };
+                        return new RemarkResponce { ChatId = chatId, ResponceText = "Извините, но заказ уже оплачен!", IsOk = false };
 
                     if (table.State == SessionState.OrderPosted)
-                        return new Responce { ChatId = chatId, ResponceText = "Извините, но заказ уже отправлен!" };
+                        return new RemarkResponce { ChatId = chatId, ResponceText = "Извините, но заказ уже отправлен!", IsOk = false };
 
                     var dish = _service.GetMenuByRestaurant(table.Restaurant).DishList.Where(o => o.Id == Guid.Parse(dishGuid)).FirstOrDefault();
                     var dishNum = table.Orders.Count + 1;
 
-                    _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now });
-                    _service.UpdateTableState(chatId, SessionState.Remark);
+                    var orderedDishId = Guid.NewGuid();
 
-                    return new Responce { ChatId = chatId, ResponceText = "Отличный выбор! Если у вас есть какие то пожелания к блюду, просто отправьте их сообщением!" };
+                    var dishMods = _service.GetDishModificators(dish.ModIds ?? new List<int>());
+                    if (dishMods.Any())
+                    {
+                        var orderedMods = dishMods.Select(o => new OrderedModificator { Mod = o, Count = 0 }).ToList();
+
+                        _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now, Id = orderedDishId, OrderedMods = orderedMods });
+                        //_service.UpdateTableState(chatId, SessionState.Remark);
+
+                        var modKeys = dishMods.Select(o => new Item { Id = o.Id.ToString() + " " + orderedDishId, Name = o.Name + " +" + o.Price + "р. " });
+                        return new RemarkResponce { ChatId = chatId, ResponceText = "Добавить что-нибудь?", IsOk = true, Modificators = modKeys };
+                    }
+                    else
+                    {
+                        _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now, Id = orderedDishId, OrderedMods = new List<OrderedModificator>() });
+                        //_service.UpdateTableState(chatId, SessionState.Remark);
+
+                        return new RemarkResponce { ChatId = chatId, ResponceText = "Блюдо добавлено в корзину!", IsOk = false };
+                    }
                 }
                 else
                 {
-                    return new Responce { ChatId = chatId, ResponceText = "Нажмите \"Заказать\" в главном меню, чтобы сделать заказ!" };
+                    return new RemarkResponce { ChatId = chatId, ResponceText = "Нажмите \"Заказать\" в главном меню, чтобы сделать заказ!", IsOk = false };
                 }
             }
             catch (Exception)
             {
-                return Responce.UnknownResponce(chatId);
+                return new RemarkResponce { ChatId = chatId, ResponceText = "Упс, что-то пошло не так.", IsOk = false };
             }
         }
 
@@ -242,6 +259,75 @@ namespace Brains
             catch (Exception)
             {
                 return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public RemarkResponce AddModificator(long chatId, string message)
+        {
+            try
+            {
+                var modIdAndGuid = message.Split(new string[] { "mod" }, StringSplitOptions.RemoveEmptyEntries)[0].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var modId = Convert.ToInt32(modIdAndGuid[0]);
+                var ordereId = Guid.Parse(modIdAndGuid[1]);
+
+                var table = _service.GetActiveTable(chatId);
+                if (table != null)
+                {
+                    var curOrder = table.Orders.Where(o => o.Id == ordereId).FirstOrDefault();
+
+                    if(curOrder != null)
+                    {
+                        var modtoPlus = curOrder.OrderedMods.Where(o => o.Mod.Id == modId).FirstOrDefault();
+                        if(modtoPlus == null)
+                        {
+                            return new RemarkResponce { ChatId = chatId, ResponceText = "Модификатор не найден.", IsOk = false };
+                        }
+                        else
+                        {
+                            if(modtoPlus.Mod.MaxCount > modtoPlus.Count)
+                            {
+                                modtoPlus.Count++ ;
+                                var addedMods = curOrder.OrderedMods.Where(o => o.Count > 0);
+
+                                var resText = "<b>Вы добавили:</b>" + Environment.NewLine;
+                                foreach(var m in addedMods)
+                                {
+                                    resText += m.Mod.Name + " " + m.Mod.Price + " р."+ " x" + m.Count + Environment.NewLine;
+                                }
+
+                                _service.UpdateTable(table);
+                                var modsCanBeAdded = curOrder.OrderedMods.Where(o => o.Mod.MaxCount > o.Count);
+                                if (modsCanBeAdded.Any())
+                                {
+                                    resText += "Добавить что-нибудь еще?";
+                                    var modKeys = modsCanBeAdded.Select(o => new Item { Id = o.Mod.Id.ToString() + " " + curOrder.Id, Name = o.Mod.Name + " +" + o.Mod.Price + "р. " });
+                                    return new RemarkResponce { ChatId = chatId, ResponceText = resText, IsOk = true, Modificators = modKeys };
+                                }
+                                else
+                                {
+                                    return new RemarkResponce { ChatId = chatId, ResponceText = resText, IsOk = true, Modificators = new List<Item>() };
+                                }  
+                            }
+                            else
+                            {
+                                return new RemarkResponce { ChatId = chatId, ResponceText = "Больше добавить нельзя!", IsOk = false };
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return new RemarkResponce { ChatId = chatId, ResponceText = "Блюдо не найдено.", IsOk = false };
+                    }             
+                }
+                else
+                {
+                    return new RemarkResponce { ChatId = chatId, ResponceText = "Нажмите \"Заказать\" в главном меню, чтобы сделать заказ!", IsOk = false };
+                }
+   
+            }
+            catch (Exception)
+            {
+                return new RemarkResponce { ChatId = chatId, ResponceText = "Упс, что-то пошло не так.", IsOk = false };
             }
         }
 
@@ -288,6 +374,30 @@ namespace Brains
             }
         }
 
+        private decimal TableSumm(Table table)
+        {
+            decimal summ = 0;
+
+            foreach(var dish in table.Orders)
+            {
+                summ += DishPrice(dish);
+            }
+
+            return summ;
+        }
+
+        private decimal DishPrice(OrderedDish dish)
+        {
+            decimal summ = dish.DishFromMenu.Price;
+
+            foreach(var mod in dish.OrderedMods)
+            {
+                summ += mod.Mod.Price * mod.Count;
+            }
+
+            return summ;
+        }
+
         public GenChequeResponce CreateInvoice(long chatId)
         {
             try
@@ -304,12 +414,7 @@ namespace Brains
 
                     var cheque = new Cheque { ChatId = chatId, Currency = "RUB", Date = DateTime.Now, OrderedDishes = table.Orders, Id = Guid.NewGuid(), PaymentRecieved = false };
 
-                    decimal summ = 0;
-
-                    foreach (var order in table.Orders)
-                    {
-                        summ += order.DishFromMenu.Price;
-                    }
+                    decimal summ = TableSumm(table);
 
                     if (summ <= 60)
                         throw new PaymentException("Сумма слишком маленькая для оплаты.");
@@ -320,7 +425,16 @@ namespace Brains
 
                     foreach (var dish in table.Orders)
                     {
-                        cheque.Description += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р." + Environment.NewLine;
+                        cheque.Description += dish.Num + ". " + dish.DishFromMenu.Name + " " + DishPrice(dish) + "р. " + dish.Remarks + Environment.NewLine;
+
+                        var allOrderedMods = dish.OrderedMods.Where(o => o.Count > 0);
+                        if (allOrderedMods.Any())
+                        {
+                            foreach (var mod in allOrderedMods)
+                            {
+                                cheque.Description += " " + mod.Mod.Name + " " + mod.Mod.Price + " р." + " x" + mod.Count + Environment.NewLine;
+                            }
+                        }
                     }
                     cheque.Description += "Номер вашего заказа: " + table.TableNumber + Environment.NewLine;
                     _service.AssignCheque(table.Id, cheque);
@@ -349,11 +463,7 @@ namespace Brains
                     if (table.Orders == null || !table.Orders.Any())
                         throw new PaymentException("Произошла ошибка оплаты, вы пока ничего не заказали.");
 
-                    decimal summ = 0;
-                    foreach (var order in table.Orders)
-                    {
-                        summ += order.DishFromMenu.Price;
-                    }
+                    decimal summ = TableSumm(table);
                     int summInCents = Convert.ToInt32(summ * 100);
 
                     if (table.Cheque == null)
@@ -439,13 +549,22 @@ namespace Brains
                 if(rest!= null)
                     respText += "<b>Заберете из: </b>" + rest.Name + Environment.NewLine;
 
-                var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
+                var tableSumm = TableSumm(table);
 
                 respText += "Вы заказали:" + Environment.NewLine + Environment.NewLine;
 
                 foreach (var dish in table.Orders)
                 {
-                    respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
+                    respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + DishPrice(dish) + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
+
+                    var allOrderedMods = dish.OrderedMods.Where(o => o.Count > 0);
+                    if (allOrderedMods.Any())
+                    {
+                        foreach (var mod in allOrderedMods)
+                        {
+                            respText += " " + mod.Mod.Name + " " + mod.Mod.Price + " р." + " x" + mod.Count + Environment.NewLine;
+                        }
+                    }
                 }
                 respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
 
@@ -482,10 +601,20 @@ namespace Brains
 
                         respText += "Вы заказали:" + Environment.NewLine ;
 
-                        var tableSumm = order.Orders.Sum(o => o.DishFromMenu.Price);
+                        var tableSumm = TableSumm(order);
                         foreach (var dish in order.Orders)
                         {
-                            respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
+                            respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + DishPrice(dish) + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
+
+                            var allOrderedMods = dish.OrderedMods.Where(o => o.Count > 0);
+                            if (allOrderedMods.Any())
+                            {
+                                foreach (var mod in allOrderedMods)
+                                {
+                                    respText += " " + mod.Mod.Name + " " + mod.Mod.Price + " р." + " x" + mod.Count + Environment.NewLine;
+                                }
+                            }
+                            
                         }
 
                         respText += "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine + Environment.NewLine;
@@ -500,43 +629,43 @@ namespace Brains
             }
         }
 
-        public Responce ShowCartComplete(long chatId)
-        {
-            var table = _service.GetActiveTable(chatId);
-            var respText = "";
+        //public Responce ShowCartComplete(long chatId)
+        //{
+        //    var table = _service.GetActiveTable(chatId);
+        //    var respText = "";
 
-            if (table.Orders.Any())
-            {
-                respText += "<b>Номер вашего заказа: " + table.TableNumber + "</b>" + Environment.NewLine;
-                respText += "<b>Время заказа: </b>" +table.OrderPlaced.ToString("HH:mm") + Environment.NewLine;
+        //    if (table.Orders.Any())
+        //    {
+        //        respText += "<b>Номер вашего заказа: " + table.TableNumber + "</b>" + Environment.NewLine;
+        //        respText += "<b>Время заказа: </b>" +table.OrderPlaced.ToString("HH:mm") + Environment.NewLine;
 
-                if (table.TimeArriving != 0)
-                {
-                    respText += "<b>Заказ на время: </b>" + "через " + table.TimeArriving + "минут." + Environment.NewLine;
-                }
-                else
-                {
-                    respText += "<b>Заказ на время: </b>" + "Как можно скорее." + Environment.NewLine;
-                }
+        //        if (table.TimeArriving != 0)
+        //        {
+        //            respText += "<b>Заказ на время: </b>" + "через " + table.TimeArriving + "минут." + Environment.NewLine;
+        //        }
+        //        else
+        //        {
+        //            respText += "<b>Заказ на время: </b>" + "Как можно скорее." + Environment.NewLine;
+        //        }
 
-                var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
+        //        var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
 
-                respText += "Вы заказали:" + Environment.NewLine + Environment.NewLine;
+        //        respText += "Вы заказали:" + Environment.NewLine + Environment.NewLine;
 
-                foreach (var dish in table.Orders)
-                {
-                    respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
-                }
-                respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
+        //        foreach (var dish in table.Orders)
+        //        {
+        //            respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
+        //        }
+        //        respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
 
-            }
+        //    }
 
-            return new Responce
-            {
-                ChatId = chatId,
-                ResponceText = respText
-            };
-        }
+        //    return new Responce
+        //    {
+        //        ChatId = chatId,
+        //        ResponceText = respText
+        //    };
+        //}
 
         public MenuResponce SnowMenuByCategory(long chatId, string category)
         {

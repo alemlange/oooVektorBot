@@ -57,6 +57,7 @@
     <Compile Include="Models\Dispatch.cs" />
     <Compile Include="Models\ManagerAccount.cs" />
     <Compile Include="Models\Cheque.cs" />
+    <Compile Include="Models\OrderedModificator.cs" />
     <Compile Include="Models\Modificator.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\StateVarible.cs" />

@@ -27,6 +27,19 @@ namespace Bot.CommandParser.KeyBoards
             return new InlineKeyboardMarkup(inKeyboardRows);
         }
 
+        public static InlineKeyboardMarkup RemarkKeyBoard(IEnumerable<Item> Mods)
+        {
+            var arrayMods = Mods.ToArray();
+            var inKeyboardRows = new InlineKeyboardCallbackButton[arrayMods.Length][];
+
+            for (var i = 0; i < arrayMods.Length; i++)
+            {
+                inKeyboardRows[i] = new[] { new InlineKeyboardCallbackButton(arrayMods[i].Name, "mod " + arrayMods[i].Id) };
+            }
+
+            return new InlineKeyboardMarkup(inKeyboardRows);
+        }
+
         public static InlineKeyboardMarkup DescriptionKeyBoard(string dishId)
         {
             return new InlineKeyboardMarkup(

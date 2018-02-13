@@ -24,8 +24,8 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "📓 Меню", "🛍️ Мои заказы" },
-                        new KeyboardButton[] { "Заказать" },
+                        new KeyboardButton[] { "🛍️ Мои заказы" },
+                        new KeyboardButton[] { "Начать Заказ" },
                     }
                 };
             }
@@ -58,7 +58,7 @@ namespace Bot.CommandParser
 
                 if (msgText.Contains("меню"))
                     return CmdTypes.Menu;
-                else if (msgText == "заказать")
+                else if (msgText == "начать заказ")
                     return CmdTypes.Greetings;
                 else if (msgText.Contains("мои заказы"))
                     return CmdTypes.MyOrders;

@@ -291,6 +291,10 @@
                 $(".js-table-body").html(data.tablesView);
             }
 
+            if (data.newTables) {
+                notif();
+            }
+
             if (data.restOptionsView != null) {
                 $(".js-rest-select").html(data.restOptionsView);
             }
@@ -363,3 +367,27 @@
     });
 
 });
+
+function notif() {
+    var audio = new Audio('/Assets/Audio/newtable.mp3');
+    audio.play();
+
+    if (Notification.permission !== "granted")
+        Notification.requestPermission();
+    else {
+        var notification = new Notification('ДайнерБот', {
+            icon: '/Assets/Imgs/favicon.ico',
+            body: "Новый заказ!",
+        });
+
+        notification.onclick = function () {
+            window.open(window.location.href);
+        };
+
+    }
+}
+
+function RequestNotif() {
+    if (Notification.permission !== "granted")
+        Notification.requestPermission();
+}

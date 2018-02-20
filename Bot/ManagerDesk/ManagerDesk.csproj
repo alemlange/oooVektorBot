@@ -178,6 +178,7 @@
     <Compile Include="ViewModels\TableCardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\AudioNotification\newtable.mp3" />
     <Content Include="Assets\Content\bootstrap-theme.min.css" />
     <Content Include="Assets\Content\dialog.css" />
     <Content Include="Assets\Content\images\ui-icons_444444_256x240.png" />

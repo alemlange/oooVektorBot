@@ -223,11 +223,13 @@ namespace ManagerDesk.Controllers
                 activeTables = service.GetOrderPostedTables().OrderByDescending(o => o.OrderPlaced).ToList();
                 inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
             }
+
+            var newTables = activeTables.Where(o => !o.OrderProcessed).Any();
             var tablesModel = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };
 
             tablesView = RenderPartialViewToString("TableCardList", tablesModel);
 
-            return Json(new { isAuthorized = true, isSuccess = true, tablesView = tablesView, restOptionsView = restOptionsView }, JsonRequestBehavior.AllowGet);
+            return Json(new { isAuthorized = true, isSuccess = true, tablesView = tablesView, restOptionsView = restOptionsView, newTables = newTables }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -246,7 +248,7 @@ namespace ManagerDesk.Controllers
 
                     if (value)
                     {
-                        new BotClient(config.TelegramBotLocation).SendNotification(table.ChatId, "Ваш заказ уже готовится!");
+                        new BotClient(config.TelegramBotLocation).SendNotification(table.ChatId, "Ваш заказ принят!");
                     }
                 }
                 else

@@ -369,7 +369,7 @@
 });
 
 function notif() {
-    var audio = new Audio('/Assets/Audio/newtable.mp3');
+    var audio = new Audio('/Assets/AudioNotification/newtable.mp3');
     audio.play();
 
     if (Notification.permission !== "granted")

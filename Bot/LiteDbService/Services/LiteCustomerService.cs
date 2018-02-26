@@ -147,6 +147,21 @@ namespace LiteDbService
             }
         }
 
+        public void AssignQueueNumber(long chatId, string tableNumber)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+                var table = tableCol.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.OrderPosted).FirstOrDefault();
+
+                if (table != null)
+                {
+                    table.TableNumber = tableNumber;
+                    tableCol.Update(table);
+                }
+            }
+        }
+
         public void SetArrivingTime(long chatId, int time)
         {
             using (var db = new LiteDatabase(CurrentDb))

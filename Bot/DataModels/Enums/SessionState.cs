@@ -9,6 +9,7 @@
         Remark,
         TimeChoosing,
         OrderPosted,
-        Closed
+        Closed,
+        InQueue
     }
 }

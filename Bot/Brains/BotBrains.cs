@@ -895,8 +895,7 @@ namespace Brains
                 {
                     var rest = restaurants.FirstOrDefault();
                     _service.AssignRestaurant(chatId, rest.Name);
-                    _service.AssignNextQueueNumber(chatId);
-                    _service.UpdateTableState(chatId, SessionState.Sitted);
+                    _service.UpdateTableState(chatId, SessionState.InQueue);
 
                     return new Responce
                     {

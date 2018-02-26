@@ -26,13 +26,17 @@
 
                 @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control js-code", @readonly = "readonly", placeholder = "Код" } })
 
+                @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control js-lat", placeholder = "Широта" } })
+
+                @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control js-long", placeholder = "Долгота" } })
+
                 @Html.TextAreaFor(model => model.Description, new { @class = "form-control js-description", placeholder = "Описание" })
 
                 <button class="btn btn-save-dishes js-save-rest" type="submit">Сохранить</button>
 
                 @Html.HiddenFor(o => o.Id)
-                @Html.HiddenFor(o => o.Latitude)
-                @Html.HiddenFor(o => o.Longitude)
                 @Html.HiddenFor(o => o.Menu)
                 @Html.HiddenFor(o => o.QueueNumber)
             }

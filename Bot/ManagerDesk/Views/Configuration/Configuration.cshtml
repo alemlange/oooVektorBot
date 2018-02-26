@@ -33,6 +33,12 @@
                     Картинка <input id="Image" name="Image" class="picture-input" type="file" style="display: none;">
                 </label>
 
+                @Html.LabelFor(model => model.Config.Actions, "Акции", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Config.Actions, new { htmlAttributes = new { @class = "form-control" } })
+
+                @Html.LabelFor(model => model.Config.Description, "Описание", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Config.Description, new { htmlAttributes = new { @class = "form-control" } })
+
                 @Html.LabelFor(model => model.Config.BotGreeting, "Приветствие бота", htmlAttributes: new { @class = "control-label" })
                 @Html.TextAreaFor(model => model.Config.BotGreeting, new { @class = "form-control" })
 

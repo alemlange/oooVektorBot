@@ -19,7 +19,7 @@ namespace LiteDbService
             {
                 if (string.IsNullOrEmpty(_currentDb))
                 {
-                    _currentDb = @"C:\db\takeaway\" + _userDb +".db";
+                    _currentDb = @"C:\db\classic\" + _userDb +".db";
                 }
                 return _currentDb;
             }

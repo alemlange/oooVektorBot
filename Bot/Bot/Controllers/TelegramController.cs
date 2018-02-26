@@ -365,19 +365,20 @@ namespace Bot.Controllers
                                 {
                                     var responce = bot.GetAllRestaurants(chatId);
 
-                                    foreach (var restaurant in responce.RestaurantsInfo)
+                                    if (responce.IsOk)
                                     {
-                                        await Telegram.SendTextMessageAsync(
-                                        chatId,
-                                        restaurant.Info,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                        foreach (var restaurant in responce.RestaurantsInfo)
+                                        {
+                                            await Telegram.SendTextMessageAsync(chatId, restaurant.Info, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
 
-                                        await Telegram.SendLocationAsync(
-                                            chatId,
-                                            restaurant.Latitude,
-                                            restaurant.Longitude);
+                                            await Telegram.SendLocationAsync(chatId, restaurant.Latitude, restaurant.Longitude);
+                                        }
                                     }
+                                    else
+                                    {
+                                        await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    }
+                                    
                                     break;
                                 }
                         }

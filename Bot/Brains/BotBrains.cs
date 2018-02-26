@@ -987,22 +987,12 @@ namespace Brains
             try
             {
                 var restaurants = _service.GetAllActiveRestaurants();
-                string resText = "";
-                IEnumerable<RestaurantInfo> restaurantsInfo = Enumerable.Empty<RestaurantInfo>(); ;
 
                 if (restaurants.Any())
                 {
-                    foreach (var restaurant in restaurants)
-                    {
-                        var restInfo = new RestaurantInfo();
-                        restInfo.Info = restaurant.Name + " \n " + restaurant.Description;
-                        restInfo.Latitude = restaurant.Latitude;
-                        restInfo.Longitude = restaurant.Longitude;
+                    var restaurantsInfo = restaurants.Select(o => new RestaurantInfo { Info = o.Name + Environment.NewLine + o.Description, Latitude = o.Latitude, Longitude = o.Longitude });
 
-                        restaurantsInfo.Concat(new[] { restInfo });
-                    }
-
-                    return new RestaurantResponce { ChatId = chatId, ResponceText = resText, IsOk = true, RestaurantsInfo = restaurantsInfo };
+                    return new RestaurantResponce { ChatId = chatId, IsOk = true, RestaurantsInfo = restaurantsInfo };
                 }
                 else
                 {

@@ -224,17 +224,6 @@ namespace Bot.Controllers
                                     
                                     break;
                                 }
-                            //case CmdTypes.OrderComplete:
-                            //    {
-                            //        var responce = bot.ShowCartComplete(chatId);
-
-                            //        await Telegram.SendTextMessageAsync(
-                            //            chatId,
-                            //            responce.ResponceText,
-                            //            parseMode: ParseMode.Html,
-                            //            replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                            //        break;
-                            //    }
                             case CmdTypes.Remark:
                                 {
                                     var response = bot.AddRemark(chatId, message.Text);

@@ -510,7 +510,7 @@ namespace Brains
                     _service.ChequeMarkPayed(table.Id, telegramPaymentId);
                     _service.SendOrderToDesk(chatId);
 
-                    return new Responce { ChatId = chatId, ResponceText = "Ваш заказ успешно оплачен! Заказ отправлен в заведение." };
+                    return new Responce { ChatId = chatId, ResponceText = "Ваш заказ успешно оплачен!" };
                 }
                 else
                     throw new PaymentException("Столик не найден.");

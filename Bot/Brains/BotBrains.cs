@@ -629,44 +629,6 @@ namespace Brains
             }
         }
 
-        //public Responce ShowCartComplete(long chatId)
-        //{
-        //    var table = _service.GetActiveTable(chatId);
-        //    var respText = "";
-
-        //    if (table.Orders.Any())
-        //    {
-        //        respText += "<b>Номер вашего заказа: " + table.TableNumber + "</b>" + Environment.NewLine;
-        //        respText += "<b>Время заказа: </b>" +table.OrderPlaced.ToString("HH:mm") + Environment.NewLine;
-
-        //        if (table.TimeArriving != 0)
-        //        {
-        //            respText += "<b>Заказ на время: </b>" + "через " + table.TimeArriving + "минут." + Environment.NewLine;
-        //        }
-        //        else
-        //        {
-        //            respText += "<b>Заказ на время: </b>" + "Как можно скорее." + Environment.NewLine;
-        //        }
-
-        //        var tableSumm = table.Orders.Sum(o => o.DishFromMenu.Price);
-
-        //        respText += "Вы заказали:" + Environment.NewLine + Environment.NewLine;
-
-        //        foreach (var dish in table.Orders)
-        //        {
-        //            respText += dish.Num + ". " + dish.DishFromMenu.Name + " " + dish.DishFromMenu.Price + "р. <i>" + dish.Remarks + "</i>" + Environment.NewLine;
-        //        }
-        //        respText += Environment.NewLine + "<b>Итого: " + tableSumm.ToString() + "р.</b>" + Environment.NewLine;
-
-        //    }
-
-        //    return new Responce
-        //    {
-        //        ChatId = chatId,
-        //        ResponceText = respText
-        //    };
-        //}
-
         public MenuResponce SnowMenuByCategory(long chatId, string category)
         {
             try

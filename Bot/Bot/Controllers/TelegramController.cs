@@ -363,10 +363,16 @@ namespace Bot.Controllers
                                 }
                             case CmdTypes.Location:
                                 {
-                                    var restaurants = bot.GetAllRestaurants();
+                                    var responce = bot.GetAllRestaurants(chatId);
 
-                                    foreach (var restaurant in restaurants)
+                                    foreach (var restaurant in responce.RestaurantsInfo)
                                     {
+                                        await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        restaurant.Info,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+
                                         await Telegram.SendLocationAsync(
                                             chatId,
                                             restaurant.Latitude,

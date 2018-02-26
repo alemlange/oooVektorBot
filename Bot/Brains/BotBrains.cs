@@ -982,9 +982,37 @@ namespace Brains
             }
         }
 
-        public List<Restaurant> GetAllRestaurants()
+        public RestaurantResponce GetAllRestaurants(long chatId)
         {
-            return _service.GetAllActiveRestaurants();
+            try
+            {
+                var restaurants = _service.GetAllActiveRestaurants();
+                string resText = "";
+                IEnumerable<RestaurantInfo> restaurantsInfo = Enumerable.Empty<RestaurantInfo>(); ;
+
+                if (restaurants.Any())
+                {
+                    foreach (var restaurant in restaurants)
+                    {
+                        var restInfo = new RestaurantInfo();
+                        restInfo.Info = restaurant.Name + " \n " + restaurant.Description;
+                        restInfo.Latitude = restaurant.Latitude;
+                        restInfo.Longitude = restaurant.Longitude;
+
+                        restaurantsInfo.Concat(new[] { restInfo });
+                    }
+
+                    return new RestaurantResponce { ChatId = chatId, ResponceText = resText, IsOk = true, RestaurantsInfo = restaurantsInfo };
+                }
+                else
+                {
+                    return new RestaurantResponce { ChatId = chatId, ResponceText = "В системе не заведено ни одного ресторана!", IsOk = false };
+                }
+            }
+            catch (Exception)
+            {
+                return new RestaurantResponce { ChatId = chatId, ResponceText = "Упс, что-то пошло не так.", IsOk = false };
+            }
         }
     }
 }

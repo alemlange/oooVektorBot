@@ -145,19 +145,19 @@ namespace ManagerDesk.Controllers
                 var curRest = Guid.Parse(restCookie.Value);         
                 if (curRest != Guid.Empty)
                 {
-                    activeTables = service.GetOrderPostedTables(curRest).OrderByDescending(o => o.OrderPlaced).ToList();
+                    activeTables = service.GetManagerTables(curRest).OrderByDescending(o => o.OrderPlaced).ToList();
                     inActiveTables = service.GetInActiveTables(curRest).OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
                 }
                 else
                 {
-                    activeTables = service.GetOrderPostedTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                    activeTables = service.GetManagerTables().OrderByDescending(o => o.OrderPlaced).ToList();
                     inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
                 }    
                 
             }
             else
             {
-                activeTables = service.GetOrderPostedTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                activeTables = service.GetManagerTables().OrderByDescending(o => o.OrderPlaced).ToList();
                 inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
             }
             var model = new AllTablesViewModel { ActiveTables = Mapper.Map<List<TableCardViewModel>>(activeTables), InActiveTables = Mapper.Map<List<TableCardViewModel>>(inActiveTables) };
@@ -208,19 +208,19 @@ namespace ManagerDesk.Controllers
                 var curRest = Guid.Parse(restCookie.Value);
                 if (curRest != Guid.Empty)
                 {
-                    activeTables = service.GetOrderPostedTables(curRest).OrderByDescending(o => o.OrderPlaced).ToList();
+                    activeTables = service.GetManagerTables(curRest).OrderByDescending(o => o.OrderPlaced).ToList();
                     inActiveTables = service.GetInActiveTables(curRest).OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
                 }
                 else
                 {
-                    activeTables = service.GetOrderPostedTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                    activeTables = service.GetManagerTables().OrderByDescending(o => o.OrderPlaced).ToList();
                     inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
                 }
 
             }
             else
             {
-                activeTables = service.GetOrderPostedTables().OrderByDescending(o => o.OrderPlaced).ToList();
+                activeTables = service.GetManagerTables().OrderByDescending(o => o.OrderPlaced).ToList();
                 inActiveTables = service.GetInActiveTables().OrderByDescending(o => o.OrderPlaced).Take(20).ToList();
             }
 
@@ -246,10 +246,10 @@ namespace ManagerDesk.Controllers
                     table.OrderProcessed = value;
                     service.UpdateTable(table);
 
-                    if (value)
-                    {
-                        new BotClient(config.TelegramBotLocation).SendNotification(table.ChatId, "Ваш заказ принят!");
-                    }
+                    //if (value)
+                    //{
+                    //    new BotClient(config.TelegramBotLocation).SendNotification(table.ChatId, "Ваш заказ принят!");
+                    //}
                 }
                 else
                     throw new ArgumentNullException("Table not found!");

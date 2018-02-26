@@ -24,6 +24,8 @@ namespace Bot.CommandParser
                     {
                         return new RestruntSessionParser(bot.RestaurantNames);
                     }
+                case SessionState.InQueue:
+                    return new InQueueSessionParser();
                 case SessionState.Sitted:
                     return new SittedSessionParser();
                 case SessionState.Remark:

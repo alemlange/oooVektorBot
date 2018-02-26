@@ -113,6 +113,16 @@ namespace LiteDbService
             }
         }
 
+        public List<Table> GetManagerTables()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+
+                return tableCol.Find(o => o.State == SessionState.MenuCategory || o.State == SessionState.OrderPosted || o.State == SessionState.Sitted).ToList();
+            }
+        }
+
         public List<Table> GetActiveTables(Guid restId)
         {
             using (var db = new LiteDatabase(CurrentDb))
@@ -130,6 +140,16 @@ namespace LiteDbService
                 var tableCol = db.GetCollection<Table>("Tables");
 
                 return tableCol.Find(o => o.State == SessionState.OrderPosted && o.Restaurant == restId).ToList();
+            }
+        }
+
+        public List<Table> GetManagerTables(Guid restId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var tableCol = db.GetCollection<Table>("Tables");
+
+                return tableCol.Find(o => (o.State == SessionState.MenuCategory || o.State == SessionState.OrderPosted || o.State == SessionState.Sitted) && o.Restaurant == restId).ToList();
             }
         }
 

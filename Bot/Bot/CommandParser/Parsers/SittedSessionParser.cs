@@ -19,7 +19,8 @@ namespace Bot.CommandParser
                     Keyboard = new KeyboardButton[][]
                     {
                         new KeyboardButton[] { "📓 Меню" },
-                        new KeyboardButton[] { "🛒 Корзина", "❌ Убрать из заказа" }
+                        new KeyboardButton[] { "🛒 Корзина", "❌ Убрать из заказа" },
+                        new KeyboardButton[] { "Вызов официанта"}
                     }
                 };
             }
@@ -83,6 +84,8 @@ namespace Bot.CommandParser
                     return CmdTypes.Cart;
                 else if (msgText.Contains("убрать из заказа"))
                     return CmdTypes.Remove;
+                else if (msgText.Contains("вызов официанта"))
+                    return CmdTypes.Waiter;
                 else if (Int32.TryParse(msgText, out result))
                     return CmdTypes.RemoveByNum;
                 else

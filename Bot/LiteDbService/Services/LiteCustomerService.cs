@@ -162,6 +162,18 @@ namespace LiteDbService
             }
         }
 
+        public void SetHelpNeeded(long chatId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.ChatId == chatId && o.State != SessionState.Closed && o.State != SessionState.OrderPosted).FirstOrDefault();
+
+                table.HelpNeeded = true;
+                col.Update(table);
+            }
+        }
+
         public void SetArrivingTime(long chatId, int time)
         {
             using (var db = new LiteDatabase(CurrentDb))

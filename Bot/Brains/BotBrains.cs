@@ -688,6 +688,24 @@ namespace Brains
             }
         }
 
+        public Responce CallWaiter(long chatId)
+        {
+            try
+            {
+                _service.SetHelpNeeded(chatId);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Официант уже идет"
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
         public Responce ShowMenuCategories(long chatId)
         {
             try

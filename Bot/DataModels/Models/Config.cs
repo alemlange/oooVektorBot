@@ -31,5 +31,9 @@ namespace DataModels
         public string BotToken { get; set; }
 
         public string PaymentToken { get; set; }
+
+        public string Actions { get; set; }
+
+        public string Description { get; set; }
     }
 }

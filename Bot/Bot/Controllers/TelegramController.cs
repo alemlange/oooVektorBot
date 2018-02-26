@@ -321,6 +321,37 @@ namespace Bot.Controllers
                                     }
                                     break;
                                 }
+                            case CmdTypes.Actions:
+                                {
+                                    await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        bot.Actions,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.Description:
+                                {
+                                    await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        bot.Description,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.Location:
+                                {
+                                    var restaurants = bot.GetAllRestaurants();
+
+                                    foreach (var restaurant in restaurants)
+                                    {
+                                        await Telegram.SendLocationAsync(
+                                            chatId,
+                                            restaurant.Latitude,
+                                            restaurant.Longitude);
+                                    }
+                                    break;
+                                }
                         }
                     }
                 }

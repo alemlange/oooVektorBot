@@ -37,6 +37,9 @@ namespace Bot.CommandParser
         AddToOrder,
         BackToMenu,
         MyOrders,
-        AddMod
+        AddMod,
+        Actions,
+        Description,
+        Location
     }
 }

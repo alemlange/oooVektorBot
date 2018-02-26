@@ -77,6 +77,40 @@ namespace Brains
             }
         }
 
+        public string Actions
+        {
+            get
+            {
+                var dataConfig = _regService.FindConfig(AccountId);
+                if (dataConfig != null)
+                {
+                    return dataConfig.Actions;
+                }
+                else
+                {
+                    throw new ConfigurationException("Настройки для аккаунта не найдены!");
+                }
+
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                var dataConfig = _regService.FindConfig(AccountId);
+                if (dataConfig != null)
+                {
+                    return dataConfig.Description;
+                }
+                else
+                {
+                    throw new ConfigurationException("Настройки для аккаунта не найдены!");
+                }
+
+            }
+        }
+
         public string PicturePath
         {
             get
@@ -919,6 +953,11 @@ namespace Brains
             {
                 return new MenuItemResponce {ChatId = chatId, NeedInlineKeyboard = false, ResponceText="Упс, что-то пошло не так." };
             }
+        }
+
+        public List<Restaurant> GetAllRestaurants()
+        {
+            return _service.GetAllActiveRestaurants();
         }
     }
 }

@@ -46,7 +46,7 @@
             <div class="table-labels">
                 @if (Model.Cheque != null && Model.Cheque.PaymentRecieved)
                 {
-                    <span class="label label-default">Оплачено</span>
+                    <span class="label label-default">Оплачено @Model.Cheque.Summ ₽</span>
                 }
 
                 @if (Model.CashPayment)

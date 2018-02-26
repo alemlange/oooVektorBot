@@ -18,7 +18,7 @@
             {
                 <div class="toolbar-mini">
                     <div class="toolbar-mini__btn @Model.OrderProcessedStyle js-set-table-action" data-target="@Url.Action("TableSetProccesed","Manager")"><i class="fa fa-check" aria-hidden="true"></i></div>
-                    @*<div class="toolbar-mini__btn @Model.HelpNeededStyle js-set-table-action" data-target="@Url.Action("TableSetHelp","Manager")"><i class="fa fa-child" aria-hidden="true"></i></div>*@
+                    <div class="toolbar-mini__btn @Model.HelpNeededStyle js-set-table-action" data-target="@Url.Action("TableSetHelp","Manager")"><i class="fa fa-child" aria-hidden="true"></i></div>
                     <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger js-toolbar-close-table" data-target="@Url.Action("CloseTable","Manager")"><i class="fa fa-lock" aria-hidden="true"></i></div>
                 </div>
             }
@@ -26,15 +26,15 @@
             <div>
                 @if (Model.TableNumber == "f")
                 {
-                    <h3 class="info-item-heading">Новый заказ</h3>
+                    <h3 class="info-item-heading">Новый стол</h3>
                 }
                 else
                 {
-                    <h3 class="info-item-heading">Заказ <span class="table-number">@Model.TableNumber </span></h3>
+                    <h3 class="info-item-heading">Стол <span class="table-number">@Model.TableNumber </span></h3>
                     if (Model.OrderPlaced != DateTime.MinValue)
                     {
                         <h5 class="info-item-heading">
-                            Время заказа: @orderTimeLocal.ToString(TimeFormat), заберут через @Model.TimeArriving.ToString() минут
+                            Время заказа: @orderTimeLocal.ToString(TimeFormat)
                         </h5>
                     }
                 }

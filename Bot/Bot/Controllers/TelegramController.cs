@@ -142,6 +142,17 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
+                            case CmdTypes.TableNumber:
+                                {
+                                    var responce = bot.AssignTableNumber(chatId, message.Text);
+
+                                    await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
                             case CmdTypes.Menu:
                                 {
                                     var responce = bot.ShowMenuCategories(chatId);

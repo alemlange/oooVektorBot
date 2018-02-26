@@ -103,6 +103,7 @@
     <Compile Include="CommandParser\Enums\CmdTypes.cs" />
     <Compile Include="CommandParser\Interfaces\IParser.cs" />
     <Compile Include="CommandParser\ParserChoser.cs" />
+    <Compile Include="CommandParser\Parsers\InQueueSessionParser.cs" />
     <Compile Include="CommandParser\Parsers\RestruntSessionParser.cs" />
     <Compile Include="CommandParser\Parsers\UnknownSessionParser.cs" />
     <Compile Include="CommandParser\Parsers\SittedSessionParser.cs" />

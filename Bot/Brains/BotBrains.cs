@@ -436,7 +436,7 @@ namespace Brains
                             }
                         }
                     }
-                    cheque.Description += "Номер вашего заказа: " + table.TableNumber + Environment.NewLine;
+                    cheque.Description += "Номер стола: " + table.TableNumber + Environment.NewLine;
                     _service.AssignCheque(table.Id, cheque);
 
                     return new GenChequeResponce { ChatId = chatId, Invoice = cheque, InvoiceReady = true };
@@ -534,20 +534,7 @@ namespace Brains
 
             if (table.Orders.Any())
             {
-                respText += "<b>Номер вашего заказа: " + table.TableNumber + "</b>" + Environment.NewLine;
-
-                if(table.TimeArriving != 0)
-                {
-                    respText += "<b>Заказ на время: </b>" + "через " + table.TimeArriving + "минут." + Environment.NewLine;
-                }
-                else
-                {
-                    respText += "<b>Заказ на время: </b>" + "Как можно скорее." + Environment.NewLine;
-                }
-
-                var rest = _service.GetRestaurant(table.Restaurant);
-                if(rest!= null)
-                    respText += "<b>Заберете из: </b>" + rest.Name + Environment.NewLine;
+                respText += "<b>Номер вашего стола: " + table.TableNumber + "</b>" + Environment.NewLine;
 
                 var tableSumm = TableSumm(table);
 
@@ -588,16 +575,7 @@ namespace Brains
                 {
                     if (order.Orders.Any())
                     {
-                        respText += "<b>Дата заказа: " + order.OrderPlaced.ToString("dd.MM.yyyy") + ". Номер заказа: " + order.TableNumber + "</b>" + Environment.NewLine;
-
-                        if (order.TimeArriving != 0)
-                        {
-                            respText += "<b>Заказ на время: </b>" + "через " + order.TimeArriving + "минут." + Environment.NewLine;
-                        }
-                        else
-                        {
-                            respText += "<b>Заказ на время: </b>" + "Как можно скорее." + Environment.NewLine;
-                        }
+                        respText += "<b>Дата заказа: " + order.OrderPlaced.ToString("dd.MM.yyyy") + "</b>" + Environment.NewLine;
 
                         respText += "Вы заказали:" + Environment.NewLine ;
 
@@ -664,19 +642,50 @@ namespace Brains
             try
             {
                 _service.AssignRestaurant(chatId, restruntName);
-                _service.AssignNextQueueNumber(chatId);
-                _service.UpdateTableState(chatId, SessionState.Sitted);
+                _service.UpdateTableState(chatId, SessionState.InQueue);
 
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Отлично! Теперь вы можете сделать заказ"
+                    ResponceText = "Номер стола:"
                 };
             }
             catch (Exception)
             {
                 return Responce.UnknownResponce(chatId);
             }  
+        }
+
+        public Responce AssignTableNumber(long chatId, string message)
+        {
+            try
+            {
+                var table = _service.GetActiveTable(chatId);
+
+                if (table != null)
+                {
+                    var isNumber = Int32.TryParse(message, out int tableNumber);
+
+                    if (isNumber)
+                    {
+                        _service.AssignQueueNumber(chatId, message);
+                        _service.UpdateTableState(chatId, SessionState.Sitted);
+
+                        return new Responce { ChatId = chatId, ResponceText = "Отлично! Теперь вы можете сделать заказ" };
+                    }
+                    else
+                    {
+                        return new Responce { ChatId = chatId, ResponceText = "Нужно ввести номер стола." };
+                    }
+
+                }
+                else
+                    return new Responce { ChatId = chatId, ResponceText = "Стол не найден!" };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
         }
 
         public Responce ShowMenuCategories(long chatId)

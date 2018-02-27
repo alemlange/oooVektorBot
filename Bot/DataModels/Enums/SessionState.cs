@@ -11,6 +11,7 @@
         OrderPosted,
         Closed,
         InQueue,
-        Feedback
+        Feedback,
+        Booking
     }
 }

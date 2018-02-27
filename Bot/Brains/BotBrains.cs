@@ -690,6 +690,68 @@ namespace Brains
             }  
         }
 
+        public Responce BookingRequest(long chatId)
+        {
+            try
+            {
+                var newTable = _service.CreateTable(chatId);
+                _service.UpdateTableState(chatId, SessionState.Booking);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Введите инфу о бронировании:"
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce CancelBooking(long chatId)
+        {
+            try
+            {
+
+                var table = _service.GetActiveTable(chatId);
+                if (table != null)
+                    _service.DeleteTable(table.Id);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Ок"
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce LeaveBooking(long chatId, string text)
+        {
+            try
+            {
+                _service.CreateBooking(new Booking { ChatId = chatId, Date = DateTime.Now, Id = Guid.NewGuid(), Text = text });
+
+                var table = _service.GetActiveTable(chatId);
+                if (table != null)
+                    _service.DeleteTable(table.Id);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Скоро с вами свяжутся!"
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
         public Responce FeedbackRequest(long chatId)
         {
             try

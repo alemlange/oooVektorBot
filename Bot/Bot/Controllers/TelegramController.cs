@@ -197,6 +197,27 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
+                            case CmdTypes.RequestBooking:
+                                {
+                                    var responce = bot.BookingRequest(chatId);
+
+                                    await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.LeaveBooking:
+                                {
+                                    var responce = bot.LeaveBooking(chatId, message.Text);
+
+                                    await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.CancelBooking:
+                                {
+                                    var responce = bot.CancelBooking(chatId);
+
+                                    await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
                             case CmdTypes.Category:
                                 {
                                     var response = bot.SnowMenuByCategory(chatId, message.Text);

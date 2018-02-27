@@ -9,7 +9,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace Bot.CommandParser
 {
-    public class FeedbackSessionParser : IParser
+    public class BookingSessionParser : IParser
     {
 
         public IReplyMarkup Keyboard
@@ -38,9 +38,9 @@ namespace Bot.CommandParser
                 var msgText = update.Message.Text;
 
                 if (msgText == "↩ Отменить") 
-                    return CmdTypes.CancelFeedback;
+                    return CmdTypes.CancelBooking;
                 else
-                    return CmdTypes.LeaveFeedback;
+                    return CmdTypes.LeaveBooking;
             }
             else
                 return CmdTypes.Unknown;

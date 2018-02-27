@@ -29,7 +29,8 @@ namespace Bot.CommandParser
                         new KeyboardButton[] { "Акции" },
                         new KeyboardButton[] { "Адреса" },
                         new KeyboardButton[] { "Описание" },
-                        new KeyboardButton[] { "Оставить отзыв" }
+                        new KeyboardButton[] { "Оставить отзыв" },
+                        new KeyboardButton[] { "Забронировать столик" }
                     }
                 };
             }
@@ -72,6 +73,8 @@ namespace Bot.CommandParser
                     return CmdTypes.Location;
                 else if (msgText == "оставить отзыв")
                     return CmdTypes.RequestFeedback;
+                else if (msgText == "забронировать столик")
+                    return CmdTypes.RequestBooking;
                 else if (msgText.Contains("мои заказы"))
                     return CmdTypes.MyOrders;
                 else if (msgText.Contains("назад"))

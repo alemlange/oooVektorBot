@@ -30,6 +30,8 @@ namespace Bot.CommandParser
                     return new SittedSessionParser();
                 case SessionState.Remark:
                     return new RemarkSessionParser();
+                case SessionState.Feedback:
+                    return new FeedbackSessionParser();
                 case SessionState.Unknown:
                     {
                         var categories = bot.GetMenuCategoriesByChatId(chatId);

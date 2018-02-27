@@ -10,6 +10,7 @@
         TimeChoosing,
         OrderPosted,
         Closed,
-        InQueue
+        InQueue,
+        Feedback
     }
 }

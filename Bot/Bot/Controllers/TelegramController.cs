@@ -164,6 +164,39 @@ namespace Bot.Controllers
                                         replyMarkup: new MenuCategorySessionParser(bot.GetMenuCategoriesByChatId(chatId)).Keyboard);
                                     break;
                                 }
+                            case CmdTypes.RequestFeedback:
+                                {
+                                    var responce = bot.FeedbackRequest(chatId);
+
+                                    await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.LeaveFeedback:
+                                {
+                                    var responce = bot.LeaveFeedback(chatId, message.Chat.Username, message.Text);
+
+                                    await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.CancelFeedback:
+                                {
+                                    var responce = bot.CancelFeedback(chatId);
+
+                                    await Telegram.SendTextMessageAsync(
+                                        chatId,
+                                        responce.ResponceText,
+                                        parseMode: ParseMode.Html,
+                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
                             case CmdTypes.Category:
                                 {
                                     var response = bot.SnowMenuByCategory(chatId, message.Text);

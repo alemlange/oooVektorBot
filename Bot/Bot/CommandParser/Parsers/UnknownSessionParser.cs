@@ -71,7 +71,7 @@ namespace Bot.CommandParser
                 else if (msgText == "адреса")
                     return CmdTypes.Location;
                 else if (msgText == "оставить отзыв")
-                    return CmdTypes.LeaveFeedback;
+                    return CmdTypes.RequestFeedback;
                 else if (msgText.Contains("мои заказы"))
                     return CmdTypes.MyOrders;
                 else if (msgText.Contains("назад"))

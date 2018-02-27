@@ -41,6 +41,8 @@ namespace Bot.CommandParser
         Actions,
         Description,
         Location,
-        LeaveFeedback
+        RequestFeedback,
+        LeaveFeedback,
+        CancelFeedback
     }
 }

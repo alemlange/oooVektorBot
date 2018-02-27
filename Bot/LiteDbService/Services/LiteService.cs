@@ -117,6 +117,15 @@ namespace LiteDbService
             }
         }
 
+        public void DeleteTable(Guid tableId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                col.Delete(o => o.Id == tableId);
+            }
+        }
+
         public Table GetTable(Guid tableId)
         {
             using (var db = new LiteDatabase(CurrentDb))

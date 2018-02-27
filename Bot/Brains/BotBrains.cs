@@ -84,7 +84,7 @@ namespace Brains
                 var dataConfig = _regService.FindConfig(AccountId);
                 if (dataConfig != null)
                 {
-                    return dataConfig.Actions;
+                    return "<a href=\"" + dataConfig.Actions + "\">Акции</a>" ;
                 }
                 else
                 {
@@ -101,7 +101,7 @@ namespace Brains
                 var dataConfig = _regService.FindConfig(AccountId);
                 if (dataConfig != null)
                 {
-                    return dataConfig.Description;
+                    return "<a href=\"" + dataConfig.Description + "\">Описание</a>" ;
                 }
                 else
                 {
@@ -688,6 +688,68 @@ namespace Brains
             {
                 return Responce.UnknownResponce(chatId);
             }  
+        }
+
+        public Responce FeedbackRequest(long chatId)
+        {
+            try
+            {
+                var newTable = _service.CreateTable(chatId);
+                _service.UpdateTableState(chatId, SessionState.Feedback);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Оставте ваш отзыв:"
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce CancelFeedback(long chatId)
+        {
+            try
+            {
+
+                var table = _service.GetActiveTable(chatId);
+                if (table != null)
+                    _service.DeleteTable(table.Id);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Ок"
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
+        }
+
+        public Responce LeaveFeedback(long chatId, string username,  string text)
+        {
+            try
+            {
+                _service.CreateFeedback(new Feedback { ChatId = chatId, Date = DateTime.Now, Id = Guid.NewGuid(), Text = text, UserName = username });
+
+                var table = _service.GetActiveTable(chatId);
+                if(table != null)
+                    _service.DeleteTable(table.Id);
+
+                return new Responce
+                {
+                    ChatId = chatId,
+                    ResponceText = "Спасибо за ваш отзыв!"
+                };
+            }
+            catch (Exception)
+            {
+                return Responce.UnknownResponce(chatId);
+            }
         }
 
         public Responce AssignTableNumber(long chatId, string message)

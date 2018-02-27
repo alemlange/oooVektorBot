@@ -40,6 +40,7 @@ namespace Bot.CommandParser
         AddMod,
         Actions,
         Description,
-        Location
+        Location,
+        LeaveFeedback
     }
 }

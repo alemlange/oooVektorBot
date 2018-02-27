@@ -29,6 +29,7 @@ namespace Bot.CommandParser
                         new KeyboardButton[] { "Акции" },
                         new KeyboardButton[] { "Адреса" },
                         new KeyboardButton[] { "Описание" },
+                        new KeyboardButton[] { "Оставить отзыв" }
                     }
                 };
             }
@@ -69,6 +70,8 @@ namespace Bot.CommandParser
                     return CmdTypes.Description;
                 else if (msgText == "адреса")
                     return CmdTypes.Location;
+                else if (msgText == "оставить отзыв")
+                    return CmdTypes.LeaveFeedback;
                 else if (msgText.Contains("мои заказы"))
                     return CmdTypes.MyOrders;
                 else if (msgText.Contains("назад"))

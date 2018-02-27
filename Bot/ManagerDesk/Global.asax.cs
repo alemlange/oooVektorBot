@@ -31,6 +31,7 @@ namespace ManagerDesk
                     cfg.CreateMap<Modificator, SelectedModViewModel>();
                     cfg.CreateMap<Modificator, ModificatorViewModel>();
                     cfg.CreateMap<Dispatch, DispatchViewModel>();
+                    cfg.CreateMap<Feedback, FeedbackViewModel>();
 
                     cfg.CreateMap<Config, ConfigViewModel>();
                 });

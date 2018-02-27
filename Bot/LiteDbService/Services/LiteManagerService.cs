@@ -412,5 +412,14 @@ namespace LiteDbService
                 colTables.Delete(tableId);
             }
         }
+
+        public List<Feedback> GetAllFeedbacks()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Feedback>("Feedbacks");
+                return col.FindAll().ToList();
+            }
+        }
     }
 }

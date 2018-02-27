@@ -333,5 +333,16 @@ namespace LiteDbService
             }
         }
         #endregion
+
+        public Guid CreateFeedback(Feedback feed)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Feedback>("Feedbacks");
+
+                col.Insert(feed);
+                return feed.Id;
+            }
+        }
     }
 }

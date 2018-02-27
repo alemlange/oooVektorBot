@@ -344,5 +344,16 @@ namespace LiteDbService
                 return feed.Id;
             }
         }
+
+        public Guid CreateBooking(Booking booking)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Booking>("Bookings");
+
+                col.Insert(booking);
+                return booking.Id;
+            }
+        }
     }
 }

@@ -51,6 +51,7 @@
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\AuthException.cs" />
     <Compile Include="Exceptions\TableNotFoundException.cs" />
+    <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\Dish.cs" />
     <Compile Include="Models\Config.cs" />

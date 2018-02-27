@@ -421,5 +421,14 @@ namespace LiteDbService
                 return col.FindAll().ToList();
             }
         }
+
+        public List<Booking> GetAllBookings()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Booking>("Bookings");
+                return col.FindAll().ToList();
+            }
+        }
     }
 }

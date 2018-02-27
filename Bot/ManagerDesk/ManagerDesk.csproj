@@ -145,6 +145,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\ModificatorsController.cs" />
     <Compile Include="Controllers\DispatchController.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RegistrationService.cs" />
     <Compile Include="Translations\Ru.cs" />
+    <Compile Include="ViewModels\BookingViewModel.cs" />
     <Compile Include="ViewModels\FeedbackViewModel.cs" />
     <Compile Include="ViewModels\ModificatorViewModel.cs" />
     <Compile Include="ViewModels\DispatchListViewModel.cs" />
@@ -347,6 +349,8 @@
     <Content Include="Views\Dish\EditMods.cshtml" />
     <Content Include="Views\Feedback\FeedbackCardList.cshtml" />
     <Content Include="Views\Feedback\FeedbackCard.cshtml" />
+    <Content Include="Views\Booking\BookingCard.cshtml" />
+    <Content Include="Views\Booking\BookingCardList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

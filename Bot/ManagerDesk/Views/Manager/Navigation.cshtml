@@ -22,13 +22,14 @@
         }
     </div>
     <ul class="menu">
-        <li class="active-item"><a href="#" class="menu-section js-tables-section active" data-target="@Url.Action("AllTables","Manager")" data-updatetarget="@Url.Action("UpdateTables","Manager")" data-type="Table"><i class="fa fa-id-card-o"></i>Столы</a></li>
+        <li class="active-item"><a href="#" class="menu-section js-tables-section active" data-target="@Url.Action("AllTables","Manager")" data-updatetarget="@Url.Action("UpdateTables","Manager")" data-type="Table"><i class="fa fa-id-card-o"></i>Заказы</a></li>
+        <li><a href="#" class="menu-section js-book-section" data-target="@Url.Action("AllBookings","Booking")"><i class="fa fa-book"></i>Бронирования</a></li>
         <li><a href="#" class="menu-section js-rest-section" data-target="@Url.Action("AllRestaurants","Restaurant")" ><i class="fa fa-university"></i>Рестораны </a><a href="#" class="toolbar-add pull-right js-add-plus" data-target="@Url.Action("Add","Manager")" data-type="Restaurant"><i class="fa fa-plus" aria-hidden="true"></i></a></li>
         <li><a href="#" class="menu-section js-menu-section" data-target="@Url.Action("AllMenus","Menu")"><i class="fa fa-file-text"></i>Меню</a><a href="#" class="toolbar-add pull-right js-add-plus" data-target="@Url.Action("Add","Manager")" data-type="Menu"><i class="fa fa-plus" aria-hidden="true"></i></a></li>
         <li><a href="#" class="menu-section js-dish-section" data-target="@Url.Action("AllDishes","Dish")"><i class="fa fa-cutlery"></i>Блюда</a><a href="#" class="toolbar-add pull-right js-add-plus" data-target="@Url.Action("Add","Manager")" data-type="Dish"><i class="fa fa-plus" aria-hidden="true"></i></a></li>
         <li><a href="#" class="menu-section js-mod-section" data-target="@Url.Action("AllModificators","Modificators")"><i class="fa fa-star"></i>Модификаторы</a><a href="#" class="toolbar-add pull-right js-add-plus" data-target="@Url.Action("Add","Manager")" data-type="Mod"><i class="fa fa-plus" aria-hidden="true"></i></a></li>
         <li><a href="#" class="menu-section js-disp-section" data-target="@Url.Action("AllDispatches","Dispatch")"><i class="fa fa-envelope"></i>Рассылки</a><a href="#" class="toolbar-add pull-right js-add-plus" data-target="@Url.Action("Add","Manager")" data-type="Dispatch"><i class="fa fa-plus" aria-hidden="true"></i></a></li>
-        <li><a href="#" class="menu-section js-feed-section" data-target="@Url.Action("AllFeedbacks","Feedback")"><i class="fa fa-envelope"></i>Отзывы</a></li>
+        <li><a href="#" class="menu-section js-feed-section" data-target="@Url.Action("AllFeedbacks","Feedback")"><i class="fa fa-comments-o"></i>Отзывы</a></li>
     </ul>
 </nav>
 <script src="@Url.Content("~/Assets/Scripts/navigation.js")" type="text/javascript"></script>

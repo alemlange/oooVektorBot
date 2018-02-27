@@ -120,6 +120,22 @@
         });
     });
 
+    $(".navbar-left").on("click", ".js-book-section", function (e) {
+        e.preventDefault();
+
+        $(".menu-section.active").removeClass("active");
+        $(this).addClass("active");
+        $(".navbar-left").slideUp("slow");
+
+        var target = $(this).data("target");
+        $.get(target).done(function (data) {
+            $(".active-rest").hide();
+            $(".active-rest-label").hide();
+            $(".js-table-body").html(data);
+            equalHeight($(".info-item"));
+        });
+    });
+
     $(".navbar-left").on("click", ".js-add-plus", function (e) {
         e.preventDefault();
 

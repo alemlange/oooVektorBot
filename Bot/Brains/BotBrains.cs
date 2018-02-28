@@ -709,11 +709,10 @@ namespace Brains
             }
         }
 
-        public Responce CancelBooking(long chatId)
+        public Responce CancelTable(long chatId)
         {
             try
             {
-
                 var table = _service.GetActiveTable(chatId);
                 if (table != null)
                     _service.DeleteTable(table.Id);
@@ -721,7 +720,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Ок"
+                    ResponceText = "Вы в главном меню."
                 };
             }
             catch (Exception)
@@ -763,27 +762,6 @@ namespace Brains
                 {
                     ChatId = chatId,
                     ResponceText = "Оставте ваш отзыв:"
-                };
-            }
-            catch (Exception)
-            {
-                return Responce.UnknownResponce(chatId);
-            }
-        }
-
-        public Responce CancelFeedback(long chatId)
-        {
-            try
-            {
-
-                var table = _service.GetActiveTable(chatId);
-                if (table != null)
-                    _service.DeleteTable(table.Id);
-
-                return new Responce
-                {
-                    ChatId = chatId,
-                    ResponceText = "Ок"
                 };
             }
             catch (Exception)
@@ -1047,7 +1025,7 @@ namespace Brains
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Отлично! Теперь вы можете сделать заказ"
+                        ResponceText = "Введите номер стола:"
                     };
                 }
             }

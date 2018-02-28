@@ -19,8 +19,9 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "↩ Назад" }
-                    }
+                        new KeyboardButton[] { "↩ Отменить" }
+                    },
+                    ResizeKeyboard = true
                 };
             }
         }
@@ -37,8 +38,8 @@ namespace Bot.CommandParser
 
                 int num;
                 var isNumber = Int32.TryParse(msgText, out num);
-                if (msgText.Contains("↩ назад")) 
-                    return CmdTypes.Greetings;
+                if (msgText.Contains("↩ отменить")) 
+                    return CmdTypes.CancelTable;
                 else if (isNumber)
                     return CmdTypes.TableNumber;
                 else

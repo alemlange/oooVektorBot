@@ -11,6 +11,17 @@ namespace ManagerDesk.ViewModels
         public DateTime Date { get; set; }
         public string Text { get; set; }
 
+        public string BookingStyle
+        {
+            get
+            {
+                if (State == BookingState.Closed)
+                    return "table-inactive";
+                else
+                    return  "";
+            }
+        }
+
         public bool Active
         {
             get

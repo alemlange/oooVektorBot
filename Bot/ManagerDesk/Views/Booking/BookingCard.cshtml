@@ -1,11 +1,12 @@
 ﻿@model ManagerDesk.ViewModels.BookingViewModel
 
-<div class="info-item js-book-card animated fadeIn"  data-itemid="@Model.Id" data-type="Book">
+<div class="info-item js-book-card animated fadeIn @Model.BookingStyle"  data-itemid="@Model.Id" data-type="Book">
 
     @if (Model.Active)
     {
         <div class="toolbar-mini">
-            <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger js-toolbar-close-booking" data-target="@Url.Action("CloseBooking","Manager")"><i class="fa fa-lock" aria-hidden="true"></i></div>
+            <div> </div>
+            <div class="toolbar-mini__btn toolbar-mini__btn_theme_danger js-toolbar-close-booking pull-right" data-target="@Url.Action("CloseBooking","Booking")"><i class="fa fa-lock" aria-hidden="true"></i></div>
         </div>
     }
     <div class="dish-description">@Model.Text</div>

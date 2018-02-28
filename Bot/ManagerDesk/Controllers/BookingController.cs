@@ -8,6 +8,7 @@ using ManagerDesk.ViewModels;
 using ManagerDesk.ViewModels.Enums;
 using AutoMapper;
 using DataModels;
+using DataModels.Enums;
 using ManagerDesk.Services;
 
 namespace ManagerDesk.Controllers
@@ -20,7 +21,10 @@ namespace ManagerDesk.Controllers
             var service = ServiceCreator.GetManagerService(User.Identity.Name);
             var bookings = service.GetAllBookings();
 
-            var model = Mapper.Map<List<BookingViewModel>>(bookings).ToList();
+            var activeBookings = Mapper.Map<List<BookingViewModel>>(bookings.Where(o => o.State == BookingState.Active));
+            var closedBookings = Mapper.Map<List<BookingViewModel>>(bookings.Where(o => o.State == BookingState.Closed));
+
+            var model = new BookingListViewModel { ActiveBookings = activeBookings, ClosedBookings = closedBookings };
             return View("BookingCardList", model);
         }
 

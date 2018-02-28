@@ -283,7 +283,7 @@
     $(".js-table-body").on("click", ".js-toolbar-close-booking", function (e) {
         e.preventDefault();
         var book = $(this).parents(".js-book-card");
-        var bookId = table.data("itemid");
+        var bookId = book.data("itemid");
 
         var target = $(this).data("target");
         $.post(target, { bookId: bookId }).done(function (data) {

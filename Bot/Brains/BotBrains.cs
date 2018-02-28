@@ -761,7 +761,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Оставте ваш отзыв:"
+                    ResponceText = "Тут можно оставить отзыв. Мы обязательно учтем все ваши пожелания!"
                 };
             }
             catch (Exception)

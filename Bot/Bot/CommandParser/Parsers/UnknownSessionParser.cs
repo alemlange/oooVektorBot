@@ -24,13 +24,12 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "🛍️ Мои заказы" },
-                        new KeyboardButton[] { "Начать Заказ" },
-                        new KeyboardButton[] { "Акции" },
-                        new KeyboardButton[] { "Адреса" },
-                        new KeyboardButton[] { "Описание" },
-                        new KeyboardButton[] { "Оставить отзыв" },
-                        new KeyboardButton[] { "Забронировать столик" }
+                        //new KeyboardButton[] { "🛍️ Мои заказы" },
+                        new KeyboardButton[] { "👉 Начать Заказ" },
+                        new KeyboardButton[] { "🎁 Акции" },
+                        new KeyboardButton[] { "🗺 Адреса", "📄 Описание" },
+                        new KeyboardButton[] { "📫 Оставить отзыв" },
+                        new KeyboardButton[] { "🍽 Забронировать столик" }
                     }
                 };
             }
@@ -63,17 +62,17 @@ namespace Bot.CommandParser
 
                 if (msgText.Contains("меню"))
                     return CmdTypes.Menu;
-                else if (msgText == "начать заказ")
+                else if (msgText.Contains("начать заказ"))
                     return CmdTypes.Greetings;
-                else if (msgText == "акции")
+                else if (msgText.Contains("акции"))
                     return CmdTypes.Actions;
-                else if (msgText == "описание")
+                else if (msgText.Contains("описание"))
                     return CmdTypes.Description;
-                else if (msgText == "адреса")
+                else if (msgText.Contains("адреса"))
                     return CmdTypes.Location;
-                else if (msgText == "оставить отзыв")
+                else if (msgText.Contains("оставить отзыв"))
                     return CmdTypes.RequestFeedback;
-                else if (msgText == "забронировать столик")
+                else if (msgText.Contains("забронировать столик"))
                     return CmdTypes.RequestBooking;
                 else if (msgText.Contains("мои заказы"))
                     return CmdTypes.MyOrders;

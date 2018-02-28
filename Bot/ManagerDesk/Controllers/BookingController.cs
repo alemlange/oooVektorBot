@@ -23,5 +23,26 @@ namespace ManagerDesk.Controllers
             var model = Mapper.Map<List<BookingViewModel>>(bookings).ToList();
             return View("BookingCardList", model);
         }
+
+        [HttpPost]
+        public ActionResult CloseBooking(Guid bookId)
+        {
+            try
+            {
+                if (bookId != Guid.Empty)
+                {
+                    var service = ServiceCreator.GetManagerService(User.Identity.Name);
+                    service.CloseBooking(bookId);
+                    return Json(new { isAuthorized = true, isSuccess = false });
+
+                }
+                else
+                    return Json(new { isAuthorized = true, isSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message });
+            }
+        }
     }
 }

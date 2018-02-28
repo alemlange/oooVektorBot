@@ -162,6 +162,25 @@ namespace LiteDbService
             }
         }
 
+        public void CloseBooking(Guid bookId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Booking>("Bookings");
+
+                var booking = col.Find(o => o.Id == bookId).FirstOrDefault();
+                if (booking != null)
+                {
+                    booking.State = BookingState.Closed;
+                    col.Update(booking);
+                }
+                else
+                {
+                    throw new Exception("Booking not found!");
+                }
+            }
+        }
+
         public Guid CreateNewMenu(Menu menu)
         {
             using (var db = new LiteDatabase(CurrentDb))

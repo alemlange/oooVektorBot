@@ -43,9 +43,8 @@ namespace Bot.CommandParser
         Location,
         RequestFeedback,
         LeaveFeedback,
-        CancelFeedback,
         RequestBooking,
         LeaveBooking,
-        CancelBooking
+        CancelTable
     }
 }

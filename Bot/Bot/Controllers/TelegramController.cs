@@ -186,17 +186,6 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
-                            case CmdTypes.CancelFeedback:
-                                {
-                                    var responce = bot.CancelFeedback(chatId);
-
-                                    await Telegram.SendTextMessageAsync(
-                                        chatId,
-                                        responce.ResponceText,
-                                        parseMode: ParseMode.Html,
-                                        replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
-                                    break;
-                                }
                             case CmdTypes.RequestBooking:
                                 {
                                     var responce = bot.BookingRequest(chatId);
@@ -211,9 +200,9 @@ namespace Bot.Controllers
                                     await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
-                            case CmdTypes.CancelBooking:
+                            case CmdTypes.CancelTable:
                                 {
-                                    var responce = bot.CancelBooking(chatId);
+                                    var responce = bot.CancelTable(chatId);
 
                                     await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;

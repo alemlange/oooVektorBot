@@ -38,7 +38,7 @@ namespace Bot.CommandParser
                 var msgText = update.Message.Text;
 
                 if (msgText == "↩ Отменить") 
-                    return CmdTypes.CancelBooking;
+                    return CmdTypes.CancelTable;
                 else
                     return CmdTypes.LeaveBooking;
             }

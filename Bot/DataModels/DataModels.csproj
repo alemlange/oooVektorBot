@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSettings.cs" />
     <Compile Include="Email\EmailRequest.cs" />
+    <Compile Include="Enums\BookingState.cs" />
     <Compile Include="Enums\SessionState.cs" />
     <Compile Include="Exceptions\PaymentException.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />

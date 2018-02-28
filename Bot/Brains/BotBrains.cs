@@ -700,7 +700,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Введите инфу о бронировании:"
+                    ResponceText = "Пожалуйста, введите информацию о бронировании в одно сообщение (Имя, дата и время, количество человек и телефон для связи). Мы вам перезвоним!"
                 };
             }
             catch (Exception)
@@ -761,7 +761,7 @@ namespace Brains
                 return new Responce
                 {
                     ChatId = chatId,
-                    ResponceText = "Тут можно оставить отзыв. Мы обязательно учтем все ваши пожелания!"
+                    ResponceText = "Тут можно оставить отзыв. Уместите его в одно сообщение, пожалуйства! Мы обязательно учтем все ваши пожелания!"
                 };
             }
             catch (Exception)
@@ -1013,7 +1013,7 @@ namespace Brains
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Откуда вы хотите сделать заказ?"
+                        ResponceText = "В каком вы заведении?"
                     };
                 }
                 else

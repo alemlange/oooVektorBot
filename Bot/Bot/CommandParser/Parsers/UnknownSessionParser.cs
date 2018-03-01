@@ -27,7 +27,7 @@ namespace Bot.CommandParser
                         //new KeyboardButton[] { "🛍️ Мои заказы" },
                         new KeyboardButton[] { "🗺 Адреса", "📄 О нас" },
                         new KeyboardButton[] { "🍽 Забронировать столик" },
-                        new KeyboardButton[] { "🎁 Акции" },
+                        new KeyboardButton[] { "📔 Меню", "🎁 Акции" },
                         new KeyboardButton[] { "👉 Начать Заказ" },
                         new KeyboardButton[] { "📫 Оставить отзыв" }
                     }

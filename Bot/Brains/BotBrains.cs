@@ -263,7 +263,7 @@ namespace Brains
                 }
                 else
                 {
-                    return new RemarkResponce { ChatId = chatId, ResponceText = "Нажмите \"Заказать\" в главном меню, чтобы сделать заказ!", IsOk = false };
+                    return new RemarkResponce { ChatId = chatId, ResponceText = "Нажмите \"Заказ за столиком\" в главном меню, чтобы сделать заказ!", IsOk = false };
                 }
             }
             catch (Exception)
@@ -287,7 +287,7 @@ namespace Brains
                 }
                 else
                 {
-                    return new Responce { ChatId = chatId, ResponceText = "Нажмите \"Заказать\" в главном меню, чтобы сделать заказ!" };
+                    return new Responce { ChatId = chatId, ResponceText = "Нажмите \"Заказ за столиком\" в главном меню, чтобы сделать заказ!" };
                 }
             }
             catch (Exception)
@@ -355,7 +355,7 @@ namespace Brains
                 }
                 else
                 {
-                    return new RemarkResponce { ChatId = chatId, ResponceText = "Нажмите \"Заказать\" в главном меню, чтобы сделать заказ!", IsOk = false };
+                    return new RemarkResponce { ChatId = chatId, ResponceText = "Нажмите \"Заказ за столиком\" в главном меню, чтобы сделать заказ!", IsOk = false };
                 }
    
             }
@@ -889,7 +889,7 @@ namespace Brains
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Нажмите \"Заказать\", чтобы сделать заказ!",
+                        ResponceText = "Нажмите \"Заказ за столиком\", чтобы сделать заказ!",
                     };
                 }
             }
@@ -1025,7 +1025,7 @@ namespace Brains
                     return new Responce
                     {
                         ChatId = chatId,
-                        ResponceText = "Введите номер стола:"
+                        ResponceText = "Введите номер стола за которым вы сидите:"
                     };
                 }
             }

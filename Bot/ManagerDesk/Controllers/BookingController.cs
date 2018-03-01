@@ -28,6 +28,26 @@ namespace ManagerDesk.Controllers
             return View("BookingCardList", model);
         }
 
+        [HttpGet]
+        public ActionResult UpdateBookings()
+        {
+            try
+            {
+                var service = ServiceCreator.GetManagerService(User.Identity.Name);
+                var bookings = service.GetAllBookings();
+
+                var activeBookings = bookings.Where(o => o.State == BookingState.Active);
+                if (activeBookings.Any())
+                    return Json(new { isAuthorized = true, isSuccess = true, newBookings = true }, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(new { isAuthorized = true, isSuccess = true, newBookings = false }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isAuthorized = true, isSuccess = false, error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public ActionResult CloseBooking(Guid bookId)
         {

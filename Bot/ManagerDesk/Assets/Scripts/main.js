@@ -304,7 +304,7 @@
             }
 
             if (data.newTables) {
-                notif();
+                notif("Table");
             }
 
             if (data.restOptionsView != null) {
@@ -317,9 +317,25 @@
         });
     }
 
+    function UpdateBookings() {
+        var target = $(".js-book-section").data("updatetarget");
+        $.get(target).done(function (data) {
+
+            if (data.newBookings) {
+                notif("Book");
+            }
+
+        }).fail(function (ex) {
+            AlertModal.text = "Не получилось обновить бронирования, возможно отсутствует соединение с сетью!";
+            AlertModal.show();
+        });
+    }
+
     setInterval(function () {
         if ($(".js-tables-section.active").length !== 0)
             UpdateTables();
+
+        UpdateBookings();
     }, 10000);
 
 
@@ -380,16 +396,29 @@
 
 });
 
-function notif() {
-    var audio = new Audio('/Assets/AudioNotification/newtable.mp3');
+function notif(type) {
+    var audioFile = "";
+
+    if (type == "Table")
+        audioFile = "/Assets/AudioNotification/newtable.mp3"
+    else if (type == "Book")
+        audioFile = "/Assets/AudioNotification/newbooking.mp3"
+
+    var audio = new Audio(audioFile);
     audio.play();
 
     if (Notification.permission !== "granted")
         Notification.requestPermission();
     else {
+        var text = "";
+        if (type == "Table")
+            text = "Есть необработанные заказы."
+        else if (type == "Book")
+            text = "Есть необработанные бронирования."
+
         var notification = new Notification('ДайнерБот', {
             icon: '/Assets/Imgs/favicon.ico',
-            body: "Новый заказ!",
+            body: text,
         });
 
         notification.onclick = function () {

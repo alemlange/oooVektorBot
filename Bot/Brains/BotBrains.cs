@@ -1065,12 +1065,17 @@ namespace Brains
 
                 if(dish != null)
                 {
+                    var needKeyboard = true;
+                    var table = _service.GetActiveTable(chatId);
+                    if (table == null || table.State == SessionState.Unknown)
+                        needKeyboard = false;
+
                     return new MenuItemResponce
                     {
                         ChatId = chatId,
                         DishId = dish.Id.ToString(),
                         ResponceText = "<a href=\"" + dish.PictureUrl + "\">" + dish.Name + "</a>" + Environment.NewLine + dish.Description + Environment.NewLine + "<b>Стоимость: " + dish.Price + "р.</b>" + Environment.NewLine,
-                        NeedInlineKeyboard = true
+                        NeedInlineKeyboard = needKeyboard
                     };
                 }
                 else

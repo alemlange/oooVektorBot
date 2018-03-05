@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
+using DataModels;
+using System.ComponentModel.DataAnnotations;
 
-namespace DataModels
+namespace ManagerDesk.ViewModels
 {
-    public class Cheque
+    public class ChequeViewModel
     {
         public Guid Id { get; set; }
 
@@ -20,14 +21,6 @@ namespace DataModels
 
         public decimal Summ { get; set; }
 
-        public int SummInCents
-        {
-            get
-            {
-                return Convert.ToInt32(Summ * 100);
-            }
-        }
-
         public string Currency { get; set; }
 
         public string Title { get; set; }
@@ -35,5 +28,20 @@ namespace DataModels
         public string Description { get; set; }
 
         public bool PaymentRecieved { get; set; }
+
+        public string CurrencySymbol
+        {
+            get
+            {
+                switch (Currency)
+                {
+                    case "RUB":
+                        return "₽";
+                    default:
+                        return "";
+                }
+            }
+            
+        }
     }
 }

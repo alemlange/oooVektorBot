@@ -412,7 +412,7 @@ namespace Brains
                     if (table.Cheque != null && table.Cheque.PaymentRecieved == true)
                         throw new PaymentException("Вы уже оплатили заказ.");
 
-                    var cheque = new Cheque { ChatId = chatId, Currency = "RUB", Date = DateTime.Now, OrderedDishes = table.Orders, Id = Guid.NewGuid(), PaymentRecieved = false };
+                    var cheque = new Cheque { ChatId = chatId, Currency = "RUB", Date = DateTime.Now, Id = Guid.NewGuid(), PaymentRecieved = false };
 
                     decimal summ = TableSumm(table);
 

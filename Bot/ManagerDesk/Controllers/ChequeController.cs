@@ -12,16 +12,16 @@ using ManagerDesk.Services;
 
 namespace ManagerDesk.Controllers
 {
-    public class FeedbackController : Controller
+    public class ChequeController : Controller
     {
         [HttpGet]
-        public ActionResult AllFeedbacks()
+        public ActionResult AllCheques()
         {
             var service = ServiceCreator.GetManagerService(User.Identity.Name);
-            var feedbacks = service.GetAllFeedbacks().OrderByDescending(o => o.Date);
+            var cheques = service.GetAllCheques().OrderByDescending(o => o.Date);
 
-            var model = Mapper.Map<List<FeedbackViewModel>>(feedbacks).ToList();
-            return View("FeedbackCardList", model);
+            var model = Mapper.Map<List<ChequeViewModel>>(cheques).ToList();
+            return View("ChequeCardList", model);
         }
     }
 }

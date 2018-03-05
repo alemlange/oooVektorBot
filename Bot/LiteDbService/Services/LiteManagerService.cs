@@ -469,5 +469,14 @@ namespace LiteDbService
                 return col.FindAll().ToList();
             }
         }
+
+        public List<Cheque> GetAllCheques()
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Cheque>("Cheques");
+                return col.FindAll().ToList();
+            }
+        }
     }
 }

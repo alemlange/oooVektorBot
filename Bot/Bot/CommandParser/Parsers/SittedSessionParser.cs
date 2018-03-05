@@ -18,9 +18,11 @@ namespace Bot.CommandParser
                 {
                     Keyboard = new KeyboardButton[][]
                     {
-                        new KeyboardButton[] { "📓 Меню" },
-                        new KeyboardButton[] { "🛒 Корзина", "❌ Убрать из заказа" },
-                        new KeyboardButton[] { "🙋🏼‍♂️ Вызов официанта" }
+                        new KeyboardButton[] { "📄 О заведении" },
+                        new KeyboardButton[] { "📔 Меню", "🎁 Акции" },
+                        new KeyboardButton[] { "🛒 Мой заказ", "🙋🏼‍♂️ Вызов официанта" },
+                        new KeyboardButton[] { "🍽 Забронировать столик", "📫 Оставить отзыв" },
+                        new KeyboardButton[] { "🗺 Адреса и часы работы" }
                     }
                 };
             }
@@ -78,14 +80,24 @@ namespace Bot.CommandParser
                 var msgText = update.Message.Text.ToLower();
                 int result;
 
-                if (msgText.Contains("меню"))
+                if (msgText == "📔 меню")
                     return CmdTypes.Menu;
-                else if (msgText.Contains("корзина"))
+                else if (msgText.Contains("мой заказ"))
                     return CmdTypes.Cart;
                 else if (msgText.Contains("убрать из заказа"))
                     return CmdTypes.Remove;
                 else if (msgText.Contains("вызов официанта"))
                     return CmdTypes.Waiter;
+                else if (msgText.Contains("о заведении"))
+                    return CmdTypes.Description;
+                else if (msgText.Contains("адреса"))
+                    return CmdTypes.Location;
+                else if (msgText.Contains("акции"))
+                    return CmdTypes.Actions;
+                else if (msgText.Contains("оставить отзыв"))
+                    return CmdTypes.RequestFeedback;
+                else if (msgText.Contains("забронировать столик"))
+                    return CmdTypes.RequestBooking;
                 else if (Int32.TryParse(msgText, out result))
                     return CmdTypes.RemoveByNum;
                 else

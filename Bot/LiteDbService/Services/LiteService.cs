@@ -109,6 +109,21 @@ namespace LiteDbService
             }
         }
 
+        public void UpdateTableState(Guid tableId, SessionState state)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Table>("Tables");
+                var table = col.Find(o => o.Id == tableId ).FirstOrDefault();
+
+                if (table != null)
+                {
+                    table.State = state;
+                    col.Update(table);
+                }
+            }
+        }
+
         public void RemoveAllTables()
         {
             using (var db = new LiteDatabase(CurrentDb))

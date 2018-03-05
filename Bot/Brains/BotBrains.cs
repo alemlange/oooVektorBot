@@ -258,7 +258,7 @@ namespace Brains
                         _service.OrderDish(table.Id, new OrderedDish { Num = dishNum, DishFromMenu = dish, DateOfOrdering = DateTime.Now, Id = orderedDishId, OrderedMods = new List<OrderedModificator>() });
                         //_service.UpdateTableState(chatId, SessionState.Remark);
 
-                        return new RemarkResponce { ChatId = chatId, ResponceText = "Блюдо добавлено в корзину!", IsOk = false };
+                        return new RemarkResponce { ChatId = chatId, ResponceText = "Блюдо добавлено в ваш заказ!", IsOk = false };
                     }
                 }
                 else
@@ -694,7 +694,9 @@ namespace Brains
         {
             try
             {
-                var newTable = _service.CreateTable(chatId);
+                var table = _service.GetActiveTable(chatId);
+                var tableId = (table == null) ? _service.CreateTable(chatId) : table.Id;
+
                 _service.UpdateTableState(chatId, SessionState.Booking);
 
                 return new Responce
@@ -715,7 +717,13 @@ namespace Brains
             {
                 var table = _service.GetActiveTable(chatId);
                 if (table != null)
-                    _service.DeleteTable(table.Id);
+                {
+                    
+                    if(table.TableNumber == null)
+                        _service.DeleteTable(table.Id);
+                    else
+                        _service.UpdateTableState(table.Id, SessionState.Sitted);
+                }
 
                 return new Responce
                 {
@@ -736,8 +744,13 @@ namespace Brains
                 _service.CreateBooking(new Booking { ChatId = chatId, Date = DateTime.Now, Id = Guid.NewGuid(), Text = text });
 
                 var table = _service.GetActiveTable(chatId);
-                if (table != null)
-                    _service.DeleteTable(table.Id);
+                if (table != null )
+                {
+                    if (table.TableNumber == null)
+                        _service.DeleteTable(table.Id);
+                    else
+                        _service.UpdateTableState(table.Id, SessionState.Sitted);
+                }
 
                 return new Responce
                 {
@@ -755,8 +768,10 @@ namespace Brains
         {
             try
             {
-                var newTable = _service.CreateTable(chatId);
-                _service.UpdateTableState(chatId, SessionState.Feedback);
+                var table = _service.GetActiveTable(chatId);
+                var tableId = (table == null) ? _service.CreateTable(chatId) : table.Id;
+
+                _service.UpdateTableState(tableId, SessionState.Feedback);
 
                 return new Responce
                 {
@@ -777,8 +792,13 @@ namespace Brains
                 _service.CreateFeedback(new Feedback { ChatId = chatId, Date = DateTime.Now, Id = Guid.NewGuid(), Text = text, UserName = username });
 
                 var table = _service.GetActiveTable(chatId);
-                if(table != null)
-                    _service.DeleteTable(table.Id);
+                if (table != null)
+                {
+                    if (table.TableNumber == null)
+                        _service.DeleteTable(table.Id);
+                    else
+                        _service.UpdateTableState(table.Id, SessionState.Sitted);
+                }
 
                 return new Responce
                 {

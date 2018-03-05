@@ -45,12 +45,22 @@ namespace Bot.CommandParser.KeyBoards
             return new InlineKeyboardMarkup(
                 new[]
                 {
-                    new[] { new InlineKeyboardCallbackButton("🍴 Добавить в корзину", "addOrder "+ dishId) }
+                    new[] { new InlineKeyboardCallbackButton("🍴 Добавить в заказ", "addOrder "+ dishId) }
+                });
+        }
+
+        public static InlineKeyboardMarkup TaxiKeyboard()
+        {
+            return new InlineKeyboardMarkup(
+                new[]
+                {
+                    new[] { new InlineKeyboardUrlButton("Заказать такси", "http://taxi.yandex.ru") }
                 });
         }
 
         public static InlineKeyboardMarkup OrderKeyBoard()
         {
+
             return new InlineKeyboardMarkup(
                 new[]
                 {

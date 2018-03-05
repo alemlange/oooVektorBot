@@ -414,7 +414,7 @@ namespace Bot.Controllers
                                         {
                                             await Telegram.SendTextMessageAsync(chatId, restaurant.Info, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
 
-                                            await Telegram.SendLocationAsync(chatId, restaurant.Latitude, restaurant.Longitude);
+                                            await Telegram.SendLocationAsync(chatId, restaurant.Latitude, restaurant.Longitude, replyMarkup: InlineKeyBoardManager.TaxiKeyboard());
                                         }
                                     }
                                     else

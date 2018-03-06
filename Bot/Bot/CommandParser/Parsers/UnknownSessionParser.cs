@@ -87,6 +87,10 @@ namespace Bot.CommandParser
                 else
                     return CmdTypes.Unknown;
             }
+            else if (update.Message.Type == MessageType.SuccessfulPayment)
+            {
+                return CmdTypes.SuccessfulPayment;
+            }
             else
                 return CmdTypes.Unknown;
         }

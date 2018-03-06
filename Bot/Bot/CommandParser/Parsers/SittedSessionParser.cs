@@ -19,7 +19,7 @@ namespace Bot.CommandParser
                     Keyboard = new KeyboardButton[][]
                     {
                         new KeyboardButton[] { "📄 О заведении" },
-                        new KeyboardButton[] { "📔 Меню", "🎁 Акции" },
+                        new KeyboardButton[] { "📔 Меню", "🎁 Акции","💸 Оплата" },
                         new KeyboardButton[] { "🛒 Мой заказ", "🙋🏼‍♂️ Вызов официанта" },
                         new KeyboardButton[] { "🍽 Забронировать столик", "📫 Оставить отзыв" },
                         new KeyboardButton[] { "🗺 Адреса и часы работы" }
@@ -92,6 +92,8 @@ namespace Bot.CommandParser
                     return CmdTypes.Description;
                 else if (msgText.Contains("адреса"))
                     return CmdTypes.Location;
+                else if (msgText.Contains("оплата"))
+                    return CmdTypes.RequestPayment;
                 else if (msgText.Contains("акции"))
                     return CmdTypes.Actions;
                 else if (msgText.Contains("оставить отзыв"))

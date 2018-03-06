@@ -99,6 +99,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CommandParser\KeyBoards\InlineKeyBoardManager.cs" />
     <Compile Include="CommandParser\Parsers\BookingSessionParser.cs" />
+    <Compile Include="CommandParser\Parsers\ChequeSessionParser.cs" />
     <Compile Include="CommandParser\Parsers\MenuCategorySessionParser.cs" />
     <Compile Include="CommandParser\Parsers\RemarkSessionParser.cs" />
     <Compile Include="CommandParser\Enums\CmdTypes.cs" />

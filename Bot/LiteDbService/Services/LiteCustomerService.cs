@@ -259,7 +259,7 @@ namespace LiteDbService
             }
         }
 
-        public void ChequeMarkPayed(Guid tableId, string paymentId)
+        public void TableChequeMarkPayed(Guid tableId, string paymentId)
         {
             using (var db = new LiteDatabase(CurrentDb))
             {
@@ -380,6 +380,37 @@ namespace LiteDbService
 
                 col.Insert(booking);
                 return booking.Id;
+            }
+        }
+
+        public Guid CreateCheque(Cheque cheque)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Cheque>("Cheques");
+
+                col.Insert(cheque);
+                return cheque.Id;
+            }
+        }
+
+        public void ChequeMarkPayed(Guid chequeId, string paymentId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Cheque>("Cheques");
+                var cheque = col.Find(o => o.Id == chequeId).FirstOrDefault();
+
+                if (cheque != null)
+                {
+                    cheque.TelegramPaymentId = paymentId;
+                    cheque.PaymentRecieved = true;
+                    col.Update(cheque);
+                }
+                else
+                {
+                    throw new Exception("Чек не найден.");
+                }
             }
         }
     }

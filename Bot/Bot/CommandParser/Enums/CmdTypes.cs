@@ -45,6 +45,8 @@ namespace Bot.CommandParser
         LeaveFeedback,
         RequestBooking,
         LeaveBooking,
-        CancelTable
+        CancelTable,
+        InputSumm,
+        RequestPayment
     }
 }

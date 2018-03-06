@@ -30,6 +30,8 @@ namespace Bot.CommandParser
                     return new SittedSessionParser();
                 case SessionState.Remark:
                     return new RemarkSessionParser();
+                case SessionState.Cheque:
+                    return new ChequeSessionParser();
                 case SessionState.Feedback:
                     return new FeedbackSessionParser();
                 case SessionState.Booking:

@@ -153,6 +153,31 @@ namespace Bot.Controllers
                                         replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
                                     break;
                                 }
+                            case CmdTypes.RequestPayment:
+                                {
+                                    var responce = bot.PaymentRequest(chatId);
+
+                                    await Telegram.SendTextMessageAsync(chatId, responce.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    break;
+                                }
+                            case CmdTypes.InputSumm:
+                                {
+                                    var response = bot.InputSumm(chatId, message.Text, message.Chat.Username);
+
+                                    if (response.InvoiceReady)
+                                    {
+                                        var prices = new LabeledPrice[1];
+                                        prices[0] = new LabeledPrice { Amount = response.Invoice.SummInCents, Label = "Итого" };
+
+                                        await Telegram.SendInvoiceAsync(
+                                            chatId, response.Invoice.Title, response.Invoice.Description, response.Invoice.Id.ToString(), bot.PaymentToken, "startP", response.Invoice.Currency, prices);
+                                    }
+                                    else
+                                    {
+                                        await Telegram.SendTextMessageAsync(chatId, response.ResponceText, parseMode: ParseMode.Html, replyMarkup: ParserChoser.GetParser(chatId, bot).Keyboard);
+                                    }
+                                    break;
+                                }
                             case CmdTypes.Menu:
                                 {
                                     var responce = bot.ShowMenuCategories(chatId);

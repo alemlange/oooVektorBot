@@ -12,6 +12,7 @@
         Closed,
         InQueue,
         Feedback,
-        Booking
+        Booking,
+        Cheque
     }
 }

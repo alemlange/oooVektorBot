@@ -1,21 +1,24 @@
 ﻿@model ManagerDesk.ViewModels.ChequeViewModel
 
 <div class="info-item js-cheque-card animated fadeIn"  data-itemid="@Model.Id" data-type="Cheque">
-    <h3 class="info-item-heading">Чек</h3>
+    <div class="table-wrap">
+        <h3 class="info-item-heading">Чек</h3>
 
-    <div class="table-labels">
-        @if (Model.PaymentRecieved)
-        {
-            <span class="label label-success">Оплачено</span>
-        }
-        else
-        {
-            <span class="label label-warning">Не оплачено</span>
-        }
+        <div class="table-labels">
+            @if (Model.PaymentRecieved)
+            {
+                <span class="label label-success">Оплачено</span>
+            }
+            else
+            {
+                <span class="label label-warning">Не оплачено</span>
+            }
+        </div>
+
+        <div class="dish-description">От @Model.UserName</div>
+        <div class="dish-description">@Model.Date.ToShortDateString()</div>
+
+        <h4 class="price-heading">Сумма @Model.Summ  @Model.CurrencySymbol</h4>
+        <div class="dish-description">@Model.Description</div>
     </div>
-
-    <div class="dish-description">От @Model.UserName</div>
-
-    <h4 class="price-heading">Сумма @Model.Summ  @Model.CurrencySymbol</h4>
-    <div class="dish-description">@Model.Description</div>
 </div>

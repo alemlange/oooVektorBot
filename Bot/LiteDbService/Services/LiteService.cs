@@ -63,6 +63,16 @@ namespace LiteDbService
             }
         }
 
+        public Cheque GetCheque(Guid chequeId)
+        {
+            using (var db = new LiteDatabase(CurrentDb))
+            {
+                var col = db.GetCollection<Cheque>("Cheques");
+
+                return col.Find(o => o.Id == chequeId).FirstOrDefault();
+            }
+        }
+
         public Dish GetDish(Guid dishId)
         {
             using (var db = new LiteDatabase(CurrentDb))

@@ -1,4 +1,4 @@
-(function($) {
+﻿(function($) {
   "use strict"; // Start of use strict
 
   // Closes the sidebar menu
@@ -60,18 +60,25 @@
       var comment = container.find(".js-comment").val();
       var target = $(this).data("target");
 
-      $.post(target, { orgName: orgName, email: email, comment: comment, type: type }).done(function (data) {
-
-          container.find(".request-success").show();
-          container.find(".fields-request").hide();
-
-          container.find(".js-send-request").hide();
+      if (email == null || email =="") {
+          alert("Нужно заполнить поле контакт, чтобы мы могли с вами связаться!");
+          container.find(".js-send-request").show();
           container.find(".js-spinner").hide();
+      }
+      else {
+          $.post(target, { orgName: orgName, email: email, comment: comment, type: type }).done(function (data) {
 
-          setTimeout(function () {
-              container.hide();
-          }, 3000);
-      });
+              container.find(".request-success").show();
+              container.find(".fields-request").hide();
+
+              container.find(".js-send-request").hide();
+              container.find(".js-spinner").hide();
+
+              setTimeout(function () {
+                  container.hide();
+              }, 3000);
+          });
+      }
   });
 
   //#to-top button appears after scrolling

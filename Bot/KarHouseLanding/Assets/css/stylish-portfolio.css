@@ -32,11 +32,19 @@ body {
 /* Custom Button Styles */
 
 .btn-dark {
-  color: #fff;
+  color: #fff !important;
   border: none;
   margin:10px;
   border-radius: 0;
   background-color: rgba(0, 0, 0, .4);
+}
+
+.btn-req {
+    background-color: rgb(8, 208, 173) !important;
+}
+
+.btn-req:hover {
+    background-color: rgb(12, 158, 133) !important;
 }
 
 .btn-dark:hover, .btn-dark:focus, .btn-dark:active {
